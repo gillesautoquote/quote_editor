@@ -1,0 +1,1190 @@
+{
+  "company": {
+    "logoUrl": "https://autoquote.tech/images/logos/logo-transdevtravel-primary.webp",
+    "name": "Transdev Île‑de‑France",
+    "address": "6 Avenue Heinz Gloor",
+    "postalCode": "95933",
+    "city": "Roissy CDG Cedex",
+    "country": "France",
+    "phone": "+33 6 19 26 80 41",
+    "email": "contact@transdev.net",
+    "website": "https://www.transdev.net",
+    "mainColor": "#009955"
+  },
+  "recipient": {
+    "fullName": "Sarah Barre",
+    "title": "Madame",
+    "organization": "Caisse des Dépôts",
+    "address": "Direct Execution Opération Financière, DEOFF2 – Plateforme Exécutions Dépenses",
+    "postalCode": "75356",
+    "city": "Paris 07 SP",
+    "country": "France",
+    "email": "sarah.barre@caissedesdepots.fr",
+    "phone": "0630696888",
+    "clientReference": "BDT CONVENTION ALL STAFF 20/06"
+  },
+  "quote": {
+    "number": "17335",
+    "version": "1.0",
+    "issueDate": "2024-06-11",
+    "executionCity": "Roissy‑en‑France",
+    "tagline": "Nous avons le plaisir de vous adresser notre **devis détaillé** pour votre projet de transport.\n\nCe document comprend :\n- Le **programme détaillé** de votre voyage\n- La **cotation précise** du trajet demandé\n- Nos **conditions générales de vente**\n\nVous trouverez également en dernière page un **bon de commande** qui peut être :\n- Retourné **signé et tamponné** à l'adresse de notre société pour confirmer votre réservation\n- Signé **électroniquement en ligne** pour votre commodité",
+    "validUntil": "2024-03-01",
+    "reference": "BDT CONVENTION ALL STAFF 20/06"
+  },
+  "busServices": {
+    "title": "Nous vous proposons également les services suivants :",
+    "services": [
+      {
+        "id": "wifi",
+        "label": "Wifi",
+        "icon": "wifi",
+        "available": true
+      },
+      {
+        "id": "plug",
+        "label": "Prises électriques",
+        "icon": "plug",
+        "available": true
+      },
+      {
+        "id": "ac",
+        "label": "Climatisation",
+        "icon": "ac",
+        "available": true
+      },
+      {
+        "id": "wc",
+        "label": "WC",
+        "icon": "wc",
+        "available": true
+      },
+      {
+        "id": "dvd",
+        "label": "Lecteur de DVD",
+        "icon": "dvd",
+        "available": false
+      },
+      {
+        "id": "microphone",
+        "label": "Microphone",
+        "icon": "microphone",
+        "available": true
+      },
+      {
+        "id": "fridge",
+        "label": "Frigo",
+        "icon": "fridge",
+        "available": false
+      },
+      {
+        "id": "pmr",
+        "label": "Plateau petit-déjeuner",
+        "icon": "pmr",
+        "available": true
+      },
+      {
+        "id": "drinks",
+        "label": "Boissons chaudes et fraîches sur demande",
+        "icon": "drinks",
+        "available": true
+      },
+      {
+        "id": "bed",
+        "label": "Couchettes",
+        "icon": "bed",
+        "available": false
+      },
+      {
+        "id": "trailer",
+        "label": "Remorque pour vos skis, vélos, bagages XXL",
+        "icon": "trailer",
+        "available": true
+      },
+      {
+        "id": "wheelchair",
+        "label": "Ascenseur PMR",
+        "icon": "wheelchair",
+        "available": true
+      }
+    ]
+  },
+  "sections": [
+    {
+      "title": "Transport",
+      "columns": {
+        "date": {
+          "title": "Date",
+          "width": "70px",
+          "align": "center",
+          "type": "date",
+          "editable": true,
+          "style": "normal"
+        },
+        "description": {
+          "title": "Description",
+          "align": "left",
+          "type": "text",
+          "editable": true,
+          "style": "normal"
+        },
+        "durationHours": {
+          "title": "Durée",
+          "width": "50px",
+          "align": "center",
+          "type": "number",
+          "editable": true,
+          "style": "normal"
+        },
+        "pax": {
+          "title": "Pax",
+          "width": "40px",
+          "align": "center",
+          "type": "number",
+          "editable": true,
+          "style": "normal"
+        },
+        "unitPrice": {
+          "title": "P. U.",
+          "width": "60px",
+          "align": "right",
+          "type": "currency",
+          "editable": true,
+          "style": "normal"
+        },
+        "quantity": {
+          "title": "Qté",
+          "width": "40px",
+          "align": "center",
+          "type": "number",
+          "editable": true,
+          "style": "normal"
+        },
+        "priceHT": {
+          "title": "HT",
+          "width": "55px",
+          "align": "right",
+          "type": "currency",
+          "editable": false,
+          "style": "calculated"
+        },
+        "vatRate": {
+          "title": "TVA",
+          "width": "45px",
+          "align": "center",
+          "type": "number",
+          "editable": true,
+          "style": "normal"
+        },
+        "priceTTC": {
+          "title": "TTC",
+          "width": "60px",
+          "align": "right",
+          "type": "currency",
+          "editable": false,
+          "style": "calculated"
+        }
+      },
+      "missionsLines": [
+        {
+          "date": "2024-06-20",
+          "description": "Transfert simple vers les Docks de Pullman (49 places)",
+          "durationHours": 1,
+          "pax": 49,
+          "unitPrice": 200,
+          "priceHT": 3800,
+          "vatRate": 10,
+          "vatAmount": 380,
+          "quantity": 19,
+          "priceTTC": 4180,
+          "calculable": false
+        },
+        {
+          "date": "2024-06-20",
+          "description": "Transfert simple vers les Docks de Pullman (57 places)",
+          "durationHours": 1,
+          "pax": 57,
+          "unitPrice": 180,
+          "priceHT": 2340,
+          "vatRate": 10,
+          "vatAmount": 234,
+          "quantity": 13,
+          "priceTTC": 2574,
+          "calculable": false
+        },
+        {
+          "date": "2024-06-20",
+          "description": "Minibus PMR – transfert BDT / Docks Pullman (4 places)",
+          "durationHours": 1,
+          "pax": 4,
+          "unitPrice": 120,
+          "priceHT": 120,
+          "vatRate": 10,
+          "vatAmount": 12,
+          "quantity": 1,
+          "priceTTC": 132,
+          "calculable": false
+        },
+        {
+          "date": "2024-06-20",
+          "description": "Service d'un régulateur (soirée 6 h)",
+          "durationHours": 6,
+          "pax": 1,
+          "unitPrice": 20,
+          "priceHT": 20,
+          "vatRate": 10,
+          "vatAmount": 2,
+          "quantity": 1,
+          "priceTTC": 22,
+          "calculable": false
+        }
+      ],
+      "simplesLinesSelect": [
+        {
+          "date": "2025-10-21",
+          "description": "Régulateur",
+          "durationHours": 6,
+          "pax": 1,
+          "unitPrice": 150,
+          "priceHT": 150,
+          "vatRate": 10,
+          "vatAmount": 15,
+          "quantity": 1,
+          "priceTTC": 165,
+          "calculable": true
+        },
+        {
+          "date": "2024-06-20",
+          "description": "Hébergement conducteur",
+          "durationHours": 8,
+          "pax": 1,
+          "unitPrice": 80,
+          "priceHT": 80,
+          "vatRate": 10,
+          "vatAmount": 8,
+          "quantity": 1,
+          "priceTTC": 88,
+          "calculable": true
+        },
+        {
+          "date": "2025-10-21",
+          "description": "Kilomètre supplémentaire",
+          "durationHours": 0,
+          "pax": 0,
+          "unitPrice": 1.6,
+          "priceHT": 16,
+          "vatRate": 20,
+          "vatAmount": 3.2,
+          "quantity": 10,
+          "priceTTC": 19.2,
+          "calculable": true
+        }
+      ],
+      "lines": [
+        {
+          "date": "2024-06-20",
+          "description": "Transfert simple vers les Docks de Pullman (49 places)",
+          "durationHours": 1,
+          "pax": 49,
+          "unitPrice": 200,
+          "priceHT": 3800,
+          "vatRate": 10,
+          "vatAmount": 380,
+          "quantity": 19,
+          "priceTTC": 4180,
+          "calculable": false
+        },
+        {
+          "date": "2024-06-20",
+          "description": "Transfert simple vers les Docks de Pullman (57 places)",
+          "durationHours": 1,
+          "pax": 57,
+          "unitPrice": 180,
+          "priceHT": 2340,
+          "vatRate": 10,
+          "vatAmount": 234,
+          "quantity": 13,
+          "priceTTC": 2574,
+          "calculable": false
+        },
+        {
+          "date": "2024-06-20",
+          "description": "Minibus PMR – transfert BDT / Docks Pullman (4 places)",
+          "durationHours": 1,
+          "pax": 4,
+          "unitPrice": 120,
+          "priceHT": 120,
+          "vatRate": 10,
+          "vatAmount": 12,
+          "quantity": 1,
+          "priceTTC": 132,
+          "calculable": false
+        },
+        {
+          "date": "2024-06-20",
+          "description": "Service d'un régulateur (soirée 6 h)",
+          "durationHours": 6,
+          "pax": 1,
+          "unitPrice": 20,
+          "priceHT": 20,
+          "vatRate": 10,
+          "vatAmount": 2,
+          "quantity": 1,
+          "priceTTC": 22,
+          "calculable": false
+        },
+        {
+          "date": "2024-06-20",
+          "description": "Navette retour soirée (49 places) x12",
+          "durationHours": 1,
+          "pax": 49,
+          "unitPrice": 200,
+          "priceHT": 2400,
+          "vatRate": 10,
+          "vatAmount": 240,
+          "quantity": 12,
+          "priceTTC": 2640,
+          "calculable": false
+        },
+        {
+          "date": "2024-06-20",
+          "description": "Navette retour soirée (55 places) x6",
+          "durationHours": 1,
+          "pax": 55,
+          "unitPrice": 180,
+          "priceHT": 1080,
+          "vatRate": 10,
+          "vatAmount": 108,
+          "quantity": 6,
+          "priceTTC": 1188,
+          "calculable": false
+        },
+        {
+          "date": "2024-06-20",
+          "description": "Navette retour soirée – VAN (8 places) x1",
+          "durationHours": 1,
+          "pax": 8,
+          "unitPrice": 120,
+          "priceHT": 120,
+          "vatRate": 10,
+          "vatAmount": 12,
+          "quantity": 1,
+          "priceTTC": 132,
+          "calculable": false
+        },
+        {
+          "date": "2024-06-20",
+          "description": "V.L PMR (21 h 00 → 01 h 00)",
+          "durationHours": 1,
+          "pax": 4,
+          "unitPrice": 150,
+          "priceHT": 150,
+          "vatRate": 10,
+          "vatAmount": 15,
+          "quantity": 1,
+          "priceTTC": 165,
+          "calculable": false
+        },
+        {
+          "date": "2024-06-20",
+          "description": "Relais conducteurs",
+          "durationHours": 1,
+          "pax": 1,
+          "unitPrice": 80,
+          "priceHT": 240,
+          "vatRate": 10,
+          "vatAmount": 24,
+          "quantity": 3,
+          "priceTTC": 264,
+          "calculable": false
+        }
+      ],
+      "subTotal": {
+        "ht": 10360,
+        "tva": 1036,
+        "ttc": 11396
+      }
+    }
+  ],
+  "selectDefinitions": {
+    "a": {
+      "title": "Véhicules",
+      "values": [
+        "de 49 places",
+        "de 55 places",
+        "de 72 places",
+        "de 95 places"
+      ],
+      "allowedBlocks": [
+        "included_fees",
+        "excluded_fees"
+      ]
+    },
+    "b": {
+      "title": "Services",
+      "values": [
+        "Régulateur",
+        "Hébergement conducteur",
+        "Relais conducteurs",
+        "Mise à disposition"
+      ],
+      "allowedBlocks": [
+        "included_fees"
+      ]
+    },
+    "c": {
+      "title": "Frais supplémentaires",
+      "values": [
+        "Heure supplémentaire",
+        "Kilomètre supplémentaire caiuhcia caoijcao caoijdsj caoijcaoij",
+        "Frais de péages",
+        "Parkings"
+      ],
+      "allowedBlocks": [
+        "excluded_fees"
+      ]
+    },
+    "d": {
+      "title": "Tarifs",
+      "values": [
+        "80 € HT (toute heure commencée sera facturée)",
+        "90 € HT (toute heure commencée sera facturée)",
+        "1,60 € HT",
+        "2,00 € HT"
+      ],
+      "allowedBlocks": [
+        "excluded_fees"
+      ]
+    },
+    "e": {
+      "title": "Observations",
+      "values": [
+        "Amplitude maximum pour 1 conducteur : 12 h",
+        "Amplitude maximum pour 2 conducteurs : 16 h",
+        "Tarifs des parkings parisiens",
+        "Disponibilité non garantie sans confirmation"
+      ],
+      "allowedBlocks": [
+        "observations"
+      ]
+    }
+  },
+  "optionBlocks": [
+    {
+      "id": "included_fees",
+      "title": "Ces tarifs comprennent :",
+      "color": "#28a745",
+      "columns": 6,
+      "showTitle": true,
+      "allowWidthControl": true,
+      "type": "list",
+      "rows": [
+        {
+          "id": "coach_gt_49",
+          "label": "Autocars Grand Tourisme de 49 places",
+          "type": "a",
+          "style": "normal"
+        },
+        {
+          "id": "van",
+          "label": "VAN de 49 places",
+          "type": "a",
+          "style": "normal"
+        },
+        {
+          "id": "berline_pmr",
+          "label": "Berline PMR de 49 places",
+          "type": "a",
+          "style": "bold"
+        },
+        {
+          "id": "availability",
+          "label": "Régulateur",
+          "type": "b",
+          "style": "normal"
+        },
+        {
+          "id": "regulator",
+          "label": "Hébergement conducteur",
+          "type": "b",
+          "style": "italic"
+        },
+        {
+          "id": "accommodation",
+          "label": "Relais conducteurs",
+          "type": "b",
+          "style": "normal"
+        },
+        {
+          "id": "relay_drivers",
+          "label": "Mise à disposition",
+          "type": "b",
+          "style": "underline"
+        }
+      ]
+    },
+    {
+      "id": "excluded_fees",
+      "title": "Ces tarifs ne comprennent pas :",
+      "color": "#dc3545",
+      "columns": 6,
+      "showTitle": true,
+      "allowWidthControl": true,
+      "type": "list",
+      "rows": [
+        {
+          "id": "extra_hour",
+          "label": "Heure supplémentaire",
+          "type": "d",
+          "style": "bold"
+        },
+        {
+          "id": "extra_km",
+          "label": "Kilomètre supplémentaire",
+          "type": "d",
+          "style": "normal"
+        },
+        {
+          "id": "tolls",
+          "label": "Frais de péages",
+          "type": "c",
+          "style": "italic"
+        },
+        {
+          "id": "airport_parking",
+          "label": "Parkings",
+          "type": "c",
+          "style": "normal"
+        },
+        {
+          "id": "fuel_supplement",
+          "label": "Frais supplémentaires",
+          "type": "c",
+          "style": "underline"
+        }
+      ]
+    },
+    {
+      "id": "nota_bene",
+      "title": "Nota Bene",
+      "color": "#6f42c1",
+      "columns": 6,
+      "showTitle": false,
+      "allowWidthControl": true,
+      "type": "notes",
+      "notes": [
+        {
+          "text": "Les prix sont valables 30 jours à compter de la date d'émission.",
+          "style": "normal"
+        },
+        {
+          "text": "Document confidentiel — reproduction interdite.",
+          "style": "bold"
+        },
+        {
+          "text": "Conditions générales disponibles sur notre site web.",
+          "style": "italic"
+        },
+        {
+          "text": "Merci de votre confiance.",
+          "style": "normal"
+        }
+      ]
+    }
+  ],
+  "signatureFrame": {
+    "beforeLines": [
+      {
+        "text": "Acceptation du devis et des conditions générales de vente",
+        "style": "normal"
+      },
+      {
+        "text": "Cachet et signature avec la mention \"lu et accepté\"",
+        "style": "bold"
+      }
+    ],
+    "afterLines": [
+      {
+        "text": "Inscrire votre numéro de TVA intracommunautaire :",
+        "style": "italic"
+      }
+    ]
+  },
+  "clientSignature": {
+    "tagline": "Nous vous remercions d'avoir consulté l'entreprise AutoQuote Voyages et vous prions d'agréer, l'expression de nos sentiments dévoués.",
+    "title": "Le service commercial",
+    "fullName": "Fabrice Recouvreur"
+  },
+  "totals": {
+    "ht": 10360,
+    "tva": 1036,
+    "ttc": 11396,
+    "vatBreakdown": [
+      {
+        "rate": 10,
+        "amount": 1033
+      },
+      {
+        "rate": 20,
+        "amount": 3
+      }
+    ]
+  },
+  "carbonImpact": {
+    "co2Amount": 245.5,
+    "unit": "kg CO₂",
+    "equivalentKm": 1450,
+    "description": "L'autocar est l'un des modes de transport motorisés les plus sobres en carbone : jusqu'à 5 fois moins d'émissions par passager qu'une voiture individuelle, tout en limitant la congestion et la pollution locale. En choisissant le transport en autocar, vous optez pour un mode de déplacement collectif écoresponsable, réduisant significativement les émissions de CO₂ par passager."
+  },
+  "footer": {
+    "copyright": "© 2024 Transdev Île‑de‑France — Tous droits réservés",
+    "address": "6 Avenue Heinz Gloor",
+    "postalCode": "95933",
+    "city": "Roissy CDG Cedex",
+    "country": "France",
+    "phone": "+33 6 19 26 80 41",
+    "rcs": "RCS Nanterre 383 607 090",
+    "siret": "383 607 090 00354",
+    "tva": "FR38 360709000",
+    "website": "https://www.transdev.net",
+    "iban": "FR76 3000 4009 0500 0001 2345 678",
+    "bic": "BNPAFRPPXXX"
+  },
+  "itinerary": [
+    {
+      "date": "2025-11-28",
+      "items": [
+        {
+          "type": "etapesGroupees",
+          "adresse": {
+            "adresse": "1 Rue Duvergier",
+            "codePostal": "75019",
+            "ville": "Paris",
+            "pays": "France",
+            "latitude": 48.8887627,
+            "longitude": 2.3779477
+          },
+          "etapes": [
+            {
+              "type": "etape",
+              "label": "Départ du dépôt",
+              "heure": "08:45",
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": true,
+              "estFinService": false,
+              "uuid": "ef0aa499-4861-4119-8a4e-7fed9958e873"
+            }
+          ]
+        },
+        {
+          "type": "phaseDeVoyage",
+          "distanceKm": 207.7,
+          "durationMin": 177,
+          "resumePeages": {
+            "vignettes": [],
+            "typeVehicule": "Autocar 2 essieux",
+            "detailsPeages": [
+              {
+                "nom": "Paris / Roissy (Péage De Chamant) → Lille / Dourges (Péage De Fresnes)",
+                "cout": 39.5,
+                "etat": "Nord-Pas-de-Calais",
+                "taxe": {
+                  "nom": "VAT",
+                  "incluse": true,
+                  "pourcentage": 20
+                },
+                "type": "ticketSystem1",
+                "route": "A1",
+                "position": "Entrée/Sortie",
+                "heureArrivee": "2025-10-07T17:44:11Z",
+                "distanceArrivee": 176942.27
+              },
+              {
+                "nom": "Paris / Roissy (Péage De Chamant) → Lille / Dourges (Péage De Fresnes)",
+                "cout": 39.5,
+                "etat": "Nord-Pas-de-Calais",
+                "taxe": {
+                  "nom": "VAT",
+                  "incluse": true,
+                  "pourcentage": 20
+                },
+                "type": "ticketSystem1",
+                "route": "A1",
+                "position": "Entrée/Sortie",
+                "heureArrivee": "2025-10-07T17:44:11Z",
+                "distanceArrivee": 176942.27
+              }
+            ],
+            "coutTotalPeages": 79,
+            "coutTotalCarburant": 187.92,
+            "coutTotalVignettes": 0
+          },
+          "estPrisEnComptePourCalculs": true,
+          "estDebutService": true,
+          "estFinService": false
+        },
+        {
+          "type": "etapesGroupees",
+          "adresse": {
+            "adresse": "83 Rue Etienne Dolet",
+            "codePostal": "59185",
+            "ville": "Provin",
+            "pays": "France",
+            "latitude": 50.5192472,
+            "longitude": 2.900835
+          },
+          "etapes": [
+            {
+              "type": "etape",
+              "label": "Mise en place du véhicule",
+              "heure": "11:45",
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": false,
+              "estFinService": false,
+              "uuid": "aac2fb4e-0627-43d6-a69b-1985c4cd42c6"
+            },
+            {
+              "type": "etape",
+              "label": "Départ",
+              "heure": "12:00",
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": false,
+              "estFinService": false,
+              "uuid": "42cbb59b-4ef5-4b69-80c4-ec6a3d4e9e86"
+            }
+          ]
+        },
+        {
+          "type": "phaseDeVoyage",
+          "distanceKm": 30.2,
+          "durationMin": 38,
+          "resumePeages": {
+            "vignettes": [],
+            "typeVehicule": "Autocar 2 essieux",
+            "detailsPeages": [],
+            "coutTotalPeages": 0,
+            "coutTotalCarburant": 27.24,
+            "coutTotalVignettes": 0
+          },
+          "estPrisEnComptePourCalculs": true,
+          "estDebutService": false,
+          "estFinService": false
+        },
+        {
+          "type": "etapesGroupees",
+          "adresse": {
+            "adresse": "",
+            "codePostal": "",
+            "ville": "Lille",
+            "pays": "France",
+            "latitude": 50.624378,
+            "longitude": 3.0678588
+          },
+          "etapes": [
+            {
+              "type": "etape",
+              "label": "Arrivée à destination",
+              "heure": "13:00",
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": false,
+              "estFinService": false,
+              "uuid": "9de69f8c-88ad-4d6b-92f5-f3d4ec0fa827"
+            }
+          ]
+        },
+        {
+          "type": "etapesGroupees",
+          "adresse": {
+            "adresse": "",
+            "codePostal": "",
+            "ville": "Lille",
+            "pays": "France",
+            "latitude": 50.624378,
+            "longitude": 3.0678588
+          },
+          "etapes": [
+            {
+              "type": "coupure",
+              "label": "Attente | Coupure conducteur",
+              "heureDebut": "13:15",
+              "heureFin": "15:15",
+              "dureeEnSecondes": 7200,
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": false,
+              "estFinService": false,
+              "uuid": "8626b978-64a7-465a-9257-030be06aedd5"
+            }
+          ]
+        },
+        {
+          "type": "etapesGroupees",
+          "adresse": {
+            "adresse": "",
+            "codePostal": "",
+            "ville": "Lille",
+            "pays": "France",
+            "latitude": 50.624378,
+            "longitude": 3.0678588
+          },
+          "etapes": [
+            {
+              "type": "etape",
+              "label": "Mise en place du véhicule",
+              "heure": "15:15",
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": false,
+              "estFinService": false,
+              "uuid": "93a9659a-d73a-465b-82fb-b8f93332b8b9"
+            },
+            {
+              "type": "etape",
+              "label": "Départ",
+              "heure": "15:30",
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": false,
+              "estFinService": false,
+              "uuid": "bde3e949-a6b4-4108-a649-bbf81cbe115b"
+            }
+          ]
+        },
+        {
+          "type": "phaseDeVoyage",
+          "distanceKm": 27.8,
+          "durationMin": 41,
+          "resumePeages": {
+            "vignettes": [],
+            "typeVehicule": "Autocar 2 essieux",
+            "detailsPeages": [],
+            "coutTotalPeages": 0,
+            "coutTotalCarburant": 24.52,
+            "coutTotalVignettes": 0
+          },
+          "estPrisEnComptePourCalculs": true,
+          "estDebutService": false,
+          "estFinService": false
+        },
+        {
+          "type": "etapesGroupees",
+          "adresse": {
+            "adresse": "83 Rue Etienne Dolet",
+            "codePostal": "59185",
+            "ville": "Provin",
+            "pays": "France",
+            "latitude": 50.5192472,
+            "longitude": 2.900835
+          },
+          "etapes": [
+            {
+              "type": "etape",
+              "label": "Arrivée à destination",
+              "heure": "16:40",
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": false,
+              "estFinService": true,
+              "uuid": "bb132a6f-5afd-41b4-8793-6d2c73b6da38"
+            }
+          ]
+        },
+        {
+          "type": "etapesGroupees",
+          "adresse": {
+            "adresse": "83 Rue Etienne Dolet",
+            "codePostal": "59185",
+            "ville": "Provin",
+            "pays": "France",
+            "latitude": 50.5192472,
+            "longitude": 2.900835
+          },
+          "etapes": [
+            {
+              "type": "repos",
+              "label": "Attente | Coupure conducteur",
+              "heureDebut": "16:55",
+              "heureFin": "07:45",
+              "dureeEnSecondes": 53400,
+              "estPrisEnComptePourCalculs": false,
+              "estDebutService": false,
+              "estFinService": false,
+              "uuid": "f956cf1c-c4a0-4448-9950-3b8a865545e1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2025-11-29",
+      "items": [
+        {
+          "type": "etapesGroupees",
+          "adresse": {
+            "adresse": "83 Rue Etienne Dolet",
+            "codePostal": "59185",
+            "ville": "Provin",
+            "pays": "France",
+            "latitude": 50.5192472,
+            "longitude": 2.900835
+          },
+          "etapes": [
+            {
+              "type": "etape",
+              "label": "Mise en place du véhicule",
+              "heure": "07:45",
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": true,
+              "estFinService": false,
+              "uuid": "d27537ce-ffa6-4b01-85d6-58612cc0e551"
+            },
+            {
+              "type": "etape",
+              "label": "Départ",
+              "heure": "08:00",
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": false,
+              "estFinService": false,
+              "uuid": "77cb54f5-6a5b-445f-bc27-d43ebeafc266"
+            }
+          ]
+        },
+        {
+          "type": "phaseDeVoyage",
+          "distanceKm": 544.3,
+          "durationMin": 430,
+          "resumePeages": {
+            "vignettes": [],
+            "typeVehicule": "Autocar 2 essieux",
+            "detailsPeages": [
+              {
+                "nom": "Lille / Dourges (Péage De Fresnes) → Reims (Péage De Courcy)",
+                "cout": 37.3,
+                "etat": "Champagne-Ardenne",
+                "route": "A1"
+              },
+              {
+                "nom": "Péage Reims nord → Péage de Beaumont",
+                "cout": 41.8,
+                "etat": "Lorraine",
+                "route": "A4"
+              },
+              {
+                "nom": "Saint-Avold N°39",
+                "cout": 11.9,
+                "etat": "Lorraine",
+                "route": "A4"
+              },
+              {
+                "nom": "Loupershouse → Schwindratzheim",
+                "cout": 22.9,
+                "etat": "Alsace",
+                "route": "A-4"
+              }
+            ],
+            "coutTotalPeages": 227.8,
+            "coutTotalCarburant": 492.98,
+            "coutTotalVignettes": 0
+          },
+          "estPrisEnComptePourCalculs": true,
+          "estDebutService": false,
+          "estFinService": false
+        },
+        {
+          "type": "etapesGroupees",
+          "adresse": {
+            "adresse": "",
+            "codePostal": "",
+            "ville": "Strasbourg",
+            "pays": "France",
+            "latitude": 48.5734053,
+            "longitude": 7.7521113
+          },
+          "etapes": [
+            {
+              "type": "etape",
+              "label": "Arrivée à destination",
+              "heure": "15:40",
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": false,
+              "estFinService": true,
+              "uuid": "6f3b48fa-d5f1-438c-9051-ada850cd7094"
+            }
+          ]
+        },
+        {
+          "type": "etapesGroupees",
+          "adresse": {
+            "adresse": "",
+            "codePostal": "",
+            "ville": "Strasbourg",
+            "pays": "France",
+            "latitude": 48.5734053,
+            "longitude": 7.7521113
+          },
+          "etapes": [
+            {
+              "type": "repos",
+              "label": "Attente | Coupure conducteur",
+              "heureDebut": "15:55",
+              "heureFin": "21:45",
+              "dureeEnSecondes": 20850,
+              "estPrisEnComptePourCalculs": false,
+              "estDebutService": false,
+              "estFinService": false,
+              "uuid": "6c9ad206-63b6-4eb5-b52a-7901c95dcb71"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2025-12-02",
+      "items": [
+        {
+          "type": "etapesGroupees",
+          "adresse": {
+            "adresse": "",
+            "codePostal": "",
+            "ville": "Strasbourg",
+            "pays": "France",
+            "latitude": 48.5734053,
+            "longitude": 7.7521113
+          },
+          "etapes": [
+            {
+              "type": "etape",
+              "label": "Mise en place du véhicule",
+              "heure": "21:45",
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": true,
+              "estFinService": false,
+              "uuid": "8090a409-b93f-463e-b575-5287b47f67f5"
+            },
+            {
+              "type": "etape",
+              "label": "Départ",
+              "heure": "22:00",
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": false,
+              "estFinService": false,
+              "uuid": "f1bd51d0-8bf6-45b4-9631-d86630ce1c14"
+            }
+          ]
+        },
+        {
+          "type": "phaseDeVoyage",
+          "distanceKm": 522.2,
+          "durationMin": 407,
+          "resumePeages": {
+            "vignettes": [],
+            "typeVehicule": "Autocar 2 essieux",
+            "detailsPeages": [
+              {
+                "nom": "Schwindratzheim → Loupershouse",
+                "cout": 22.9,
+                "etat": "Lorraine",
+                "route": "A-4"
+              },
+              {
+                "nom": "Saint-Avold N°39",
+                "cout": 11.9,
+                "etat": "Lorraine",
+                "route": "A4"
+              }
+            ],
+            "coutTotalPeages": 69.6,
+            "coutTotalCarburant": 473,
+            "coutTotalVignettes": 0
+          },
+          "estPrisEnComptePourCalculs": true,
+          "estDebutService": false,
+          "estFinService": false
+        }
+      ]
+    },
+    {
+      "date": "2025-12-03",
+      "items": [
+        {
+          "type": "etapesGroupees",
+          "adresse": {
+            "adresse": "",
+            "codePostal": "",
+            "ville": "Lille",
+            "pays": "France",
+            "latitude": 50.624378,
+            "longitude": 3.0678588
+          },
+          "etapes": [
+            {
+              "type": "etape",
+              "label": "Arrivée à destination",
+              "heure": "05:10",
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": false,
+              "estFinService": false,
+              "uuid": "5d31e924-245f-4ca7-a8b3-9eb495e6f601"
+            },
+            {
+              "type": "etape",
+              "label": "Retour au dépôt",
+              "heure": "05:25",
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": false,
+              "estFinService": true,
+              "uuid": "56b31b12-d97e-4383-8066-d2cd87b5ffb5"
+            }
+          ]
+        },
+        {
+          "type": "phaseDeVoyage",
+          "distanceKm": 215.9,
+          "durationMin": 206,
+          "resumePeages": {
+            "vignettes": [],
+            "typeVehicule": "Autocar 2 essieux",
+            "detailsPeages": [
+              {
+                "nom": "Lille / Dourges (Péage De Fresnes) → Paris / Roissy (Péage De Chamant)",
+                "cout": 39.5,
+                "etat": "Picardie",
+                "route": "A1"
+              },
+              {
+                "nom": "Lille / Dourges (Péage De Fresnes) → Paris / Roissy (Péage De Chamant)",
+                "cout": 39.5,
+                "etat": "Picardie",
+                "route": "A1"
+              }
+            ],
+            "coutTotalPeages": 79,
+            "coutTotalCarburant": 195.2,
+            "coutTotalVignettes": 0
+          },
+          "estPrisEnComptePourCalculs": true,
+          "estDebutService": false,
+          "estFinService": true
+        },
+        {
+          "type": "etapesGroupees",
+          "adresse": {
+            "adresse": "1 rue Duvergier",
+            "codePostal": "75019",
+            "ville": "Paris",
+            "pays": "France",
+            "latitude": 48.8126751,
+            "longitude": 2.2915473
+          },
+          "etapes": [
+            {
+              "type": "etape",
+              "label": "Arrivée au dépôt",
+              "heure": "08:55",
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": false,
+              "estFinService": true,
+              "uuid": "56b31b12-d97e-4383-8066-d2cd87b5ffb5"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

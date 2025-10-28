@@ -1,0 +1,275 @@
+import React, { useMemo, useEffect } from 'react';
+import type { QuoteData } from '../../entities/QuoteData';
+import { QuotePageHeader } from '../QuotePage/components/QuotePageHeader';
+import { QuotePageRecipient } from '../QuotePage/components/QuotePageRecipient';
+import { QuotePageIntro } from '../QuotePage/components/QuotePageIntro';
+import { QuotePageTotals } from '../QuotePage/components/QuotePageTotals';
+import { QuotePageFooter } from '../QuotePage/components/QuotePageFooter';
+import { QuoteSection as QuoteSectionComponent } from '../QuoteSection/QuoteSection';
+import { SignatureSection } from '../SignatureSection/SignatureSection';
+import { InstructionsFrame } from '../InstructionsFrame/InstructionsFrame';
+import { CarbonImpact } from '../CarbonImpact/CarbonImpact';
+import { BusServicesBlock } from '../BusServices/BusServicesBlock';
+import { BlocksContainer } from '../shared/BlocksContainer';
+import { calculateGlobalTotals } from '../../utils/calculationUtils';
+import { formatCopyright, formatUrl } from '../QuotePage/utils/textFormatters';
+import { useFieldPath } from '../../hooks/useFieldPath';
+import { createProgrammeVoyageBlock } from '../../utils/itineraryConverters';
+
+interface QuoteTabContentProps {
+  activeTab: string;
+  data: QuoteData;
+  onUpdateData: (newData: QuoteData) => void;
+  readonly?: boolean;
+  allowWidthControl?: boolean;
+}
+
+export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
+  activeTab,
+  data,
+  onUpdateData,
+  readonly = false,
+  allowWidthControl = true
+}) => {
+  const { setValueByPath } = useFieldPath();
+
+  const dataWithProgrammeVoyage = useMemo(() => {
+    if (!data || !data.sections || !data.optionBlocks) {
+      return data;
+    }
+
+    if (data.itinerary && data.itinerary.length > 0) {
+      const hasProgrammeVoyageBlock = data.optionBlocks.some(
+        block => block.type === 'programme-voyage'
+      );
+
+      if (!hasProgrammeVoyageBlock) {
+        const programmeVoyageBlock = createProgrammeVoyageBlock(data.itinerary, data.company.mainColor);
+        return {
+          ...data,
+          optionBlocks: [programmeVoyageBlock, ...data.optionBlocks]
+        };
+      }
+    }
+
+    return data;
+  }, [data]);
+
+  useEffect(() => {
+    if (dataWithProgrammeVoyage !== data) {
+      onUpdateData(dataWithProgrammeVoyage);
+    }
+  }, [dataWithProgrammeVoyage, data, onUpdateData]);
+
+  const currentData = dataWithProgrammeVoyage;
+
+  const handleFieldUpdate = (path: string, value: string): void => {
+    if (readonly) return;
+    const newData = setValueByPath(currentData, path, value);
+    onUpdateData(newData);
+  };
+
+  const handleCompanyNameUpdate = (value: string): void => {
+    if (readonly) return;
+    const newCopyright = formatCopyright(value);
+    handleFieldUpdate('footer.copyright', newCopyright);
+  };
+
+  const handleWebsiteUpdate = (value: string): void => {
+    if (readonly) return;
+    const formattedUrl = formatUrl(value);
+    handleFieldUpdate('footer.website', formattedUrl);
+  };
+
+  const handleRemoveSection = (sectionIndex: number): void => {
+    if (readonly) return;
+    const newSections = currentData.sections.filter((_, index) => index !== sectionIndex);
+    const newTotals = calculateGlobalTotals(newSections);
+    const newData = { ...currentData, sections: newSections, totals: newTotals };
+    onUpdateData(newData);
+  };
+
+  const programmeBlock = currentData.optionBlocks.find(block => block.type === 'programme-voyage');
+  const otherBlocks = currentData.optionBlocks.filter(block => block.type !== 'programme-voyage');
+
+  const renderPageContainer = (children: React.ReactNode, showFooter = true) => (
+    <div className="tw-w-full tw-max-w-[min(1000px,calc(100vw-2rem))] tw-bg-white tw-shadow-page tw-px-12 tw-py-8 tw-mx-auto tw-relative tw-flex tw-flex-col tw-text-text tw-min-h-auto tw-rounded-lg tw-border tw-border-black/10 md:tw-px-6 md:tw-py-6 md:tw-rounded md:tw-shadow-sm print:tw-shadow-none print:tw-m-0 print:tw-rounded-none print:tw-border-none print:tw-w-[21cm]">
+      <QuotePageHeader
+        company={currentData.company}
+        quote={currentData.quote}
+        onFieldUpdate={handleFieldUpdate}
+        readonly={readonly}
+      />
+      <div className="tw-flex tw-flex-col tw-flex-1 tw-justify-between">
+        <div className="tw-flex-1">
+          {children}
+        </div>
+      </div>
+      {showFooter && (
+        <QuotePageFooter
+          footer={currentData.footer}
+          onFieldUpdate={handleFieldUpdate}
+          onCompanyNameUpdate={handleCompanyNameUpdate}
+          onWebsiteUpdate={handleWebsiteUpdate}
+          readonly={readonly}
+        />
+      )}
+    </div>
+  );
+
+  switch (activeTab) {
+    case 'introduction':
+      return renderPageContainer(
+        <>
+          <QuotePageRecipient
+            recipient={currentData.recipient}
+            onFieldUpdate={handleFieldUpdate}
+            readonly={readonly}
+          />
+          <QuotePageIntro
+            quote={currentData.quote}
+            recipient={currentData.recipient}
+            clientSignature={currentData.clientSignature}
+            onFieldUpdate={handleFieldUpdate}
+            readonly={readonly}
+          />
+        </>
+      );
+
+    case 'programme':
+      return renderPageContainer(
+        <>
+          {programmeBlock && (
+            <BlocksContainer
+              optionBlocks={[programmeBlock]}
+              signatureFrame={currentData.signatureFrame}
+              selectDefinitions={currentData.selectDefinitions}
+              onUpdateOptionBlock={(blockIndex, updatedBlock) => {
+                const newBlocks = currentData.optionBlocks.map(b =>
+                  b.id === updatedBlock.id ? updatedBlock : b
+                );
+                onUpdateData({ ...currentData, optionBlocks: newBlocks });
+              }}
+              onRemoveOptionBlock={() => {}}
+              onReorderBlocks={() => {}}
+              onUpdateSignatureFrame={() => {}}
+              readonly={readonly}
+              showBlockControls={false}
+              allowWidthControl={false}
+              companyColor={currentData.company.mainColor}
+            />
+          )}
+          {currentData.busServices && (
+            <BusServicesBlock
+              busServices={currentData.busServices}
+              companyColor={currentData.company.mainColor}
+              readonly={readonly}
+              onUpdateServices={(services) => {
+                onUpdateData({ ...currentData, busServices: services });
+              }}
+            />
+          )}
+          {currentData.carbonImpact && (
+            <CarbonImpact
+              carbonImpact={currentData.carbonImpact}
+              onUpdateCarbonImpact={(carbonImpact) =>
+                onUpdateData({ ...currentData, carbonImpact })
+              }
+              readonly={readonly}
+            />
+          )}
+        </>
+      );
+
+    case 'cotation':
+      return renderPageContainer(
+        <>
+          <div className="tw-mb-4">
+            {currentData.sections.map((section, sectionIndex) => (
+              <QuoteSectionComponent
+                key={sectionIndex}
+                section={section}
+                sectionIndex={sectionIndex}
+                onUpdateSection={(updatedSection) => {
+                  const newSections = [...currentData.sections];
+                  newSections[sectionIndex] = updatedSection;
+                  const newTotals = calculateGlobalTotals(newSections);
+                  const newData = { ...currentData, sections: newSections, totals: newTotals };
+                  onUpdateData(newData);
+                }}
+                onRemoveSection={() => handleRemoveSection(sectionIndex)}
+                readonly={readonly}
+              />
+            ))}
+          </div>
+          <QuotePageTotals totals={currentData.totals} />
+        </>
+      );
+
+    case 'conditions':
+      return renderPageContainer(
+        <>
+          <h2 className="tw-text-xl tw-font-bold tw-mb-6" style={{ color: currentData.company.mainColor }}>
+            Conditions générales
+          </h2>
+          <BlocksContainer
+            optionBlocks={otherBlocks}
+            signatureFrame={currentData.signatureFrame}
+            selectDefinitions={currentData.selectDefinitions}
+            onUpdateOptionBlock={(blockIndex, updatedBlock) => {
+              const newBlocks = [...currentData.optionBlocks];
+              const realIndex = currentData.optionBlocks.findIndex(b => b.id === updatedBlock.id);
+              if (realIndex !== -1) {
+                newBlocks[realIndex] = updatedBlock;
+                onUpdateData({ ...currentData, optionBlocks: newBlocks });
+              }
+            }}
+            onRemoveOptionBlock={(blockIndex) => {
+              const blockToRemove = otherBlocks[blockIndex];
+              const newBlocks = currentData.optionBlocks.filter(b => b.id !== blockToRemove.id);
+              onUpdateData({ ...currentData, optionBlocks: newBlocks });
+            }}
+            onReorderBlocks={(newBlocks) => {
+              onUpdateData({ ...currentData, optionBlocks: newBlocks });
+            }}
+            onUpdateSignatureFrame={() => {}}
+            readonly={readonly}
+            showBlockControls={false}
+            allowWidthControl={false}
+            companyColor={currentData.company.mainColor}
+          />
+        </>
+      );
+
+    case 'signature':
+      return renderPageContainer(
+        <>
+          <h2 className="tw-text-xl tw-font-bold tw-mb-6" style={{ color: currentData.company.mainColor }}>
+            Bon de commande
+          </h2>
+          <InstructionsFrame
+            signatureFrame={currentData.signatureFrame}
+            onUpdateSignatureFrame={(frame) => {
+              onUpdateData({ ...currentData, signatureFrame: frame });
+            }}
+            recipient={currentData.recipient}
+            onUpdateRecipient={(recipient) => {
+              onUpdateData({ ...currentData, recipient });
+            }}
+            readonly={readonly}
+          />
+          <SignatureSection
+            clientSignature={currentData.clientSignature}
+            onUpdateClientSignature={(signature) => {
+              onUpdateData({ ...currentData, clientSignature: signature });
+            }}
+            readonly={readonly}
+          />
+        </>,
+        true
+      );
+
+    default:
+      return null;
+  }
+};

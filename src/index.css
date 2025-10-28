@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: 0, 153, 85;
+  --color-primary-hover: 0, 122, 68;
+  --color-primary-light: 230, 245, 238;
+  --color-primary-lighter: 240, 250, 245;
+  --color-primary-dark: 0, 122, 68;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Gestion des largeurs des blocs option selon le nombre de colonnes */
+[data-columns="2"] {
+  width: calc((100% - 1rem) / 3);
+  min-width: calc((100% - 1rem) / 3);
+  max-width: calc((100% - 1rem) / 3);
+}
+
+[data-columns="3"] {
+  width: calc((100% - 0.5rem) / 2);
+  min-width: calc((100% - 0.5rem) / 2);
+  max-width: calc((100% - 0.5rem) / 2);
+}
+
+[data-columns="4"] {
+  width: calc((100% * 2 / 3) - 0.5rem);
+  min-width: calc((100% * 2 / 3) - 0.5rem);
+  max-width: calc((100% * 2 / 3) - 0.5rem);
+}
+
+[data-columns="6"] {
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+}
+
+/* Responsive: tous les blocs en pleine largeur sur mobile */
+@media (max-width: 768px) {
+  [data-columns="2"],
+  [data-columns="3"],
+  [data-columns="4"],
+  [data-columns="6"] {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+  }
+}
