@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FileText, Calculator, List, FileSignature, Mail, X, Plus, GripVertical } from 'lucide-react';
+import { FileText, Calculator, List, FileSignature, Mail, X, Plus, GripVertical, BusFront } from 'lucide-react';
 import type { QuoteData } from '../../entities/QuoteData';
 
 export interface QuoteTab {
@@ -27,9 +27,15 @@ const TABS: QuoteTab[] = [
   },
   {
     id: 'programme',
-    label: 'Programme et services',
+    label: 'Programme',
     icon: <FileText size={16} />,
-    description: 'Programme de voyage et impact carbone'
+    description: 'Programme de voyage'
+  },
+  {
+    id: 'services',
+    label: 'Services',
+    icon: <BusFront size={16} />,
+    description: 'Services à l\'intérieur et impact carbone'
   },
   {
     id: 'cotation',

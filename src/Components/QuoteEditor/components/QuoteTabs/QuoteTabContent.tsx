@@ -159,6 +159,15 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
               companyColor={currentData.company.mainColor}
             />
           )}
+        </>
+      );
+
+    case 'services':
+      return renderPageContainer(
+        <>
+          <h2 className="tw-text-xl tw-font-bold tw-mb-6" style={{ color: currentData.company.mainColor }}>
+            Services à l'intérieur
+          </h2>
           {currentData.busServices && (
             <BusServicesBlock
               busServices={currentData.busServices}
