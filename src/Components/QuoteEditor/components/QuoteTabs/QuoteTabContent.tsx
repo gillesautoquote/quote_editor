@@ -140,6 +140,9 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
     case 'programme':
       return renderPageContainer(
         <>
+          <h2 className="tw-text-xl tw-font-bold tw-mb-4" style={{ color: currentData.company.mainColor }}>
+            Programme de voyage
+          </h2>
           {programmeBlock && programmeBlock.type === 'programme-voyage' && programmeBlock.tripProgram && (
             <TripProgramBlock
               steps={programmeBlock.tripProgram.steps}
