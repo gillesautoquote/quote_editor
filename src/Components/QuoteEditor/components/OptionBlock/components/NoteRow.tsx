@@ -34,7 +34,11 @@ export const NoteRow: React.FC<NoteRowProps> = ({
 }) => {
   return (
     <li
-      className="tw-flex tw-items-center tw-gap-2 tw-p-2 tw-border tw-border-border tw-rounded tw-bg-white tw-transition-all tw-duration-200 hover:tw-bg-surface-gray-50 page-break-inside-avoid print:tw-border-none print:tw-p-1 print:tw-py-0.5 print:tw-bg-transparent print:tw-rounded-none"
+      className={`tw-flex tw-items-center tw-gap-2 page-break-inside-avoid ${
+        printMode
+          ? 'tw-p-0.5 tw-bg-transparent'
+          : 'tw-p-2 tw-border tw-border-border tw-rounded tw-bg-white tw-transition-all tw-duration-200 hover:tw-bg-surface-gray-50'
+      } print:tw-border-none print:tw-p-1 print:tw-py-0.5 print:tw-bg-transparent print:tw-rounded-none`}
       draggable={!readonly && !printMode}
       onDragStart={!printMode ? (e) => onDragStart(e, noteIndex, 'note') : undefined}
       onDragEnd={!printMode ? onDragEnd : undefined}
@@ -66,10 +70,10 @@ export const NoteRow: React.FC<NoteRowProps> = ({
             printMode={printMode}
             fullWidth={true}
             className={clsx(
-              'tw-text-sm print:tw-text-xs',
+              printMode ? 'tw-text-xs' : 'tw-text-sm print:tw-text-xs',
               note.style === 'bold' && 'tw-font-bold',
               note.style === 'italic' && 'tw-italic',
-              note.style === 'heading' && 'tw-text-base tw-font-semibold print:tw-text-sm',
+              note.style === 'heading' && (printMode ? 'tw-text-sm tw-font-semibold' : 'tw-text-base tw-font-semibold print:tw-text-sm'),
               note.style === 'danger' && 'tw-text-danger tw-font-medium',
               note.style === 'success' && 'tw-text-success tw-font-medium',
               note.style === 'warning' && 'tw-text-warning tw-font-medium'

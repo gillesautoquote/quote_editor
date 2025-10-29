@@ -95,7 +95,11 @@ export const OptionBlock: React.FC<OptionBlockProps> = ({
 
   return (
     <div
-      className="tw-mb-4 tw-border tw-border-border tw-rounded-lg tw-overflow-hidden tw-bg-white tw-shadow-sm tw-transition-all tw-duration-200 page-break-inside-avoid print:tw-shadow-none print:tw-border-none print:tw-rounded-none print:tw-mb-2 print:tw-bg-transparent"
+      className={`page-break-inside-avoid ${
+        printMode
+          ? 'tw-mb-1 tw-bg-transparent'
+          : 'tw-mb-4 tw-border tw-border-border tw-rounded-lg tw-overflow-hidden tw-bg-white tw-shadow-sm tw-transition-all tw-duration-200'
+      } print:tw-shadow-none print:tw-border-none print:tw-rounded-none print:tw-mb-2 print:tw-bg-transparent`}
       data-columns={block.columns || 1}
       data-type={blockType}
       data-block-id={block.id}

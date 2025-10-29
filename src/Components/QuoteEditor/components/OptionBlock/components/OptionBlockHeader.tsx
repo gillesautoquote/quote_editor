@@ -72,14 +72,14 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
   }
 
   return (
-    <div className="tw-flex tw-items-center tw-justify-between tw-gap-3 tw-p-3 tw-bg-surface-gray-50 tw-border-b tw-border-border print:tw-bg-transparent print:tw-border-none print:tw-p-0 print:tw-pb-1">
+    <div className={printMode ? 'tw-pb-1' : 'tw-flex tw-items-center tw-justify-between tw-gap-3 tw-p-3 tw-bg-surface-gray-50 tw-border-b tw-border-border print:tw-bg-transparent print:tw-border-none print:tw-p-0 print:tw-pb-1'}>
       <EditableField
         value={block.title}
         onSave={onTitleUpdate}
         disabled={readonly}
         printMode={printMode}
         as="h4"
-        className="tw-text-base tw-font-semibold tw-text-primary print:tw-text-sm print:tw-font-semibold"
+        className={printMode ? 'tw-text-sm tw-font-semibold tw-text-primary' : 'tw-text-base tw-font-semibold tw-text-primary print:tw-text-sm print:tw-font-semibold'}
       />
       {!readonly && !printMode && (
         <div className="tw-flex tw-gap-2">
