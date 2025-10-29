@@ -246,12 +246,11 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
               Conditions générales
             </h2>
             <BlocksContainer
-              optionBlocks={conditionBlocks.filter(b => b.id !== busServicesBlock?.id)}
+              optionBlocks={conditionBlocks}
               signatureFrame={dataWithProgrammeVoyage.signatureFrame}
               selectDefinitions={dataWithProgrammeVoyage.selectDefinitions}
               onUpdateOptionBlock={(blockIndex, updatedBlock) => {
-                const filteredBlocks = conditionBlocks.filter(b => b.id !== busServicesBlock?.id);
-                const targetBlock = filteredBlocks[blockIndex];
+                const targetBlock = conditionBlocks[blockIndex];
                 const realIndex = dataWithProgrammeVoyage.optionBlocks.findIndex(b => b.id === targetBlock.id);
                 const newBlocks = [...dataWithProgrammeVoyage.optionBlocks];
                 newBlocks[realIndex] = updatedBlock;
