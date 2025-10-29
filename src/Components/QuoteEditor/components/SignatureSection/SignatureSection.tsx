@@ -16,7 +16,7 @@ export const SignatureSection: React.FC<SignatureSectionProps> = ({
   printMode = false
 }) => {
   return (
-    <div className="tw-mt-8">
+    <div className="tw-mt-8 page-break-inside-avoid print:tw-mt-4" data-component="signature-section">
       {clientSignature.tagline && clientSignature.tagline.trim() && (
         <div className="tw-leading-[1.4] tw-text-[0.9rem] tw-text-text tw-mb-4">
           <EditableField

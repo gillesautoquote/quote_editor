@@ -21,8 +21,11 @@ export const QuotePageFooter: React.FC<QuotePageFooterProps> = ({
   printMode = false
 }) => {
   return (
-    <div className="tw-mt-auto tw-pt-4 tw-border-t tw-border-primary">
-      <div className="tw-flex tw-justify-between tw-gap-4 tw-text-[0.7rem] tw-leading-[1.3] tw-text-text max-md:tw-flex-col max-md:tw-gap-2">
+    <div
+      className="tw-mt-auto tw-pt-4 tw-border-t tw-border-primary page-break-inside-avoid print:tw-pt-2"
+      data-component="quote-footer"
+    >
+      <div className="tw-flex tw-justify-between tw-gap-4 tw-text-[0.7rem] tw-leading-[1.3] tw-text-text max-md:tw-flex-col max-md:tw-gap-2 print:tw-text-[0.6rem] print:tw-gap-2">
         {/* Colonne gauche : Infos légales */}
         <div className="tw-flex-1 tw-min-w-0">
           {footer.rcs && footer.rcs.trim() && (

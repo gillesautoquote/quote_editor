@@ -101,8 +101,8 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
   };
 
   return (
-    <div className="tw-p-4">
-      <div className="tw-mb-3 tw-flex tw-flex-wrap tw-gap-2 tw-items-center print:tw-hidden">
+    <div className="tw-p-4 print:tw-p-2" data-component="trip-program">
+      <div className={`tw-mb-3 tw-flex tw-flex-wrap tw-gap-2 tw-items-center ${printMode ? 'tw-hidden' : ''} print:tw-hidden`}>
         <div className="tw-flex tw-items-center tw-gap-1.5 tw-text-xs tw-text-gray-600">
           <Filter size={14} />
           <span className="tw-font-medium">Filtres:</span>
@@ -170,38 +170,45 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
       ) : (
         <div className="tw-space-y-4">
           {Object.entries(groupedByDate).map(([date, dateSteps], dateIndex) => (
-            <div key={dateIndex} className="tw-bg-white tw-rounded-lg tw-border tw-border-gray-200 tw-overflow-hidden">
+            <div
+              key={dateIndex}
+              className="tw-bg-white tw-rounded-lg tw-border tw-border-gray-200 tw-overflow-hidden page-break-inside-avoid print:tw-mb-2"
+              data-print-group="trip-day"
+              data-date={date}
+            >
               <div
-                className="tw-px-4 tw-py-2 tw-font-semibold tw-text-sm tw-capitalize"
+                className="tw-px-4 tw-py-2 tw-font-semibold tw-text-sm tw-capitalize print:tw-px-2 print:tw-py-1 print:tw-text-xs"
                 style={{ backgroundColor: `${blockColor}15`, color: blockColor }}
               >
                 {formatDateFr(date)}
               </div>
 
-              <div className="tw-p-4">
+              <div className="tw-p-4 print:tw-p-2">
                 <div className="tw-relative">
                   <div
-                    className="tw-absolute tw-left-4 tw-top-0 tw-bottom-0 tw-w-0.5"
+                    className="tw-absolute tw-left-4 tw-top-0 tw-bottom-0 tw-w-0.5 print:tw-left-2"
                     style={{ backgroundColor: `${blockColor}30` }}
                   />
 
-                  <div className="tw-space-y-4">
+                  <div className="tw-space-y-4 print:tw-space-y-2">
                     {dateSteps.map((step, stepIndex) => (
                       <div
                         key={step.id}
-                        className="tw-relative tw-pl-10 tw-group"
+                        className="tw-relative tw-pl-10 tw-group page-break-inside-avoid print:tw-pl-6"
+                        data-print-group="trip-step"
+                        data-step-id={step.id}
                       >
                         <div
-                          className="tw-absolute tw-left-0 tw-top-1 tw-w-8 tw-h-8 tw-rounded-full tw-flex tw-items-center tw-justify-center tw-shadow-sm"
+                          className="tw-absolute tw-left-0 tw-top-1 tw-w-8 tw-h-8 tw-rounded-full tw-flex tw-items-center tw-justify-center tw-shadow-sm print:tw-w-6 print:tw-h-6 print:tw-top-0"
                           style={{
                             backgroundColor: blockColor,
                             color: 'white'
                           }}
                         >
-                          <Clock size={14} />
+                          <Clock size={printMode ? 12 : 14} />
                         </div>
 
-                        <div className="tw-bg-gray-50 tw-rounded-lg tw-p-3 tw-border tw-border-gray-200">
+                        <div className="tw-bg-gray-50 tw-rounded-lg tw-p-3 tw-border tw-border-gray-200 print:tw-p-2 print:tw-text-xs">
                           <div className="tw-flex tw-items-start tw-justify-between tw-gap-2">
                             <div className="tw-flex-1 tw-space-y-2">
                               <div className="tw-flex tw-items-center tw-gap-3 tw-flex-wrap">
