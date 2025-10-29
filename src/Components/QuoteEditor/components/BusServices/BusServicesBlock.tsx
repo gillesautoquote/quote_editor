@@ -7,6 +7,7 @@ interface BusServicesBlockProps {
   companyColor?: string;
   readonly?: boolean;
   onUpdateServices?: (services: BusServices) => void;
+  showOnlyAvailable?: boolean;
 }
 
 const getServiceIcon = (iconType: BusService['icon']) => {
@@ -46,7 +47,8 @@ export const BusServicesBlock: React.FC<BusServicesBlockProps> = ({
   busServices,
   companyColor = '#009955',
   readonly = false,
-  onUpdateServices
+  onUpdateServices,
+  showOnlyAvailable = false
 }) => {
   const handleToggleService = (serviceId: string) => {
     if (readonly || !onUpdateServices) return;
@@ -63,6 +65,14 @@ export const BusServicesBlock: React.FC<BusServicesBlockProps> = ({
     onUpdateServices(updatedServices);
   };
 
+  const displayedServices = showOnlyAvailable
+    ? busServices.services.filter(service => service.available)
+    : busServices.services;
+
+  if (showOnlyAvailable && displayedServices.length === 0) {
+    return null;
+  }
+
   return (
     <div className="tw-mb-6">
       <h3
@@ -73,7 +83,7 @@ export const BusServicesBlock: React.FC<BusServicesBlockProps> = ({
       </h3>
 
       <div className="tw-grid tw-grid-cols-2 md:tw-grid-cols-4 tw-gap-3">
-        {busServices.services.map((service) => (
+        {displayedServices.map((service) => (
           <button
             key={service.id}
             type="button"

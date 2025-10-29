@@ -182,6 +182,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
                 }}
                 companyColor={dataWithProgrammeVoyage.company.mainColor}
                 readonly={readonly}
+                showOnlyAvailable={true}
               />
             </div>
           )}
