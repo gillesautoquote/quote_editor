@@ -44,17 +44,33 @@ L'utilisateur peut modifier le texte d'introduction principal (`quote.tagline`) 
 
 La liste des sections est **dynamique** et s'adapte aux onglets visibles :
 
-- **Mode Tabs** : Lorsque l'utilisateur masque/affiche des onglets via l'interface, la liste se met à jour automatiquement
-- **Mode Flat/Print** : La liste utilise les `visibleTabIds` stockés dans `QuoteData`
+- **Mode Tabs** : Lorsque l'utilisateur masque/affiche des onglets via l'interface, la liste se met à jour automatiquement dans l'onglet Introduction
+- **Mode Flat/Print** :
+  - La liste dans l'introduction utilise les `visibleTabIds` stockés dans `QuoteData`
+  - Les sections physiques (programme, services, cotation, conditions, signature) sont également filtrées selon `visibleTabIds`
+  - Seules les sections correspondant aux onglets visibles sont affichées
 - **Export PDF** : Le PDF respecte également les `visibleTabIds` pour générer la liste appropriée
 
 Les `visibleTabIds` sont stockés dans l'objet `QuoteData` et mis à jour automatiquement par `QuoteTabs` lorsque l'utilisateur ajoute/supprime/réorganise les onglets.
 
+### Filtrage des sections en mode Flat/Print
+
+En plus de la liste textuelle, les sections physiques du document sont également filtrées :
+
+- `isTabVisible('programme')` → Affiche/masque le bloc Programme de voyage
+- `isTabVisible('services')` → Affiche/masque les Services bus et Impact carbone
+- `isTabVisible('cotation')` → Affiche/masque la Cotation détaillée et les Totaux
+- `isTabVisible('conditions')` → Affiche/masque les Conditions générales
+- `isTabVisible('signature')` → Affiche/masque le Bon de commande
+
 ## Fichiers concernés
 
-- `src/Components/QuoteEditor/utils/pdfSectionsGenerator.ts` : Logique de génération
-- `src/Components/QuoteEditor/pdf/components/PDFIntro.tsx` : Affichage dans le PDF
-- `src/Components/QuoteEditor/components/QuotePage/components/QuotePageIntro.tsx` : Affichage dans l'éditeur
+- `src/Components/QuoteEditor/utils/pdfSectionsGenerator.ts` : Logique de génération de la liste
+- `src/Components/QuoteEditor/pdf/components/PDFIntro.tsx` : Affichage de la liste dans le PDF
+- `src/Components/QuoteEditor/components/QuotePage/components/QuotePageIntro.tsx` : Affichage de la liste dans l'éditeur
+- `src/Components/QuoteEditor/components/QuotePage/QuoteFlatView.tsx` : Filtrage des sections physiques en mode Flat/Print
+- `src/Components/QuoteEditor/components/QuoteTabs/QuoteTabs.tsx` : Gestion et persistence des `visibleTabIds`
+- `src/Components/QuoteEditor/QuoteEditor.types.ts` : Définition du champ `visibleTabIds` dans `QuoteData`
 
 ## Exemple
 

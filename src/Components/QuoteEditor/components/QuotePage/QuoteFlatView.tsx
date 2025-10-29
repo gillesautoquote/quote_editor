@@ -94,6 +94,13 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
   const conditionBlocks = dataWithProgrammeVoyage.optionBlocks.filter(block => block.type !== 'programme-voyage');
   const busServicesBlock = conditionBlocks.find(block => block.id === 'bus_services' || block.title?.toLowerCase().includes('service'));
 
+  const isTabVisible = (tabId: string): boolean => {
+    if (!dataWithProgrammeVoyage.visibleTabIds || dataWithProgrammeVoyage.visibleTabIds.length === 0) {
+      return true;
+    }
+    return dataWithProgrammeVoyage.visibleTabIds.includes(tabId);
+  };
+
   return (
     <div
       className="tw-w-full tw-max-w-[21cm] tw-bg-white tw-shadow-page tw-px-12 tw-py-8 tw-mx-auto tw-relative tw-flex tw-flex-col tw-text-text tw-min-h-auto tw-rounded-lg tw-border tw-border-black/10 print:tw-shadow-none print:tw-m-0 print:tw-rounded-none print:tw-border-none print:tw-w-[21cm] print:tw-px-[1.5cm] print:tw-py-0"
@@ -130,7 +137,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
             visibleTabIds={dataWithProgrammeVoyage.visibleTabIds}
           />
 
-          {programmeBlock && programmeBlock.type === 'programme-voyage' && programmeBlock.tripSteps && (
+          {isTabVisible('programme') && programmeBlock && programmeBlock.type === 'programme-voyage' && programmeBlock.tripSteps && (
             <div className="tw-mb-4 page-break-inside-avoid" data-section="programme">
               <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="programme">
                 {programmeBlock.title || 'Programme de voyage'}
@@ -165,7 +172,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
             </div>
           )}
 
-          {busServicesBlock && (
+          {isTabVisible('services') && busServicesBlock && (
             <div className="tw-mb-4 page-break-inside-avoid" data-section="services">
               <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="services">
                 {busServicesBlock.title || 'Services'}
@@ -192,7 +199,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
             </div>
           )}
 
-          {dataWithProgrammeVoyage.carbonImpact && (
+          {isTabVisible('services') && dataWithProgrammeVoyage.carbonImpact && (
             <div className="tw-mb-4 page-break-inside-avoid" data-section="carbon-impact">
               <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="carbon-impact">
                 Impact carbone
@@ -208,8 +215,9 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
             </div>
           )}
 
-          <div className="tw-mb-4" data-section="cotation">
-            <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="cotation">
+          {isTabVisible('cotation') && (
+            <div className="tw-mb-4" data-section="cotation">
+              <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="cotation">
               Cotation détaillée
             </h2>
             {(dataWithProgrammeVoyage.sections || []).map((section, sectionIndex) => (
@@ -229,20 +237,24 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
                 printMode={printMode}
               />
             ))}
-          </div>
+            </div>
+          )}
 
-          <QuotePageTotals totals={dataWithProgrammeVoyage.totals} printMode={printMode} />
-          <div className="tw-flex tw-justify-end tw-mb-4">
-            <EditableField
-              value={dataWithProgrammeVoyage.validityNotice || ''}
-              onSave={(value) => handleFieldUpdate('validityNotice', value)}
-              disabled={readonly}
-              className="tw-text-sm tw-text-text-muted tw-italic"
-              printMode={printMode}
-            />
-          </div>
+          {isTabVisible('cotation') && <QuotePageTotals totals={dataWithProgrammeVoyage.totals} printMode={printMode} />}
+          {isTabVisible('cotation') && (
+            <div className="tw-flex tw-justify-end tw-mb-4">
+              <EditableField
+                value={dataWithProgrammeVoyage.validityNotice || ''}
+                onSave={(value) => handleFieldUpdate('validityNotice', value)}
+                disabled={readonly}
+                className="tw-text-sm tw-text-text-muted tw-italic"
+                printMode={printMode}
+              />
+            </div>
+          )}
 
-          <div className="tw-mb-4" data-section="conditions">
+          {isTabVisible('conditions') && (
+            <div className="tw-mb-4" data-section="conditions">
             <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="conditions">
               Conditions générales
             </h2>
@@ -273,9 +285,11 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
               allowWidthControl={allowWidthControl}
               printMode={printMode}
             />
-          </div>
+            </div>
+          )}
 
-          <div className="page-break-inside-avoid" data-section="order-form">
+          {isTabVisible('signature') && (
+            <div className="page-break-inside-avoid" data-section="order-form">
             <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="order-form">
               Bon de commande
             </h2>
@@ -310,7 +324,8 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
                 printMode={printMode}
               />
             </div>
-          </div>
+            </div>
+          )}
         </div>
 
         {showFooter && (
