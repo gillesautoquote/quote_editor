@@ -12,6 +12,7 @@ import { CarbonImpact } from '../CarbonImpact/CarbonImpact';
 import { BusServicesBlock } from '../BusServices/BusServicesBlock';
 import { BlocksContainer } from '../shared/BlocksContainer';
 import { TripProgramBlock } from '../OptionBlock/components/TripProgramBlock';
+import { EditableField } from '../EditableField/EditableField';
 import { calculateGlobalTotals } from '../../utils/calculationUtils';
 import { formatCopyright, formatUrl } from '../QuotePage/utils/textFormatters';
 import { useFieldPath } from '../../hooks/useFieldPath';
@@ -234,6 +235,14 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
             ))}
           </div>
           <QuotePageTotals totals={currentData.totals} />
+          <div className="tw-flex tw-justify-end tw-mb-4">
+            <EditableField
+              value={currentData.validityNotice || ''}
+              onSave={(value) => handleFieldUpdate('validityNotice', value)}
+              disabled={readonly}
+              className="tw-text-sm tw-text-text-muted tw-italic"
+            />
+          </div>
         </>
       );
 
@@ -296,6 +305,14 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
             }}
             readonly={readonly}
           />
+          <div className="tw-flex tw-justify-center tw-mb-4">
+            <EditableField
+              value={currentData.termsNotice || ''}
+              onSave={(value) => handleFieldUpdate('termsNotice', value)}
+              disabled={readonly}
+              className="tw-text-sm tw-text-text-muted tw-italic"
+            />
+          </div>
         </>,
         true
       );
