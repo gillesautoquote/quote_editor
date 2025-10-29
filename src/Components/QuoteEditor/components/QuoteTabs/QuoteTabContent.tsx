@@ -182,6 +182,14 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
               Aucun programme de voyage disponible
             </div>
           )}
+
+          <div className="tw-mt-6">
+            <CarbonImpact
+              carbonImpact={currentData.carbonImpact}
+              onUpdate={(impact) => onUpdateData({ ...currentData, carbonImpact: impact })}
+              readonly={readonly}
+            />
+          </div>
         </>
       );
 
