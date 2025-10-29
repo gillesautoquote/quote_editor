@@ -21,6 +21,8 @@ interface QuoteFlatViewProps {
   readonly?: boolean;
   printMode?: boolean;
   allowWidthControl?: boolean;
+  showHeader?: boolean;
+  showFooter?: boolean;
 }
 
 export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
@@ -28,7 +30,9 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
   onUpdateData,
   readonly = false,
   printMode = false,
-  allowWidthControl = true
+  allowWidthControl = true,
+  showHeader = true,
+  showFooter = true
 }) => {
   const { setValueByPath } = useFieldPath();
 
@@ -94,13 +98,15 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
       data-component="quote-flat-view"
       data-print-mode={printMode}
     >
-      <QuotePageHeader
-        company={dataWithProgrammeVoyage.company}
-        quote={dataWithProgrammeVoyage.quote}
-        onFieldUpdate={handleFieldUpdate}
-        readonly={readonly}
-        printMode={printMode}
-      />
+      {showHeader && (
+        <QuotePageHeader
+          company={dataWithProgrammeVoyage.company}
+          quote={dataWithProgrammeVoyage.quote}
+          onFieldUpdate={handleFieldUpdate}
+          readonly={readonly}
+          printMode={printMode}
+        />
+      )}
 
       <div className="tw-flex tw-flex-col tw-flex-1 tw-justify-between">
         <div className="tw-flex-1">
@@ -257,14 +263,16 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
           </div>
         </div>
 
-        <QuotePageFooter
-          footer={dataWithProgrammeVoyage.footer}
-          onFieldUpdate={handleFieldUpdate}
-          onCompanyNameUpdate={handleCompanyNameUpdate}
-          onWebsiteUpdate={handleWebsiteUpdate}
-          readonly={readonly}
-          printMode={printMode}
-        />
+        {showFooter && (
+          <QuotePageFooter
+            footer={dataWithProgrammeVoyage.footer}
+            onFieldUpdate={handleFieldUpdate}
+            onCompanyNameUpdate={handleCompanyNameUpdate}
+            onWebsiteUpdate={handleWebsiteUpdate}
+            readonly={readonly}
+            printMode={printMode}
+          />
+        )}
       </div>
     </div>
   );

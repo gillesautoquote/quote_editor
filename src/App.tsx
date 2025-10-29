@@ -17,6 +17,8 @@ const App: React.FC = () => {
   const [autoSave, setAutoSave] = useState<boolean>(true);
   const [flatMode, setFlatMode] = useState<boolean>(false);
   const [printMode, setPrintMode] = useState<boolean>(false);
+  const [showHeader, setShowHeader] = useState<boolean>(true);
+  const [showFooter, setShowFooter] = useState<boolean>(true);
 
   const handleQuoteChange = useCallback((newData: QuoteData): void => {
     setQuoteData(newData);
@@ -137,6 +139,42 @@ const App: React.FC = () => {
                       </button>
                     </div>
                   </div>
+
+                  <div className="tw-border-t tw-border-white/20 tw-pt-3 tw-mt-3">
+                    <div className="tw-text-xs tw-text-white/80 tw-mb-2 tw-font-medium">Mode Flat - Contrôles:</div>
+                    <div className="tw-flex tw-flex-wrap tw-gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setShowHeader(!showHeader)}
+                        disabled={!flatMode}
+                        className={`tw-px-3 tw-py-1.5 tw-rounded tw-text-sm tw-font-medium tw-transition-colors ${
+                          !flatMode ? 'tw-opacity-50 tw-cursor-not-allowed' : ''
+                        } ${
+                          showHeader
+                            ? 'tw-bg-blue-500 tw-text-white hover:tw-bg-blue-600'
+                            : 'tw-bg-white/20 tw-text-white hover:tw-bg-white/30 tw-border tw-border-white/30'
+                        }`}
+                        title={!flatMode ? 'Activez le mode Flat pour utiliser ce contrôle' : ''}
+                      >
+                        Header {showHeader ? 'ON' : 'OFF'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setShowFooter(!showFooter)}
+                        disabled={!flatMode}
+                        className={`tw-px-3 tw-py-1.5 tw-rounded tw-text-sm tw-font-medium tw-transition-colors ${
+                          !flatMode ? 'tw-opacity-50 tw-cursor-not-allowed' : ''
+                        } ${
+                          showFooter
+                            ? 'tw-bg-teal-500 tw-text-white hover:tw-bg-teal-600'
+                            : 'tw-bg-white/20 tw-text-white hover:tw-bg-white/30 tw-border tw-border-white/30'
+                        }`}
+                        title={!flatMode ? 'Activez le mode Flat pour utiliser ce contrôle' : ''}
+                      >
+                        Footer {showFooter ? 'ON' : 'OFF'}
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="tw-p-0">
@@ -157,8 +195,11 @@ const App: React.FC = () => {
                   <div className="tw-bg-orange-50 tw-border tw-border-orange-200 tw-text-orange-800 tw-p-3 tw-mt-2 tw-mb-2 tw-rounded tw-text-sm">
                     🖨️ <strong>Mode Print :</strong> Active les optimisations d'impression (boutons masqués, espacements réduits, protection contre les coupures de page). Combine avec Mode Flat pour un rendu PDF optimal!
                   </div>
-                  <div className="tw-bg-green-50 tw-border tw-border-green-200 tw-text-green-800 tw-p-3 tw-mt-2 tw-mb-0 tw-rounded tw-text-sm">
+                  <div className="tw-bg-green-50 tw-border tw-border-green-200 tw-text-green-800 tw-p-3 tw-mt-2 tw-mb-2 tw-rounded tw-text-sm">
                     🔥 <strong>Astuce :</strong> Activez <strong>Mode Flat</strong> + <strong>Mode Print</strong> ensemble pour prévisualiser exactement ce qui sera dans le PDF. Les deux boutons peuvent aussi être activés indépendamment!
+                  </div>
+                  <div className="tw-bg-cyan-50 tw-border tw-border-cyan-200 tw-text-cyan-800 tw-p-3 tw-mt-2 tw-mb-0 tw-rounded tw-text-sm">
+                    ⚙️ <strong>Nouveauté :</strong> En mode Flat, vous pouvez masquer le <strong>Header</strong> et/ou le <strong>Footer</strong> pour gérer vous-même les en-têtes/pieds de page répétés avec Paged.js. Le contenu brut est ainsi prêt pour votre pagination personnalisée!
                   </div>
                 </div>
               </div>
@@ -222,6 +263,8 @@ const App: React.FC = () => {
               readonly={readonly}
               flatMode={flatMode}
               printMode={printMode}
+              showHeader={showHeader}
+              showFooter={showFooter}
               usePDFV2={true}
             />
           </div>

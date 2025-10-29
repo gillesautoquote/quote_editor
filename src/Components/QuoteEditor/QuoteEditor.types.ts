@@ -216,6 +216,8 @@ export interface QuoteEditorProps {
   showReset?: boolean;
   showTemplateSelector?: boolean;
   allowWidthControl?: boolean;
+  showHeader?: boolean;
+  showFooter?: boolean;
 }
 
 export interface QuoteEditorHandle {

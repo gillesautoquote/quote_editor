@@ -47,6 +47,8 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
     showReset = false,
     showTemplateSelector = false,
     allowWidthControl = true,
+    showHeader = true,
+    showFooter = true,
   } = standaloneProps || {
     data: legacyProps?.data,
     readonly: legacyProps?.readonly ?? false,
@@ -60,6 +62,8 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
     showReset: legacyProps?.showReset ?? false,
     showTemplateSelector: legacyProps?.showTemplateSelector ?? false,
     allowWidthControl: legacyProps?.allowWidthControl ?? true,
+    showHeader: legacyProps?.showHeader ?? true,
+    showFooter: legacyProps?.showFooter ?? true,
   };
 
   const useTabs = legacyProps?.useTabs ?? true;
@@ -522,6 +526,8 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
             readonly={readonly}
             printMode={printMode}
             allowWidthControl={allowWidthControl}
+            showHeader={showHeader}
+            showFooter={showFooter}
           />
         ) : useTabs ? (
           <QuoteTabs
