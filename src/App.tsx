@@ -15,6 +15,8 @@ const App: React.FC = () => {
   const [quoteData, setQuoteData] = useState<QuoteData>(quoteDataMock as QuoteData);
   const [readonly, setReadonly] = useState<boolean>(false);
   const [autoSave, setAutoSave] = useState<boolean>(true);
+  const [flatMode, setFlatMode] = useState<boolean>(false);
+  const [printMode, setPrintMode] = useState<boolean>(false);
 
   const handleQuoteChange = useCallback((newData: QuoteData): void => {
     setQuoteData(newData);
@@ -111,6 +113,28 @@ const App: React.FC = () => {
                       >
                         Reset
                       </button>
+                      <button
+                        type="button"
+                        onClick={() => setFlatMode(!flatMode)}
+                        className={`tw-px-3 tw-py-1.5 tw-rounded tw-text-sm tw-font-medium tw-transition-colors ${
+                          flatMode
+                            ? 'tw-bg-purple-500 tw-text-white hover:tw-bg-purple-600'
+                            : 'tw-bg-white/20 tw-text-white hover:tw-bg-white/30 tw-border tw-border-white/30'
+                        }`}
+                      >
+                        📄 {flatMode ? 'Mode Flat ON' : 'Mode Flat OFF'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setPrintMode(!printMode)}
+                        className={`tw-px-3 tw-py-1.5 tw-rounded tw-text-sm tw-font-medium tw-transition-colors ${
+                          printMode
+                            ? 'tw-bg-orange-500 tw-text-white hover:tw-bg-orange-600'
+                            : 'tw-bg-white/20 tw-text-white hover:tw-bg-white/30 tw-border tw-border-white/30'
+                        }`}
+                      >
+                        🖨️ {printMode ? 'Print ON' : 'Print OFF'}
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -127,8 +151,14 @@ const App: React.FC = () => {
                     <li>Réorganisez avec les poignées de glisser-déposer</li>
                     <li><strong>Exportez en PDF</strong> pour obtenir un document professionnel</li>
                   </ul>
+                  <div className="tw-bg-purple-50 tw-border tw-border-purple-200 tw-text-purple-800 tw-p-3 tw-mt-2 tw-mb-2 tw-rounded tw-text-sm">
+                    📄 <strong>Mode Flat :</strong> Affiche tout le contenu de manière linéaire (Introduction → Programme → Services → Cotation → Conditions → Signature) pour une pagination optimale. Idéal pour la génération PDF avec Paged.js!
+                  </div>
+                  <div className="tw-bg-orange-50 tw-border tw-border-orange-200 tw-text-orange-800 tw-p-3 tw-mt-2 tw-mb-2 tw-rounded tw-text-sm">
+                    🖨️ <strong>Mode Print :</strong> Active les optimisations d'impression (boutons masqués, espacements réduits, protection contre les coupures de page). Combine avec Mode Flat pour un rendu PDF optimal!
+                  </div>
                   <div className="tw-bg-green-50 tw-border tw-border-green-200 tw-text-green-800 tw-p-3 tw-mt-2 tw-mb-0 tw-rounded tw-text-sm">
-                    🔥 <strong>Nouveau :</strong> Le bouton <strong>"PDF via Événement Global"</strong> démontre comment déclencher l'export PDF depuis n'importe quel composant, sans ref ni prop !
+                    🔥 <strong>Astuce :</strong> Activez <strong>Mode Flat</strong> + <strong>Mode Print</strong> ensemble pour prévisualiser exactement ce qui sera dans le PDF. Les deux boutons peuvent aussi être activés indépendamment!
                   </div>
                 </div>
               </div>
@@ -190,6 +220,8 @@ const App: React.FC = () => {
               onSave={handleSave}
               autoSave={autoSave}
               readonly={readonly}
+              flatMode={flatMode}
+              printMode={printMode}
               usePDFV2={true}
             />
           </div>
