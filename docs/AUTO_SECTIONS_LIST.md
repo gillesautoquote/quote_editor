@@ -13,6 +13,9 @@ La fonction `generatePDFSectionsList()` analyse les données du devis et détect
 1. **Programme détaillé** : Détecté si un `optionBlock` de type `programme-voyage` existe avec des `tripSteps`
 2. **Cotation précise** : Détecté si des `sections` avec lignes de prix existent
 3. **Conditions générales de vente** : Détecté si des `optionBlocks` de type `list` avec id `included_fees` ou `excluded_fees` existent
+4. **Services disponibles** : Détecté si `busServices` existe avec au moins un service disponible (`available: true`)
+5. **Impact carbone** : Détecté si `carbonImpact` existe avec un `co2Amount`
+6. **Bon de commande** : Détecté si `signatureFrame` existe
 
 ### Format de sortie
 
@@ -23,6 +26,9 @@ Ce document comprend :
 - Le **programme détaillé** de votre voyage
 - La **cotation précise** du trajet demandé
 - Nos **conditions générales de vente**
+- Les **services disponibles** à bord
+- L'**impact carbone** de votre trajet
+- Un **bon de commande** à retourner signé
 ```
 
 ### Affichage
@@ -55,4 +61,7 @@ Ce document comprend :
 - Le **programme détaillé** de votre voyage
 - La **cotation précise** du trajet demandé
 - Nos **conditions générales de vente**
+- Les **services disponibles** à bord
+- L'**impact carbone** de votre trajet
+- Un **bon de commande** à retourner signé
 ```

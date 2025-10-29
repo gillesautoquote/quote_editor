@@ -43,6 +43,33 @@ export const generatePDFSectionsList = (data: QuoteData): string => {
     });
   }
 
+  if (data.busServices && data.busServices.services && data.busServices.services.length > 0) {
+    const availableServices = data.busServices.services.filter(service => service.available);
+    if (availableServices.length > 0) {
+      sections.push({
+        id: 'services',
+        label: 'Les **services disponibles** à bord',
+        enabled: true
+      });
+    }
+  }
+
+  if (data.carbonImpact && data.carbonImpact.co2Amount) {
+    sections.push({
+      id: 'impact',
+      label: 'L\'**impact carbone** de votre trajet',
+      enabled: true
+    });
+  }
+
+  if (data.signatureFrame) {
+    sections.push({
+      id: 'bon_commande',
+      label: 'Un **bon de commande** à retourner signé',
+      enabled: true
+    });
+  }
+
   if (sections.length === 0) {
     return '';
   }
