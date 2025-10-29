@@ -10,6 +10,7 @@ import { QuotePageIntro } from './components/QuotePageIntro';
 import { QuotePageTotals } from './components/QuotePageTotals';
 import { QuotePageFooter } from './components/QuotePageFooter';
 import { CarbonImpact } from '../CarbonImpact/CarbonImpact';
+import { EditableField } from '../EditableField/EditableField';
 import { useFieldPath } from '../../hooks/useFieldPath';
 import { useColorTheme } from '../../hooks/useColorTheme';
 import { formatCopyright, formatUrl } from './utils/textFormatters';
@@ -180,7 +181,18 @@ export const QuotePage: React.FC<QuotePageProps> = ({
           </div>
 
           {contentConfig.showTotals && (
-            <QuotePageTotals totals={dataWithProgrammeVoyage.totals} printMode={printMode} />
+            <>
+              <QuotePageTotals totals={dataWithProgrammeVoyage.totals} printMode={printMode} />
+              <div className="tw-flex tw-justify-end tw-mb-4">
+                <EditableField
+                  value={dataWithProgrammeVoyage.validityNotice}
+                  onSave={(value) => handleFieldUpdate('validityNotice', value)}
+                  disabled={readonly}
+                  className="tw-text-sm tw-text-text-muted tw-italic"
+                  printMode={printMode}
+                />
+              </div>
+            </>
           )}
 
           <BlocksContainer
@@ -211,15 +223,26 @@ export const QuotePage: React.FC<QuotePageProps> = ({
         </div>
 
         {contentConfig.showSignature && (
-          <SignatureSection
-            clientSignature={dataWithProgrammeVoyage.clientSignature}
-            onUpdateClientSignature={(signature) => {
-              const newData = { ...dataWithProgrammeVoyage, clientSignature: signature };
-              onUpdateData(newData);
-            }}
-            readonly={readonly}
-            printMode={printMode}
-          />
+          <>
+            <SignatureSection
+              clientSignature={dataWithProgrammeVoyage.clientSignature}
+              onUpdateClientSignature={(signature) => {
+                const newData = { ...dataWithProgrammeVoyage, clientSignature: signature };
+                onUpdateData(newData);
+              }}
+              readonly={readonly}
+              printMode={printMode}
+            />
+            <div className="tw-flex tw-justify-center tw-mb-4">
+              <EditableField
+                value={dataWithProgrammeVoyage.termsNotice}
+                onSave={(value) => handleFieldUpdate('termsNotice', value)}
+                disabled={readonly}
+                className="tw-text-sm tw-text-text-muted tw-italic"
+                printMode={printMode}
+              />
+            </div>
+          </>
         )}
 
         {dataWithProgrammeVoyage.carbonImpact && (
