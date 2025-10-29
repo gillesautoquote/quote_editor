@@ -16,6 +16,7 @@ interface OptionBlockContentProps {
   onDragLeave: (e: React.DragEvent) => void;
   onDrop: (e: React.DragEvent, dropIndex: number, type: 'row' | 'note') => void;
   readonly?: boolean;
+  printMode?: boolean;
   onUpdateBlock?: (block: OptionBlock) => void;
   blockColor?: string;
 }
@@ -32,6 +33,7 @@ export const OptionBlockContent: React.FC<OptionBlockContentProps> = ({
   onDragLeave,
   onDrop,
   readonly = false,
+  printMode = false,
   onUpdateBlock,
   blockColor = '#009955'
 }) => {
@@ -65,6 +67,7 @@ export const OptionBlockContent: React.FC<OptionBlockContentProps> = ({
               onDragLeave={onDragLeave}
               onDrop={onDrop}
               readonly={readonly}
+              printMode={printMode}
             />
           ))}
         </ul>
@@ -85,6 +88,7 @@ export const OptionBlockContent: React.FC<OptionBlockContentProps> = ({
               onDragLeave={onDragLeave}
               onDrop={onDrop}
               readonly={readonly}
+              printMode={printMode}
             />
           ))}
         </ul>
@@ -103,6 +107,7 @@ export const OptionBlockContent: React.FC<OptionBlockContentProps> = ({
           onUpdateSteps={handleUpdateTripSteps}
           onUpdateFilters={handleUpdateTripFilters}
           readonly={readonly}
+          printMode={printMode}
           blockColor={blockColor}
         />
       )}

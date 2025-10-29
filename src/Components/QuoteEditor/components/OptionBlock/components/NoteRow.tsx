@@ -16,6 +16,7 @@ interface NoteRowProps {
   onDragLeave: (e: React.DragEvent) => void;
   onDrop: (e: React.DragEvent, dropIndex: number, type: 'row' | 'note') => void;
   readonly?: boolean;
+  printMode?: boolean;
 }
 
 export const NoteRow: React.FC<NoteRowProps> = ({
@@ -28,7 +29,8 @@ export const NoteRow: React.FC<NoteRowProps> = ({
   onDragOver,
   onDragLeave,
   onDrop,
-  readonly = false
+  readonly = false,
+  printMode = false,
 }) => {
   return (
     <li

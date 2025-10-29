@@ -9,6 +9,7 @@ interface TripProgramBlockProps {
   onUpdateSteps: (steps: TripProgramStep[]) => void;
   onUpdateFilters: (filters: TripProgramFilters) => void;
   readonly?: boolean;
+  printMode?: boolean;
   blockColor: string;
 }
 

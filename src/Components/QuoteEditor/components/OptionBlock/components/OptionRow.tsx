@@ -18,6 +18,7 @@ interface OptionRowProps {
   onDragLeave: (e: React.DragEvent) => void;
   onDrop: (e: React.DragEvent, dropIndex: number, type: 'row' | 'note') => void;
   readonly?: boolean;
+  printMode?: boolean;
 }
 
 export const OptionRow: React.FC<OptionRowProps> = ({
@@ -31,7 +32,8 @@ export const OptionRow: React.FC<OptionRowProps> = ({
   onDragOver,
   onDragLeave,
   onDrop,
-  readonly = false
+  readonly = false,
+  printMode = false,
 }) => {
   const handleLabelSelect = (selectedLabel: string): void => {
     onRowUpdate(rowIndex, 'label', selectedLabel);

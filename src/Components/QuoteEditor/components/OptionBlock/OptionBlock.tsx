@@ -18,6 +18,7 @@ interface OptionBlockProps {
   showControls?: boolean;
   allowWidthControl?: boolean;
   companyColor?: string;
+  printMode?: boolean;
   onDragStart?: (e: React.DragEvent, blockIndex: number) => void;
   onDragEnd?: (e: React.DragEvent) => void;
   onDragOver?: (e: React.DragEvent) => void;
@@ -35,6 +36,7 @@ export const OptionBlock: React.FC<OptionBlockProps> = ({
   showControls = false,
   allowWidthControl = true,
   companyColor = '#009955',
+  printMode = false,
   onDragStart,
   onDragEnd,
   onDragOver,
@@ -93,18 +95,19 @@ export const OptionBlock: React.FC<OptionBlockProps> = ({
 
   return (
     <div
-      className="tw-mb-4 tw-border tw-border-border tw-rounded-lg tw-overflow-hidden tw-bg-white tw-shadow-sm tw-transition-all tw-duration-200"
+      className="tw-mb-4 tw-border tw-border-border tw-rounded-lg tw-overflow-hidden tw-bg-white tw-shadow-sm tw-transition-all tw-duration-200 page-break-inside-avoid print:tw-shadow-none print:tw-border-gray-300"
       data-columns={block.columns || 1}
       data-type={blockType}
       data-block-id={block.id}
       data-color={blockColor}
-      draggable={!readonly && !!onDragStart}
-      onDragStart={onDragStart ? (e) => onDragStart(e, blockIndex) : undefined}
-      onDragEnd={onDragEnd}
-      onDragOver={onDragOver}
-      onDragLeave={onDragLeave}
-      onDrop={onDrop ? (e) => onDrop(e, blockIndex) : undefined}
+      draggable={!readonly && !printMode && !!onDragStart}
+      onDragStart={!printMode && onDragStart ? (e) => onDragStart(e, blockIndex) : undefined}
+      onDragEnd={!printMode ? onDragEnd : undefined}
+      onDragOver={!printMode ? onDragOver : undefined}
+      onDragLeave={!printMode ? onDragLeave : undefined}
+      onDrop={!printMode && onDrop ? (e) => onDrop(e, blockIndex) : undefined}
       onMouseDown={(e) => {
+        if (printMode) return;
         const target = e.target as HTMLElement;
         if (target.closest('[contenteditable]') || target.closest('input') || target.closest('textarea')) {
           e.stopPropagation();
@@ -118,6 +121,7 @@ export const OptionBlock: React.FC<OptionBlockProps> = ({
         onAddRow={blockHandlers.handleAddRow}
         onAddRowOfType={blockHandlers.handleAddRowOfType}
         readonly={readonly}
+        printMode={printMode}
       />
 
       <OptionBlockContent
@@ -132,12 +136,13 @@ export const OptionBlock: React.FC<OptionBlockProps> = ({
         onDragLeave={dragHandlers.handleDragLeave}
         onDrop={dragHandlers.handleDrop}
         readonly={readonly}
+        printMode={printMode}
         onUpdateBlock={onUpdateBlock}
         blockColor={blockColor}
       />
 
-      {!readonly && showControls && allowWidthControl && (block.allowWidthControl !== false) && (
-        <div>
+      {!readonly && !printMode && showControls && allowWidthControl && (block.allowWidthControl !== false) && (
+        <div className="print:tw-hidden">
           <ColumnControls
             columns={block.columns || 1}
             onChange={(columns) => onUpdateBlock({ ...block, columns })}

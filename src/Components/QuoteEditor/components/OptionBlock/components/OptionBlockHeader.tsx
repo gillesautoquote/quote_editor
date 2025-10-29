@@ -10,6 +10,7 @@ interface OptionBlockHeaderProps {
   onAddRow: () => void;
   onAddRowOfType: (lineType: string) => void;
   readonly?: boolean;
+  printMode?: boolean;
 }
 
 export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
@@ -18,17 +19,18 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
   onTitleUpdate,
   onAddRow,
   onAddRowOfType,
-  readonly = false
+  readonly = false,
+  printMode = false
 }) => {
   const allowedLineTypes = Object.entries(selectDefinitions).filter(([_, definition]) =>
     definition.allowedBlocks.includes(block.id)
   );
 
   if (block.showTitle === false) {
-    if (readonly) return null;
+    if (readonly || printMode) return null;
 
     return (
-      <div className="tw-flex tw-gap-2 tw-p-3 tw-bg-surface-gray-50 tw-border-b tw-border-border">
+      <div className="tw-flex tw-gap-2 tw-p-3 tw-bg-surface-gray-50 tw-border-b tw-border-border print:tw-hidden">
         {block.type === 'list' && allowedLineTypes.map(([typeKey, definition]) => (
           <button
             key={typeKey}
@@ -75,10 +77,11 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
         value={block.title}
         onSave={onTitleUpdate}
         disabled={readonly}
+        printMode={printMode}
         as="h4"
         className="tw-text-base tw-font-semibold tw-text-primary"
       />
-      {!readonly && (
+      {!readonly && !printMode && (
         <div className="tw-flex tw-gap-2">
           {block.type === 'list' && allowedLineTypes.map(([typeKey, definition]) => (
             <button
