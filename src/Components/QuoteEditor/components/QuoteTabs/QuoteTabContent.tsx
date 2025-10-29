@@ -209,15 +209,6 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
               }}
             />
           )}
-          {currentData.carbonImpact && (
-            <CarbonImpact
-              carbonImpact={currentData.carbonImpact}
-              onUpdateCarbonImpact={(carbonImpact) =>
-                onUpdateData({ ...currentData, carbonImpact })
-              }
-              readonly={readonly}
-            />
-          )}
         </>
       );
 
