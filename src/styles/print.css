@@ -357,6 +357,44 @@
      OPTION BLOCKS OPTIMIZATION
      ======================================== */
 
+  /* Blocs d'options: style compact en mode impression */
+  [data-block-id] {
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    margin-bottom: 0.5rem !important;
+    background: transparent !important;
+  }
+
+  /* En-têtes de blocs: style compact */
+  [data-block-id] > div:first-child {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    padding-bottom: 0.25rem !important;
+  }
+
+  [data-block-id] h4 {
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+  }
+
+  /* Contenu des blocs: style compact */
+  [data-block-id] ul {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  [data-block-id] li {
+    border: none !important;
+    background: transparent !important;
+    padding: 0.125rem 0.25rem !important;
+    border-radius: 0 !important;
+    margin-bottom: 0.125rem !important;
+    font-size: 0.75rem !important;
+    line-height: 1.4 !important;
+  }
+
   /* Blocs d'options: multi-colonnes CSS */
   .option-block[data-columns="2"] .option-block-content {
     column-count: 2;

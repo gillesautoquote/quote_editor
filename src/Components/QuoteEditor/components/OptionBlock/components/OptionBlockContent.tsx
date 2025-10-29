@@ -50,9 +50,9 @@ export const OptionBlockContent: React.FC<OptionBlockContentProps> = ({
   };
 
   return (
-    <div className={block.type === 'programme-voyage' ? '' : 'tw-p-3'}>
+    <div className={block.type === 'programme-voyage' ? '' : 'tw-p-3 print:tw-p-0 print:tw-pt-1'}>
       {block.type === 'list' && block.rows && (
-        <ul className="tw-list-none tw-m-0 tw-p-0 tw-space-y-2">
+        <ul className="tw-list-none tw-m-0 tw-p-0 tw-space-y-2 print:tw-space-y-0.5">
           {block.rows.map((row, rowIndex) => (
             <OptionRow
               key={row.id}
@@ -74,7 +74,7 @@ export const OptionBlockContent: React.FC<OptionBlockContentProps> = ({
       )}
 
       {block.type === 'notes' && block.notes && (
-        <ul className="tw-list-none tw-m-0 tw-p-0 tw-space-y-2">
+        <ul className="tw-list-none tw-m-0 tw-p-0 tw-space-y-2 print:tw-space-y-0.5">
           {block.notes.map((note, noteIndex) => (
             <NoteRow
               key={noteIndex}

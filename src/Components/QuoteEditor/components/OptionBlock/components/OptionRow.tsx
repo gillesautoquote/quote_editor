@@ -41,7 +41,7 @@ export const OptionRow: React.FC<OptionRowProps> = ({
 
   return (
     <li
-      className="tw-flex tw-items-center tw-gap-2 tw-p-2 tw-border tw-border-border tw-rounded tw-bg-white tw-transition-all tw-duration-200 hover:tw-bg-surface-gray-50 page-break-inside-avoid print:tw-border-gray-200"
+      className="tw-flex tw-items-center tw-gap-2 tw-p-2 tw-border tw-border-border tw-rounded tw-bg-white tw-transition-all tw-duration-200 hover:tw-bg-surface-gray-50 page-break-inside-avoid print:tw-border-none print:tw-p-1 print:tw-py-0.5 print:tw-bg-transparent print:tw-rounded-none"
       draggable={!readonly && !printMode}
       onDragStart={!printMode ? (e) => onDragStart(e, rowIndex, 'row') : undefined}
       onDragEnd={!printMode ? onDragEnd : undefined}
@@ -83,10 +83,10 @@ export const OptionRow: React.FC<OptionRowProps> = ({
             printMode={printMode}
             fullWidth={true}
             className={clsx(
-              'tw-text-sm',
+              'tw-text-sm print:tw-text-xs',
               row.style === 'bold' && 'tw-font-bold',
               row.style === 'italic' && 'tw-italic',
-              row.style === 'heading' && 'tw-text-base tw-font-semibold',
+              row.style === 'heading' && 'tw-text-base tw-font-semibold print:tw-text-sm',
               row.style === 'danger' && 'tw-text-danger tw-font-medium',
               row.style === 'success' && 'tw-text-success tw-font-medium',
               row.style === 'warning' && 'tw-text-warning tw-font-medium'
