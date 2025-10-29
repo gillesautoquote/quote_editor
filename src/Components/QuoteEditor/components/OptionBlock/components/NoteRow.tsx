@@ -34,22 +34,23 @@ export const NoteRow: React.FC<NoteRowProps> = ({
 }) => {
   return (
     <li
-      className="tw-flex tw-items-center tw-gap-2 tw-p-2 tw-border tw-border-border tw-rounded tw-bg-white tw-transition-all tw-duration-200 hover:tw-bg-surface-gray-50"
-      draggable={!readonly}
-      onDragStart={(e) => onDragStart(e, noteIndex, 'note')}
-      onDragEnd={onDragEnd}
-      onDragOver={onDragOver}
-      onDragLeave={onDragLeave}
-      onDrop={(e) => onDrop(e, noteIndex, 'note')}
+      className="tw-flex tw-items-center tw-gap-2 tw-p-2 tw-border tw-border-border tw-rounded tw-bg-white tw-transition-all tw-duration-200 hover:tw-bg-surface-gray-50 page-break-inside-avoid print:tw-border-gray-200"
+      draggable={!readonly && !printMode}
+      onDragStart={!printMode ? (e) => onDragStart(e, noteIndex, 'note') : undefined}
+      onDragEnd={!printMode ? onDragEnd : undefined}
+      onDragOver={!printMode ? onDragOver : undefined}
+      onDragLeave={!printMode ? onDragLeave : undefined}
+      onDrop={!printMode ? (e) => onDrop(e, noteIndex, 'note') : undefined}
       onMouseDown={(e) => {
+        if (printMode) return;
         const target = e.target as HTMLElement;
         if (target.closest('.editableField') || target.closest('input') || target.closest('textarea')) {
           e.stopPropagation();
         }
       }}
     >
-      {!readonly && (
-        <div className="tw-cursor-grab tw-text-text-muted hover:tw-text-primary active:tw-cursor-grabbing">
+      {!readonly && !printMode && (
+        <div className="tw-cursor-grab tw-text-text-muted hover:tw-text-primary active:tw-cursor-grabbing print:tw-hidden">
           <GripVertical size={12} />
         </div>
       )}
@@ -62,6 +63,7 @@ export const NoteRow: React.FC<NoteRowProps> = ({
             value={note.text}
             onSave={(value) => onNoteUpdate(noteIndex, 'text', value)}
             disabled={readonly}
+            printMode={printMode}
             fullWidth={true}
             className={clsx(
               'tw-text-sm',
@@ -84,8 +86,8 @@ export const NoteRow: React.FC<NoteRowProps> = ({
         </div>
       </div>
 
-      {!readonly && (
-        <div className="tw-flex tw-items-center tw-gap-1.5">
+      {!readonly && !printMode && (
+        <div className="tw-flex tw-items-center tw-gap-1.5 print:tw-hidden">
           <StyleSelector
             value={note.style || 'normal'}
             onChange={(style) => onNoteUpdate(noteIndex, 'style', style)}

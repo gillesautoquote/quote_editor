@@ -37,6 +37,7 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
   onUpdateSteps,
   onUpdateFilters,
   readonly = false,
+  printMode = false,
   blockColor
 }) => {
   const filteredSteps = useMemo(() => {
@@ -101,7 +102,7 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
 
   return (
     <div className="tw-p-4">
-      <div className="tw-mb-3 tw-flex tw-flex-wrap tw-gap-2 tw-items-center">
+      <div className="tw-mb-3 tw-flex tw-flex-wrap tw-gap-2 tw-items-center print:tw-hidden">
         <div className="tw-flex tw-items-center tw-gap-1.5 tw-text-xs tw-text-gray-600">
           <Filter size={14} />
           <span className="tw-font-medium">Filtres:</span>
@@ -142,7 +143,7 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
           {filters.excludeDepot ? 'Masquer dépôt' : 'Afficher dépôt'}
         </button>
 
-        {!readonly && (
+        {!readonly && !printMode && (
           <>
             <div className="tw-h-4 tw-w-px tw-bg-gray-300 tw-mx-1" />
             <button
@@ -241,7 +242,7 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
                               </div>
                             </div>
 
-                            {!readonly && (
+                            {!readonly && !printMode && (
                               <button
                                 type="button"
                                 onClick={() => handleRemoveStep(step.id)}
