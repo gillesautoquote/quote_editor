@@ -11,6 +11,7 @@ import { QuotePageIntro } from './components/QuotePageIntro';
 import { QuotePageTotals } from './components/QuotePageTotals';
 import { QuotePageFooter } from './components/QuotePageFooter';
 import { CarbonImpact } from '../CarbonImpact/CarbonImpact';
+import { BusServicesBlock } from '../BusServices/BusServicesBlock';
 import { EditableField } from '../EditableField/EditableField';
 import { useFieldPath } from '../../hooks/useFieldPath';
 import { formatCopyright, formatUrl } from './utils/textFormatters';
@@ -92,7 +93,6 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
 
   const programmeBlock = dataWithProgrammeVoyage.optionBlocks.find(block => block.type === 'programme-voyage');
   const conditionBlocks = dataWithProgrammeVoyage.optionBlocks.filter(block => block.type !== 'programme-voyage');
-  const busServicesBlock = conditionBlocks.find(block => block.id === 'bus_services' || block.title?.toLowerCase().includes('service'));
 
   const isTabVisible = (tabId: string): boolean => {
     if (!dataWithProgrammeVoyage.visibleTabIds || dataWithProgrammeVoyage.visibleTabIds.length === 0) {
@@ -172,29 +172,16 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
             </div>
           )}
 
-          {isTabVisible('services') && busServicesBlock && (
+          {isTabVisible('services') && dataWithProgrammeVoyage.busServices && (
             <div className="tw-mb-4 page-break-inside-avoid" data-section="services">
-              <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="services">
-                {busServicesBlock.title || 'Services'}
-              </h2>
-              <BlocksContainer
-                optionBlocks={[busServicesBlock]}
-                signatureFrame={dataWithProgrammeVoyage.signatureFrame}
-                selectDefinitions={dataWithProgrammeVoyage.selectDefinitions}
-                onUpdateOptionBlock={(blockIndex, updatedBlock) => {
-                  const realIndex = dataWithProgrammeVoyage.optionBlocks.findIndex(b => b.id === busServicesBlock.id);
-                  const newBlocks = [...dataWithProgrammeVoyage.optionBlocks];
-                  newBlocks[realIndex] = updatedBlock;
-                  const newData = { ...dataWithProgrammeVoyage, optionBlocks: newBlocks };
+              <BusServicesBlock
+                busServices={dataWithProgrammeVoyage.busServices}
+                onUpdateServices={(services) => {
+                  const newData = { ...dataWithProgrammeVoyage, busServices: services };
                   onUpdateData(newData);
                 }}
-                onRemoveOptionBlock={() => {}}
-                onReorderBlocks={() => {}}
-                onUpdateSignatureFrame={() => {}}
+                companyColor={dataWithProgrammeVoyage.company.mainColor}
                 readonly={readonly}
-                showBlockControls={false}
-                allowWidthControl={allowWidthControl}
-                printMode={printMode}
               />
             </div>
           )}
