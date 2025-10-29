@@ -185,7 +185,7 @@ export const QuotePage: React.FC<QuotePageProps> = ({
               <QuotePageTotals totals={dataWithProgrammeVoyage.totals} printMode={printMode} />
               <div className="tw-flex tw-justify-end tw-mb-4">
                 <EditableField
-                  value={dataWithProgrammeVoyage.validityNotice}
+                  value={dataWithProgrammeVoyage.validityNotice || ''}
                   onSave={(value) => handleFieldUpdate('validityNotice', value)}
                   disabled={readonly}
                   className="tw-text-sm tw-text-text-muted tw-italic"
@@ -235,7 +235,7 @@ export const QuotePage: React.FC<QuotePageProps> = ({
             />
             <div className="tw-flex tw-justify-center tw-mb-4">
               <EditableField
-                value={dataWithProgrammeVoyage.termsNotice}
+                value={dataWithProgrammeVoyage.termsNotice || ''}
                 onSave={(value) => handleFieldUpdate('termsNotice', value)}
                 disabled={readonly}
                 className="tw-text-sm tw-text-text-muted tw-italic"

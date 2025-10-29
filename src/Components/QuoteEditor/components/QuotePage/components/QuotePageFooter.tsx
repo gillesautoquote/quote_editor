@@ -25,16 +25,14 @@ export const QuotePageFooter: React.FC<QuotePageFooterProps> = ({
       className="tw-mt-auto tw-pt-4 tw-border-t tw-border-primary page-break-inside-avoid print:tw-pt-2"
       data-component="quote-footer"
     >
-      {footer.confidentialNotice && footer.confidentialNotice.trim() && (
-        <div className="tw-text-center tw-mb-2 tw-text-[0.7rem] tw-text-text-muted tw-italic print:tw-text-[0.6rem]">
-          <EditableField
-            value={footer.confidentialNotice}
-            onSave={(value) => onFieldUpdate('footer.confidentialNotice', value)}
-            disabled={readonly}
-            printMode={printMode}
-          />
-        </div>
-      )}
+      <div className="tw-text-center tw-mb-2 tw-text-[0.7rem] tw-text-text-muted tw-italic print:tw-text-[0.6rem]">
+        <EditableField
+          value={footer.confidentialNotice || ''}
+          onSave={(value) => onFieldUpdate('footer.confidentialNotice', value)}
+          disabled={readonly}
+          printMode={printMode}
+        />
+      </div>
       <div className="tw-flex tw-justify-between tw-gap-4 tw-text-[0.7rem] tw-leading-[1.3] tw-text-text max-md:tw-flex-col max-md:tw-gap-2 print:tw-text-[0.6rem] print:tw-gap-2">
         {/* Colonne gauche : Infos légales */}
         <div className="tw-flex-1 tw-min-w-0">
