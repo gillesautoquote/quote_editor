@@ -11,6 +11,7 @@ import { QuotePageIntro } from './components/QuotePageIntro';
 import { QuotePageTotals } from './components/QuotePageTotals';
 import { QuotePageFooter } from './components/QuotePageFooter';
 import { CarbonImpact } from '../CarbonImpact/CarbonImpact';
+import { EditableField } from '../EditableField/EditableField';
 import { useFieldPath } from '../../hooks/useFieldPath';
 import { formatCopyright, formatUrl } from './utils/textFormatters';
 import { calculateGlobalTotals } from '../../utils/calculationUtils';
@@ -229,6 +230,15 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
           </div>
 
           <QuotePageTotals totals={dataWithProgrammeVoyage.totals} printMode={printMode} />
+          <div className="tw-flex tw-justify-end tw-mb-4">
+            <EditableField
+              value={dataWithProgrammeVoyage.validityNotice || ''}
+              onSave={(value) => handleFieldUpdate('validityNotice', value)}
+              disabled={readonly}
+              className="tw-text-sm tw-text-text-muted tw-italic"
+              printMode={printMode}
+            />
+          </div>
 
           <div className="tw-mb-4" data-section="conditions">
             <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="conditions">
@@ -289,6 +299,15 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
               readonly={readonly}
               printMode={printMode}
             />
+            <div className="tw-flex tw-justify-center tw-mb-4">
+              <EditableField
+                value={dataWithProgrammeVoyage.termsNotice || ''}
+                onSave={(value) => handleFieldUpdate('termsNotice', value)}
+                disabled={readonly}
+                className="tw-text-sm tw-text-text-muted tw-italic"
+                printMode={printMode}
+              />
+            </div>
           </div>
         </div>
 
