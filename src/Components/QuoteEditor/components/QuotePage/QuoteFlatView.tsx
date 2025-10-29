@@ -5,7 +5,7 @@ import { SignatureSection } from '../SignatureSection/SignatureSection';
 import { BlocksContainer } from '../shared/BlocksContainer';
 import { TripProgramBlock } from '../OptionBlock/components/TripProgramBlock';
 import { InstructionsFrame } from '../InstructionsFrame/InstructionsFrame';
-import { CompactConditions } from './components/CompactConditions';
+import { CompactConditions } from './CompactConditions';
 import { QuotePageHeader } from './components/QuotePageHeader';
 import { QuotePageRecipient } from './components/QuotePageRecipient';
 import { QuotePageIntro } from './components/QuotePageIntro';
