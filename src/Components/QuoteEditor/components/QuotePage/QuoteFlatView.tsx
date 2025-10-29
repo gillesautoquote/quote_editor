@@ -3,6 +3,7 @@ import type { QuoteData } from '../../entities/QuoteData';
 import { QuoteSection as QuoteSectionComponent } from '../QuoteSection/QuoteSection';
 import { SignatureSection } from '../SignatureSection/SignatureSection';
 import { BlocksContainer } from '../shared/BlocksContainer';
+import { TripProgramBlock } from '../OptionBlock/components/TripProgramBlock';
 import { QuotePageHeader } from './components/QuotePageHeader';
 import { QuotePageRecipient } from './components/QuotePageRecipient';
 import { QuotePageIntro } from './components/QuotePageIntro';
@@ -119,26 +120,37 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
             printMode={printMode}
           />
 
-          {programmeBlock && (
+          {programmeBlock && programmeBlock.type === 'programme-voyage' && programmeBlock.tripSteps && (
             <div className="tw-mb-4 page-break-inside-avoid" data-section="programme">
-              <BlocksContainer
-                optionBlocks={[programmeBlock]}
-                signatureFrame={dataWithProgrammeVoyage.signatureFrame}
-                selectDefinitions={dataWithProgrammeVoyage.selectDefinitions}
-                onUpdateOptionBlock={(blockIndex, updatedBlock) => {
+              <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2">
+                {programmeBlock.title || 'Programme de voyage'}
+              </h2>
+              <TripProgramBlock
+                steps={programmeBlock.tripSteps}
+                filters={programmeBlock.tripFilters || {
+                  depart: true,
+                  arrivee: true,
+                  mise_en_place: true,
+                  retour: false,
+                  excludeDepot: true
+                }}
+                onUpdateSteps={(steps) => {
                   const realIndex = dataWithProgrammeVoyage.optionBlocks.findIndex(b => b.id === programmeBlock.id);
                   const newBlocks = [...dataWithProgrammeVoyage.optionBlocks];
-                  newBlocks[realIndex] = updatedBlock;
+                  newBlocks[realIndex] = { ...programmeBlock, tripSteps: steps };
                   const newData = { ...dataWithProgrammeVoyage, optionBlocks: newBlocks };
                   onUpdateData(newData);
                 }}
-                onRemoveOptionBlock={() => {}}
-                onReorderBlocks={() => {}}
-                onUpdateSignatureFrame={() => {}}
+                onUpdateFilters={(filters) => {
+                  const realIndex = dataWithProgrammeVoyage.optionBlocks.findIndex(b => b.id === programmeBlock.id);
+                  const newBlocks = [...dataWithProgrammeVoyage.optionBlocks];
+                  newBlocks[realIndex] = { ...programmeBlock, tripFilters: filters };
+                  const newData = { ...dataWithProgrammeVoyage, optionBlocks: newBlocks };
+                  onUpdateData(newData);
+                }}
                 readonly={readonly}
-                showBlockControls={false}
-                allowWidthControl={allowWidthControl}
                 printMode={printMode}
+                blockColor={programmeBlock.color || dataWithProgrammeVoyage.company.mainColor}
               />
             </div>
           )}

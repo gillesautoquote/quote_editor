@@ -212,8 +212,13 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
   };
 
   return (
-    <div className="tw-mb-6 tw-border tw-border-border tw-rounded-lg tw-overflow-hidden tw-bg-white tw-shadow-sm page-break-inside-avoid print:tw-border-gray-300 print:tw-shadow-none">
-      <div className="tw-flex tw-items-center tw-justify-between tw-gap-3 tw-py-3 tw-px-4 tw-bg-surface-gray-50 tw-border-b tw-border-border">
+    <div
+      className="tw-mb-6 tw-border tw-border-border tw-rounded-lg tw-overflow-hidden tw-bg-white tw-shadow-sm page-break-inside-avoid print:tw-border-gray-300 print:tw-shadow-none print:tw-mb-3"
+      data-component="quote-section"
+      data-section-index={sectionIndex}
+      data-section-title={section.title}
+    >
+      <div className="tw-flex tw-items-center tw-justify-between tw-gap-3 tw-py-3 tw-px-4 tw-bg-surface-gray-50 tw-border-b tw-border-border print:tw-py-2 print:tw-px-3">
         {!readonly && !printMode && onRemoveSection && (
           <button
             type="button"
