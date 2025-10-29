@@ -21,6 +21,7 @@ interface QuoteSectionProps {
   onUpdateSection: (section: QuoteSectionType) => void;
   onRemoveSection?: () => void;
   readonly?: boolean;
+  printMode?: boolean;
 }
 
 interface DragState {
@@ -34,7 +35,8 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
   sectionIndex,
   onUpdateSection,
   onRemoveSection,
-  readonly = false
+  readonly = false,
+  printMode = false
 }) => {
   const [dragState, setDragState] = useState<DragState>({
     isDragging: false,
@@ -210,13 +212,13 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
   };
 
   return (
-    <div className="tw-mb-6 tw-border tw-border-border tw-rounded-lg tw-overflow-hidden tw-bg-white tw-shadow-sm">
+    <div className="tw-mb-6 tw-border tw-border-border tw-rounded-lg tw-overflow-hidden tw-bg-white tw-shadow-sm page-break-inside-avoid print:tw-border-gray-300 print:tw-shadow-none">
       <div className="tw-flex tw-items-center tw-justify-between tw-gap-3 tw-py-3 tw-px-4 tw-bg-surface-gray-50 tw-border-b tw-border-border">
-        {!readonly && onRemoveSection && (
+        {!readonly && !printMode && onRemoveSection && (
           <button
             type="button"
             onClick={onRemoveSection}
-            className="tw-inline-flex tw-items-center tw-justify-center tw-w-6 tw-h-6 tw-p-0 tw-border tw-border-danger-light tw-rounded tw-bg-white tw-text-danger tw-cursor-pointer tw-transition-all tw-duration-200 hover:tw-bg-danger/10 hover:tw-border-danger hover:tw-scale-105"
+            className="tw-inline-flex tw-items-center tw-justify-center tw-w-6 tw-h-6 tw-p-0 tw-border tw-border-danger-light tw-rounded tw-bg-white tw-text-danger tw-cursor-pointer tw-transition-all tw-duration-200 hover:tw-bg-danger/10 hover:tw-border-danger hover:tw-scale-105 print:tw-hidden"
             title="Supprimer cette section"
           >
             <Trash2 size={14} />
@@ -228,27 +230,32 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
           disabled={readonly}
           as="h3"
           className="tw-text-lg tw-font-semibold tw-text-primary"
+          printMode={printMode}
         />
-        <SectionActions
-          onAddLine={handleAddLine}
-          onAddSimpleLine={handleAddSimpleLine}
-          onAddMissionLine={handleAddMissionLine}
-          simplesLinesSelect={section.simplesLinesSelect || []}
-          missionsLines={section.missionsLines || []}
-          readonly={readonly}
-        />
+        {!printMode && (
+          <SectionActions
+            onAddLine={handleAddLine}
+            onAddSimpleLine={handleAddSimpleLine}
+            onAddMissionLine={handleAddMissionLine}
+            simplesLinesSelect={section.simplesLinesSelect || []}
+            missionsLines={section.missionsLines || []}
+            readonly={readonly}
+          />
+        )}
       </div>
 
       <div className="tw-overflow-x-auto">
         <table className="tw-w-full tw-border-collapse tw-text-[0.8rem]">
-          <TableHeader columns={columns} readonly={readonly} />
+          <TableHeader columns={columns} readonly={readonly} printMode={printMode} />
           <tbody>
             {(section.lines || []).map((line, lineIndex) => (
               <React.Fragment key={lineIndex}>
-                <DropIndicator
-                  show={shouldShowDropIndicator(lineIndex) === 'before'}
-                  colSpan={readonly ? 9 : 11}
-                />
+                {!printMode && (
+                  <DropIndicator
+                    show={shouldShowDropIndicator(lineIndex) === 'before'}
+                    colSpan={readonly ? 9 : 11}
+                  />
+                )}
 
                 <TableRow
                   line={line}
@@ -265,12 +272,15 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
                   onDrop={handleDrop}
                   formatDateFrench={formatDateFrench}
                   formatVatRate={formatVatRate}
+                  printMode={printMode}
                 />
 
-                <DropIndicator
-                  show={shouldShowDropIndicator(lineIndex) === 'after'}
-                  colSpan={readonly ? 9 : 11}
-                />
+                {!printMode && (
+                  <DropIndicator
+                    show={shouldShowDropIndicator(lineIndex) === 'after'}
+                    colSpan={readonly ? 9 : 11}
+                  />
+                )}
               </React.Fragment>
             ))}
             <SubtotalRow subTotal={section.subTotal} readonly={readonly} />

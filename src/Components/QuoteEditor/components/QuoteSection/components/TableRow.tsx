@@ -29,6 +29,7 @@ interface TableRowProps {
   onDrop: (e: React.DragEvent, lineIndex: number) => void;
   formatDateFrench: (dateString: string) => string;
   formatVatRate: (vatRate: number | string) => string;
+  printMode?: boolean;
 }
 
 export const TableRow: React.FC<TableRowProps> = ({
@@ -45,7 +46,8 @@ export const TableRow: React.FC<TableRowProps> = ({
   onDragLeave,
   onDrop,
   formatDateFrench,
-  formatVatRate
+  formatVatRate,
+  printMode = false
 }) => {
   const getCellClassName = (columnDef: ColumnDefinition): string => {
     return clsx(
@@ -88,8 +90,8 @@ export const TableRow: React.FC<TableRowProps> = ({
       onDragLeave={onDragLeave}
       onDrop={(e) => onDrop(e, lineIndex)}
     >
-      {!readonly && (
-        <td className="tw-w-8 tw-p-2 tw-border-b tw-border-border tw-text-center">
+      {!readonly && !printMode && (
+        <td className="tw-w-8 tw-p-2 tw-border-b tw-border-border tw-text-center print:tw-hidden">
           <div className="tw-cursor-grab tw-text-text-muted hover:tw-text-primary active:tw-cursor-grabbing">
             <GripVertical size={12} />
           </div>
@@ -102,6 +104,7 @@ export const TableRow: React.FC<TableRowProps> = ({
           onSave={(value) => onLineUpdate(lineIndex, 'date', value)}
           disabled={readonly || !columns.date.editable}
           placeholder="JJ/MM/AA"
+          printMode={printMode}
         />
       </td>
 
@@ -112,6 +115,7 @@ export const TableRow: React.FC<TableRowProps> = ({
           disabled={readonly || !columns.description.editable}
           multiline
           fullWidth={true}
+          printMode={printMode}
         />
       </td>
 
@@ -120,6 +124,7 @@ export const TableRow: React.FC<TableRowProps> = ({
           value={line.durationHours.toString()}
           onSave={(value) => onLineUpdate(lineIndex, 'durationHours', parseFloat(value) || 0)}
           disabled={readonly || !columns.durationHours.editable}
+          printMode={printMode}
         />
       </td>
 
@@ -128,6 +133,7 @@ export const TableRow: React.FC<TableRowProps> = ({
           value={line.pax.toString()}
           onSave={(value) => onLineUpdate(lineIndex, 'pax', parseInt(value, 10) || 0)}
           disabled={readonly || !columns.pax.editable}
+          printMode={printMode}
         />
       </td>
 
@@ -151,8 +157,8 @@ export const TableRow: React.FC<TableRowProps> = ({
         {line.priceTTC.toFixed(2)}
       </td>
 
-      {!readonly && (
-        <td className="tw-w-8 tw-p-2 tw-border-b tw-border-border tw-text-center">
+      {!readonly && !printMode && (
+        <td className="tw-w-8 tw-p-2 tw-border-b tw-border-border tw-text-center print:tw-hidden">
           <button
             type="button"
             onClick={() => onRemoveLine(lineIndex)}

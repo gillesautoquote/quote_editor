@@ -14,9 +14,10 @@ interface TableHeaderProps {
     priceTTC: ColumnDefinition;
   };
   readonly?: boolean;
+  printMode?: boolean;
 }
 
-export const TableHeader: React.FC<TableHeaderProps> = ({ columns, readonly = false }) => {
+export const TableHeader: React.FC<TableHeaderProps> = ({ columns, readonly = false, printMode = false }) => {
   const getHeaderStyle = (columnDef: ColumnDefinition): React.CSSProperties => {
     const style: React.CSSProperties = {};
     
@@ -36,7 +37,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({ columns, readonly = fa
   return (
     <thead>
       <tr>
-        {!readonly && <th></th>}
+        {!readonly && !printMode && <th className="print:tw-hidden"></th>}
         <th style={getHeaderStyle(columns.date)}>{columns.date.title}</th>
         <th style={getHeaderStyle(columns.description)}>{columns.description.title}</th>
         <th style={getHeaderStyle(columns.durationHours)}>{columns.durationHours.title}</th>
@@ -46,7 +47,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({ columns, readonly = fa
         <th style={getHeaderStyle(columns.priceHT)}>{columns.priceHT.title}</th>
         <th style={getHeaderStyle(columns.vatRate)}>{columns.vatRate.title}</th>
         <th style={getHeaderStyle(columns.priceTTC)}>{columns.priceTTC.title}</th>
-        {!readonly && <th></th>}
+        {!readonly && !printMode && <th className="print:tw-hidden"></th>}
       </tr>
     </thead>
   );
