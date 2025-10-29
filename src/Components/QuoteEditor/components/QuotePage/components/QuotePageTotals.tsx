@@ -1,38 +1,51 @@
 import React from 'react';
-import type { Totals } from '../../../entities/QuoteData';
+
+interface VATBreakdown {
+  rate: number;
+  amount: number;
+}
 
 interface QuotePageTotalsProps {
-  totals: Totals;
+  totals: {
+    ht: number;
+    tva: number;
+    ttc: number;
+    vatBreakdown?: VATBreakdown[];
+  };
 }
 
 export const QuotePageTotals: React.FC<QuotePageTotalsProps> = ({ totals }) => {
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('fr-FR', {
-      style: 'currency',
-      currency: 'EUR',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }).format(price);
-  };
-
   return (
-    <div className="tw-mt-6 tw-mb-6 print:tw-mt-4 print:tw-mb-4" data-section="totals">
-      <div className="tw-bg-gray-50 tw-p-4 tw-rounded-lg print:tw-bg-transparent print:tw-border print:tw-border-gray-300">
-        <div className="tw-space-y-2">
-          <div className="tw-flex tw-justify-between tw-text-sm">
-            <span>Total HT</span>
-            <span className="tw-font-semibold">{formatPrice(totals.ht)}</span>
-          </div>
-          <div className="tw-flex tw-justify-between tw-text-sm">
-            <span>TVA</span>
-            <span className="tw-font-semibold">{formatPrice(totals.tva)}</span>
-          </div>
-          <div className="tw-flex tw-justify-between tw-text-lg tw-font-bold tw-pt-2 tw-border-t tw-border-gray-300">
-            <span>Total TTC</span>
-            <span>{formatPrice(totals.ttc)}</span>
-          </div>
-        </div>
-      </div>
+    <div
+      className="tw-mb-4 tw-flex tw-justify-end page-break-inside-avoid print-keep-together"
+      data-component="totals-table"
+    >
+      <table className="tw-border-collapse tw-text-[0.85rem] tw-min-w-[280px] tw-text-text print-color-adjust print:tw-text-xs">
+        <tbody>
+          <tr>
+            <td className="tw-p-[0.4rem_0.6rem] tw-border tw-border-border tw-bg-white print:tw-p-[0.3rem_0.5rem]"><strong>Total HT</strong></td>
+            <td className="tw-p-[0.4rem_0.6rem] tw-border tw-border-border tw-bg-white tw-text-right print:tw-p-[0.3rem_0.5rem]"><strong>{totals.ht.toFixed(2)} €</strong></td>
+          </tr>
+          {totals.vatBreakdown && totals.vatBreakdown.length > 0 && (
+            <>
+              {totals.vatBreakdown.map((vat, index) => (
+                <tr key={index}>
+                  <td className="tw-p-[0.4rem_0.6rem] tw-border tw-border-border tw-bg-gray-50 tw-pl-8 print:tw-p-[0.3rem_0.5rem] print:tw-pl-6">dont TVA à {vat.rate} %</td>
+                  <td className="tw-p-[0.4rem_0.6rem] tw-border tw-border-border tw-bg-gray-50 tw-text-right print:tw-p-[0.3rem_0.5rem]">{vat.amount.toFixed(2)} €</td>
+                </tr>
+              ))}
+            </>
+          )}
+          <tr>
+            <td className="tw-p-[0.4rem_0.6rem] tw-border tw-border-border tw-bg-white print:tw-p-[0.3rem_0.5rem]"><strong>Total TVA</strong></td>
+            <td className="tw-p-[0.4rem_0.6rem] tw-border tw-border-border tw-bg-white tw-text-right print:tw-p-[0.3rem_0.5rem]"><strong>{totals.tva.toFixed(2)} €</strong></td>
+          </tr>
+          <tr className="tw-bg-primary tw-text-white print-color-adjust">
+            <td className="tw-p-[0.5rem_0.6rem] tw-border tw-border-primary print:tw-p-[0.4rem_0.5rem]"><strong>Total TTC</strong></td>
+            <td className="tw-p-[0.5rem_0.6rem] tw-border tw-border-primary tw-text-right print:tw-p-[0.4rem_0.5rem]"><strong>{totals.ttc.toFixed(2)} €</strong></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 };

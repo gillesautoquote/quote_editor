@@ -5,7 +5,6 @@ import { SignatureSection } from '../SignatureSection/SignatureSection';
 import { BlocksContainer } from '../shared/BlocksContainer';
 import { TripProgramBlock } from '../OptionBlock/components/TripProgramBlock';
 import { InstructionsFrame } from '../InstructionsFrame/InstructionsFrame';
-import { CompactConditions } from './CompactConditions';
 import { QuotePageHeader } from './components/QuotePageHeader';
 import { QuotePageRecipient } from './components/QuotePageRecipient';
 import { QuotePageIntro } from './components/QuotePageIntro';
@@ -235,10 +234,11 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
             <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="conditions">
               Conditions générales
             </h2>
-            <CompactConditions
-              blocks={conditionBlocks.filter(b => b.id !== busServicesBlock?.id)}
-              readonly={readonly}
-              onUpdateBlock={(blockIndex, updatedBlock) => {
+            <BlocksContainer
+              optionBlocks={conditionBlocks.filter(b => b.id !== busServicesBlock?.id)}
+              signatureFrame={dataWithProgrammeVoyage.signatureFrame}
+              selectDefinitions={dataWithProgrammeVoyage.selectDefinitions}
+              onUpdateOptionBlock={(blockIndex, updatedBlock) => {
                 const filteredBlocks = conditionBlocks.filter(b => b.id !== busServicesBlock?.id);
                 const targetBlock = filteredBlocks[blockIndex];
                 const realIndex = dataWithProgrammeVoyage.optionBlocks.findIndex(b => b.id === targetBlock.id);
@@ -247,6 +247,19 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
                 const newData = { ...dataWithProgrammeVoyage, optionBlocks: newBlocks };
                 onUpdateData(newData);
               }}
+              onRemoveOptionBlock={() => {}}
+              onReorderBlocks={(newBlocks) => {
+                const newData = { ...dataWithProgrammeVoyage, optionBlocks: newBlocks };
+                onUpdateData(newData);
+              }}
+              onUpdateSignatureFrame={(frame) => {
+                const newData = { ...dataWithProgrammeVoyage, signatureFrame: frame };
+                onUpdateData(newData);
+              }}
+              readonly={readonly}
+              showBlockControls={false}
+              allowWidthControl={allowWidthControl}
+              printMode={printMode}
             />
           </div>
 

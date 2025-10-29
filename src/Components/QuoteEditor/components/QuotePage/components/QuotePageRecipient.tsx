@@ -1,10 +1,10 @@
 import React from 'react';
-import type { Recipient } from '../../../entities/QuoteData';
 import { EditableField } from '../../EditableField/EditableField';
+import type { Recipient } from '../../../entities/QuoteData';
 
 interface QuotePageRecipientProps {
   recipient: Recipient;
-  onFieldUpdate: (path: string, value: any) => void;
+  onFieldUpdate: (path: string, value: string) => void;
   readonly?: boolean;
   printMode?: boolean;
 }
@@ -16,37 +16,106 @@ export const QuotePageRecipient: React.FC<QuotePageRecipientProps> = ({
   printMode = false
 }) => {
   return (
-    <div className="tw-mb-6 print:tw-mb-4" data-section="recipient">
-      <div className="tw-space-y-1">
-        <EditableField
-          value={recipient.name}
-          onChange={(value) => onFieldUpdate('recipient.name', value)}
-          placeholder="Nom du destinataire"
-          className="tw-font-semibold"
-          readonly={readonly}
-        />
-        <EditableField
-          value={recipient.address}
-          onChange={(value) => onFieldUpdate('recipient.address', value)}
-          placeholder="Adresse"
-          className="tw-text-sm"
-          readonly={readonly}
-        />
-        <div className="tw-flex tw-gap-2">
-          <EditableField
-            value={recipient.zipCode}
-            onChange={(value) => onFieldUpdate('recipient.zipCode', value)}
-            placeholder="Code postal"
-            className="tw-text-sm tw-w-24"
-            readonly={readonly}
-          />
-          <EditableField
-            value={recipient.city}
-            onChange={(value) => onFieldUpdate('recipient.city', value)}
-            placeholder="Ville"
-            className="tw-text-sm tw-flex-1"
-            readonly={readonly}
-          />
+    <div className="tw-mb-4 tw-flex tw-justify-end max-md:tw-justify-start">
+      <div className="tw-bg-surface-indigo-50 tw-border tw-border-border-light tw-rounded tw-p-3 tw-inline-block tw-min-w-[300px] tw-max-w-[400px]">
+        <div className="tw-text-[0.65rem] tw-font-bold tw-text-primary tw-mb-2 tw-tracking-wider tw-uppercase">DESTINATAIRE</div>
+        <div className="tw-text-[0.85rem] tw-leading-[1.3] tw-text-text">
+          {/* Organisation - afficher seulement si elle existe */}
+          {recipient.organization && recipient.organization.trim() && (
+            <div className="tw-font-semibold tw-mb-[0.15rem] tw-text-text">
+              <EditableField
+                value={recipient.organization}
+                onSave={(value) => onFieldUpdate('recipient.organization', value)}
+                disabled={readonly}
+              printMode={printMode}
+                placeholder="Entreprise"
+              />
+            </div>
+          )}
+
+          {/* Nom complet - afficher seulement s'il existe */}
+          {recipient.fullName && recipient.fullName.trim() && (
+            <div className="tw-font-medium tw-mb-[0.15rem] tw-text-text">
+              <EditableField
+                value={recipient.fullName}
+                onSave={(value) => onFieldUpdate('recipient.fullName', value)}
+                disabled={readonly}
+              printMode={printMode}
+                placeholder="Nom complet"
+              />
+            </div>
+          )}
+
+          {/* Adresse - afficher seulement si elle existe */}
+          {recipient.address && recipient.address.trim() && (
+            <div className="tw-mb-[0.15rem] tw-text-text">
+              <EditableField
+                value={recipient.address}
+                onSave={(value) => onFieldUpdate('recipient.address', value)}
+                disabled={readonly}
+              printMode={printMode}
+                placeholder="Adresse"
+              />
+            </div>
+          )}
+
+          {/* Code postal + Ville - afficher seulement si au moins un existe */}
+          {((recipient.postalCode && recipient.postalCode.trim()) || (recipient.city && recipient.city.trim())) && (
+            <div className="tw-mb-[0.15rem] tw-text-text">
+              {recipient.postalCode && recipient.postalCode.trim() && (
+                <EditableField
+                  value={recipient.postalCode}
+                  onSave={(value) => onFieldUpdate('recipient.postalCode', value)}
+                  disabled={readonly}
+              printMode={printMode}
+                  placeholder="Code postal"
+                />
+              )}
+              {recipient.postalCode && recipient.postalCode.trim() && recipient.city && recipient.city.trim() && ' '}
+              {recipient.city && recipient.city.trim() && (
+                <EditableField
+                  value={recipient.city}
+                  onSave={(value) => onFieldUpdate('recipient.city', value)}
+                  disabled={readonly}
+              printMode={printMode}
+                  placeholder="Ville"
+                />
+              )}
+            </div>
+          )}
+
+          {/* Téléphone et Email - afficher seulement si au moins un existe */}
+          {((recipient.phone && recipient.phone.trim()) || (recipient.email && recipient.email.trim())) && (
+            <div className="tw-text-[0.8rem] tw-text-text-muted tw-mt-[0.3rem]">
+              {recipient.phone && recipient.phone.trim() && (
+                <span>
+                  <EditableField
+                    value={recipient.phone}
+                    onSave={(value) => onFieldUpdate('recipient.phone', value)}
+                    disabled={readonly}
+              printMode={printMode}
+                    placeholder="Téléphone"
+                  />
+                </span>
+              )}
+
+              {recipient.phone && recipient.phone.trim() && recipient.email && recipient.email.trim() && (
+                <span className="tw-mx-[0.3rem]"> | </span>
+              )}
+
+              {recipient.email && recipient.email.trim() && (
+                <span>
+                  <EditableField
+                    value={recipient.email}
+                    onSave={(value) => onFieldUpdate('recipient.email', value)}
+                    disabled={readonly}
+              printMode={printMode}
+                    placeholder="Email"
+                  />
+                </span>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
