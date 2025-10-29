@@ -181,19 +181,18 @@ export const QuotePage: React.FC<QuotePageProps> = ({
           </div>
 
           {contentConfig.showTotals && (
-            <>
-              <QuotePageTotals totals={dataWithProgrammeVoyage.totals} printMode={printMode} />
-              <div className="tw-flex tw-justify-end tw-mb-4">
-                <EditableField
-                  value={dataWithProgrammeVoyage.validityNotice || ''}
-                  onSave={(value) => handleFieldUpdate('validityNotice', value)}
-                  disabled={readonly}
-                  className="tw-text-sm tw-text-text-muted tw-italic"
-                  printMode={printMode}
-                />
-              </div>
-            </>
+            <QuotePageTotals totals={dataWithProgrammeVoyage.totals} printMode={printMode} />
           )}
+
+          <div className="tw-flex tw-justify-end tw-mb-4">
+            <EditableField
+              value={dataWithProgrammeVoyage.validityNotice || ''}
+              onSave={(value) => handleFieldUpdate('validityNotice', value)}
+              disabled={readonly}
+              className="tw-text-sm tw-text-text-muted tw-italic"
+              printMode={printMode}
+            />
+          </div>
 
           <BlocksContainer
             optionBlocks={(contentConfig.optionBlocks || []).map(i => dataWithProgrammeVoyage.optionBlocks[i] || null).filter(Boolean)}
