@@ -213,16 +213,12 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
 
   return (
     <div
-      className={`page-break-inside-avoid ${
-        printMode
-          ? 'tw-mb-4 tw-bg-white'
-          : 'tw-mb-6 tw-border tw-border-border tw-rounded-lg tw-overflow-hidden tw-bg-white tw-shadow-sm'
-      } print:tw-shadow-none print:tw-mb-4`}
+      className="tw-mb-6 tw-border tw-border-border tw-rounded-lg tw-overflow-hidden tw-bg-white tw-shadow-sm page-break-inside-avoid print:tw-shadow-none print:tw-mb-4 print:tw-rounded-none"
       data-component="quote-section"
       data-section-index={sectionIndex}
       data-section-title={section.title}
     >
-      <div className={printMode ? 'tw-mb-2' : 'tw-flex tw-items-center tw-justify-between tw-gap-3 tw-py-3 tw-px-4 tw-bg-surface-gray-50 tw-border-b tw-border-border print:tw-py-2 print:tw-px-3'}>
+      <div className="tw-flex tw-items-center tw-justify-between tw-gap-3 tw-py-3 tw-px-4 tw-bg-surface-gray-50 tw-border-b tw-border-border print:tw-py-2 print:tw-px-3">
         {!readonly && !printMode && onRemoveSection && (
           <button
             type="button"
@@ -238,7 +234,7 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
           onSave={handleTitleUpdate}
           disabled={readonly}
           as="h3"
-          className={printMode ? 'tw-text-base tw-font-bold tw-text-primary' : 'tw-text-lg tw-font-semibold tw-text-primary'}
+          className="tw-text-lg tw-font-semibold tw-text-primary print:tw-text-base"
           printMode={printMode}
         />
         {!printMode && (
@@ -254,7 +250,7 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
       </div>
 
       <div className="tw-overflow-x-auto">
-        <table className={printMode ? 'tw-w-full tw-border-collapse tw-text-xs tw-border tw-border-gray-300' : 'tw-w-full tw-border-collapse tw-text-[0.8rem]'}>
+        <table className="tw-w-full tw-border-collapse tw-text-[0.8rem] print:tw-text-xs">
           <TableHeader columns={columns} readonly={readonly} printMode={printMode} />
           <tbody>
             {(section.lines || []).map((line, lineIndex) => (

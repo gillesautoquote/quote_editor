@@ -35,7 +35,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({ columns, readonly = fa
   };
 
   const thClassName = printMode
-    ? 'tw-px-2 tw-py-1.5 tw-text-xs tw-font-bold tw-text-gray-800 tw-bg-gray-100 tw-border tw-border-gray-300'
+    ? 'tw-p-2 tw-text-left tw-font-semibold tw-bg-surface-gray-50 tw-border-b tw-border-border print:tw-text-xs print:tw-p-1.5'
     : 'tw-p-2 tw-text-left tw-font-semibold tw-bg-surface-gray-50 tw-border-b tw-border-border';
 
   return (

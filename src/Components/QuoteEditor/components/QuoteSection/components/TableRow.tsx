@@ -51,10 +51,11 @@ export const TableRow: React.FC<TableRowProps> = ({
 }) => {
   const getCellClassName = (columnDef: ColumnDefinition, printMode: boolean): string => {
     return clsx(
-      printMode ? 'tw-px-2 tw-py-1 tw-border tw-border-gray-300' : 'tw-p-2 tw-border-b tw-border-border',
+      'tw-p-2 tw-border-b tw-border-border',
+      printMode && 'print:tw-p-1.5',
       columnDef.align === 'center' && 'tw-text-center',
       columnDef.align === 'right' && 'tw-text-right',
-      columnDef.style === 'calculated' && (printMode ? 'tw-bg-gray-50 tw-font-semibold' : 'tw-bg-surface-gray-50 tw-font-medium'),
+      columnDef.style === 'calculated' && 'tw-bg-surface-gray-50 tw-font-medium',
       columnDef.style === 'primary' && 'tw-text-primary tw-font-medium',
       columnDef.style === 'danger' && 'tw-text-danger tw-font-medium'
     );
@@ -79,9 +80,9 @@ export const TableRow: React.FC<TableRowProps> = ({
   return (
     <tr
       className={clsx(
-        'quoteLine',
-        printMode ? 'tw-bg-white' : 'tw-bg-white tw-transition-all tw-duration-200 hover:tw-bg-surface-gray-50',
-        isDragging && 'dragging tw-opacity-50'
+        'quoteLine tw-bg-white tw-transition-all tw-duration-200 hover:tw-bg-surface-gray-50',
+        isDragging && 'dragging tw-opacity-50',
+        printMode && 'print:hover:tw-bg-white'
       )}
       data-line-index={lineIndex}
       draggable={!readonly}
