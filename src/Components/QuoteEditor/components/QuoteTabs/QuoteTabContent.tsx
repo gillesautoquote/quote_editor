@@ -143,17 +143,20 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
           <h2 className="tw-text-xl tw-font-bold tw-mb-4" style={{ color: currentData.company.mainColor }}>
             Programme de voyage
           </h2>
-          {programmeBlock && programmeBlock.type === 'programme-voyage' && programmeBlock.tripProgram && (
+          {programmeBlock && programmeBlock.type === 'programme-voyage' && programmeBlock.tripSteps ? (
             <TripProgramBlock
-              steps={programmeBlock.tripProgram.steps}
-              filters={programmeBlock.tripProgram.filters}
+              steps={programmeBlock.tripSteps}
+              filters={programmeBlock.tripFilters || {
+                depart: true,
+                arrivee: true,
+                mise_en_place: true,
+                retour: false,
+                excludeDepot: true
+              }}
               onUpdateSteps={(steps) => {
                 const updatedBlock = {
                   ...programmeBlock,
-                  tripProgram: {
-                    ...programmeBlock.tripProgram!,
-                    steps
-                  }
+                  tripSteps: steps
                 };
                 const newBlocks = currentData.optionBlocks.map(b =>
                   b.id === updatedBlock.id ? updatedBlock : b
@@ -163,10 +166,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
               onUpdateFilters={(filters) => {
                 const updatedBlock = {
                   ...programmeBlock,
-                  tripProgram: {
-                    ...programmeBlock.tripProgram!,
-                    filters
-                  }
+                  tripFilters: filters
                 };
                 const newBlocks = currentData.optionBlocks.map(b =>
                   b.id === updatedBlock.id ? updatedBlock : b
@@ -177,6 +177,10 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
               printMode={false}
               blockColor={currentData.company.mainColor}
             />
+          ) : (
+            <div className="tw-bg-gray-50 tw-rounded-lg tw-border tw-border-gray-200 tw-p-6 tw-text-center tw-text-sm tw-text-gray-500">
+              Aucun programme de voyage disponible
+            </div>
           )}
         </>
       );
