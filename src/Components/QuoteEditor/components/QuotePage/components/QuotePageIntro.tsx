@@ -13,6 +13,7 @@ interface QuotePageIntroProps {
   readonly?: boolean;
   printMode?: boolean;
   data: QuoteData;
+  visibleTabIds?: string[];
 }
 
 export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
@@ -22,9 +23,10 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
   onFieldUpdate,
   readonly = false,
   printMode = false,
-  data
+  data,
+  visibleTabIds
 }) => {
-  const sectionsList = generatePDFSectionsList(data);
+  const sectionsList = generatePDFSectionsList(data, visibleTabIds);
   return (
     <div className="tw-mb-4 tw-mt-8 tw-text-[0.9rem] tw-leading-[1.4] tw-text-text">
       {/* Ligne ville et date - afficher seulement si au moins un existe */}

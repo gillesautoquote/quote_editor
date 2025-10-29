@@ -20,6 +20,7 @@ import { createProgrammeVoyageBlock } from '../../utils/itineraryConverters';
 
 interface QuoteTabContentProps {
   activeTab: string;
+  visibleTabIds: string[];
   data: QuoteData;
   onUpdateData: (newData: QuoteData) => void;
   readonly?: boolean;
@@ -28,6 +29,7 @@ interface QuoteTabContentProps {
 
 export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
   activeTab,
+  visibleTabIds,
   data,
   onUpdateData,
   readonly = false,
@@ -135,6 +137,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
             onFieldUpdate={handleFieldUpdate}
             readonly={readonly}
             data={currentData}
+            visibleTabIds={visibleTabIds}
           />
         </>
       );

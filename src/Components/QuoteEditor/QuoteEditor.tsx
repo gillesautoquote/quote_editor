@@ -537,9 +537,10 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
             allowWidthControl={allowWidthControl}
             enableTabManagement={true}
           >
-            {(activeTab) => (
+            {(activeTab, visibleTabIds) => (
               <QuoteTabContent
                 activeTab={activeTab}
+                visibleTabIds={visibleTabIds}
                 data={currentData}
                 onUpdateData={updateData}
                 readonly={readonly}

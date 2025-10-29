@@ -14,7 +14,7 @@ interface QuoteTabsProps {
   onUpdateData: (newData: QuoteData) => void;
   readonly?: boolean;
   allowWidthControl?: boolean;
-  children: (activeTab: string) => React.ReactNode;
+  children: (activeTab: string, visibleTabIds: string[]) => React.ReactNode;
   enableTabManagement?: boolean;
 }
 
@@ -287,7 +287,7 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
       </div>
 
       <div className="tw-flex-1 tw-py-6">
-        {children(activeTab)}
+        {children(activeTab, visibleTabs.map(tab => tab.id))}
       </div>
 
       {showAddMenu && menuPosition && (
