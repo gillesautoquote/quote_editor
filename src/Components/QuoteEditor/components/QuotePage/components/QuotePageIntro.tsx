@@ -10,6 +10,7 @@ interface QuotePageIntroProps {
   clientSignature: ClientSignature;
   onFieldUpdate: (path: string, value: string) => void;
   readonly?: boolean;
+  printMode?: boolean;
 }
 
 export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
@@ -17,7 +18,8 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
   recipient,
   clientSignature,
   onFieldUpdate,
-  readonly = false
+  readonly = false,
+  printMode = false
 }) => {
   return (
     <div className="tw-mb-4 tw-mt-8 tw-text-[0.9rem] tw-leading-[1.4] tw-text-text">
@@ -29,6 +31,7 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
               value={quote.executionCity}
               onSave={(value) => onFieldUpdate('quote.executionCity', value)}
               disabled={readonly}
+              printMode={printMode}
               placeholder="Ville"
             />
           )}
@@ -46,6 +49,7 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
             value={formatTitle(recipient.title)}
             onSave={(value) => onFieldUpdate('recipient.title', value.replace(',', ''))}
             disabled={readonly}
+              printMode={printMode}
             placeholder="Civilité"
           />
         </div>
@@ -58,6 +62,7 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
             value={quote.tagline}
             onSave={(value) => onFieldUpdate('quote.tagline', value)}
             disabled={readonly}
+              printMode={printMode}
             placeholder="Texte d'introduction"
             markdownToHtml={markdownToHtml}
           />
@@ -71,6 +76,7 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
             value={clientSignature.tagline}
             onSave={(value) => onFieldUpdate('clientSignature.tagline', value)}
             disabled={readonly}
+              printMode={printMode}
             as="div"
             fullWidth={true}
             placeholder="Texte de remerciements"
@@ -86,6 +92,7 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
               value={clientSignature.title}
               onSave={(value) => onFieldUpdate('clientSignature.title', value)}
               disabled={readonly}
+              printMode={printMode}
               placeholder="Titre"
             />
           </div>
@@ -96,6 +103,7 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
               value={clientSignature.fullName}
               onSave={(value) => onFieldUpdate('clientSignature.fullName', value)}
               disabled={readonly}
+              printMode={printMode}
               placeholder="Nom complet"
             />
           </div>

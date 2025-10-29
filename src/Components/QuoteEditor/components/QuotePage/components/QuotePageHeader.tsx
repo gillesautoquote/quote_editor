@@ -8,13 +8,15 @@ interface QuotePageHeaderProps {
   quote: Quote;
   onFieldUpdate: (path: string, value: string) => void;
   readonly?: boolean;
+  printMode?: boolean;
 }
 
 export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
   company,
   quote,
   onFieldUpdate,
-  readonly = false
+  readonly = false,
+  printMode = false
 }) => {
   return (
     <div className="tw-flex tw-justify-between tw-items-start tw-mb-8 tw-pb-4 tw-border-b tw-border-primary max-md:tw-flex-col max-md:tw-gap-2 max-md:tw-mb-6">
@@ -35,6 +37,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
               value={company.name}
               onSave={(value) => onFieldUpdate('company.name', value)}
               disabled={readonly}
+              printMode={printMode}
             />
           </div>
           <div className="tw-text-[0.8rem] tw-text-text tw-leading-[1.3] [&_.editableField]:tw-p-[0.1rem_0.15rem] [&_.editableField]:tw--m-[0.1rem] [&_.editableField.editing]:tw-p-[0.1rem_0.15rem] [&_.editableField.editing]:tw--m-[0.1rem] [&_.editInput]:tw-p-[0.1rem_0.15rem] [&_.editInput]:tw-text-[inherit]">
@@ -43,6 +46,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
                 value={company.address}
                 onSave={(value) => onFieldUpdate('company.address', value)}
                 disabled={readonly}
+              printMode={printMode}
               />
             </div>
             <div>
@@ -50,11 +54,13 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
                 value={company.postalCode}
                 onSave={(value) => onFieldUpdate('company.postalCode', value)}
                 disabled={readonly}
+              printMode={printMode}
               /> {' '}
               <EditableField
                 value={company.city}
                 onSave={(value) => onFieldUpdate('company.city', value)}
                 disabled={readonly}
+              printMode={printMode}
               />
             </div>
             <div className="tw-mt-1">
@@ -62,6 +68,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
                 value={company.phone}
                 onSave={(value) => onFieldUpdate('company.phone', value)}
                 disabled={readonly}
+              printMode={printMode}
               />
             </div>
             <div>
@@ -69,6 +76,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
                 value={company.email}
                 onSave={(value) => onFieldUpdate('company.email', value)}
                 disabled={readonly}
+              printMode={printMode}
               />
             </div>
           </div>
@@ -81,6 +89,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
             value={quote.number}
             onSave={(value) => onFieldUpdate('quote.number', value)}
             disabled={readonly}
+              printMode={printMode}
           />
         </div>
         <div className="tw-text-[0.85rem] tw-text-text tw-mb-[0.4rem] tw-leading-[1.1]">
@@ -88,6 +97,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
             value={quote.version}
             onSave={(value) => onFieldUpdate('quote.version', value)}
             disabled={readonly}
+              printMode={printMode}
           />
         </div>
         <div className="tw-text-xs tw-leading-[1.2] tw-text-text">
@@ -98,6 +108,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
                 value={formatDateDDMMYYYY(quote.issueDate)}
                 onSave={(value) => onFieldUpdate('quote.issueDate', value)}
                 disabled={readonly}
+              printMode={printMode}
               />
             </div>
           )}
@@ -109,6 +120,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
                 value={formatDateDDMMYYYY(quote.validUntil)}
                 onSave={(value) => onFieldUpdate('quote.validUntil', value)}
                 disabled={readonly}
+              printMode={printMode}
               />
             </div>
           )}
@@ -120,6 +132,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
                 value={quote.reference}
                 onSave={(value) => onFieldUpdate('quote.reference', value)}
                 disabled={readonly}
+              printMode={printMode}
               />
             </div>
           )}
