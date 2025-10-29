@@ -19,13 +19,18 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
   printMode = false
 }) => {
   return (
-    <div className="tw-flex tw-justify-between tw-items-start tw-mb-8 tw-pb-4 tw-border-b tw-border-primary max-md:tw-flex-col max-md:tw-gap-2 max-md:tw-mb-6">
+    <div
+      className="tw-flex tw-justify-between tw-items-start tw-mb-8 tw-pb-4 tw-border-b tw-border-primary max-md:tw-flex-col max-md:tw-gap-2 max-md:tw-mb-6 page-break-after-avoid print:tw-mb-4 print:tw-pb-2"
+      data-component="quote-header"
+      data-company-id={company.name}
+      data-quote-number={quote.number}
+    >
       <div className="tw-flex tw-flex-1 tw-mr-8 tw-gap-4">
         {company.logoUrl && (
           <img
             src={company.logoUrl}
             alt="Logo entreprise"
-            className="tw-max-w-[120px] tw-object-contain tw-h-auto tw-w-auto tw-flex-shrink-0"
+            className="tw-max-w-[120px] tw-object-contain tw-h-auto tw-w-auto tw-flex-shrink-0 print:tw-max-w-[100px] print:tw-max-h-[2cm]"
             onError={(e) => {
               (e.target as HTMLImageElement).style.display = 'none';
             }}

@@ -205,6 +205,9 @@ export interface QuoteEditorProps {
   locale?: 'fr' | 'en';
   theme?: 'light' | 'dark';
   readonly?: boolean;
+  printMode?: boolean;
+  flatMode?: boolean;
+  previewMode?: boolean;
   className?: string;
   onEvent?: (evt: ComponentEvent) => void;
   showToolbar?: boolean;

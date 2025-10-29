@@ -522,6 +522,81 @@
   /* Force shadows */
   .print-shadow-none { box-shadow: none !important; }
 
+  /* Print color preservation */
+  .print-color-adjust,
+  [data-component="totals-table"] .tw-bg-primary {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* Print spacing utilities */
+  .print-spacing-tight { margin: 0.25rem 0 !important; padding: 0.25rem !important; }
+  .print-spacing-normal { margin: 0.5rem 0 !important; padding: 0.5rem !important; }
+  .print-spacing-loose { margin: 1rem 0 !important; padding: 1rem !important; }
+  .print-no-margin { margin: 0 !important; }
+  .print-no-padding { padding: 0 !important; }
+
+  /* Print text utilities */
+  .print-text-2xs { font-size: 0.625rem !important; line-height: 1.2 !important; }
+  .print-text-xs { font-size: 0.75rem !important; line-height: 1.3 !important; }
+  .print-text-sm { font-size: 0.875rem !important; line-height: 1.4 !important; }
+  .print-text-base { font-size: 1rem !important; line-height: 1.5 !important; }
+
+  /* Print border utilities */
+  .print-border-light { border-width: 0.5pt !important; }
+  .print-border-strong { border-width: 1pt !important; }
+
+  /* Print compact list */
+  .print-compact-list,
+  .print-compact-list ul {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .print-compact-list li {
+    margin-bottom: 0.25rem !important;
+    padding: 0.25rem 0 !important;
+    font-size: 0.75rem !important;
+    line-height: 1.3 !important;
+  }
+
+  /* Print keep together alias */
+  .print-keep-together {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Component-specific print styles */
+  [data-component="quote-header"] {
+    page-break-after: avoid !important;
+    position: relative !important;
+  }
+
+  [data-component="quote-footer"] {
+    page-break-inside: avoid !important;
+    margin-top: auto !important;
+  }
+
+  [data-component="totals-table"] {
+    page-break-inside: avoid !important;
+  }
+
+  [data-component="totals-table"] table {
+    display: table !important;
+    border-collapse: collapse !important;
+  }
+
+  [data-print-group="trip-day"],
+  [data-print-group="trip-step"] {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  [data-component="signature-section"] {
+    page-break-inside: avoid !important;
+  }
+
   /* ========================================
      DEBUG HELPERS (à commenter en prod)
      ======================================== */

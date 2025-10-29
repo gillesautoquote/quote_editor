@@ -8,6 +8,7 @@ import { useQuoteEditor } from './hooks/useQuoteEditor';
 import { useColorTheme } from './hooks/useColorTheme';
 import { useTranslation } from './i18n/translations';
 import { QuotePage } from './components/QuotePage/QuotePage';
+import { QuoteFlatView } from './components/QuotePage/QuoteFlatView';
 import { QuoteEditorToolbar } from './components/shared/QuoteEditorToolbar';
 import { QuoteTabs } from './components/QuoteTabs';
 import { QuoteTabContent } from './components/QuoteTabs/QuoteTabContent';
@@ -35,6 +36,9 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
     locale = 'fr',
     theme = 'light',
     readonly = false,
+    printMode: propPrintMode = false,
+    flatMode: propFlatMode = false,
+    previewMode = false,
     className = '',
     onEvent,
     showToolbar = true,
@@ -46,6 +50,9 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
   } = standaloneProps || {
     data: legacyProps?.data,
     readonly: legacyProps?.readonly ?? false,
+    printMode: legacyProps?.printMode ?? false,
+    flatMode: legacyProps?.flatMode ?? false,
+    previewMode: legacyProps?.previewMode ?? false,
     className: legacyProps?.className ?? '',
     showToolbar: legacyProps?.showToolbar ?? true,
     showAddSection: legacyProps?.showAddSection ?? false,
@@ -56,6 +63,8 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
   };
 
   const useTabs = legacyProps?.useTabs ?? true;
+  const printMode = propPrintMode || propFlatMode;
+  const flatMode = propFlatMode || propPrintMode;
 
   const onChange = legacyProps?.onChange;
   const onSave = legacyProps?.onSave;
@@ -505,8 +514,16 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
         />
       )}
 
-      <div className="tw-flex-1 tw-flex tw-flex-col tw-items-center tw-py-12 tw-px-8 tw-gap-6 tw-overflow-y-auto tw-bg-gradient-to-br tw-from-gray-50 tw-to-gray-200 md:tw-px-4 lg:tw-px-16 max-md:tw-px-2 max-md:tw-py-8 max-md:tw-gap-4 max-md:tw-bg-gray-50 print:tw-p-0 print:tw-gap-0">
-        {useTabs ? (
+      <div className="tw-flex-1 tw-flex tw-flex-col tw-items-center tw-py-12 tw-px-8 tw-gap-6 tw-overflow-y-auto tw-bg-gradient-to-br tw-from-gray-50 tw-to-gray-200 md:tw-px-4 lg:tw-px-16 max-md:tw-px-2 max-md:tw-py-8 max-md:tw-gap-4 max-md:tw-bg-gray-50 print:tw-p-0 print:tw-gap-0 print:tw-bg-white">
+        {flatMode ? (
+          <QuoteFlatView
+            data={currentData}
+            onUpdateData={updateData}
+            readonly={readonly}
+            printMode={printMode}
+            allowWidthControl={allowWidthControl}
+          />
+        ) : useTabs ? (
           <QuoteTabs
             data={currentData}
             onUpdateData={updateData}
@@ -536,6 +553,7 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
               showSignature: true
             }}
             readonly={readonly}
+            printMode={printMode}
             allowWidthControl={allowWidthControl}
           />
         )}
