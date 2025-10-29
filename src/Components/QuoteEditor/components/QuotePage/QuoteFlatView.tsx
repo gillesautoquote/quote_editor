@@ -101,6 +101,212 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
     return dataWithProgrammeVoyage.visibleTabIds.includes(tabId);
   };
 
+  const getOrderedTabIds = (): string[] => {
+    if (!dataWithProgrammeVoyage.visibleTabIds || dataWithProgrammeVoyage.visibleTabIds.length === 0) {
+      return ['introduction', 'programme', 'services', 'cotation', 'conditions', 'signature'];
+    }
+    return dataWithProgrammeVoyage.visibleTabIds;
+  };
+
+  const renderSection = (tabId: string) => {
+    if (!isTabVisible(tabId)) return null;
+
+    switch (tabId) {
+      case 'introduction':
+        return null;
+
+      case 'programme':
+        if (programmeBlock && programmeBlock.type === 'programme-voyage' && programmeBlock.tripSteps) {
+          return (
+            <div key="programme" className="tw-mb-4 page-break-inside-avoid" data-section="programme">
+              <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="programme">
+                {programmeBlock.title || 'Programme de voyage'}
+              </h2>
+              <TripProgramBlock
+                steps={programmeBlock.tripSteps}
+                filters={programmeBlock.tripFilters || {
+                  depart: true,
+                  arrivee: true,
+                  mise_en_place: true,
+                  retour: false,
+                  excludeDepot: true
+                }}
+                onUpdateSteps={(steps) => {
+                  const realIndex = dataWithProgrammeVoyage.optionBlocks.findIndex(b => b.id === programmeBlock.id);
+                  const newBlocks = [...dataWithProgrammeVoyage.optionBlocks];
+                  newBlocks[realIndex] = { ...programmeBlock, tripSteps: steps };
+                  const newData = { ...dataWithProgrammeVoyage, optionBlocks: newBlocks };
+                  onUpdateData(newData);
+                }}
+                onUpdateFilters={(filters) => {
+                  const realIndex = dataWithProgrammeVoyage.optionBlocks.findIndex(b => b.id === programmeBlock.id);
+                  const newBlocks = [...dataWithProgrammeVoyage.optionBlocks];
+                  newBlocks[realIndex] = { ...programmeBlock, tripFilters: filters };
+                  const newData = { ...dataWithProgrammeVoyage, optionBlocks: newBlocks };
+                  onUpdateData(newData);
+                }}
+                readonly={readonly}
+                printMode={printMode}
+                blockColor={programmeBlock.color || dataWithProgrammeVoyage.company.mainColor}
+              />
+            </div>
+          );
+        }
+        return null;
+
+      case 'services':
+        return (
+          <React.Fragment key="services">
+            {dataWithProgrammeVoyage.busServices && (
+              <div className="tw-mb-4 page-break-inside-avoid" data-section="services">
+                <BusServicesBlock
+                  busServices={dataWithProgrammeVoyage.busServices}
+                  onUpdateServices={(services) => {
+                    const newData = { ...dataWithProgrammeVoyage, busServices: services };
+                    onUpdateData(newData);
+                  }}
+                  companyColor={dataWithProgrammeVoyage.company.mainColor}
+                  readonly={readonly}
+                  showOnlyAvailable={true}
+                />
+              </div>
+            )}
+            {dataWithProgrammeVoyage.carbonImpact && (
+              <div className="tw-mb-4 page-break-inside-avoid" data-section="carbon-impact">
+                <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="carbon-impact">
+                  Impact carbone
+                </h2>
+                <CarbonImpact
+                  carbonImpact={dataWithProgrammeVoyage.carbonImpact}
+                  onUpdateCarbonImpact={(carbonImpact) =>
+                    onUpdateData({ ...dataWithProgrammeVoyage, carbonImpact })
+                  }
+                  readonly={readonly}
+                  printMode={printMode}
+                />
+              </div>
+            )}
+          </React.Fragment>
+        );
+
+      case 'cotation':
+        return (
+          <React.Fragment key="cotation">
+            <div className="tw-mb-4" data-section="cotation">
+              <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="cotation">
+                Cotation détaillée
+              </h2>
+              {(dataWithProgrammeVoyage.sections || []).map((section, sectionIndex) => (
+                <QuoteSectionComponent
+                  key={sectionIndex}
+                  section={section}
+                  sectionIndex={sectionIndex}
+                  onUpdateSection={(updatedSection) => {
+                    const newSections = [...dataWithProgrammeVoyage.sections];
+                    newSections[sectionIndex] = updatedSection;
+                    const newTotals = calculateGlobalTotals(newSections);
+                    const newData = { ...dataWithProgrammeVoyage, sections: newSections, totals: newTotals };
+                    onUpdateData(newData);
+                  }}
+                  onRemoveSection={() => handleRemoveSection(sectionIndex)}
+                  readonly={readonly}
+                  printMode={printMode}
+                />
+              ))}
+            </div>
+            <QuotePageTotals totals={dataWithProgrammeVoyage.totals} printMode={printMode} />
+            <div className="tw-flex tw-justify-end tw-mb-4">
+              <EditableField
+                value={dataWithProgrammeVoyage.validityNotice || ''}
+                onSave={(value) => handleFieldUpdate('validityNotice', value)}
+                disabled={readonly}
+                className="tw-text-sm tw-text-text-muted tw-italic"
+                printMode={printMode}
+              />
+            </div>
+          </React.Fragment>
+        );
+
+      case 'conditions':
+        return (
+          <div key="conditions" className="tw-mb-4" data-section="conditions">
+            <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="conditions">
+              Conditions générales
+            </h2>
+            <BlocksContainer
+              optionBlocks={conditionBlocks}
+              signatureFrame={dataWithProgrammeVoyage.signatureFrame}
+              selectDefinitions={dataWithProgrammeVoyage.selectDefinitions}
+              onUpdateOptionBlock={(blockIndex, updatedBlock) => {
+                const targetBlock = conditionBlocks[blockIndex];
+                const realIndex = dataWithProgrammeVoyage.optionBlocks.findIndex(b => b.id === targetBlock.id);
+                const newBlocks = [...dataWithProgrammeVoyage.optionBlocks];
+                newBlocks[realIndex] = updatedBlock;
+                const newData = { ...dataWithProgrammeVoyage, optionBlocks: newBlocks };
+                onUpdateData(newData);
+              }}
+              onRemoveOptionBlock={() => {}}
+              onReorderBlocks={(newBlocks) => {
+                const newData = { ...dataWithProgrammeVoyage, optionBlocks: newBlocks };
+                onUpdateData(newData);
+              }}
+              onUpdateSignatureFrame={(frame) => {
+                const newData = { ...dataWithProgrammeVoyage, signatureFrame: frame };
+                onUpdateData(newData);
+              }}
+              readonly={readonly}
+              showBlockControls={false}
+              allowWidthControl={allowWidthControl}
+              printMode={printMode}
+            />
+          </div>
+        );
+
+      case 'signature':
+        return (
+          <div key="signature" className="tw-mb-4" data-section="signature">
+            <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="order-form">
+              Bon de commande
+            </h2>
+            <InstructionsFrame
+              signatureFrame={dataWithProgrammeVoyage.signatureFrame}
+              onUpdateSignatureFrame={(frame) => {
+                const newData = { ...dataWithProgrammeVoyage, signatureFrame: frame };
+                onUpdateData(newData);
+              }}
+              recipient={dataWithProgrammeVoyage.recipient}
+              onUpdateRecipient={(recipient) => {
+                const newData = { ...dataWithProgrammeVoyage, recipient };
+                onUpdateData(newData);
+              }}
+              readonly={readonly}
+            />
+            <SignatureSection
+              clientSignature={dataWithProgrammeVoyage.clientSignature}
+              onUpdateClientSignature={(signature) => {
+                const newData = { ...dataWithProgrammeVoyage, clientSignature: signature };
+                onUpdateData(newData);
+              }}
+              readonly={readonly}
+              printMode={printMode}
+            />
+            <div className="tw-flex tw-justify-center tw-mb-4">
+              <EditableField
+                value={dataWithProgrammeVoyage.termsNotice || ''}
+                onSave={(value) => handleFieldUpdate('termsNotice', value)}
+                disabled={readonly}
+                className="tw-text-sm tw-text-text-muted tw-italic"
+                printMode={printMode}
+              />
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
   return (
     <div
       className="tw-w-full tw-max-w-[21cm] tw-bg-white tw-shadow-page tw-px-12 tw-py-8 tw-mx-auto tw-relative tw-flex tw-flex-col tw-text-text tw-min-h-auto tw-rounded-lg tw-border tw-border-black/10 print:tw-shadow-none print:tw-m-0 print:tw-rounded-none print:tw-border-none print:tw-w-[21cm] print:tw-px-[1.5cm] print:tw-py-0"
@@ -137,182 +343,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
             visibleTabIds={dataWithProgrammeVoyage.visibleTabIds}
           />
 
-          {isTabVisible('programme') && programmeBlock && programmeBlock.type === 'programme-voyage' && programmeBlock.tripSteps && (
-            <div className="tw-mb-4 page-break-inside-avoid" data-section="programme">
-              <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="programme">
-                {programmeBlock.title || 'Programme de voyage'}
-              </h2>
-              <TripProgramBlock
-                steps={programmeBlock.tripSteps}
-                filters={programmeBlock.tripFilters || {
-                  depart: true,
-                  arrivee: true,
-                  mise_en_place: true,
-                  retour: false,
-                  excludeDepot: true
-                }}
-                onUpdateSteps={(steps) => {
-                  const realIndex = dataWithProgrammeVoyage.optionBlocks.findIndex(b => b.id === programmeBlock.id);
-                  const newBlocks = [...dataWithProgrammeVoyage.optionBlocks];
-                  newBlocks[realIndex] = { ...programmeBlock, tripSteps: steps };
-                  const newData = { ...dataWithProgrammeVoyage, optionBlocks: newBlocks };
-                  onUpdateData(newData);
-                }}
-                onUpdateFilters={(filters) => {
-                  const realIndex = dataWithProgrammeVoyage.optionBlocks.findIndex(b => b.id === programmeBlock.id);
-                  const newBlocks = [...dataWithProgrammeVoyage.optionBlocks];
-                  newBlocks[realIndex] = { ...programmeBlock, tripFilters: filters };
-                  const newData = { ...dataWithProgrammeVoyage, optionBlocks: newBlocks };
-                  onUpdateData(newData);
-                }}
-                readonly={readonly}
-                printMode={printMode}
-                blockColor={programmeBlock.color || dataWithProgrammeVoyage.company.mainColor}
-              />
-            </div>
-          )}
-
-          {isTabVisible('services') && dataWithProgrammeVoyage.busServices && (
-            <div className="tw-mb-4 page-break-inside-avoid" data-section="services">
-              <BusServicesBlock
-                busServices={dataWithProgrammeVoyage.busServices}
-                onUpdateServices={(services) => {
-                  const newData = { ...dataWithProgrammeVoyage, busServices: services };
-                  onUpdateData(newData);
-                }}
-                companyColor={dataWithProgrammeVoyage.company.mainColor}
-                readonly={readonly}
-                showOnlyAvailable={true}
-              />
-            </div>
-          )}
-
-          {isTabVisible('services') && dataWithProgrammeVoyage.carbonImpact && (
-            <div className="tw-mb-4 page-break-inside-avoid" data-section="carbon-impact">
-              <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="carbon-impact">
-                Impact carbone
-              </h2>
-              <CarbonImpact
-                carbonImpact={dataWithProgrammeVoyage.carbonImpact}
-                onUpdateCarbonImpact={(carbonImpact) =>
-                  onUpdateData({ ...dataWithProgrammeVoyage, carbonImpact })
-                }
-                readonly={readonly}
-                printMode={printMode}
-              />
-            </div>
-          )}
-
-          {isTabVisible('cotation') && (
-            <div className="tw-mb-4" data-section="cotation">
-              <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="cotation">
-              Cotation détaillée
-            </h2>
-            {(dataWithProgrammeVoyage.sections || []).map((section, sectionIndex) => (
-              <QuoteSectionComponent
-                key={sectionIndex}
-                section={section}
-                sectionIndex={sectionIndex}
-                onUpdateSection={(updatedSection) => {
-                  const newSections = [...dataWithProgrammeVoyage.sections];
-                  newSections[sectionIndex] = updatedSection;
-                  const newTotals = calculateGlobalTotals(newSections);
-                  const newData = { ...dataWithProgrammeVoyage, sections: newSections, totals: newTotals };
-                  onUpdateData(newData);
-                }}
-                onRemoveSection={() => handleRemoveSection(sectionIndex)}
-                readonly={readonly}
-                printMode={printMode}
-              />
-            ))}
-            </div>
-          )}
-
-          {isTabVisible('cotation') && <QuotePageTotals totals={dataWithProgrammeVoyage.totals} printMode={printMode} />}
-          {isTabVisible('cotation') && (
-            <div className="tw-flex tw-justify-end tw-mb-4">
-              <EditableField
-                value={dataWithProgrammeVoyage.validityNotice || ''}
-                onSave={(value) => handleFieldUpdate('validityNotice', value)}
-                disabled={readonly}
-                className="tw-text-sm tw-text-text-muted tw-italic"
-                printMode={printMode}
-              />
-            </div>
-          )}
-
-          {isTabVisible('conditions') && (
-            <div className="tw-mb-4" data-section="conditions">
-            <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="conditions">
-              Conditions générales
-            </h2>
-            <BlocksContainer
-              optionBlocks={conditionBlocks}
-              signatureFrame={dataWithProgrammeVoyage.signatureFrame}
-              selectDefinitions={dataWithProgrammeVoyage.selectDefinitions}
-              onUpdateOptionBlock={(blockIndex, updatedBlock) => {
-                const targetBlock = conditionBlocks[blockIndex];
-                const realIndex = dataWithProgrammeVoyage.optionBlocks.findIndex(b => b.id === targetBlock.id);
-                const newBlocks = [...dataWithProgrammeVoyage.optionBlocks];
-                newBlocks[realIndex] = updatedBlock;
-                const newData = { ...dataWithProgrammeVoyage, optionBlocks: newBlocks };
-                onUpdateData(newData);
-              }}
-              onRemoveOptionBlock={() => {}}
-              onReorderBlocks={(newBlocks) => {
-                const newData = { ...dataWithProgrammeVoyage, optionBlocks: newBlocks };
-                onUpdateData(newData);
-              }}
-              onUpdateSignatureFrame={(frame) => {
-                const newData = { ...dataWithProgrammeVoyage, signatureFrame: frame };
-                onUpdateData(newData);
-              }}
-              readonly={readonly}
-              showBlockControls={false}
-              allowWidthControl={allowWidthControl}
-              printMode={printMode}
-            />
-            </div>
-          )}
-
-          {isTabVisible('signature') && (
-            <div className="page-break-inside-avoid" data-section="order-form">
-            <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="order-form">
-              Bon de commande
-            </h2>
-            <InstructionsFrame
-              signatureFrame={dataWithProgrammeVoyage.signatureFrame}
-              onUpdateSignatureFrame={(frame) => {
-                const newData = { ...dataWithProgrammeVoyage, signatureFrame: frame };
-                onUpdateData(newData);
-              }}
-              recipient={dataWithProgrammeVoyage.recipient}
-              onUpdateRecipient={(recipient) => {
-                const newData = { ...dataWithProgrammeVoyage, recipient };
-                onUpdateData(newData);
-              }}
-              readonly={readonly}
-            />
-            <SignatureSection
-              clientSignature={dataWithProgrammeVoyage.clientSignature}
-              onUpdateClientSignature={(signature) => {
-                const newData = { ...dataWithProgrammeVoyage, clientSignature: signature };
-                onUpdateData(newData);
-              }}
-              readonly={readonly}
-              printMode={printMode}
-            />
-            <div className="tw-flex tw-justify-center tw-mb-4">
-              <EditableField
-                value={dataWithProgrammeVoyage.termsNotice || ''}
-                onSave={(value) => handleFieldUpdate('termsNotice', value)}
-                disabled={readonly}
-                className="tw-text-sm tw-text-text-muted tw-italic"
-                printMode={printMode}
-              />
-            </div>
-            </div>
-          )}
+          {getOrderedTabIds().map(tabId => renderSection(tabId))}
         </div>
 
         {showFooter && (
