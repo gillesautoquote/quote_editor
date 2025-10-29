@@ -1,7 +1,7 @@
 # Suivi de l'Avancement - Migration Print-Friendly
 
 **Date de démarrage**: 2025-10-29
-**Statut global**: 🟡 EN COURS (Phase 2 complétée - 40% de la migration)
+**Statut global**: 🟡 EN COURS (Phase 2 complétée, Phase 3 à 30% - 45% de la migration)
 
 ---
 
@@ -10,14 +10,14 @@
 ```
 Phase 1: Analyse et Préparation      ████████████████████ 100% ✅
 Phase 2: Configuration CSS/Tailwind  ████████████████████ 100% ✅
-Phase 3: Refactorisation composants  ████░░░░░░░░░░░░░░░░  20% 🟡
+Phase 3: Refactorisation composants  ██████░░░░░░░░░░░░░░  30% 🟡
 Phase 4: Intégration Paged.js        ░░░░░░░░░░░░░░░░░░░░   0% ⏸️
 Phase 5: Génération PDF Playwright   ░░░░░░░░░░░░░░░░░░░░   0% ⏸️
 Phase 6: Tests et validation         ░░░░░░░░░░░░░░░░░░░░   0% ⏸️
 Phase 7: Nettoyage final             ░░░░░░░░░░░░░░░░░░░░   0% ⏸️
 ```
 
-**Progression totale**: 40% (2/7 phases complétées)
+**Progression totale**: 45% (2/7 phases complétées, Phase 3 à 30%)
 
 ---
 
@@ -107,7 +107,7 @@ Phase 7: Nettoyage final             ░░░░░░░░░░░░░░�
 ## 🟡 Phase 3: Refactorisation des Composants - EN COURS
 
 **Durée estimée**: 27h
-**Statut**: 🟡 20% complété (5/27h)
+**Statut**: 🟡 30% complété (8/27h)
 
 ### Composants complétés ✅
 
@@ -115,6 +115,22 @@ Phase 7: Nettoyage final             ░░░░░░░░░░░░░░�
    - printMode prop ajoutée
    - Rendu statique en print
    - Event handlers désactivés
+
+2. **EditableMarkdownField** (Critique) - ✅ Complété
+   - printMode prop ajoutée
+   - Rendu markdown statique en print
+   - Event handlers désactivés
+
+3. **DragDropListItem** (Critique) - ✅ Complété
+   - printMode prop ajoutée
+   - Drag handle masqué en print
+   - Bouton delete masqué en print
+   - Rendu simplifié sans interactivité
+
+4. **QuotePage** (Critique) - ✅ Complété
+   - printMode prop ajoutée
+   - Propagation à TOUS les sous-composants
+   - Attributs data-component et data-print-mode ajoutés
 
 ### Composants en attente ⏳
 

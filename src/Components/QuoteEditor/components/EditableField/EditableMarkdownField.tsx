@@ -8,6 +8,7 @@ interface EditableMarkdownFieldProps {
   className?: string;
   disabled?: boolean;
   markdownToHtml: (text: string) => string;
+  printMode?: boolean;
 }
 
 export const EditableMarkdownField: React.FC<EditableMarkdownFieldProps> = ({
@@ -16,11 +17,33 @@ export const EditableMarkdownField: React.FC<EditableMarkdownFieldProps> = ({
   placeholder = "Cliquez pour éditer",
   className = '',
   disabled = false,
-  markdownToHtml
+  markdownToHtml,
+  printMode = false
 }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editValue, setEditValue] = useState<string>(value);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  if (printMode) {
+    return (
+      <div
+        className={clsx(
+          'print:tw-border-none print:tw-p-0 print:tw-bg-transparent print:tw-outline-none',
+          'tw-text-text tw-w-full',
+          className
+        )}
+      >
+        {value ? (
+          <div
+            className="tw-text-[0.9rem] tw-leading-[1.6] [&_ul]:tw-pl-5 [&_ol]:tw-pl-5 [&_ul]:tw-my-0 [&_ol]:tw-my-0 [&_p]:tw-my-0"
+            dangerouslySetInnerHTML={{ __html: markdownToHtml(value) }}
+          />
+        ) : (
+          <span className="tw-text-text-muted">{placeholder}</span>
+        )}
+      </div>
+    );
+  }
 
   useEffect(() => {
     setEditValue(value);
