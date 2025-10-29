@@ -43,6 +43,7 @@ export const normalizeQuoteData = (data: Partial<QuoteData>): QuoteData => {
     },
     sections: [],
     totals: { ht: 0, tva: 0, ttc: 0 },
+    validityNotice: 'Les prix sont valables 30 jours à compter de la date d\'émission.',
     optionBlocks: [],
     signatureFrame: {
       beforeLines: [],
@@ -53,8 +54,10 @@ export const normalizeQuoteData = (data: Partial<QuoteData>): QuoteData => {
       title: '',
       fullName: ''
     },
+    termsNotice: 'Conditions générales disponibles sur notre site web.',
     footer: {
       copyright: '',
+      confidentialNotice: 'Document confidentiel — reproduction interdite.',
       address: '',
       postalCode: '',
       city: '',
