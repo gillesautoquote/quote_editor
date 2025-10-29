@@ -1,0 +1,594 @@
+/**
+ * Print Styles for QuoteEditor
+ *
+ * Ce fichier contient toutes les règles CSS spécifiques à l'impression
+ * et la génération de PDF avec Paged.js + Playwright
+ *
+ * @requires Paged.js pour la pagination automatique
+ */
+
+/* ========================================
+   PAGE CONFIGURATION (Paged.js)
+   ======================================== */
+
+@page {
+  /* Format A4 portrait */
+  size: A4 portrait;
+
+  /* Marges de page */
+  margin-top: 2cm;
+  margin-bottom: 2cm;
+  margin-left: 1.5cm;
+  margin-right: 1.5cm;
+
+  /* Fond blanc */
+  background: white;
+}
+
+/* Première page avec marge supérieure réduite */
+@page :first {
+  margin-top: 1cm;
+}
+
+/* Pages de gauche et droite (pour recto-verso) */
+@page :left {
+  margin-left: 2cm;
+  margin-right: 1.5cm;
+}
+
+@page :right {
+  margin-left: 1.5cm;
+  margin-right: 2cm;
+}
+
+/* ========================================
+   RUNNING HEADERS & FOOTERS (Paged.js)
+   ======================================== */
+
+/* En-tête répété sur chaque page (optionnel) */
+@page {
+  @top-center {
+    content: element(running-header);
+    vertical-align: middle;
+  }
+}
+
+/* Pied de page avec numérotation */
+@page {
+  @bottom-right {
+    content: "Page " counter(page) " / " counter(pages);
+    font-size: 9pt;
+    color: #6c757d;
+  }
+}
+
+/* Pas de numéro sur la première page */
+@page :first {
+  @bottom-right {
+    content: none;
+  }
+}
+
+/* ========================================
+   GENERAL PRINT RULES
+   ======================================== */
+
+@media print {
+  /* Reset des marges et padding du body */
+  body {
+    margin: 0;
+    padding: 0;
+    background: white;
+  }
+
+  /* Forcer le fond blanc partout */
+  * {
+    background: white !important;
+    color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Optimisation de la qualité d'impression */
+  * {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Supprimer les ombres et effets décoratifs */
+  *,
+  *::before,
+  *::after {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Optimisation des liens */
+  a,
+  a:visited {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* Afficher les URLs après les liens (optionnel) */
+  /*
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #6c757d;
+  }
+  */
+
+  /* Images */
+  img {
+    max-width: 100%;
+    page-break-inside: avoid;
+  }
+
+  /* Tableaux */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  /* ========================================
+     PAGE BREAKS CONTROL
+     ======================================== */
+
+  /* Éviter les coupures de page */
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Garder les paragraphes ensemble */
+  p {
+    page-break-inside: avoid;
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* Tableaux: éviter les coupures si possible */
+  table, figure {
+    page-break-inside: avoid;
+  }
+
+  /* Lignes de tableau: éviter les coupures */
+  tr, td, th {
+    page-break-inside: avoid;
+  }
+
+  /* Listes */
+  ul, ol {
+    page-break-inside: avoid;
+  }
+
+  li {
+    page-break-inside: avoid;
+  }
+
+  /* Blocs à ne jamais couper */
+  .no-break,
+  .page-break-inside-avoid {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Forcer une nouvelle page avant */
+  .page-break-before,
+  .page-break {
+    page-break-before: always !important;
+    break-before: page !important;
+  }
+
+  /* Forcer une nouvelle page après */
+  .page-break-after {
+    page-break-after: always !important;
+    break-after: page !important;
+  }
+
+  /* ========================================
+     HIDE INTERACTIVE ELEMENTS
+     ======================================== */
+
+  /* Masquer tous les éléments interactifs */
+  .print-hide,
+  .print\\:tw-hidden,
+  [data-print-hide="true"] {
+    display: none !important;
+  }
+
+  /* Masquer les contrôles spécifiques */
+  button:not(.print-show),
+  input[type="button"]:not(.print-show),
+  input[type="submit"]:not(.print-show),
+  input[type="reset"]:not(.print-show),
+  .btn:not(.print-show),
+  .button:not(.print-show) {
+    display: none !important;
+  }
+
+  /* Masquer les champs de formulaire éditables */
+  input[type="text"]:not(.print-show),
+  input[type="email"]:not(.print-show),
+  input[type="tel"]:not(.print-show),
+  input[type="number"]:not(.print-show),
+  textarea:not(.print-show),
+  select:not(.print-show) {
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+  }
+
+  /* Masquer les drag handles */
+  [data-drag-handle],
+  .drag-handle,
+  [draggable="true"]:before {
+    display: none !important;
+  }
+
+  /* Masquer les tooltips et popovers */
+  .tooltip,
+  .popover,
+  [role="tooltip"],
+  [role="dialog"],
+  [role="alertdialog"] {
+    display: none !important;
+  }
+
+  /* Masquer les overlays et modals */
+  .modal,
+  .overlay,
+  .backdrop {
+    display: none !important;
+  }
+
+  /* ========================================
+     QUOTE EDITOR SPECIFIC
+     ======================================== */
+
+  /* Container principal: largeur A4 */
+  .quote-editor-container,
+  [data-component="quote-editor"] {
+    width: 21cm !important;
+    max-width: 21cm !important;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  /* QuotePage: supprimer les effets décoratifs */
+  .quote-page {
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Toolbar: masquer */
+  .quote-editor-toolbar,
+  [data-component="toolbar"] {
+    display: none !important;
+  }
+
+  /* Tabs: masquer les onglets mais garder le contenu */
+  .quote-tabs-nav,
+  [role="tablist"] {
+    display: none !important;
+  }
+
+  .quote-tabs-content,
+  [role="tabpanel"] {
+    display: block !important;
+    opacity: 1 !important;
+    height: auto !important;
+  }
+
+  /* Section Actions: masquer */
+  .section-actions,
+  [data-component="section-actions"] {
+    display: none !important;
+  }
+
+  /* Add buttons: masquer */
+  .add-button,
+  [data-component="add-button"] {
+    display: none !important;
+  }
+
+  /* Column controls: masquer */
+  .column-controls,
+  [data-component="column-controls"] {
+    display: none !important;
+  }
+
+  /* Style selector: masquer */
+  .style-selector,
+  [data-component="style-selector"] {
+    display: none !important;
+  }
+
+  /* Option selector: masquer */
+  .option-selector,
+  [data-component="option-selector"] {
+    display: none !important;
+  }
+
+  /* ========================================
+     TABLE OPTIMIZATION
+     ======================================== */
+
+  /* Tableaux: optimisation pour l'impression */
+  .quote-section table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .quote-section th,
+  .quote-section td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #dee2e6;
+  }
+
+  /* En-tête de tableau: répéter sur chaque page */
+  .quote-section thead {
+    display: table-header-group;
+  }
+
+  .quote-section tfoot {
+    display: table-footer-group;
+  }
+
+  .quote-section tbody {
+    display: table-row-group;
+  }
+
+  /* Lignes de tableau: éviter les coupures */
+  .quote-section tr {
+    page-break-inside: avoid;
+  }
+
+  /* ========================================
+     OPTION BLOCKS OPTIMIZATION
+     ======================================== */
+
+  /* Blocs d'options: multi-colonnes CSS */
+  .option-block[data-columns="2"] .option-block-content {
+    column-count: 2;
+    column-gap: 1.5rem;
+  }
+
+  .option-block[data-columns="3"] .option-block-content {
+    column-count: 3;
+    column-gap: 1rem;
+  }
+
+  .option-block[data-columns="4"] .option-block-content {
+    column-count: 2;
+    column-gap: 1.5rem;
+  }
+
+  /* Items: éviter les coupures entre colonnes */
+  .option-row,
+  .note-row,
+  .trip-program-day {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* ========================================
+     SIGNATURE SECTION
+     ======================================== */
+
+  /* Section signature: garder ensemble */
+  .signature-section {
+    page-break-inside: avoid;
+  }
+
+  /* Image signature: taille fixe */
+  .signature-image {
+    max-height: 3cm;
+    width: auto;
+  }
+
+  /* ========================================
+     HEADER & FOOTER
+     ======================================== */
+
+  /* Header: garder en haut de la première page */
+  .quote-page-header {
+    page-break-after: avoid;
+  }
+
+  /* Logo: taille optimale */
+  .quote-page-header img {
+    max-height: 2.5cm;
+    width: auto;
+  }
+
+  /* Footer: garder en bas */
+  .quote-page-footer {
+    margin-top: 2cm;
+    page-break-inside: avoid;
+  }
+
+  /* ========================================
+     TYPOGRAPHY OPTIMIZATION
+     ======================================== */
+
+  /* Optimisation des tailles de police */
+  h1 { font-size: 24pt; }
+  h2 { font-size: 20pt; }
+  h3 { font-size: 16pt; }
+  h4 { font-size: 14pt; }
+  h5 { font-size: 12pt; }
+  h6 { font-size: 11pt; }
+  body, p { font-size: 10pt; }
+  small { font-size: 8pt; }
+
+  /* Éviter les veuves et orphelines */
+  h1, h2, h3, h4, h5, h6, p {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* ========================================
+     COLORS & BACKGROUNDS
+     ======================================== */
+
+  /* Forcer l'impression des couleurs de fond */
+  .bg-primary,
+  .tw-bg-primary,
+  [style*="background-color"],
+  [style*="backgroundColor"] {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* Garder les bordures colorées */
+  .border-primary,
+  .tw-border-primary,
+  [style*="border-color"],
+  [style*="borderColor"] {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* ========================================
+     CARBON IMPACT
+     ======================================== */
+
+  .carbon-impact {
+    page-break-inside: avoid;
+  }
+
+  /* ========================================
+     TRIP PROGRAM
+     ======================================== */
+
+  .trip-program-block {
+    page-break-inside: avoid;
+  }
+
+  .trip-program-day {
+    page-break-inside: avoid;
+    margin-bottom: 1rem;
+  }
+
+  /* ========================================
+     UTILITIES
+     ======================================== */
+
+  /* Force visibility */
+  .print-show,
+  .print\\:tw-block {
+    display: block !important;
+  }
+
+  .print-inline {
+    display: inline !important;
+  }
+
+  .print-inline-block {
+    display: inline-block !important;
+  }
+
+  /* Force margins */
+  .print-mt-0 { margin-top: 0 !important; }
+  .print-mb-0 { margin-bottom: 0 !important; }
+  .print-my-0 { margin-top: 0 !important; margin-bottom: 0 !important; }
+  .print-mx-0 { margin-left: 0 !important; margin-right: 0 !important; }
+
+  /* Force padding */
+  .print-p-0 { padding: 0 !important; }
+  .print-px-0 { padding-left: 0 !important; padding-right: 0 !important; }
+  .print-py-0 { padding-top: 0 !important; padding-bottom: 0 !important; }
+
+  /* Force borders */
+  .print-border-none { border: none !important; }
+  .print-border-0 { border-width: 0 !important; }
+
+  /* Force backgrounds */
+  .print-bg-transparent { background: transparent !important; }
+  .print-bg-white { background: white !important; }
+
+  /* Force shadows */
+  .print-shadow-none { box-shadow: none !important; }
+
+  /* ========================================
+     DEBUG HELPERS (à commenter en prod)
+     ======================================== */
+
+  /*
+  .page-break-before::before {
+    content: "--- PAGE BREAK ---";
+    display: block;
+    text-align: center;
+    color: red;
+    font-weight: bold;
+    padding: 1rem;
+    border: 2px dashed red;
+  }
+  */
+}
+
+/* ========================================
+   PAGED.JS SPECIFIC CLASSES
+   ======================================== */
+
+/* Classes utilisables pour contrôler Paged.js */
+
+/* Éléments qui ne doivent jamais être coupés */
+.pagedjs_page_content .no-break {
+  break-inside: avoid;
+}
+
+/* Forcer une nouvelle page */
+.pagedjs_page_content .new-page {
+  break-before: page;
+}
+
+/* Section avec running header */
+.running-header {
+  position: running(running-header);
+  font-size: 9pt;
+  color: #6c757d;
+}
+
+/* Masquer les numéros de page sur certaines pages */
+.no-page-number {
+  counter-increment: none;
+}
+
+/* ========================================
+   PRINT PREVIEW MODE (pour tests)
+   ======================================== */
+
+/*
+  Pour tester le mode print sans imprimer:
+  Ajouter classe "print-preview" au body
+*/
+body.print-preview {
+  background: #f0f0f0;
+}
+
+body.print-preview .quote-editor-container {
+  width: 21cm;
+  min-height: 29.7cm;
+  margin: 2cm auto;
+  background: white;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  padding: 2cm 1.5cm;
+}
+
+body.print-preview .print-hide,
+body.print-preview button:not(.print-show) {
+  display: none !important;
+}
