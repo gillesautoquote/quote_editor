@@ -155,6 +155,7 @@ export const QuotePage: React.FC<QuotePageProps> = ({
             onFieldUpdate={handleFieldUpdate}
             readonly={readonly}
             printMode={printMode}
+            data={dataWithProgrammeVoyage}
           />
 
           <div className="tw-mb-4">

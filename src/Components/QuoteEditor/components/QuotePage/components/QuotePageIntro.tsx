@@ -1,8 +1,9 @@
 import React from 'react';
 import { EditableField } from '../../EditableField/EditableField';
 import { EditableMarkdownField } from '../../EditableField/EditableMarkdownField';
-import type { Quote, Recipient, ClientSignature } from '../../../entities/QuoteData';
+import type { Quote, Recipient, ClientSignature, QuoteData } from '../../../entities/QuoteData';
 import { formatDateInFrench, formatDateWithComma, formatTitle, formatTagline, markdownToHtml } from '../utils/dateFormatters';
+import { generatePDFSectionsList } from '../../../utils/pdfSectionsGenerator';
 
 interface QuotePageIntroProps {
   quote: Quote;
@@ -11,6 +12,7 @@ interface QuotePageIntroProps {
   onFieldUpdate: (path: string, value: string) => void;
   readonly?: boolean;
   printMode?: boolean;
+  data: QuoteData;
 }
 
 export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
@@ -19,8 +21,10 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
   clientSignature,
   onFieldUpdate,
   readonly = false,
-  printMode = false
+  printMode = false,
+  data
 }) => {
+  const sectionsList = generatePDFSectionsList(data);
   return (
     <div className="tw-mb-4 tw-mt-8 tw-text-[0.9rem] tw-leading-[1.4] tw-text-text">
       {/* Ligne ville et date - afficher seulement si au moins un existe */}
@@ -62,10 +66,13 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
             value={quote.tagline}
             onSave={(value) => onFieldUpdate('quote.tagline', value)}
             disabled={readonly}
-              printMode={printMode}
+            printMode={printMode}
             placeholder="Texte d'introduction"
             markdownToHtml={markdownToHtml}
           />
+          {sectionsList && (
+            <div className="tw-mt-2" dangerouslySetInnerHTML={{ __html: markdownToHtml(sectionsList) }} />
+          )}
         </div>
       )}
 

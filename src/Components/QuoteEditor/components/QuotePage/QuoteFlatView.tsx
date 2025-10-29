@@ -126,6 +126,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
             onFieldUpdate={handleFieldUpdate}
             readonly={readonly}
             printMode={printMode}
+            data={dataWithProgrammeVoyage}
           />
 
           {programmeBlock && programmeBlock.type === 'programme-voyage' && programmeBlock.tripSteps && (

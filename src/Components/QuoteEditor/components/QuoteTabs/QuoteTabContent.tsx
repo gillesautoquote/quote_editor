@@ -134,6 +134,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
             clientSignature={currentData.clientSignature}
             onFieldUpdate={handleFieldUpdate}
             readonly={readonly}
+            data={currentData}
           />
         </>
       );

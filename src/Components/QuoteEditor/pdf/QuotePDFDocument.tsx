@@ -33,7 +33,7 @@ export const QuotePDFDocument: React.FC<QuotePDFDocumentProps> = ({ data, useTab
           <PDFFooter footer={data.footer} company={data.company} />
           <View style={pageStyles.content}>
             <PDFRecipient recipient={data.recipient} company={data.company} />
-            <PDFIntro quote={data.quote} recipient={data.recipient} company={data.company} clientSignature={data.clientSignature} />
+            <PDFIntro quote={data.quote} recipient={data.recipient} company={data.company} clientSignature={data.clientSignature} data={data} />
             <PDFSections sections={data.sections} company={data.company} />
             <PDFTotals totals={data.totals} company={data.company} />
             <PDFOptionBlocks
@@ -63,7 +63,7 @@ export const QuotePDFDocument: React.FC<QuotePDFDocumentProps> = ({ data, useTab
         <PDFFooter footer={data.footer} company={data.company} />
         <View style={pageStyles.content}>
           <PDFRecipient recipient={data.recipient} company={data.company} />
-          <PDFIntro quote={data.quote} recipient={data.recipient} company={data.company} clientSignature={data.clientSignature} />
+          <PDFIntro quote={data.quote} recipient={data.recipient} company={data.company} clientSignature={data.clientSignature} data={data} />
         </View>
       </Page>
 
