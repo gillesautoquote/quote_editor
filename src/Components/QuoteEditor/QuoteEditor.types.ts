@@ -187,6 +187,7 @@ export interface QuoteData {
   clientSignature: ClientSignature;
   footer: Footer;
   selectDefinitions: Record<string, SelectDefinition>;
+  visibleTabIds?: string[];
 }
 
 export type ComponentEvent =

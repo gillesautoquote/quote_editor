@@ -127,6 +127,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
             readonly={readonly}
             printMode={printMode}
             data={dataWithProgrammeVoyage}
+            visibleTabIds={dataWithProgrammeVoyage.visibleTabIds}
           />
 
           {programmeBlock && programmeBlock.type === 'programme-voyage' && programmeBlock.tripSteps && (

@@ -66,7 +66,15 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
   enableTabManagement = false
 }) => {
   const [activeTab, setActiveTab] = useState('introduction');
-  const [visibleTabs, setVisibleTabs] = useState<QuoteTab[]>(TABS);
+
+  const initialVisibleTabs = React.useMemo(() => {
+    if (data.visibleTabIds && data.visibleTabIds.length > 0) {
+      return TABS.filter(tab => data.visibleTabIds!.includes(tab.id));
+    }
+    return TABS;
+  }, []);
+
+  const [visibleTabs, setVisibleTabs] = useState<QuoteTab[]>(initialVisibleTabs);
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
   const [showAddMenu, setShowAddMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -105,9 +113,14 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
   }, [showAddMenu]);
 
   const handleAddTab = (tab: QuoteTab) => {
-    setVisibleTabs([...visibleTabs, tab]);
+    const newVisibleTabs = [...visibleTabs, tab];
+    setVisibleTabs(newVisibleTabs);
     setActiveTab(tab.id);
     setShowAddMenu(false);
+    onUpdateData({
+      ...data,
+      visibleTabIds: newVisibleTabs.map(t => t.id)
+    });
   };
 
   const handleRemoveTab = (tabId: string, e: React.MouseEvent) => {
@@ -120,6 +133,11 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
     if (activeTab === tabId) {
       setActiveTab(newTabs[0].id);
     }
+
+    onUpdateData({
+      ...data,
+      visibleTabIds: newTabs.map(t => t.id)
+    });
   };
 
   const handleDragStart = (e: React.DragEvent, tabId: string) => {
@@ -154,6 +172,11 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
     setVisibleTabs(newTabs);
     setDraggedTab(null);
     setDragOverTab(null);
+
+    onUpdateData({
+      ...data,
+      visibleTabIds: newTabs.map(t => t.id)
+    });
   };
 
   const handleDragEnd = () => {

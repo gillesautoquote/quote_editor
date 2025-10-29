@@ -21,7 +21,7 @@ export const PDFIntro: React.FC<PDFIntroProps> = ({
   data
 }) => {
   const introStyles = createIntroStyles(company);
-  const sectionsList = generatePDFSectionsList(data);
+  const sectionsList = generatePDFSectionsList(data, data.visibleTabIds);
   
   // 🔧 CONCATÉNATION INTELLIGENTE : Ville + Date en UNE SEULE chaîne
   const buildLocationDateString = (): string => {

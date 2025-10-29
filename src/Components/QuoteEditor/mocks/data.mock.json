@@ -1162,5 +1162,6 @@
         }
       ]
     }
-  ]
+  ],
+  "visibleTabIds": ["introduction", "programme", "services", "cotation", "conditions", "signature"]
 }

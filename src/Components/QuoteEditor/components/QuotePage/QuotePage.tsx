@@ -156,6 +156,7 @@ export const QuotePage: React.FC<QuotePageProps> = ({
             readonly={readonly}
             printMode={printMode}
             data={dataWithProgrammeVoyage}
+            visibleTabIds={dataWithProgrammeVoyage.visibleTabIds}
           />
 
           <div className="tw-mb-4">

@@ -40,6 +40,16 @@ Ce document comprend :
 
 L'utilisateur peut modifier le texte d'introduction principal (`quote.tagline`) normalement. La liste des sections s'ajoute automatiquement après ce texte et ne peut pas être modifiée directement.
 
+## Synchronisation avec les onglets visibles
+
+La liste des sections est **dynamique** et s'adapte aux onglets visibles :
+
+- **Mode Tabs** : Lorsque l'utilisateur masque/affiche des onglets via l'interface, la liste se met à jour automatiquement
+- **Mode Flat/Print** : La liste utilise les `visibleTabIds` stockés dans `QuoteData`
+- **Export PDF** : Le PDF respecte également les `visibleTabIds` pour générer la liste appropriée
+
+Les `visibleTabIds` sont stockés dans l'objet `QuoteData` et mis à jour automatiquement par `QuoteTabs` lorsque l'utilisateur ajoute/supprime/réorganise les onglets.
+
 ## Fichiers concernés
 
 - `src/Components/QuoteEditor/utils/pdfSectionsGenerator.ts` : Logique de génération
