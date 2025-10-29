@@ -180,7 +180,7 @@ export const QuotePage: React.FC<QuotePageProps> = ({
           </div>
 
           {contentConfig.showTotals && (
-            <QuotePageTotals totals={dataWithProgrammeVoyage.totals} />
+            <QuotePageTotals totals={dataWithProgrammeVoyage.totals} printMode={printMode} />
           )}
 
           <BlocksContainer

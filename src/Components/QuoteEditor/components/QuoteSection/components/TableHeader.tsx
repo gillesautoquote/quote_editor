@@ -34,19 +34,23 @@ export const TableHeader: React.FC<TableHeaderProps> = ({ columns, readonly = fa
     return style;
   };
 
+  const thClassName = printMode
+    ? 'tw-px-2 tw-py-1.5 tw-text-xs tw-font-bold tw-text-gray-800 tw-bg-gray-100 tw-border tw-border-gray-300'
+    : 'tw-p-2 tw-text-left tw-font-semibold tw-bg-surface-gray-50 tw-border-b tw-border-border';
+
   return (
-    <thead className={printMode ? 'tw-bg-gray-100' : ''}>
-      <tr className={printMode ? 'tw-border-b-2 tw-border-gray-300' : ''}>
+    <thead>
+      <tr>
         {!readonly && !printMode && <th className="print:tw-hidden"></th>}
-        <th className={printMode ? 'tw-p-2 tw-text-xs tw-font-semibold tw-text-gray-700' : 'tw-p-2 tw-text-left tw-font-semibold tw-bg-surface-gray-50 tw-border-b tw-border-border'} style={getHeaderStyle(columns.date)}>{columns.date.title}</th>
-        <th className={printMode ? 'tw-p-2 tw-text-xs tw-font-semibold tw-text-gray-700' : 'tw-p-2 tw-text-left tw-font-semibold tw-bg-surface-gray-50 tw-border-b tw-border-border'} style={getHeaderStyle(columns.description)}>{columns.description.title}</th>
-        <th className={printMode ? 'tw-p-2 tw-text-xs tw-font-semibold tw-text-gray-700' : 'tw-p-2 tw-text-left tw-font-semibold tw-bg-surface-gray-50 tw-border-b tw-border-border'} style={getHeaderStyle(columns.durationHours)}>{columns.durationHours.title}</th>
-        <th className={printMode ? 'tw-p-2 tw-text-xs tw-font-semibold tw-text-gray-700' : 'tw-p-2 tw-text-left tw-font-semibold tw-bg-surface-gray-50 tw-border-b tw-border-border'} style={getHeaderStyle(columns.pax)}>{columns.pax.title}</th>
-        <th className={printMode ? 'tw-p-2 tw-text-xs tw-font-semibold tw-text-gray-700' : 'tw-p-2 tw-text-left tw-font-semibold tw-bg-surface-gray-50 tw-border-b tw-border-border'} style={getHeaderStyle(columns.unitPrice)}>{columns.unitPrice.title}</th>
-        <th className={printMode ? 'tw-p-2 tw-text-xs tw-font-semibold tw-text-gray-700' : 'tw-p-2 tw-text-left tw-font-semibold tw-bg-surface-gray-50 tw-border-b tw-border-border'} style={getHeaderStyle(columns.quantity)}>{columns.quantity.title}</th>
-        <th className={printMode ? 'tw-p-2 tw-text-xs tw-font-semibold tw-text-gray-700' : 'tw-p-2 tw-text-left tw-font-semibold tw-bg-surface-gray-50 tw-border-b tw-border-border'} style={getHeaderStyle(columns.priceHT)}>{columns.priceHT.title}</th>
-        <th className={printMode ? 'tw-p-2 tw-text-xs tw-font-semibold tw-text-gray-700' : 'tw-p-2 tw-text-left tw-font-semibold tw-bg-surface-gray-50 tw-border-b tw-border-border'} style={getHeaderStyle(columns.vatRate)}>{columns.vatRate.title}</th>
-        <th className={printMode ? 'tw-p-2 tw-text-xs tw-font-semibold tw-text-gray-700' : 'tw-p-2 tw-text-left tw-font-semibold tw-bg-surface-gray-50 tw-border-b tw-border-border'} style={getHeaderStyle(columns.priceTTC)}>{columns.priceTTC.title}</th>
+        <th className={thClassName} style={getHeaderStyle(columns.date)}>{columns.date.title}</th>
+        <th className={thClassName} style={getHeaderStyle(columns.description)}>{columns.description.title}</th>
+        <th className={thClassName} style={getHeaderStyle(columns.durationHours)}>{columns.durationHours.title}</th>
+        <th className={thClassName} style={getHeaderStyle(columns.pax)}>{columns.pax.title}</th>
+        <th className={thClassName} style={getHeaderStyle(columns.unitPrice)}>{columns.unitPrice.title}</th>
+        <th className={thClassName} style={getHeaderStyle(columns.quantity)}>{columns.quantity.title}</th>
+        <th className={thClassName} style={getHeaderStyle(columns.priceHT)}>{columns.priceHT.title}</th>
+        <th className={thClassName} style={getHeaderStyle(columns.vatRate)}>{columns.vatRate.title}</th>
+        <th className={thClassName} style={getHeaderStyle(columns.priceTTC)}>{columns.priceTTC.title}</th>
         {!readonly && !printMode && <th className="print:tw-hidden"></th>}
       </tr>
     </thead>

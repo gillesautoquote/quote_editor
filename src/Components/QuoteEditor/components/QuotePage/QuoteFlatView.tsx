@@ -228,7 +228,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
             ))}
           </div>
 
-          <QuotePageTotals totals={dataWithProgrammeVoyage.totals} />
+          <QuotePageTotals totals={dataWithProgrammeVoyage.totals} printMode={printMode} />
 
           <div className="tw-mb-4" data-section="conditions">
             <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="conditions">

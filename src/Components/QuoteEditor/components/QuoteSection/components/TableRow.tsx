@@ -51,10 +51,10 @@ export const TableRow: React.FC<TableRowProps> = ({
 }) => {
   const getCellClassName = (columnDef: ColumnDefinition, printMode: boolean): string => {
     return clsx(
-      printMode ? 'tw-p-1.5 tw-border-b tw-border-gray-200' : 'tw-p-2 tw-border-b tw-border-border',
+      printMode ? 'tw-px-2 tw-py-1 tw-border tw-border-gray-300' : 'tw-p-2 tw-border-b tw-border-border',
       columnDef.align === 'center' && 'tw-text-center',
       columnDef.align === 'right' && 'tw-text-right',
-      columnDef.style === 'calculated' && (printMode ? 'tw-bg-gray-50 tw-font-medium' : 'tw-bg-surface-gray-50 tw-font-medium'),
+      columnDef.style === 'calculated' && (printMode ? 'tw-bg-gray-50 tw-font-semibold' : 'tw-bg-surface-gray-50 tw-font-medium'),
       columnDef.style === 'primary' && 'tw-text-primary tw-font-medium',
       columnDef.style === 'danger' && 'tw-text-danger tw-font-medium'
     );
