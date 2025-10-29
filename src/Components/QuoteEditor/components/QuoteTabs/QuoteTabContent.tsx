@@ -11,6 +11,7 @@ import { InstructionsFrame } from '../InstructionsFrame/InstructionsFrame';
 import { CarbonImpact } from '../CarbonImpact/CarbonImpact';
 import { BusServicesBlock } from '../BusServices/BusServicesBlock';
 import { BlocksContainer } from '../shared/BlocksContainer';
+import { TripProgramBlock } from '../OptionBlock/components/TripProgramBlock';
 import { calculateGlobalTotals } from '../../utils/calculationUtils';
 import { formatCopyright, formatUrl } from '../QuotePage/utils/textFormatters';
 import { useFieldPath } from '../../hooks/useFieldPath';
@@ -139,24 +140,39 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
     case 'programme':
       return renderPageContainer(
         <>
-          {programmeBlock && (
-            <BlocksContainer
-              optionBlocks={[programmeBlock]}
-              signatureFrame={currentData.signatureFrame}
-              selectDefinitions={currentData.selectDefinitions}
-              onUpdateOptionBlock={(blockIndex, updatedBlock) => {
+          {programmeBlock && programmeBlock.type === 'programme-voyage' && programmeBlock.tripProgram && (
+            <TripProgramBlock
+              steps={programmeBlock.tripProgram.steps}
+              filters={programmeBlock.tripProgram.filters}
+              onUpdateSteps={(steps) => {
+                const updatedBlock = {
+                  ...programmeBlock,
+                  tripProgram: {
+                    ...programmeBlock.tripProgram!,
+                    steps
+                  }
+                };
                 const newBlocks = currentData.optionBlocks.map(b =>
                   b.id === updatedBlock.id ? updatedBlock : b
                 );
                 onUpdateData({ ...currentData, optionBlocks: newBlocks });
               }}
-              onRemoveOptionBlock={() => {}}
-              onReorderBlocks={() => {}}
-              onUpdateSignatureFrame={() => {}}
+              onUpdateFilters={(filters) => {
+                const updatedBlock = {
+                  ...programmeBlock,
+                  tripProgram: {
+                    ...programmeBlock.tripProgram!,
+                    filters
+                  }
+                };
+                const newBlocks = currentData.optionBlocks.map(b =>
+                  b.id === updatedBlock.id ? updatedBlock : b
+                );
+                onUpdateData({ ...currentData, optionBlocks: newBlocks });
+              }}
               readonly={readonly}
-              showBlockControls={false}
-              allowWidthControl={false}
-              companyColor={currentData.company.mainColor}
+              printMode={false}
+              blockColor={currentData.company.mainColor}
             />
           )}
         </>
