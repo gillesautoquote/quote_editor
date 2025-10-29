@@ -4,6 +4,7 @@ import { QuoteSection as QuoteSectionComponent } from '../QuoteSection/QuoteSect
 import { SignatureSection } from '../SignatureSection/SignatureSection';
 import { BlocksContainer } from '../shared/BlocksContainer';
 import { TripProgramBlock } from '../OptionBlock/components/TripProgramBlock';
+import { InstructionsFrame } from '../InstructionsFrame/InstructionsFrame';
 import { QuotePageHeader } from './components/QuotePageHeader';
 import { QuotePageRecipient } from './components/QuotePageRecipient';
 import { QuotePageIntro } from './components/QuotePageIntro';
@@ -262,10 +263,23 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
             />
           </div>
 
-          <div className="page-break-inside-avoid" data-section="signature">
-            <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="signature">
-              Signature client
+          <div className="page-break-inside-avoid" data-section="order-form">
+            <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="order-form">
+              Bon de commande
             </h2>
+            <InstructionsFrame
+              signatureFrame={dataWithProgrammeVoyage.signatureFrame}
+              onUpdateSignatureFrame={(frame) => {
+                const newData = { ...dataWithProgrammeVoyage, signatureFrame: frame };
+                onUpdateData(newData);
+              }}
+              recipient={dataWithProgrammeVoyage.recipient}
+              onUpdateRecipient={(recipient) => {
+                const newData = { ...dataWithProgrammeVoyage, recipient };
+                onUpdateData(newData);
+              }}
+              readonly={readonly}
+            />
             <SignatureSection
               clientSignature={dataWithProgrammeVoyage.clientSignature}
               onUpdateClientSignature={(signature) => {
