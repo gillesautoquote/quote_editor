@@ -81,9 +81,8 @@
     background: white;
   }
 
-  /* Forcer le fond blanc partout */
+  /* Préserver les couleurs en impression */
   * {
-    background: white !important;
     color-adjust: exact;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;

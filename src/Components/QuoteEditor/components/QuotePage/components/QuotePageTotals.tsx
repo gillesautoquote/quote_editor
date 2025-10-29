@@ -23,33 +23,33 @@ export const QuotePageTotals: React.FC<QuotePageTotalsProps> = ({ totals, printM
     >
       <table className="tw-border-collapse tw-text-[0.85rem] tw-min-w-[280px] tw-text-text print-color-adjust print:tw-text-xs">
         <tbody>
-          <tr>
-            <td className="tw-p-[0.4rem_0.6rem] tw-border tw-border-border tw-bg-white print:tw-p-[0.3rem_0.5rem]">
+          <tr className="tw-bg-surface-gray-50">
+            <td className="tw-p-[0.4rem_0.6rem] tw-border tw-border-border print:tw-p-[0.3rem_0.5rem]">
               <strong>Total HT</strong>
             </td>
-            <td className="tw-p-[0.4rem_0.6rem] tw-border tw-border-border tw-bg-white tw-text-right print:tw-p-[0.3rem_0.5rem]">
+            <td className="tw-p-[0.4rem_0.6rem] tw-border tw-border-border tw-text-right print:tw-p-[0.3rem_0.5rem]">
               <strong>{totals.ht.toFixed(2)} €</strong>
             </td>
           </tr>
           {totals.vatBreakdown && totals.vatBreakdown.length > 0 && (
             <>
               {totals.vatBreakdown.map((vat, index) => (
-                <tr key={index}>
-                  <td className="tw-p-[0.4rem_0.6rem] tw-border tw-border-border tw-bg-gray-50 tw-pl-8 print:tw-p-[0.3rem_0.5rem] print:tw-pl-6">
+                <tr key={index} className="tw-bg-surface-gray-50">
+                  <td className="tw-p-[0.4rem_0.6rem] tw-border tw-border-border tw-pl-8 print:tw-p-[0.3rem_0.5rem] print:tw-pl-6">
                     dont TVA à {vat.rate} %
                   </td>
-                  <td className="tw-p-[0.4rem_0.6rem] tw-border tw-border-border tw-bg-gray-50 tw-text-right print:tw-p-[0.3rem_0.5rem]">
+                  <td className="tw-p-[0.4rem_0.6rem] tw-border tw-border-border tw-text-right print:tw-p-[0.3rem_0.5rem]">
                     {vat.amount.toFixed(2)} €
                   </td>
                 </tr>
               ))}
             </>
           )}
-          <tr>
-            <td className="tw-p-[0.4rem_0.6rem] tw-border tw-border-border tw-bg-white print:tw-p-[0.3rem_0.5rem]">
+          <tr className="tw-bg-surface-gray-50">
+            <td className="tw-p-[0.4rem_0.6rem] tw-border tw-border-border print:tw-p-[0.3rem_0.5rem]">
               <strong>Total TVA</strong>
             </td>
-            <td className="tw-p-[0.4rem_0.6rem] tw-border tw-border-border tw-bg-white tw-text-right print:tw-p-[0.3rem_0.5rem]">
+            <td className="tw-p-[0.4rem_0.6rem] tw-border tw-border-border tw-text-right print:tw-p-[0.3rem_0.5rem]">
               <strong>{totals.tva.toFixed(2)} €</strong>
             </td>
           </tr>
