@@ -128,7 +128,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
 
           {programmeBlock && programmeBlock.type === 'programme-voyage' && programmeBlock.tripSteps && (
             <div className="tw-mb-4 page-break-inside-avoid" data-section="programme">
-              <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2">
+              <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="programme">
                 {programmeBlock.title || 'Programme de voyage'}
               </h2>
               <TripProgramBlock
@@ -163,6 +163,9 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
 
           {busServicesBlock && (
             <div className="tw-mb-4 page-break-inside-avoid" data-section="services">
+              <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="services">
+                {busServicesBlock.title || 'Services'}
+              </h2>
               <BlocksContainer
                 optionBlocks={[busServicesBlock]}
                 signatureFrame={dataWithProgrammeVoyage.signatureFrame}
@@ -187,6 +190,9 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
 
           {dataWithProgrammeVoyage.carbonImpact && (
             <div className="tw-mb-4 page-break-inside-avoid" data-section="carbon-impact">
+              <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="carbon-impact">
+                Impact carbone
+              </h2>
               <CarbonImpact
                 carbonImpact={dataWithProgrammeVoyage.carbonImpact}
                 onUpdateCarbonImpact={(carbonImpact) =>
@@ -199,6 +205,9 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
           )}
 
           <div className="tw-mb-4" data-section="cotation">
+            <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="cotation">
+              Cotation détaillée
+            </h2>
             {(dataWithProgrammeVoyage.sections || []).map((section, sectionIndex) => (
               <QuoteSectionComponent
                 key={sectionIndex}
@@ -221,6 +230,9 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
           <QuotePageTotals totals={dataWithProgrammeVoyage.totals} />
 
           <div className="tw-mb-4" data-section="conditions">
+            <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="conditions">
+              Conditions générales
+            </h2>
             <BlocksContainer
               optionBlocks={conditionBlocks.filter(b => b.id !== busServicesBlock?.id)}
               signatureFrame={dataWithProgrammeVoyage.signatureFrame}
@@ -251,6 +263,9 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
           </div>
 
           <div className="page-break-inside-avoid" data-section="signature">
+            <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="signature">
+              Signature client
+            </h2>
             <SignatureSection
               clientSignature={dataWithProgrammeVoyage.clientSignature}
               onUpdateClientSignature={(signature) => {
