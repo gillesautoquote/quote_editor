@@ -316,7 +316,7 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
       {showAddMenu && menuPosition && (
         <div
           ref={menuRef}
-          className="tw-absolute tw-bg-white tw-rounded-lg tw-shadow-xl tw-z-[9999] tw-min-w-[200px] tw-overflow-hidden tw-border tw-border-gray-200"
+          className="tw-fixed tw-bg-white tw-rounded-lg tw-shadow-xl tw-z-[99999] tw-min-w-[200px] tw-overflow-hidden tw-border tw-border-gray-200"
           style={{
             top: `${menuPosition.top}px`,
             left: `${menuPosition.left}px`
