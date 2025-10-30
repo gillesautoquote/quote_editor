@@ -1,146 +1,101 @@
-import React, { useEffect, useState } from 'react';
-import { QuoteEditor } from './Components/QuoteEditor/QuoteEditor';
+import { useEffect, useState } from 'react';
+import { QuoteFlatView } from './Components/QuoteEditor/components/QuotePage/QuoteFlatView';
 import { QuotePageHeader } from './Components/QuoteEditor/components/QuotePage/components/QuotePageHeader';
 import { QuotePageFooter } from './Components/QuoteEditor/components/QuotePage/components/QuotePageFooter';
-import type { QuoteData } from './Components/QuoteEditor/QuoteEditor.types';
+import type { QuoteData } from './Components/QuoteEditor/entities/QuoteData';
 
-declare global {
-  interface Window {
-    __PDF_READY__?: boolean;
-  }
-}
-
-const PrintableQuote: React.FC = () => {
+export default function PrintableQuote() {
   const [data, setData] = useState<QuoteData | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const initializePrint = async () => {
+    const run = async () => {
       try {
-        const params = new URLSearchParams(window.location.search);
+        const params = new URLSearchParams(location.search);
         const token = params.get('token');
+        if (!token) throw new Error('Token manquant');
 
-        if (!token) {
-          setError('Token manquant dans l\'URL');
-          setLoading(false);
-          return;
+        const base = String(import.meta.env.VITE_BACKEND_URL || '').replace(/\/$/, '');
+        const resp = await fetch(`${base}/api/pdf/data?token=${encodeURIComponent(token)}`);
+        if (!resp.ok) throw new Error(`Data fetch failed: ${resp.status}`);
+        const quoteData = await resp.json();
+
+        // Normalisation minimale
+        const normalized: any = { ...quoteData };
+        if (!normalized.itinerary && Array.isArray(normalized.itineraryData)) {
+          normalized.itinerary = normalized.itineraryData;
         }
+        setData(normalized);
 
-        const backendUrl = import.meta.env.VITE_BACKEND_URL;
-        if (!backendUrl) {
-          setError('VITE_BACKEND_URL non configuré');
-          setLoading(false);
-          return;
-        }
+        // Attendre que React ait monté le DOM
+        await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
 
-        const response = await fetch(`${backendUrl}/api/pdf/data?token=${token}`);
-
-        if (!response.ok) {
-          if (response.status === 400) {
-            setError('Token invalide ou manquant');
-          } else if (response.status === 404) {
-            setError('Données non trouvées');
-          } else if (response.status === 410) {
-            setError('Token expiré ou déjà utilisé');
-          } else {
-            setError(`Erreur serveur: ${response.status}`);
-          }
-          setLoading(false);
-          return;
-        }
-
-        const quoteData = await response.json();
-        setData(quoteData);
-        setLoading(false);
-
+        // Fonts + images
+        // @ts-ignore
         await document.fonts.ready;
-
         await Promise.all(
           Array.from(document.images)
             .filter(img => !img.complete)
-            .map(img => new Promise(resolve => {
-              img.onload = img.onerror = () => resolve(null);
-            }))
+            .map(img => new Promise(res => { img.onload = img.onerror = () => res(null); }))
         );
 
+        // Pagination Paged.js
         const Paged = await import('pagedjs');
-        await new Paged.Previewer().preview();
+        // @ts-ignore
+        const previewer = new (Paged as any).Previewer();
+        await previewer.preview();
 
+        // Signal readiness
+        // @ts-ignore
         (window as any).__PDF_READY__ = true;
-        console.log('PDF ready for capture');
-
-      } catch (err) {
-        console.error('Error initializing print view:', err);
-        setError(err instanceof Error ? err.message : 'Erreur inconnue');
-        setLoading(false);
+        console.log('[Print] PDF READY');
+      } catch (e: any) {
+        console.error('[Print] Error:', e);
+        setError(e?.message || 'Erreur');
+        // @ts-ignore
+        (window as any).__PDF_READY__ = true;
       }
     };
-
-    initializePrint();
+    run();
   }, []);
 
-  if (loading) {
-    return (
-      <div style={{ padding: '2rem', textAlign: 'center', fontFamily: 'Arial, sans-serif' }}>
-        <p>Chargement des données du devis...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div style={{ padding: '2rem', textAlign: 'center', fontFamily: 'Arial, sans-serif', color: '#d32f2f' }}>
-        <h2>Erreur</h2>
-        <p>{error}</p>
-      </div>
-    );
-  }
-
-  if (!data) {
-    return (
-      <div style={{ padding: '2rem', textAlign: 'center', fontFamily: 'Arial, sans-serif' }}>
-        <p>Aucune donnée disponible</p>
-      </div>
-    );
-  }
+  if (error) return <div style={{ padding: 24, color: 'red' }}>Erreur: {error}</div>;
+  if (!data) return <div style={{ padding: 24 }}>Chargement des données...</div>;
 
   return (
     <>
+      {/* Running elements capturés par Paged.js */}
       <div className="print-header">
         <QuotePageHeader
           company={data.company}
           quote={data.quote}
           onFieldUpdate={() => {}}
-          readonly={true}
-          printMode={true}
+          readonly
         />
       </div>
-
       <div className="print-footer">
         <QuotePageFooter
           footer={data.footer}
           onFieldUpdate={() => {}}
           onCompanyNameUpdate={() => {}}
           onWebsiteUpdate={() => {}}
-          readonly={true}
-          printMode={true}
+          readonly
+          printMode
         />
       </div>
 
-      <QuoteEditor
-        data={data}
-        printMode={true}
-        flatMode={true}
-        showHeader={false}
-        showFooter={false}
-        readonly={true}
-        showToolbar={false}
-        showAddSection={false}
-        showAddBlock={false}
-      />
+      {/* Corps du devis (flat) */}
+      <div data-component="quote-flat-view">
+        <QuoteFlatView
+          data={data}
+          onUpdateData={() => {}}
+          readonly
+          printMode
+          allowWidthControl={false}
+          showHeader={false}
+          showFooter={false}
+        />
+      </div>
     </>
   );
-};
-
-export default PrintableQuote;
+}

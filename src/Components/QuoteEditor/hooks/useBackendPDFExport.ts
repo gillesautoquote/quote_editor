@@ -21,12 +21,14 @@ export const useBackendPDFExport = () => {
       throw new Error('Backend URL non configuré');
     }
 
+    const baseUrl = String(backendUrl).replace(/\/$/, '');
+
     setState({ isLoading: true, error: null });
 
     try {
       console.log('[Backend PDF] Starting export...');
 
-      const response = await fetch(`${backendUrl}/api/pdf/generate`, {
+      const response = await fetch(`${baseUrl}/api/pdf/generate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
