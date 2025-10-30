@@ -46,6 +46,7 @@ interface QuoteEditorToolbarProps {
   onRedo: () => void;
   onSave?: () => void;
   onExportPDF: () => void;
+  onExportPDFBackend?: () => void;
   onAddSection: () => void;
   onAddBlock: () => void;
   onReset: () => void;
@@ -72,6 +73,7 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
   onRedo,
   onSave,
   onExportPDF,
+  onExportPDFBackend,
   onAddSection,
   onAddBlock,
   onReset,
@@ -81,11 +83,13 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
 }) => {
   const [showTemplateDropdown, setShowTemplateDropdown] = useState(false);
   const [showMoreMenu, setShowMoreMenu] = useState(false);
+  const [showPDFMenu, setShowPDFMenu] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = () => {
       setShowTemplateDropdown(false);
       setShowMoreMenu(false);
+      setShowPDFMenu(false);
     };
 
     document.addEventListener('click', handleClickOutside);
@@ -107,15 +111,7 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
     return 'Sauvegardé';
   };
 
-  const primaryActions: ToolbarAction[] = [
-    {
-      id: 'export-pdf',
-      label: 'PDF',
-      icon: <Download size={16} />,
-      onClick: onExportPDF,
-      tooltip: 'Exporter en PDF'
-    }
-  ];
+  const primaryActions: ToolbarAction[] = [];
 
   const editActions: ToolbarAction[] = readonly ? [] : [
     {
@@ -278,7 +274,62 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
           )}
 
           <div className="tw-flex tw-gap-1">
-            {primaryActions.map(renderAction)}
+            {onExportPDFBackend ? (
+              <div className="tw-relative">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowPDFMenu(!showPDFMenu);
+                  }}
+                  className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-sm tw-font-medium tw-bg-white tw-text-gray-700 tw-border tw-border-gray-300 tw-rounded hover:tw-bg-gray-50 tw-transition-colors"
+                  title="Exporter en PDF"
+                >
+                  <Download size={16} />
+                  <span>PDF</span>
+                  <ChevronDown size={12} />
+                </button>
+                {showPDFMenu && (
+                  <div
+                    className="tw-absolute tw-top-full tw-right-0 tw-mt-1 tw-w-64 tw-bg-white tw-border tw-border-gray-200 tw-rounded-lg tw-shadow-lg tw-z-50"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <button
+                      type="button"
+                      className="tw-w-full tw-flex tw-flex-col tw-px-3 tw-py-2.5 tw-text-sm tw-text-gray-700 hover:tw-bg-gray-50 tw-transition-colors tw-rounded-t-lg tw-text-left tw-border-b tw-border-gray-100"
+                      onClick={() => {
+                        onExportPDF();
+                        setShowPDFMenu(false);
+                      }}
+                    >
+                      <span className="tw-font-medium tw-text-gray-900">PDF Client-Side</span>
+                      <span className="tw-text-xs tw-text-gray-500 tw-mt-0.5">Rapide, généré dans le navigateur</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="tw-w-full tw-flex tw-flex-col tw-px-3 tw-py-2.5 tw-text-sm tw-text-gray-700 hover:tw-bg-gray-50 tw-transition-colors tw-rounded-b-lg tw-text-left"
+                      onClick={() => {
+                        onExportPDFBackend();
+                        setShowPDFMenu(false);
+                      }}
+                    >
+                      <span className="tw-font-medium tw-text-gray-900">PDF Server-Side</span>
+                      <span className="tw-text-xs tw-text-gray-500 tw-mt-0.5">Qualité optimale, généré par le serveur</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={onExportPDF}
+                className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-sm tw-font-medium tw-bg-white tw-text-gray-700 tw-border tw-border-gray-300 tw-rounded hover:tw-bg-gray-50 tw-transition-colors"
+                title="Exporter en PDF"
+              >
+                <Download size={16} />
+                <span>PDF</span>
+              </button>
+            )}
           </div>
 
           {moreActions.length > 0 && (

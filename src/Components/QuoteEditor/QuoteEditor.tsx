@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, forwardRef, useImperativeHandle, useMemo } from 'react';
 import clsx from 'clsx';
 import { usePDFExport } from './hooks/usePDFExport';
+import { useBackendPDFExport } from './hooks/useBackendPDFExport';
 import { globalEventEmitter, EVENTS } from './utils/eventEmitter';
 import type { QuoteEditorProps as LegacyQuoteEditorProps, QuoteEditorHandle as LegacyQuoteEditorHandle } from './entities/QuoteData';
 import type { QuoteEditorProps, QuoteEditorHandle, QuoteData, ComponentEvent } from './QuoteEditor.types';
@@ -225,6 +226,7 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
 
   const { applyColorVariables } = useColorTheme(currentData?.company || { mainColor: '#4863ec' });
   const { exportToPDF, isGenerating } = usePDFExport(useTabs);
+  const { exportToPDF: exportToPDFBackend, isLoading: isExportingBackend, error: backendError } = useBackendPDFExport();
 
   // Expose les méthodes via le ref avec protection
   useImperativeHandle(ref, () => ({
@@ -437,6 +439,26 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
     }
   };
 
+  const handleExportPDFBackend = async (): Promise<void> => {
+    try {
+      console.log('[QuoteEditor] Exporting PDF via backend...');
+      await exportToPDFBackend(currentData);
+      console.log('[QuoteEditor] Backend PDF export successful');
+      if (isStandaloneMode) {
+        onEvent?.({ type: 'export_pdf', data: currentData });
+      }
+    } catch (error) {
+      console.error('[QuoteEditor] Backend PDF export error:', error);
+      if (isStandaloneMode) {
+        onEvent?.({
+          type: 'error',
+          code: 'BACKEND_EXPORT_ERROR',
+          message: error instanceof Error ? error.message : 'Erreur lors de l\'export PDF backend'
+        });
+      }
+    }
+  };
+
 
   const handleUndo = () => {
     undo?.();
@@ -510,6 +532,7 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
           onRedo={handleRedo}
           onSave={onSave ? handleSave : undefined}
           onExportPDF={handleExportPDF}
+          onExportPDFBackend={handleExportPDFBackend}
           onAddSection={handleAddSection}
           onAddBlock={() => handleAddOptionBlock()}
           onReset={handleResetToInitial}
