@@ -153,6 +153,7 @@ export interface ClientSignature {
 
 export interface Footer {
   copyright: string;
+  confidentialNotice?: string;
   address: string;
   postalCode: string;
   city: string;

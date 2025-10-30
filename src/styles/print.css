@@ -15,11 +15,11 @@
   /* Format A4 portrait */
   size: A4 portrait;
 
-  /* Marges de page */
-  margin-top: 2cm;
-  margin-bottom: 2cm;
-  margin-left: 1.5cm;
-  margin-right: 1.5cm;
+  /* Marges de page pour Paged.js */
+  margin-top: 3.5cm;
+  margin-bottom: 2.5cm;
+  margin-left: 2cm;
+  margin-right: 2cm;
 
   /* Fond blanc */
   background: white;
@@ -45,33 +45,61 @@
    RUNNING HEADERS & FOOTERS (Paged.js)
    ======================================== */
 
-/* En-tête répété sur chaque page (optionnel) */
+/* Running elements capturés par Paged.js */
+.print-header {
+  position: running(pageHeader);
+}
+
+.print-footer {
+  position: running(pageFooter);
+}
+
+/* Invisibles dans le flux principal, visibles dans margin boxes */
+.print-header,
+.print-footer {
+  visibility: hidden !important;
+  height: 0 !important;
+  overflow: visible !important;
+  display: block !important;
+  pointer-events: none !important;
+}
+
+/* Mapping vers margin boxes */
 @page {
   @top-center {
-    content: element(running-header);
+    content: element(pageHeader);
     vertical-align: middle;
   }
-}
 
-/* Pied de page avec numérotation */
-@page {
-  @bottom-right {
-    content: "Page " counter(page) " / " counter(pages);
-    font-size: 9pt;
-    color: #6c757d;
-  }
-}
-
-/* Pas de numéro sur la première page */
-@page :first {
-  @bottom-right {
-    content: none;
+  @bottom-center {
+    content: element(pageFooter);
+    vertical-align: middle;
   }
 }
 
 /* ========================================
    GENERAL PRINT RULES
    ======================================== */
+
+/* Reset des marges et padding du body */
+body {
+  margin: 0;
+  padding: 0;
+  background: white;
+}
+
+/* Préserver les couleurs en impression */
+* {
+  color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Largeur du corps calée comme en flat */
+[data-component="quote-flat-view"] {
+  max-width: 18cm;
+  margin: 0 auto;
+}
 
 @media print {
   /* Reset des marges et padding du body */
@@ -135,22 +163,21 @@
      PAGE BREAKS CONTROL
      ======================================== */
 
-  /* Éviter les coupures de page */
+  /* Éviter les coupures de page pour les titres */
   h1, h2, h3, h4, h5, h6 {
     page-break-after: avoid;
     page-break-inside: avoid;
   }
 
-  /* Garder les paragraphes ensemble */
-  p {
-    page-break-inside: avoid;
-    orphans: 3;
-    widows: 3;
+  /* Premier élément après un titre */
+  h1 + *, h2 + *, h3 + *, h4 + *, h5 + *, h6 + * {
+    page-break-before: avoid;
   }
 
-  /* Tableaux: éviter les coupures si possible */
-  table, figure {
-    page-break-inside: avoid;
+  /* Garder les paragraphes ensemble (sauf si très longs) */
+  p {
+    orphans: 3;
+    widows: 3;
   }
 
   /* Lignes de tableau: éviter les coupures */
@@ -158,11 +185,7 @@
     page-break-inside: avoid;
   }
 
-  /* Listes */
-  ul, ol {
-    page-break-inside: avoid;
-  }
-
+  /* Items de liste atomiques */
   li {
     page-break-inside: avoid;
   }
