@@ -22,37 +22,37 @@ const TABS: QuoteTab[] = [
   {
     id: 'introduction',
     label: 'Introduction',
-    icon: <Mail size={16} />,
+    icon: <Mail size={14} />,
     description: 'Destinataire et introduction du devis'
   },
   {
     id: 'programme',
     label: 'Programme',
-    icon: <FileText size={16} />,
+    icon: <FileText size={14} />,
     description: 'Programme de voyage'
   },
   {
     id: 'services',
     label: 'Services',
-    icon: <BusFront size={16} />,
+    icon: <BusFront size={14} />,
     description: 'Services à l\'intérieur et impact carbone'
   },
   {
     id: 'cotation',
     label: 'Cotation',
-    icon: <Calculator size={16} />,
+    icon: <Calculator size={14} />,
     description: 'Détail des prix et totaux'
   },
   {
     id: 'conditions',
     label: 'Conditions',
-    icon: <List size={16} />,
+    icon: <List size={14} />,
     description: 'Ce qui est compris / non compris'
   },
   {
     id: 'signature',
     label: 'Bon de commande',
-    icon: <FileSignature size={16} />,
+    icon: <FileSignature size={14} />,
     description: 'Signature et validation'
   }
 ];
@@ -79,7 +79,7 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
   const [showAddMenu, setShowAddMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const [menuPosition, setMenuPosition] = useState<{ top: number; right: number } | null>(null);
+  const [menuPosition, setMenuPosition] = useState<{ top: number; left: number } | null>(null);
   const [draggedTab, setDraggedTab] = useState<string | null>(null);
   const [dragOverTab, setDragOverTab] = useState<string | null>(null);
 
@@ -106,8 +106,8 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
     if (showAddMenu && buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
       setMenuPosition({
-        top: rect.bottom + window.scrollY,
-        right: window.innerWidth - rect.right
+        top: rect.bottom + 4,
+        left: rect.left
       });
     }
   }, [showAddMenu]);
@@ -202,13 +202,13 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
   const hoverBg = lightenColor(mainColor, 0.90);
 
   return (
-    <div className="tw-w-full tw-flex tw-flex-col">
+    <div className="tw-w-full tw-flex tw-flex-col tw-relative">
       <div
-        className="tw-border-b tw-border-gray-200 tw-sticky tw-top-0 tw-z-10 tw-shadow-sm"
+        className="tw-border-b tw-border-gray-200 tw-sticky tw-top-0 tw-z-10"
         style={{ backgroundColor: lightBg }}
       >
-        <div className="tw-w-full tw-max-w-[min(1000px,calc(100vw-2rem))] tw-mx-auto tw-px-4">
-          <div className="tw-flex tw-gap-1 tw-overflow-x-auto tw-scrollbar-thin">
+        <div className="tw-w-full tw-max-w-[min(1000px,calc(100vw-2rem))] tw-mx-auto tw-px-3 tw-relative">
+          <div className="tw-flex tw-gap-0.5 tw-overflow-x-auto tw-scrollbar-thin tw-py-1">
             {visibleTabs.map((tab) => (
               <div
                 key={tab.id}
@@ -225,9 +225,9 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
                     draggable
                     onDragStart={(e) => handleDragStart(e, tab.id)}
                     onDragEnd={handleDragEnd}
-                    className="tw-flex tw-items-center tw-px-1.5 tw-cursor-move tw-transition-all tw-duration-200 tw-rounded-l-lg"
+                    className="tw-flex tw-items-center tw-px-1 tw-cursor-move tw-transition-all tw-duration-200 tw-rounded-l-md"
                     style={{
-                      opacity: draggedTab === tab.id ? 0.5 : 0.7,
+                      opacity: draggedTab === tab.id ? 0.5 : 0.5,
                       backgroundColor: activeTab === tab.id ? 'white' : 'transparent'
                     }}
                     onMouseEnter={(e) => {
@@ -239,9 +239,9 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
                     title="Glisser pour réorganiser"
                   >
                     <GripVertical
-                      size={14}
-                      style={{ color: mainColor, opacity: 0.5 }}
-                      className="group-hover/tab:tw-opacity-100 tw-transition-opacity"
+                      size={12}
+                      style={{ color: mainColor, opacity: 0.4 }}
+                      className="group-hover/tab:tw-opacity-80 tw-transition-opacity"
                     />
                   </div>
                 )}
@@ -260,7 +260,7 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
                       e.currentTarget.style.backgroundColor = 'transparent';
                     }
                   }}
-                  className="tw-flex tw-items-center tw-gap-2.5 tw-px-5 tw-py-3.5 tw-text-sm tw-font-medium tw-whitespace-nowrap tw-border-b-[3px] tw-transition-all tw-duration-200 tw-min-w-fit tw-relative tw-group tw-rounded-t-lg"
+                  className="tw-flex tw-items-center tw-gap-2 tw-px-3 tw-py-2 tw-text-sm tw-font-medium tw-whitespace-nowrap tw-border-b-2 tw-transition-all tw-duration-200 tw-min-w-fit tw-relative tw-group tw-rounded-t-md"
                   style={{
                     color: activeTab === tab.id ? mainColor : '#6b7280',
                     borderBottomColor: activeTab === tab.id ? mainColor : 'transparent',
@@ -278,10 +278,10 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
                   {enableTabManagement && hoveredTab === tab.id && visibleTabs.length > 1 && (
                     <span
                       onClick={(e) => handleRemoveTab(tab.id, e)}
-                      className="tw-ml-1 tw-p-1 tw-rounded-full hover:tw-bg-red-50 tw-transition-all tw-duration-200 tw-cursor-pointer hover:tw-scale-110"
+                      className="tw-ml-0.5 tw-p-0.5 tw-rounded-full hover:tw-bg-red-50 tw-transition-all tw-duration-200 tw-cursor-pointer hover:tw-scale-110"
                       title="Supprimer l'onglet"
                     >
-                      <X size={14} className="tw-text-red-500 hover:tw-text-red-700" />
+                      <X size={12} className="tw-text-red-500 hover:tw-text-red-700" />
                     </span>
                   )}
                 </button>
@@ -298,29 +298,28 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = 'transparent';
                 }}
-                className="tw-flex tw-items-center tw-justify-center tw-px-4 tw-py-3.5 tw-text-sm tw-font-medium tw-whitespace-nowrap tw-transition-all tw-duration-200 tw-rounded-t-lg tw-ml-2"
+                className="tw-flex tw-items-center tw-justify-center tw-px-3 tw-py-2 tw-text-sm tw-font-medium tw-whitespace-nowrap tw-transition-all tw-duration-200 tw-rounded-t-md tw-ml-1"
                 style={{ color: mainColor }}
                 title="Ajouter un onglet"
               >
-                <Plus size={16} className="tw-transition-transform tw-duration-200 hover:tw-rotate-90" />
+                <Plus size={14} className="tw-transition-transform tw-duration-200 hover:tw-rotate-90" />
               </button>
             )}
           </div>
         </div>
       </div>
 
-      <div className="tw-flex-1 tw-py-6">
+      <div className="tw-flex-1 tw-py-4">
         {children(activeTab, visibleTabs.map(tab => tab.id))}
       </div>
 
       {showAddMenu && menuPosition && (
         <div
           ref={menuRef}
-          className="tw-fixed tw-bg-white tw-rounded-lg tw-shadow-lg tw-z-[9999] tw-min-w-[220px] tw-overflow-hidden tw-animate-in tw-fade-in tw-duration-200"
+          className="tw-absolute tw-bg-white tw-rounded-lg tw-shadow-xl tw-z-[9999] tw-min-w-[200px] tw-overflow-hidden tw-border tw-border-gray-200"
           style={{
             top: `${menuPosition.top}px`,
-            right: `${menuPosition.right}px`,
-            border: `2px solid ${lightenColor(mainColor, 0.7)}`
+            left: `${menuPosition.left}px`
           }}
         >
           {hiddenTabs.map((tab, index) => (
@@ -334,7 +333,7 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = 'white';
               }}
-              className="tw-w-full tw-flex tw-items-center tw-gap-3 tw-px-4 tw-py-3 tw-text-sm tw-text-left tw-transition-all tw-duration-200 tw-group"
+              className="tw-w-full tw-flex tw-items-center tw-gap-2.5 tw-px-3 tw-py-2.5 tw-text-sm tw-text-left tw-transition-all tw-duration-200 tw-group"
               style={{
                 borderBottom: index < hiddenTabs.length - 1 ? `1px solid ${lightenColor(mainColor, 0.9)}` : 'none',
                 backgroundColor: 'white'
