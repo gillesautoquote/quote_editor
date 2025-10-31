@@ -199,7 +199,7 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
                         data-step-id={step.id}
                       >
                         <div
-                          className="tw-absolute tw-left-0 tw-top-1 tw-w-8 tw-h-8 tw-rounded-full tw-flex tw-items-center tw-justify-center tw-shadow-sm print:tw-w-6 print:tw-h-6 print:tw-top-0"
+                          className="tw-absolute tw-left-0 tw-top-1 tw-w-8 tw-h-8 tw-rounded-full tw-flex tw-items-center tw-justify-center tw-shadow-sm print:tw-w-6 print:tw-h-6 print:tw-top-0 print:tw-left-[-4px]"
                           style={{
                             backgroundColor: blockColor,
                             color: 'white'
