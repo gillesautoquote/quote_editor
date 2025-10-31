@@ -95,6 +95,16 @@ export const generateColorVariables = (mainColor: string) => {
   const lightVariant = getLightVariant(mainColor, 0.1);
   const lighterVariant = getLightVariant(mainColor, 0.05);
   const darkerVariant = getDarkerVariant(mainColor, 0.8);
+  const rgb = hexToRgb(mainColor) || { r: 75, g: 85, b: 99 }; // gris de repli
+
+  const toTriplet = (r: number, g: number, b: number) => `${r} ${g} ${b}`;
+  const clamp = (v: number) => Math.max(0, Math.min(255, Math.round(v)));
+  const darken = (factor: number) => toTriplet(clamp(rgb.r * factor), clamp(rgb.g * factor), clamp(rgb.b * factor));
+  const lighten = (amount: number) => toTriplet(
+    clamp(rgb.r + (255 - rgb.r) * amount),
+    clamp(rgb.g + (255 - rgb.g) * amount),
+    clamp(rgb.b + (255 - rgb.b) * amount)
+  );
   
   return {
     '--dynamic-primary-color': mainColor,
@@ -104,6 +114,13 @@ export const generateColorVariables = (mainColor: string) => {
     '--dynamic-primary-dark': darkerVariant,
     '--dynamic-primary-rgb': hexToRgb(mainColor) ? 
       `${hexToRgb(mainColor)!.r}, ${hexToRgb(mainColor)!.g}, ${hexToRgb(mainColor)!.b}` : 
-      '0, 102, 204'
+      '0, 102, 204',
+
+    // Variables consommées par Tailwind
+    '--color-primary': toTriplet(rgb.r, rgb.g, rgb.b),
+    '--color-primary-hover': darken(0.85),
+    '--color-primary-light': lighten(0.85),
+    '--color-primary-lighter': lighten(0.92),
+    '--color-primary-dark': darken(0.75)
   };
 };
