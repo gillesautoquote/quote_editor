@@ -45,7 +45,7 @@ const getServiceIcon = (iconType: BusService['icon']) => {
 
 export const BusServicesBlock: React.FC<BusServicesBlockProps> = ({
   busServices,
-  companyColor = '#009955',
+  companyColor,
   readonly = false,
   onUpdateServices,
   showOnlyAvailable = false

@@ -16,7 +16,7 @@ export const ColumnControls: React.FC<ColumnControlsProps> = ({
   columns,
   onChange,
   onRemoveBlock,
-  color = '#009955',
+  color,
   onColorChange,
   readonly = false,
   isDraggable = false
@@ -52,7 +52,7 @@ export const ColumnControls: React.FC<ColumnControlsProps> = ({
     if (!onColorChange) return;
 
     const colors = [
-      '#009955',
+      'var(--color-primary)',
       '#28a745',
       '#dc3545',
       '#ffc107',

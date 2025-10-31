@@ -35,7 +35,7 @@ export const OptionBlockContent: React.FC<OptionBlockContentProps> = ({
   readonly = false,
   printMode = false,
   onUpdateBlock,
-  blockColor = '#009955'
+  blockColor
 }) => {
   const handleUpdateTripSteps = (steps: TripProgramStep[]) => {
     if (onUpdateBlock) {

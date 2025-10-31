@@ -1,15 +1,15 @@
 {
   "company": {
-    "logoUrl": "https://autoquote.tech/images/logos/logo-transdevtravel-primary.webp",
-    "name": "Transdev Île‑de‑France",
-    "address": "6 Avenue Heinz Gloor",
-    "postalCode": "95933",
-    "city": "Roissy CDG Cedex",
+    "logoUrl": "https://gkhlrwcjkdpuxhchndba.supabase.co/storage/v1/object/public/public-media/1761929408146_zhu4tp1zly.webp",
+    "name": "AutoQuote Voyages",
+    "address": "87 Rue du Fontenoy,  ",
+    "postalCode": "59100",
+    "city": "ROUBAIX",
     "country": "France",
     "phone": "+33 6 19 26 80 41",
-    "email": "contact@transdev.net",
-    "website": "https://www.transdev.net",
-    "mainColor": "#009955"
+    "email": "contact@autoquote.tech",
+    "website": "https://www.autoquote.tech",
+    "mainColor": "#1E63F5"
   },
   "recipient": {
     "fullName": "Sarah Barre",
@@ -586,7 +586,7 @@
   "clientSignature": {
     "tagline": "Nous vous remercions d'avoir consulté l'entreprise AutoQuote Voyages et vous prions d'agréer, l'expression de nos sentiments dévoués.",
     "title": "Le service commercial",
-    "fullName": "Fabrice Recouvreur"
+    "fullName": "Gilles Sabban"
   },
   "totals": {
     "ht": 10360,
@@ -612,19 +612,18 @@
   "validityNotice": "Les prix sont valables 30 jours à compter de la date d'émission.",
   "termsNotice": "Conditions générales disponibles sur notre site web.",
   "footer": {
-    "copyright": "© 2024 Transdev Île‑de‑France — Tous droits réservés",
-    "confidentialNotice": "Document confidentiel — reproduction interdite.",
-    "address": "6 Avenue Heinz Gloor",
-    "postalCode": "95933",
-    "city": "Roissy CDG Cedex",
+    "copyright": "© 2024 AutoQuote Voyages — Tous droits réservés",
+    "address": "87 Rue du Fontenoy, ",
+    "postalCode": "59100 ",
+    "city": "ROUBAIX",
     "country": "France",
     "phone": "+33 6 19 26 80 41",
-    "rcs": "RCS Nanterre 383 607 090",
-    "siret": "383 607 090 00354",
-    "tva": "FR38 360709000",
-    "website": "https://www.transdev.net",
-    "iban": "FR76 3000 4009 0500 0001 2345 678",
-    "bic": "BNPAFRPPXXX"
+    "rcs": "RCS Nanterre 945 204 097",
+    "siret": "945 204 097 00014",
+    "tva": "FR51945204097",
+    "website": "https://www.autoquote.tech",
+    "iban": "FR76 1679 8000 0100 0181 3117 331",
+    "bic": "TRZOFR21XXX"
   },
   "itinerary": [
     {

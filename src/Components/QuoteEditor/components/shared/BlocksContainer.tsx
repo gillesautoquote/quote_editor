@@ -38,7 +38,7 @@ export const BlocksContainer: React.FC<BlocksContainerProps> = ({
   readonly = false,
   showBlockControls = false,
   allowWidthControl = true,
-  companyColor = '#009955',
+  companyColor,
   printMode = false
 }) => {
   const [dragState, setDragState] = useState<DragState>({

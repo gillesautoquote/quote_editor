@@ -35,7 +35,7 @@ export const OptionBlock: React.FC<OptionBlockProps> = ({
   readonly = false,
   showControls = false,
   allowWidthControl = true,
-  companyColor = '#009955',
+  companyColor,
   printMode = false,
   onDragStart,
   onDragEnd,

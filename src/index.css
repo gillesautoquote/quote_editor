@@ -5,11 +5,12 @@
 @tailwind utilities;
 
 :root {
-  --color-primary: 0, 153, 85;
-  --color-primary-hover: 0, 122, 68;
-  --color-primary-light: 230, 245, 238;
-  --color-primary-lighter: 240, 250, 245;
-  --color-primary-dark: 0, 122, 68;
+  /* Fallbacks gris neutres (pris avant initialisation du thème) */
+  --color-primary: 75, 85, 99; /* gray-600 */
+  --color-primary-hover: 55, 65, 81; /* gray-700 */
+  --color-primary-light: 229, 231, 235; /* gray-200 */
+  --color-primary-lighter: 243, 244, 246; /* gray-100 */
+  --color-primary-dark: 31, 41, 55; /* gray-800 */
 }
 
 body {
