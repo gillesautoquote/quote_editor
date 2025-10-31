@@ -13,16 +13,16 @@
 
 @page {
   size: A4 portrait;
-  margin-top: 3.8cm;
-  margin-bottom: 2.9cm;
+  margin-top: 1.5cm;
+  margin-bottom: 3.5cm;
   margin-left: 2.0cm;
-  margin-right: 1.5cm;
+  margin-right: 2.0cm;
   @top-center { content: element(header); width: 100%; }
   @bottom-center { content: element(footer); width: 100%; }
   @bottom-right { content: "Page " counter(page) " / " counter(pages); font-size: 8.5pt; color: #666; }
 }
 
-@page :first { margin-top: 4.4cm; }
+@page :first { margin-top: 1.5cm; }
 
 /* Pages de gauche et droite (pour recto-verso) */
 @page :left {
@@ -95,7 +95,6 @@ body {
 
 /* Préserver les couleurs en impression */
 * {
-  color-adjust: exact;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
@@ -421,7 +420,6 @@ h1, h2, h3, h4, h5, h6, p {
 [style*="backgroundColor"] {
   -webkit-print-color-adjust: exact !important;
   print-color-adjust: exact !important;
-  color-adjust: exact !important;
 }
 
 /* Garder les bordures colorées */
@@ -431,7 +429,6 @@ h1, h2, h3, h4, h5, h6, p {
 [style*="borderColor"] {
   -webkit-print-color-adjust: exact !important;
   print-color-adjust: exact !important;
-  color-adjust: exact !important;
 }
 
 /* ========================================
@@ -500,7 +497,6 @@ h1, h2, h3, h4, h5, h6, p {
 [data-component="totals-table"] .tw-bg-primary {
   -webkit-print-color-adjust: exact !important;
   print-color-adjust: exact !important;
-  color-adjust: exact !important;
 }
 
 /* Print spacing utilities */
@@ -673,4 +669,22 @@ body.print-preview button:not(.print-show) {
   [data-section="carbon-impact"] h1,
   [data-section="carbon-impact"] h2 { display: none !important; }
   .carbon-impact, [data-section="carbon-impact"] { border: none !important; box-shadow: none !important; }
+}
+
+@media print {
+  /* Padding bas global pour respirer avant le pied */
+  [data-component="quote-flat-view"],
+  .quote-editor-container,
+  [data-component="quote-editor"] { padding-bottom: 6mm !important; }
+
+  /* Utiliser la couleur corporate (company.mainColor) */
+  .tw-text-primary { color: rgb(var(--color-primary)) !important; }
+  .tw-border-primary, .tw-border-primary * { border-color: rgb(var(--color-primary)) !important; }
+  .tw-bg-primary { background-color: rgb(var(--color-primary)) !important; }
+
+  /* Bandeau jour programme: version éclaircie de la couleur corporate */
+  [data-section="programme"] [data-section-title="programme"],
+  [data-section="programme"] .day-banner {
+    background-color: rgba(var(--color-primary), 0.08) !important;
+  }
 }
