@@ -126,6 +126,12 @@ body {
 }
 
 @media print {
+  strong, b { font-weight: 700 !important; }
+  .tw-font-bold { font-weight: 700 !important; }
+  .tw-font-semibold { font-weight: 600 !important; }
+}
+
+@media print {
   /* Saut de page avant chaque grande section (onglet) */
   [data-section="programme"],
   [data-section="services"],
