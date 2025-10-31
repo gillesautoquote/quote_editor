@@ -268,7 +268,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
                     id: `block_${now}`,
                     title: 'Nouveau bloc',
                     color: currentData.company.mainColor,
-                    columns: 3,
+                    columns: 6,
                     showTitle: true,
                     allowWidthControl: true,
                     type: 'list' as const,
