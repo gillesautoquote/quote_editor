@@ -628,6 +628,7 @@
   },
   "itinerary": [
     {
+      "tripName": "Voyage Paris → Lille",
       "date": "2025-11-28",
       "items": [
         {

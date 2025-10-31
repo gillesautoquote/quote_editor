@@ -118,6 +118,26 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
           </div>
         )}
       </div>
+
+      {/* Résumé de l'offre (non modifiable) */}
+      <div className="tw-mt-4 tw-text-[0.9rem] tw-text-gray-700 print:tw-text-[0.85rem]">
+        {(() => {
+          const fmtCurrency = (n: number) => new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(n || 0);
+          const totals = (data as any)?.totals;
+          const carbon = (data as any)?.carbonImpact;
+          const issue = quote.issueDate ? new Date(quote.issueDate) : null;
+          const valid = quote.validUntil ? new Date(quote.validUntil) : null;
+          const days = issue && valid ? Math.max(0, Math.round((+valid - +issue) / (1000 * 60 * 60 * 24))) : undefined;
+          const validityText = valid ? `valable jusqu'au ${formatDateInFrench(quote.validUntil)}${typeof days === 'number' ? ` (${days} jours)` : ''}` : (data as any)?.validityNotice || '';
+          const firstDay = Array.isArray((data as any)?.itinerary) && (data as any).itinerary.length > 0 ? (data as any).itinerary[0] : undefined;
+          const tripName = firstDay?.tripName || 'Votre voyage';
+          return (
+            <p>
+              Proposition « <strong>{tripName}</strong> » — Montant <strong>HT {fmtCurrency(totals?.ht)}</strong> / <strong>TTC {fmtCurrency(totals?.ttc)}</strong>{carbon ? ` — Impact carbone: ${carbon.co2Amount} ${carbon.unit}` : ''} — {validityText}.
+            </p>
+          );
+        })()}
+      </div>
     </div>
   );
 };

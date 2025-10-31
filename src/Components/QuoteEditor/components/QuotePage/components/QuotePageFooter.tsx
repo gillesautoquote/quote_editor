@@ -121,9 +121,49 @@ export const QuotePageFooter: React.FC<QuotePageFooterProps> = ({
           )}
         </div>
         
-        {/* Colonne droite : Réservée à la pagination (print) */}
+        {/* Colonne droite : Adresse */}
         <div className="tw-flex-1 tw-min-w-0 tw-text-right max-md:tw-text-left">
-          {/* Intentionnellement vide: pagination gérée par Paged.js en bas à droite */}
+          {footer.address && footer.address.trim() && (
+            <div className="tw-mb-[0.1rem]">
+              <EditableField
+                value={footer.address}
+                onSave={(value) => onFieldUpdate('footer.address', value)}
+                disabled={readonly}
+              printMode={printMode}
+              />
+            </div>
+          )}
+          {((footer.postalCode && footer.postalCode.trim()) || (footer.city && footer.city.trim())) && (
+            <div className="tw-mb-[0.1rem]">
+              {footer.postalCode && footer.postalCode.trim() && (
+                <EditableField
+                  value={footer.postalCode}
+                  onSave={(value) => onFieldUpdate('footer.postalCode', value)}
+                  disabled={readonly}
+              printMode={printMode}
+                />
+              )}{footer.postalCode && footer.postalCode.trim() && footer.city && footer.city.trim() && ' '}
+              {footer.city && footer.city.trim() && (
+                <EditableField
+                  value={footer.city}
+                  onSave={(value) => onFieldUpdate('footer.city', value)}
+                  disabled={readonly}
+              printMode={printMode}
+                />
+              )}
+            </div>
+          )}
+          {/* BIC - afficher seulement s'il existe */}
+          {footer.bic && footer.bic.trim() && (
+            <div className="tw-mb-[0.1rem]">
+              BIC: <EditableField
+                value={footer.bic}
+                onSave={(value) => onFieldUpdate('footer.bic', value)}
+                disabled={readonly}
+              printMode={printMode}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

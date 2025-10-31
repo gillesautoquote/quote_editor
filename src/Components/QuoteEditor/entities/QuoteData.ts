@@ -257,6 +257,7 @@ export interface TravelPhase {
 export type DayItem = StepGroup | TravelPhase;
 
 export interface DaySchedule {
+  tripName?: string;
   date: string;
   items: DayItem[];
 }

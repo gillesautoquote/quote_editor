@@ -243,3 +243,9 @@ export interface SaveState {
   lastSaved: Date | null;
   hasUnsavedChanges: boolean;
 }
+
+export interface DaySchedule {
+  tripName?: string;
+  date: string;
+  items: DayItem[];
+}
