@@ -126,9 +126,9 @@ body {
 }
 
 @media print {
-  strong, b { font-weight: 700 !important; }
-  .tw-font-bold { font-weight: 700 !important; }
-  .tw-font-semibold { font-weight: 600 !important; }
+  strong, b { font-weight: 700 !important; font-synthesis: weight !important; font-family: Arial, "Noto Sans", sans-serif !important; }
+  .tw-font-bold { font-weight: 700 !important; font-synthesis: weight !important; font-family: Arial, "Noto Sans", sans-serif !important; }
+  .tw-font-semibold { font-weight: 600 !important; font-synthesis: weight !important; font-family: Arial, "Noto Sans", sans-serif !important; }
 }
 
 @media print {
