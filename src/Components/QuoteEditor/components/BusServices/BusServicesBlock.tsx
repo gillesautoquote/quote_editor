@@ -7,10 +7,11 @@ interface BusServicesBlockProps {
   companyColor?: string;
   readonly?: boolean;
   onUpdateServices?: (services: BusServices) => void;
+  showOnlyAvailable?: boolean;
 }
 
 const getServiceIcon = (iconType: BusService['icon']) => {
-  const iconProps = { size: 24, strokeWidth: 1.5 };
+  const iconProps = { size: 18, strokeWidth: 1.5 };
 
   switch (iconType) {
     case 'wifi':
@@ -46,7 +47,8 @@ export const BusServicesBlock: React.FC<BusServicesBlockProps> = ({
   busServices,
   companyColor = '#009955',
   readonly = false,
-  onUpdateServices
+  onUpdateServices,
+  showOnlyAvailable = false
 }) => {
   const handleToggleService = (serviceId: string) => {
     if (readonly || !onUpdateServices) return;
@@ -63,23 +65,31 @@ export const BusServicesBlock: React.FC<BusServicesBlockProps> = ({
     onUpdateServices(updatedServices);
   };
 
+  const displayedServices = showOnlyAvailable
+    ? busServices.services.filter(service => service.available)
+    : busServices.services;
+
+  if (showOnlyAvailable && displayedServices.length === 0) {
+    return null;
+  }
+
   return (
     <div className="tw-mb-6">
       <h3
-        className="tw-text-base tw-font-semibold tw-mb-4"
+        className="tw-text-base tw-font-semibold tw-mb-3"
         style={{ color: companyColor }}
       >
         {busServices.title}
       </h3>
 
-      <div className="tw-grid tw-grid-cols-2 md:tw-grid-cols-4 tw-gap-3">
-        {busServices.services.map((service) => (
+      <div className="tw-grid tw-grid-cols-4 md:tw-grid-cols-8 print:tw-grid-cols-8 tw-gap-2">
+        {displayedServices.map((service) => (
           <button
             key={service.id}
             type="button"
             onClick={() => handleToggleService(service.id)}
             disabled={readonly}
-            className={`tw-flex tw-flex-col tw-items-center tw-gap-2 tw-p-3 tw-rounded-lg tw-border-2 tw-transition-all tw-duration-200 ${
+            className={`tw-flex tw-flex-col tw-items-center tw-gap-1 tw-p-2 tw-rounded-md tw-border tw-transition-all tw-duration-200 ${
               readonly ? 'tw-cursor-default' : 'tw-cursor-pointer hover:tw-shadow-md'
             }`}
             style={{
@@ -95,7 +105,7 @@ export const BusServicesBlock: React.FC<BusServicesBlockProps> = ({
               {getServiceIcon(service.icon)}
             </div>
             <span
-              className="tw-text-xs tw-text-center tw-leading-tight"
+              className="tw-text-[10px] tw-text-center tw-leading-tight"
               style={{
                 color: service.available ? companyColor : '#6b7280',
                 fontWeight: service.available ? 600 : 400

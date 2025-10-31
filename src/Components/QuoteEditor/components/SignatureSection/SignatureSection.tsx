@@ -6,21 +6,24 @@ interface SignatureSectionProps {
   clientSignature: ClientSignature;
   onUpdateClientSignature: (signature: ClientSignature) => void;
   readonly?: boolean;
+  printMode?: boolean;
 }
 
 export const SignatureSection: React.FC<SignatureSectionProps> = ({
   clientSignature,
   onUpdateClientSignature,
-  readonly = false
+  readonly = false,
+  printMode = false
 }) => {
   return (
-    <div className="tw-mt-8">
+    <div className="tw-mt-8 page-break-inside-avoid print:tw-mt-4" data-component="signature-section">
       {clientSignature.tagline && clientSignature.tagline.trim() && (
         <div className="tw-leading-[1.4] tw-text-[0.9rem] tw-text-text tw-mb-4">
           <EditableField
             value={clientSignature.tagline}
             onSave={(value) => onUpdateClientSignature({ ...clientSignature, tagline: value })}
             disabled={readonly}
+            printMode={printMode}
             as="div"
             fullWidth={true}
             placeholder="Phrase de conclusion"
@@ -36,6 +39,7 @@ export const SignatureSection: React.FC<SignatureSectionProps> = ({
                 value={clientSignature.title.endsWith(',') ? clientSignature.title : `${clientSignature.title},`}
                 onSave={(value) => onUpdateClientSignature({ ...clientSignature, title: value.replace(',', '') })}
                 disabled={readonly}
+                printMode={printMode}
                 placeholder="Le Service Commercial"
                 className="tw-p-[0.1rem_0.15rem] tw--m-[0.1rem] [&.editing]:tw-p-[0.1rem_0.15rem] [&.editing]:tw--m-[0.1rem] [&.editing]:tw-outline-[0.5px] [&_input]:tw-p-[0.1rem_0.15rem] [&_input]:tw-text-[inherit] [&_input]:tw-font-normal [&_input]:tw-text-right max-md:[&_input]:tw-text-center"
               />
@@ -47,6 +51,7 @@ export const SignatureSection: React.FC<SignatureSectionProps> = ({
                 value={clientSignature.fullName}
                 onSave={(value) => onUpdateClientSignature({ ...clientSignature, fullName: value })}
                 disabled={readonly}
+                printMode={printMode}
                 placeholder="Nom"
                 className="tw-p-[0.1rem_0.15rem] tw--m-[0.1rem] [&.editing]:tw-p-[0.1rem_0.15rem] [&.editing]:tw--m-[0.1rem] [&.editing]:tw-outline-[0.5px] [&_input]:tw-p-[0.1rem_0.15rem] [&_input]:tw-text-[inherit] [&_input]:tw-font-medium [&_input]:tw-text-right max-md:[&_input]:tw-text-center"
               />

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, forwardRef, useImperativeHandle, useMemo } from 'react';
 import clsx from 'clsx';
 import { usePDFExport } from './hooks/usePDFExport';
+import { useBackendPDFExport } from './hooks/useBackendPDFExport';
 import { globalEventEmitter, EVENTS } from './utils/eventEmitter';
 import type { QuoteEditorProps as LegacyQuoteEditorProps, QuoteEditorHandle as LegacyQuoteEditorHandle } from './entities/QuoteData';
 import type { QuoteEditorProps, QuoteEditorHandle, QuoteData, ComponentEvent } from './QuoteEditor.types';
@@ -8,6 +9,7 @@ import { useQuoteEditor } from './hooks/useQuoteEditor';
 import { useColorTheme } from './hooks/useColorTheme';
 import { useTranslation } from './i18n/translations';
 import { QuotePage } from './components/QuotePage/QuotePage';
+import { QuoteFlatView } from './components/QuotePage/QuoteFlatView';
 import { QuoteEditorToolbar } from './components/shared/QuoteEditorToolbar';
 import { QuoteTabs } from './components/QuoteTabs';
 import { QuoteTabContent } from './components/QuoteTabs/QuoteTabContent';
@@ -35,6 +37,9 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
     locale = 'fr',
     theme = 'light',
     readonly = false,
+    printMode: propPrintMode = false,
+    flatMode: propFlatMode = false,
+    previewMode = false,
     className = '',
     onEvent,
     showToolbar = true,
@@ -43,9 +48,14 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
     showReset = false,
     showTemplateSelector = false,
     allowWidthControl = true,
+    showHeader = true,
+    showFooter = true,
   } = standaloneProps || {
     data: legacyProps?.data,
     readonly: legacyProps?.readonly ?? false,
+    printMode: legacyProps?.printMode ?? false,
+    flatMode: legacyProps?.flatMode ?? false,
+    previewMode: legacyProps?.previewMode ?? false,
     className: legacyProps?.className ?? '',
     showToolbar: legacyProps?.showToolbar ?? true,
     showAddSection: legacyProps?.showAddSection ?? false,
@@ -53,9 +63,13 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
     showReset: legacyProps?.showReset ?? false,
     showTemplateSelector: legacyProps?.showTemplateSelector ?? false,
     allowWidthControl: legacyProps?.allowWidthControl ?? true,
+    showHeader: legacyProps?.showHeader ?? true,
+    showFooter: legacyProps?.showFooter ?? true,
   };
 
   const useTabs = legacyProps?.useTabs ?? true;
+  const printMode = propPrintMode || propFlatMode;
+  const flatMode = propFlatMode || propPrintMode;
 
   const onChange = legacyProps?.onChange;
   const onSave = legacyProps?.onSave;
@@ -212,6 +226,7 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
 
   const { applyColorVariables } = useColorTheme(currentData?.company || { mainColor: '#4863ec' });
   const { exportToPDF, isGenerating } = usePDFExport(useTabs);
+  const { exportToPDF: exportToPDFBackend, isLoading: isExportingBackend, error: backendError } = useBackendPDFExport();
 
   // Expose les méthodes via le ref avec protection
   useImperativeHandle(ref, () => ({
@@ -424,6 +439,26 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
     }
   };
 
+  const handleExportPDFBackend = async (): Promise<void> => {
+    try {
+      console.log('[QuoteEditor] Exporting PDF via backend...');
+      await exportToPDFBackend(currentData);
+      console.log('[QuoteEditor] Backend PDF export successful');
+      if (isStandaloneMode) {
+        onEvent?.({ type: 'export_pdf', data: currentData });
+      }
+    } catch (error) {
+      console.error('[QuoteEditor] Backend PDF export error:', error);
+      if (isStandaloneMode) {
+        onEvent?.({
+          type: 'error',
+          code: 'BACKEND_EXPORT_ERROR',
+          message: error instanceof Error ? error.message : 'Erreur lors de l\'export PDF backend'
+        });
+      }
+    }
+  };
+
 
   const handleUndo = () => {
     undo?.();
@@ -497,6 +532,7 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
           onRedo={handleRedo}
           onSave={onSave ? handleSave : undefined}
           onExportPDF={handleExportPDF}
+          onExportPDFBackend={handleExportPDFBackend}
           onAddSection={handleAddSection}
           onAddBlock={() => handleAddOptionBlock()}
           onReset={handleResetToInitial}
@@ -505,8 +541,18 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
         />
       )}
 
-      <div className="tw-flex-1 tw-flex tw-flex-col tw-items-center tw-py-12 tw-px-8 tw-gap-6 tw-overflow-y-auto tw-bg-gradient-to-br tw-from-gray-50 tw-to-gray-200 md:tw-px-4 lg:tw-px-16 max-md:tw-px-2 max-md:tw-py-8 max-md:tw-gap-4 max-md:tw-bg-gray-50 print:tw-p-0 print:tw-gap-0">
-        {useTabs ? (
+      <div className="tw-flex-1 tw-flex tw-flex-col tw-items-center tw-py-12 tw-px-8 tw-gap-6 tw-overflow-y-auto tw-bg-gradient-to-br tw-from-gray-50 tw-to-gray-200 md:tw-px-4 lg:tw-px-16 max-md:tw-px-2 max-md:tw-py-8 max-md:tw-gap-4 max-md:tw-bg-gray-50 print:tw-p-0 print:tw-gap-0 print:tw-bg-white">
+        {flatMode ? (
+          <QuoteFlatView
+            data={currentData}
+            onUpdateData={updateData}
+            readonly={readonly}
+            printMode={printMode}
+            allowWidthControl={allowWidthControl}
+            showHeader={showHeader}
+            showFooter={showFooter}
+          />
+        ) : useTabs ? (
           <QuoteTabs
             data={currentData}
             onUpdateData={updateData}
@@ -514,9 +560,10 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
             allowWidthControl={allowWidthControl}
             enableTabManagement={true}
           >
-            {(activeTab) => (
+            {(activeTab, visibleTabIds) => (
               <QuoteTabContent
                 activeTab={activeTab}
+                visibleTabIds={visibleTabIds}
                 data={currentData}
                 onUpdateData={updateData}
                 readonly={readonly}
@@ -536,6 +583,7 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
               showSignature: true
             }}
             readonly={readonly}
+            printMode={printMode}
             allowWidthControl={allowWidthControl}
           />
         )}

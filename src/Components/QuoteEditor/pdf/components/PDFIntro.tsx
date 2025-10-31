@@ -2,22 +2,26 @@ import React from 'react';
 import { View, Text } from '@react-pdf/renderer';
 import { createIntroStyles } from '../styles/introStyles';
 import { formatDateInFrench, formatTitle, markdownToPlainText } from '../utils/textFormatters';
-import type { Quote, Recipient, Company, ClientSignature } from '../../entities/QuoteData';
+import { generatePDFSectionsList } from '../../utils/pdfSectionsGenerator';
+import type { Quote, Recipient, Company, ClientSignature, QuoteData } from '../../entities/QuoteData';
 
 interface PDFIntroProps {
   quote: Quote;
   recipient: Recipient;
   company: Company;
   clientSignature?: ClientSignature;
+  data: QuoteData;
 }
 
 export const PDFIntro: React.FC<PDFIntroProps> = ({
   quote,
   recipient,
   company,
-  clientSignature
+  clientSignature,
+  data
 }) => {
   const introStyles = createIntroStyles(company);
+  const sectionsList = generatePDFSectionsList(data, data.visibleTabIds);
   
   // 🔧 CONCATÉNATION INTELLIGENTE : Ville + Date en UNE SEULE chaîne
   const buildLocationDateString = (): string => {
@@ -60,6 +64,7 @@ export const PDFIntro: React.FC<PDFIntroProps> = ({
       {quote.tagline && quote.tagline.trim() && (
         <Text style={introStyles.quoteTagline}>
           {markdownToPlainText(quote.tagline)}
+          {sectionsList && markdownToPlainText(sectionsList)}
         </Text>
       )}
 

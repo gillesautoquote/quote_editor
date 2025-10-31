@@ -18,6 +18,7 @@ interface OptionRowProps {
   onDragLeave: (e: React.DragEvent) => void;
   onDrop: (e: React.DragEvent, dropIndex: number, type: 'row' | 'note') => void;
   readonly?: boolean;
+  printMode?: boolean;
 }
 
 export const OptionRow: React.FC<OptionRowProps> = ({
@@ -31,7 +32,8 @@ export const OptionRow: React.FC<OptionRowProps> = ({
   onDragOver,
   onDragLeave,
   onDrop,
-  readonly = false
+  readonly = false,
+  printMode = false,
 }) => {
   const handleLabelSelect = (selectedLabel: string): void => {
     onRowUpdate(rowIndex, 'label', selectedLabel);
@@ -39,22 +41,27 @@ export const OptionRow: React.FC<OptionRowProps> = ({
 
   return (
     <li
-      className="tw-flex tw-items-center tw-gap-2 tw-p-2 tw-border tw-border-border tw-rounded tw-bg-white tw-transition-all tw-duration-200 hover:tw-bg-surface-gray-50"
-      draggable={!readonly}
-      onDragStart={(e) => onDragStart(e, rowIndex, 'row')}
-      onDragEnd={onDragEnd}
-      onDragOver={onDragOver}
-      onDragLeave={onDragLeave}
-      onDrop={(e) => onDrop(e, rowIndex, 'row')}
+      className={`tw-flex tw-items-center tw-gap-2 page-break-inside-avoid ${
+        printMode
+          ? 'tw-p-0.5 tw-bg-transparent'
+          : 'tw-p-2 tw-border tw-border-border tw-rounded tw-bg-white tw-transition-all tw-duration-200 hover:tw-bg-surface-gray-50'
+      } print:tw-border-none print:tw-p-1 print:tw-py-0.5 print:tw-bg-transparent print:tw-rounded-none`}
+      draggable={!readonly && !printMode}
+      onDragStart={!printMode ? (e) => onDragStart(e, rowIndex, 'row') : undefined}
+      onDragEnd={!printMode ? onDragEnd : undefined}
+      onDragOver={!printMode ? onDragOver : undefined}
+      onDragLeave={!printMode ? onDragLeave : undefined}
+      onDrop={!printMode ? (e) => onDrop(e, rowIndex, 'row') : undefined}
       onMouseDown={(e) => {
+        if (printMode) return;
         const target = e.target as HTMLElement;
         if (target.closest('.editableField') || target.closest('input') || target.closest('textarea')) {
           e.stopPropagation();
         }
       }}
     >
-      {!readonly && (
-        <div className="tw-cursor-grab tw-text-text-muted hover:tw-text-primary active:tw-cursor-grabbing">
+      {!readonly && !printMode && (
+        <div className="tw-cursor-grab tw-text-text-muted hover:tw-text-primary active:tw-cursor-grabbing print:tw-hidden">
           <GripVertical size={12} />
         </div>
       )}
@@ -62,8 +69,8 @@ export const OptionRow: React.FC<OptionRowProps> = ({
       <div className="tw-flex tw-items-center tw-gap-2 tw-flex-1">
         <span className="tw-text-text-muted tw-font-bold">•</span>
 
-        {!readonly && row.type && selectDefinitions[row.type] && (
-          <div>
+        {!readonly && !printMode && row.type && selectDefinitions[row.type] && (
+          <div className="print:tw-hidden">
             <OptionSelector
               options={selectDefinitions[row.type!].values}
               onSelect={handleLabelSelect}
@@ -77,12 +84,13 @@ export const OptionRow: React.FC<OptionRowProps> = ({
             value={row.label}
             onSave={(value) => onRowUpdate(rowIndex, 'label', value)}
             disabled={readonly}
+            printMode={printMode}
             fullWidth={true}
             className={clsx(
-              'tw-text-sm',
+              printMode ? 'tw-text-xs' : 'tw-text-sm print:tw-text-xs',
               row.style === 'bold' && 'tw-font-bold',
               row.style === 'italic' && 'tw-italic',
-              row.style === 'heading' && 'tw-text-base tw-font-semibold',
+              row.style === 'heading' && (printMode ? 'tw-text-sm tw-font-semibold' : 'tw-text-base tw-font-semibold print:tw-text-sm'),
               row.style === 'danger' && 'tw-text-danger tw-font-medium',
               row.style === 'success' && 'tw-text-success tw-font-medium',
               row.style === 'warning' && 'tw-text-warning tw-font-medium'
@@ -99,8 +107,8 @@ export const OptionRow: React.FC<OptionRowProps> = ({
         </div>
       </div>
 
-      {!readonly && (
-        <div className="tw-flex tw-items-center tw-gap-1.5">
+      {!readonly && !printMode && (
+        <div className="tw-flex tw-items-center tw-gap-1.5 print:tw-hidden">
           <StyleSelector
             value={row.style || 'normal'}
             onChange={(style) => onRowUpdate(rowIndex, 'style', style)}

@@ -24,6 +24,7 @@ interface BlocksContainerProps {
   showBlockControls?: boolean;
   allowWidthControl?: boolean;
   companyColor?: string;
+  printMode?: boolean;
 }
 
 export const BlocksContainer: React.FC<BlocksContainerProps> = ({
@@ -37,7 +38,8 @@ export const BlocksContainer: React.FC<BlocksContainerProps> = ({
   readonly = false,
   showBlockControls = false,
   allowWidthControl = true,
-  companyColor = '#009955'
+  companyColor = '#009955',
+  printMode = false
 }) => {
   const [dragState, setDragState] = useState<DragState>({
     isDragging: false,
@@ -177,7 +179,7 @@ export const BlocksContainer: React.FC<BlocksContainerProps> = ({
         {(optionBlocks || []).map((block, blockIndex) => (
           <React.Fragment key={block.id}>
             {/* Indicateur de drop AVANT le bloc */}
-            {dragState.isDragging &&
+            {!printMode && dragState.isDragging &&
              dragState.dropIndex === blockIndex &&
              dragState.dropPosition === 'before' && (
               <div className="tw-w-full tw-h-1.5 tw-flex tw-items-center tw-justify-center tw-my-1 tw-opacity-100 tw-transform tw-scale-100 tw-transition-all tw-duration-200 tw-ease-out tw-pointer-events-none tw-z-10 tw-relative">
@@ -195,6 +197,7 @@ export const BlocksContainer: React.FC<BlocksContainerProps> = ({
               readonly={readonly}
               showControls={showBlockControls}
               allowWidthControl={allowWidthControl}
+              printMode={printMode}
               companyColor={companyColor}
               onDragStart={!readonly ? handleBlockDragStart : undefined}
               onDragEnd={!readonly ? handleBlockDragEnd : undefined}
@@ -205,7 +208,7 @@ export const BlocksContainer: React.FC<BlocksContainerProps> = ({
             />
 
             {/* Indicateur de drop APRÈS le bloc */}
-            {dragState.isDragging &&
+            {!printMode && dragState.isDragging &&
              dragState.dropIndex === blockIndex &&
              dragState.dropPosition === 'after' && (
               <div className="tw-w-full tw-h-1.5 tw-flex tw-items-center tw-justify-center tw-my-1 tw-opacity-100 tw-transform tw-scale-100 tw-transition-all tw-duration-200 tw-ease-out tw-pointer-events-none tw-z-10 tw-relative">
@@ -218,7 +221,7 @@ export const BlocksContainer: React.FC<BlocksContainerProps> = ({
         ))}
 
         {/* Indicateur de drop à la fin si on fait un drop après le dernier élément */}
-        {dragState.isDragging &&
+        {!printMode && dragState.isDragging &&
          dragState.dropIndex === optionBlocks.length - 1 &&
          dragState.dropPosition === 'after' && (
           <div className="tw-w-full tw-h-1.5 tw-flex tw-items-center tw-justify-center tw-my-1 tw-opacity-100 tw-transform tw-scale-100 tw-transition-all tw-duration-200 tw-ease-out tw-pointer-events-none tw-z-10 tw-relative">

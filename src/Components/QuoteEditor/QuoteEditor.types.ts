@@ -153,6 +153,7 @@ export interface ClientSignature {
 
 export interface Footer {
   copyright: string;
+  confidentialNotice?: string;
   address: string;
   postalCode: string;
   city: string;
@@ -187,6 +188,7 @@ export interface QuoteData {
   clientSignature: ClientSignature;
   footer: Footer;
   selectDefinitions: Record<string, SelectDefinition>;
+  visibleTabIds?: string[];
 }
 
 export type ComponentEvent =
@@ -205,6 +207,9 @@ export interface QuoteEditorProps {
   locale?: 'fr' | 'en';
   theme?: 'light' | 'dark';
   readonly?: boolean;
+  printMode?: boolean;
+  flatMode?: boolean;
+  previewMode?: boolean;
   className?: string;
   onEvent?: (evt: ComponentEvent) => void;
   showToolbar?: boolean;
@@ -213,6 +218,8 @@ export interface QuoteEditorProps {
   showReset?: boolean;
   showTemplateSelector?: boolean;
   allowWidthControl?: boolean;
+  showHeader?: boolean;
+  showFooter?: boolean;
 }
 
 export interface QuoteEditorHandle {
@@ -235,4 +242,10 @@ export interface SaveState {
   isSaving: boolean;
   lastSaved: Date | null;
   hasUnsavedChanges: boolean;
+}
+
+export interface DaySchedule {
+  tripName?: string;
+  date: string;
+  items: DayItem[];
 }

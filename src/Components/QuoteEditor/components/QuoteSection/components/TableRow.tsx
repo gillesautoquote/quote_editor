@@ -29,6 +29,7 @@ interface TableRowProps {
   onDrop: (e: React.DragEvent, lineIndex: number) => void;
   formatDateFrench: (dateString: string) => string;
   formatVatRate: (vatRate: number | string) => string;
+  printMode?: boolean;
 }
 
 export const TableRow: React.FC<TableRowProps> = ({
@@ -45,11 +46,13 @@ export const TableRow: React.FC<TableRowProps> = ({
   onDragLeave,
   onDrop,
   formatDateFrench,
-  formatVatRate
+  formatVatRate,
+  printMode = false
 }) => {
-  const getCellClassName = (columnDef: ColumnDefinition): string => {
+  const getCellClassName = (columnDef: ColumnDefinition, printMode: boolean): string => {
     return clsx(
       'tw-p-2 tw-border-b tw-border-border',
+      printMode && 'print:tw-p-1.5',
       columnDef.align === 'center' && 'tw-text-center',
       columnDef.align === 'right' && 'tw-text-right',
       columnDef.style === 'calculated' && 'tw-bg-surface-gray-50 tw-font-medium',
@@ -78,7 +81,8 @@ export const TableRow: React.FC<TableRowProps> = ({
     <tr
       className={clsx(
         'quoteLine tw-bg-white tw-transition-all tw-duration-200 hover:tw-bg-surface-gray-50',
-        isDragging && 'dragging tw-opacity-50'
+        isDragging && 'dragging tw-opacity-50',
+        printMode && 'print:hover:tw-bg-white'
       )}
       data-line-index={lineIndex}
       draggable={!readonly}
@@ -88,71 +92,75 @@ export const TableRow: React.FC<TableRowProps> = ({
       onDragLeave={onDragLeave}
       onDrop={(e) => onDrop(e, lineIndex)}
     >
-      {!readonly && (
-        <td className="tw-w-8 tw-p-2 tw-border-b tw-border-border tw-text-center">
+      {!readonly && !printMode && (
+        <td className="tw-w-8 tw-p-2 tw-border-b tw-border-border tw-text-center print:tw-hidden">
           <div className="tw-cursor-grab tw-text-text-muted hover:tw-text-primary active:tw-cursor-grabbing">
             <GripVertical size={12} />
           </div>
         </td>
       )}
 
-      <td className={getCellClassName(columns.date)} style={getCellDataStyle(columns.date)}>
+      <td className={getCellClassName(columns.date, printMode)} style={getCellDataStyle(columns.date)}>
         <EditableField
           value={formatDateFrench(line.date)}
           onSave={(value) => onLineUpdate(lineIndex, 'date', value)}
           disabled={readonly || !columns.date.editable}
           placeholder="JJ/MM/AA"
+          printMode={printMode}
         />
       </td>
 
-      <td className={getCellClassName(columns.description)} style={getCellDataStyle(columns.description)}>
+      <td className={getCellClassName(columns.description, printMode)} style={getCellDataStyle(columns.description)}>
         <EditableField
           value={line.description}
           onSave={(value) => onLineUpdate(lineIndex, 'description', value)}
           disabled={readonly || !columns.description.editable}
           multiline
           fullWidth={true}
+          printMode={printMode}
         />
       </td>
 
-      <td className={getCellClassName(columns.durationHours)} style={getCellDataStyle(columns.durationHours)}>
+      <td className={getCellClassName(columns.durationHours, printMode)} style={getCellDataStyle(columns.durationHours)}>
         <EditableField
           value={line.durationHours.toString()}
           onSave={(value) => onLineUpdate(lineIndex, 'durationHours', parseFloat(value) || 0)}
           disabled={readonly || !columns.durationHours.editable}
+          printMode={printMode}
         />
       </td>
 
-      <td className={getCellClassName(columns.pax)} style={getCellDataStyle(columns.pax)}>
+      <td className={getCellClassName(columns.pax, printMode)} style={getCellDataStyle(columns.pax)}>
         <EditableField
           value={line.pax.toString()}
           onSave={(value) => onLineUpdate(lineIndex, 'pax', parseInt(value, 10) || 0)}
           disabled={readonly || !columns.pax.editable}
+          printMode={printMode}
         />
       </td>
 
-      <td className={getCellClassName(columns.unitPrice)} style={getCellDataStyle(columns.unitPrice)}>
+      <td className={getCellClassName(columns.unitPrice, printMode)} style={getCellDataStyle(columns.unitPrice)}>
         {line.unitPrice.toFixed(2)}
       </td>
 
-      <td className={getCellClassName(columns.quantity)} style={getCellDataStyle(columns.quantity)}>
+      <td className={getCellClassName(columns.quantity, printMode)} style={getCellDataStyle(columns.quantity)}>
         {line.quantity.toString()}
       </td>
 
-      <td className={getCellClassName(columns.priceHT)} style={getCellDataStyle(columns.priceHT)}>
+      <td className={getCellClassName(columns.priceHT, printMode)} style={getCellDataStyle(columns.priceHT)}>
         {line.priceHT.toFixed(2)}
       </td>
 
-      <td className={getCellClassName(columns.vatRate)} style={getCellDataStyle(columns.vatRate)}>
+      <td className={getCellClassName(columns.vatRate, printMode)} style={getCellDataStyle(columns.vatRate)}>
         {typeof line.vatRate === 'number' ? line.vatRate.toString() : line.vatRate}
       </td>
 
-      <td className={getCellClassName(columns.priceTTC)} style={getCellDataStyle(columns.priceTTC)}>
+      <td className={getCellClassName(columns.priceTTC, printMode)} style={getCellDataStyle(columns.priceTTC)}>
         {line.priceTTC.toFixed(2)}
       </td>
 
-      {!readonly && (
-        <td className="tw-w-8 tw-p-2 tw-border-b tw-border-border tw-text-center">
+      {!readonly && !printMode && (
+        <td className="tw-w-8 tw-p-2 tw-border-b tw-border-border tw-text-center print:tw-hidden">
           <button
             type="button"
             onClick={() => onRemoveLine(lineIndex)}

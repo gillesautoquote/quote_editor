@@ -14,9 +14,10 @@ interface TableHeaderProps {
     priceTTC: ColumnDefinition;
   };
   readonly?: boolean;
+  printMode?: boolean;
 }
 
-export const TableHeader: React.FC<TableHeaderProps> = ({ columns, readonly = false }) => {
+export const TableHeader: React.FC<TableHeaderProps> = ({ columns, readonly = false, printMode = false }) => {
   const getHeaderStyle = (columnDef: ColumnDefinition): React.CSSProperties => {
     const style: React.CSSProperties = {};
     
@@ -33,20 +34,24 @@ export const TableHeader: React.FC<TableHeaderProps> = ({ columns, readonly = fa
     return style;
   };
 
+  const thClassName = printMode
+    ? 'tw-p-2 tw-text-left tw-font-semibold tw-bg-surface-gray-50 tw-border-b tw-border-border print:tw-text-xs print:tw-p-1.5'
+    : 'tw-p-2 tw-text-left tw-font-semibold tw-bg-surface-gray-50 tw-border-b tw-border-border';
+
   return (
     <thead>
       <tr>
-        {!readonly && <th></th>}
-        <th style={getHeaderStyle(columns.date)}>{columns.date.title}</th>
-        <th style={getHeaderStyle(columns.description)}>{columns.description.title}</th>
-        <th style={getHeaderStyle(columns.durationHours)}>{columns.durationHours.title}</th>
-        <th style={getHeaderStyle(columns.pax)}>{columns.pax.title}</th>
-        <th style={getHeaderStyle(columns.unitPrice)}>{columns.unitPrice.title}</th>
-        <th style={getHeaderStyle(columns.quantity)}>{columns.quantity.title}</th>
-        <th style={getHeaderStyle(columns.priceHT)}>{columns.priceHT.title}</th>
-        <th style={getHeaderStyle(columns.vatRate)}>{columns.vatRate.title}</th>
-        <th style={getHeaderStyle(columns.priceTTC)}>{columns.priceTTC.title}</th>
-        {!readonly && <th></th>}
+        {!readonly && !printMode && <th className="print:tw-hidden"></th>}
+        <th className={thClassName} style={getHeaderStyle(columns.date)}>{columns.date.title}</th>
+        <th className={thClassName} style={getHeaderStyle(columns.description)}>{columns.description.title}</th>
+        <th className={thClassName} style={getHeaderStyle(columns.durationHours)}>{columns.durationHours.title}</th>
+        <th className={thClassName} style={getHeaderStyle(columns.pax)}>{columns.pax.title}</th>
+        <th className={thClassName} style={getHeaderStyle(columns.unitPrice)}>{columns.unitPrice.title}</th>
+        <th className={thClassName} style={getHeaderStyle(columns.quantity)}>{columns.quantity.title}</th>
+        <th className={thClassName} style={getHeaderStyle(columns.priceHT)}>{columns.priceHT.title}</th>
+        <th className={thClassName} style={getHeaderStyle(columns.vatRate)}>{columns.vatRate.title}</th>
+        <th className={thClassName} style={getHeaderStyle(columns.priceTTC)}>{columns.priceTTC.title}</th>
+        {!readonly && !printMode && <th className="print:tw-hidden"></th>}
       </tr>
     </thead>
   );

@@ -7,12 +7,14 @@ interface CarbonImpactProps {
   carbonImpact: CarbonImpactType;
   onUpdateCarbonImpact?: (carbonImpact: CarbonImpactType) => void;
   readonly?: boolean;
+  printMode?: boolean;
 }
 
 export const CarbonImpact: React.FC<CarbonImpactProps> = ({
   carbonImpact,
   onUpdateCarbonImpact,
-  readonly = false
+  readonly = false,
+  printMode = false
 }) => {
   return (
     <div className="tw-mb-6 tw-flex tw-justify-center">
@@ -62,6 +64,7 @@ export const CarbonImpact: React.FC<CarbonImpactProps> = ({
                   onUpdateCarbonImpact?.({ ...carbonImpact, description: value })
                 }
                 disabled={readonly}
+                printMode={printMode}
                 as="p"
                 className="tw-text-xs tw-text-gray-700 tw-text-center tw-leading-relaxed"
                 multiline

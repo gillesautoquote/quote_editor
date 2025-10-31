@@ -163,6 +163,7 @@ export interface CarbonImpact {
 
 export interface Footer {
   copyright: string;
+  confidentialNotice: string;
   address: string;
   postalCode: string;
   city: string;
@@ -256,6 +257,7 @@ export interface TravelPhase {
 export type DayItem = StepGroup | TravelPhase;
 
 export interface DaySchedule {
+  tripName?: string;
   date: string;
   items: DayItem[];
 }
@@ -283,11 +285,13 @@ export interface QuoteData {
     ttc: number;
     vatBreakdown?: { rate: number; amount: number }[];
   };
+  validityNotice: string;
   carbonImpact?: CarbonImpact;
   busServices?: BusServices;
   optionBlocks: OptionBlock[];
   signatureFrame: SignatureFrame;
   clientSignature: ClientSignature;
+  termsNotice: string;
   footer: Footer;
   selectDefinitions: Record<string, SelectDefinition>;
   itinerary?: DaySchedule[];

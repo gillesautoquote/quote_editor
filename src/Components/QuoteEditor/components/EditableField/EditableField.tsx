@@ -12,23 +12,40 @@ interface EditableFieldProps {
   fullWidth?: boolean;
   onMouseDown?: (e: React.MouseEvent) => void;
   onDragStart?: (e: React.DragEvent) => void;
+  printMode?: boolean;
 }
 
 export const EditableField: React.FC<EditableFieldProps> = ({
   value,
   onSave,
   placeholder = "Cliquez pour éditer",
-  multiline = false, 
+  multiline = false,
   className = '',
   disabled = false,
   as: Component = 'span',
   fullWidth = false,
   onMouseDown,
-  onDragStart
+  onDragStart,
+  printMode = false
 }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editValue, setEditValue] = useState<string>(value);
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
+
+  if (printMode) {
+    return (
+      <Component
+        className={clsx(
+          'print:tw-border-none print:tw-p-0 print:tw-bg-transparent print:tw-outline-none',
+          'tw-text-text',
+          fullWidth && 'tw-w-full tw-max-w-full tw-block',
+          className
+        )}
+      >
+        {value || placeholder}
+      </Component>
+    );
+  }
 
   useEffect(() => {
     setEditValue(value);

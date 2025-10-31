@@ -10,6 +10,7 @@ import { QuotePageIntro } from './components/QuotePageIntro';
 import { QuotePageTotals } from './components/QuotePageTotals';
 import { QuotePageFooter } from './components/QuotePageFooter';
 import { CarbonImpact } from '../CarbonImpact/CarbonImpact';
+import { EditableField } from '../EditableField/EditableField';
 import { useFieldPath } from '../../hooks/useFieldPath';
 import { useColorTheme } from '../../hooks/useColorTheme';
 import { formatCopyright, formatUrl } from './utils/textFormatters';
@@ -30,6 +31,7 @@ interface QuotePageProps {
   contentConfig: PageContentConfig;
   readonly?: boolean;
   allowWidthControl?: boolean;
+  printMode?: boolean;
 }
 
 export const QuotePage: React.FC<QuotePageProps> = ({
@@ -37,7 +39,8 @@ export const QuotePage: React.FC<QuotePageProps> = ({
   onUpdateData,
   contentConfig,
   readonly = false,
-  allowWidthControl = true
+  allowWidthControl = true,
+  printMode = false
 }) => {
   const { setValueByPath } = useFieldPath();
   const { applyColorVariables } = useColorTheme(data.company);
@@ -121,12 +124,17 @@ export const QuotePage: React.FC<QuotePageProps> = ({
   };
 
   return (
-    <div className="tw-w-full tw-max-w-[min(1000px,calc(100vw-2rem))] tw-bg-white tw-shadow-page tw-px-12 tw-py-8 tw-mx-auto tw-relative tw-flex tw-flex-col tw-text-text tw-min-h-auto tw-rounded-lg tw-border tw-border-black/10 md:tw-px-6 md:tw-py-6 md:tw-rounded md:tw-shadow-sm print:tw-shadow-none print:tw-m-0 print:tw-rounded-none print:tw-border-none print:tw-w-[21cm]">
+    <div
+      className="tw-w-full tw-max-w-[min(1000px,calc(100vw-2rem))] tw-bg-white tw-shadow-page tw-px-12 tw-py-8 tw-mx-auto tw-relative tw-flex tw-flex-col tw-text-text tw-min-h-auto tw-rounded-lg tw-border tw-border-black/10 md:tw-px-6 md:tw-py-6 md:tw-rounded md:tw-shadow-sm print:tw-shadow-none print:tw-m-0 print:tw-rounded-none print:tw-border-none print:tw-w-[21cm]"
+      data-component="quote-page"
+      data-print-mode={printMode}
+    >
       <QuotePageHeader
         company={dataWithProgrammeVoyage.company}
         quote={dataWithProgrammeVoyage.quote}
         onFieldUpdate={handleFieldUpdate}
         readonly={readonly}
+        printMode={printMode}
       />
 
       <div className="tw-flex tw-flex-col tw-flex-1 tw-justify-between">
@@ -136,6 +144,7 @@ export const QuotePage: React.FC<QuotePageProps> = ({
               recipient={dataWithProgrammeVoyage.recipient}
               onFieldUpdate={handleFieldUpdate}
               readonly={readonly}
+              printMode={printMode}
             />
           )}
 
@@ -145,6 +154,9 @@ export const QuotePage: React.FC<QuotePageProps> = ({
             clientSignature={dataWithProgrammeVoyage.clientSignature}
             onFieldUpdate={handleFieldUpdate}
             readonly={readonly}
+            printMode={printMode}
+            data={dataWithProgrammeVoyage}
+            visibleTabIds={dataWithProgrammeVoyage.visibleTabIds}
           />
 
           <div className="tw-mb-4">
@@ -165,13 +177,24 @@ export const QuotePage: React.FC<QuotePageProps> = ({
                 }}
                 onRemoveSection={() => handleRemoveSection(sectionIndex)}
                 readonly={readonly}
+                printMode={printMode}
               />
             ))}
           </div>
 
           {contentConfig.showTotals && (
-            <QuotePageTotals totals={dataWithProgrammeVoyage.totals} />
+            <QuotePageTotals totals={dataWithProgrammeVoyage.totals} printMode={printMode} />
           )}
+
+          <div className="tw-flex tw-justify-end tw-mb-4">
+            <EditableField
+              value={dataWithProgrammeVoyage.validityNotice || ''}
+              onSave={(value) => handleFieldUpdate('validityNotice', value)}
+              disabled={readonly}
+              className="tw-text-sm tw-text-text-muted tw-italic"
+              printMode={printMode}
+            />
+          </div>
 
           <BlocksContainer
             optionBlocks={(contentConfig.optionBlocks || []).map(i => dataWithProgrammeVoyage.optionBlocks[i] || null).filter(Boolean)}
@@ -196,18 +219,31 @@ export const QuotePage: React.FC<QuotePageProps> = ({
             readonly={readonly}
             showBlockControls={true}
             allowWidthControl={allowWidthControl}
+            printMode={printMode}
           />
         </div>
 
         {contentConfig.showSignature && (
-          <SignatureSection
-            clientSignature={dataWithProgrammeVoyage.clientSignature}
-            onUpdateClientSignature={(signature) => {
-              const newData = { ...dataWithProgrammeVoyage, clientSignature: signature };
-              onUpdateData(newData);
-            }}
-            readonly={readonly}
-          />
+          <>
+            <SignatureSection
+              clientSignature={dataWithProgrammeVoyage.clientSignature}
+              onUpdateClientSignature={(signature) => {
+                const newData = { ...dataWithProgrammeVoyage, clientSignature: signature };
+                onUpdateData(newData);
+              }}
+              readonly={readonly}
+              printMode={printMode}
+            />
+            <div className="tw-flex tw-justify-center tw-mb-4">
+              <EditableField
+                value={dataWithProgrammeVoyage.termsNotice || ''}
+                onSave={(value) => handleFieldUpdate('termsNotice', value)}
+                disabled={readonly}
+                className="tw-text-sm tw-text-text-muted tw-italic"
+                printMode={printMode}
+              />
+            </div>
+          </>
         )}
 
         {dataWithProgrammeVoyage.carbonImpact && (
@@ -217,6 +253,7 @@ export const QuotePage: React.FC<QuotePageProps> = ({
               onUpdateData({ ...dataWithProgrammeVoyage, carbonImpact })
             }
             readonly={readonly}
+            printMode={printMode}
           />
         )}
       </div>
@@ -227,6 +264,7 @@ export const QuotePage: React.FC<QuotePageProps> = ({
         onCompanyNameUpdate={handleCompanyNameUpdate}
         onWebsiteUpdate={handleWebsiteUpdate}
         readonly={readonly}
+        printMode={printMode}
       />
     </div>
   );

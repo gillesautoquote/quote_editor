@@ -60,7 +60,7 @@ export const markdownToHtml = (text: string): string => {
   let html = text;
 
   // Gras: **texte** -> <strong>texte</strong>
-  html = html.replace(/\*\*(.*?)\*\*/g, '<strong style="font-weight: 600;">$1</strong>');
+  html = html.replace(/\*\*(.*?)\*\*/g, '<strong style="font-weight: 700;">$1</strong>');
 
   // Italique: *texte* -> <em>texte</em>
   html = html.replace(/\*(.*?)\*/g, '<em style="font-style: italic;">$1</em>');
@@ -69,11 +69,11 @@ export const markdownToHtml = (text: string): string => {
   html = html.replace(/^---$/gm, '<hr style="margin: 1rem 0; border: 0; border-top: 1px solid #d1d5db;" />');
 
   // Listes: - item -> <li>item</li>
-  html = html.replace(/^- (.+)$/gm, '<li style="margin-left: 1.5rem; margin-bottom: 0.25rem;">$1</li>');
+  html = html.replace(/^- (.+)$/gm, '<li style="margin-left: 1.25rem; margin-bottom: 0.15rem;">$1</li>');
 
   // Entourer les groupes de <li> avec <ul>
   html = html.replace(/(<li.*?<\/li>\n?)+/g, (match) => {
-    return '<ul style="list-style-type: disc; margin: 0.5rem 0; padding-left: 1.5rem;">' + match + '</ul>';
+    return '<ul style="list-style-type: disc; margin: 0.25rem 0; padding-left: 1.25rem;">' + match + '</ul>';
   });
 
   // Paragraphes: double saut de ligne -> <p>

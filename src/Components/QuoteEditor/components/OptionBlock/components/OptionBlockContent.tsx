@@ -16,6 +16,7 @@ interface OptionBlockContentProps {
   onDragLeave: (e: React.DragEvent) => void;
   onDrop: (e: React.DragEvent, dropIndex: number, type: 'row' | 'note') => void;
   readonly?: boolean;
+  printMode?: boolean;
   onUpdateBlock?: (block: OptionBlock) => void;
   blockColor?: string;
 }
@@ -32,6 +33,7 @@ export const OptionBlockContent: React.FC<OptionBlockContentProps> = ({
   onDragLeave,
   onDrop,
   readonly = false,
+  printMode = false,
   onUpdateBlock,
   blockColor = '#009955'
 }) => {
@@ -48,9 +50,9 @@ export const OptionBlockContent: React.FC<OptionBlockContentProps> = ({
   };
 
   return (
-    <div className={block.type === 'programme-voyage' ? '' : 'tw-p-3'}>
+    <div className={block.type === 'programme-voyage' ? '' : printMode ? 'tw-pt-1' : 'tw-p-3 print:tw-p-0 print:tw-pt-1'}>
       {block.type === 'list' && block.rows && (
-        <ul className="tw-list-none tw-m-0 tw-p-0 tw-space-y-2">
+        <ul className={printMode ? 'tw-list-none tw-m-0 tw-p-0 tw-space-y-0.5' : 'tw-list-none tw-m-0 tw-p-0 tw-space-y-2 print:tw-space-y-0.5'}>
           {block.rows.map((row, rowIndex) => (
             <OptionRow
               key={row.id}
@@ -65,13 +67,14 @@ export const OptionBlockContent: React.FC<OptionBlockContentProps> = ({
               onDragLeave={onDragLeave}
               onDrop={onDrop}
               readonly={readonly}
+              printMode={printMode}
             />
           ))}
         </ul>
       )}
 
       {block.type === 'notes' && block.notes && (
-        <ul className="tw-list-none tw-m-0 tw-p-0 tw-space-y-2">
+        <ul className="tw-list-none tw-m-0 tw-p-0 tw-space-y-2 print:tw-space-y-0.5">
           {block.notes.map((note, noteIndex) => (
             <NoteRow
               key={noteIndex}
@@ -85,6 +88,7 @@ export const OptionBlockContent: React.FC<OptionBlockContentProps> = ({
               onDragLeave={onDragLeave}
               onDrop={onDrop}
               readonly={readonly}
+              printMode={printMode}
             />
           ))}
         </ul>
@@ -103,6 +107,7 @@ export const OptionBlockContent: React.FC<OptionBlockContentProps> = ({
           onUpdateSteps={handleUpdateTripSteps}
           onUpdateFilters={handleUpdateTripFilters}
           readonly={readonly}
+          printMode={printMode}
           blockColor={blockColor}
         />
       )}

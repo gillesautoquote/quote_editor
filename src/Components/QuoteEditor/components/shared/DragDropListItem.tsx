@@ -11,6 +11,7 @@ interface DragDropListItemProps {
   readonly?: boolean;
   children: React.ReactNode;
   className?: string;
+  printMode?: boolean;
 }
 
 export const DragDropListItem: React.FC<DragDropListItemProps> = ({
@@ -20,9 +21,20 @@ export const DragDropListItem: React.FC<DragDropListItemProps> = ({
   onRemove,
   readonly = false,
   children,
-  className = ''
+  className = '',
+  printMode = false
 }) => {
   const { handleDragStart, handleDragEnd, handleDragOver, handleDragLeave, handleDrop } = useDragAndDrop(!readonly);
+
+  if (printMode) {
+    return (
+      <div className={clsx('tw-flex tw-items-center tw-py-[0.4rem] tw-min-h-[1.5rem] print:tw-py-2', className)}>
+        <div className="tw-flex-1">
+          {children}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -33,6 +45,7 @@ export const DragDropListItem: React.FC<DragDropListItemProps> = ({
         '[&.dragOver]:tw-bg-primary/10 [&.dragOver]:tw-border-primary [&.dragOver]:tw-scale-[1.01] [&.dragOver]:tw-shadow-primary-lg',
         '[&.dragging]:tw-opacity-60 [&.dragging]:tw-rotate-1 [&.dragging]:tw-scale-[0.98] [&.dragging]:tw-shadow-xl',
         'max-md:tw-flex-wrap max-md:tw-min-h-[2rem] max-md:tw-py-[0.3rem] max-md:tw-px-[0.2rem]',
+        'print:tw-hidden',
         className
       )}
       draggable={!readonly}

@@ -1,3 +1,5 @@
+@import './styles/print.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -58,4 +60,23 @@ body {
     min-width: 100%;
     max-width: 100%;
   }
+}
+
+@media screen {
+  [data-screen-a4="true"] {
+    min-height: 29.7cm; /* hauteur A4, approximative à l’écran */
+    width: 21cm !important;      /* largeur A4 */
+    max-width: 21cm !important;  /* figer la largeur */
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+/* Listes compactes dans l’introduction */
+.intro-list ul { margin: 0.1rem 0 !important; padding-left: 1.1rem !important; line-height: 1.2 !important; }
+.intro-list li { margin-bottom: 0.05rem !important; line-height: 1.2 !important; }
+
+@media print {
+  .intro-list ul { margin: 0.08rem 0 !important; padding-left: 1rem !important; line-height: 1.15 !important; }
+  .intro-list li { margin-bottom: 0.04rem !important; line-height: 1.15 !important; }
 }

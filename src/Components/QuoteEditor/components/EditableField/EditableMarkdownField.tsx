@@ -8,6 +8,7 @@ interface EditableMarkdownFieldProps {
   className?: string;
   disabled?: boolean;
   markdownToHtml: (text: string) => string;
+  printMode?: boolean;
 }
 
 export const EditableMarkdownField: React.FC<EditableMarkdownFieldProps> = ({
@@ -16,11 +17,33 @@ export const EditableMarkdownField: React.FC<EditableMarkdownFieldProps> = ({
   placeholder = "Cliquez pour éditer",
   className = '',
   disabled = false,
-  markdownToHtml
+  markdownToHtml,
+  printMode = false
 }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editValue, setEditValue] = useState<string>(value);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  if (printMode) {
+    return (
+      <div
+        className={clsx(
+          'print:tw-border-none print:tw-p-0 print:tw-bg-transparent print:tw-outline-none',
+          'tw-text-text tw-w-full',
+          className
+        )}
+      >
+        {value ? (
+          <div
+            className="tw-text-[0.9rem] tw-leading-[1.4] [&_ul]:tw-pl-5 [&_ol]:tw-pl-5 [&_ul]:tw-my-0 [&_ol]:tw-my-0 [&_p]:tw-my-0"
+            dangerouslySetInnerHTML={{ __html: markdownToHtml(value) }}
+          />
+        ) : (
+          <span className="tw-text-text-muted">{placeholder}</span>
+        )}
+      </div>
+    );
+  }
 
   useEffect(() => {
     setEditValue(value);
@@ -96,7 +119,7 @@ export const EditableMarkdownField: React.FC<EditableMarkdownFieldProps> = ({
           onBlur={handleBlur}
           className={clsx(
             'tw-border-none tw-bg-transparent tw-p-0 tw-font-inherit tw-text-inherit',
-            'tw-outline-none tw-resize-none tw-rounded-sm tw-leading-[1.6] tw-box-border tw-w-full tw-max-w-full',
+            'tw-outline-none tw-resize-none tw-rounded-sm tw-leading-[1.4] tw-box-border tw-w-full tw-max-w-full',
             'focus:tw-bg-white focus:tw-shadow-[0_0_0_0.5px_var(--tw-shadow-color)] focus:tw-shadow-primary',
             'placeholder:tw-text-text-muted placeholder:tw-text-[0.9em]',
             'tw-min-h-[100px] tw-text-[0.9rem]'

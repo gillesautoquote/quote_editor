@@ -28,7 +28,7 @@
     "version": "1.0",
     "issueDate": "2024-06-11",
     "executionCity": "Roissy‑en‑France",
-    "tagline": "Nous avons le plaisir de vous adresser notre **devis détaillé** pour votre projet de transport.\n\nCe document comprend :\n- Le **programme détaillé** de votre voyage\n- La **cotation précise** du trajet demandé\n- Nos **conditions générales de vente**\n\nVous trouverez également en dernière page un **bon de commande** qui peut être :\n- Retourné **signé et tamponné** à l'adresse de notre société pour confirmer votre réservation\n- Signé **électroniquement en ligne** pour votre commodité",
+    "tagline": "Nous avons le plaisir de vous adresser notre **devis détaillé** pour votre projet de transport.",
     "validUntil": "2024-03-01",
     "reference": "BDT CONVENTION ALL STAFF 20/06"
   },
@@ -563,33 +563,6 @@
           "style": "underline"
         }
       ]
-    },
-    {
-      "id": "nota_bene",
-      "title": "Nota Bene",
-      "color": "#6f42c1",
-      "columns": 6,
-      "showTitle": false,
-      "allowWidthControl": true,
-      "type": "notes",
-      "notes": [
-        {
-          "text": "Les prix sont valables 30 jours à compter de la date d'émission.",
-          "style": "normal"
-        },
-        {
-          "text": "Document confidentiel — reproduction interdite.",
-          "style": "bold"
-        },
-        {
-          "text": "Conditions générales disponibles sur notre site web.",
-          "style": "italic"
-        },
-        {
-          "text": "Merci de votre confiance.",
-          "style": "normal"
-        }
-      ]
     }
   ],
   "signatureFrame": {
@@ -636,8 +609,11 @@
     "equivalentKm": 1450,
     "description": "L'autocar est l'un des modes de transport motorisés les plus sobres en carbone : jusqu'à 5 fois moins d'émissions par passager qu'une voiture individuelle, tout en limitant la congestion et la pollution locale. En choisissant le transport en autocar, vous optez pour un mode de déplacement collectif écoresponsable, réduisant significativement les émissions de CO₂ par passager."
   },
+  "validityNotice": "Les prix sont valables 30 jours à compter de la date d'émission.",
+  "termsNotice": "Conditions générales disponibles sur notre site web.",
   "footer": {
     "copyright": "© 2024 Transdev Île‑de‑France — Tous droits réservés",
+    "confidentialNotice": "Document confidentiel — reproduction interdite.",
     "address": "6 Avenue Heinz Gloor",
     "postalCode": "95933",
     "city": "Roissy CDG Cedex",
@@ -652,6 +628,7 @@
   },
   "itinerary": [
     {
+      "tripName": "Voyage Paris → Lille",
       "date": "2025-11-28",
       "items": [
         {
@@ -1186,5 +1163,6 @@
         }
       ]
     }
-  ]
+  ],
+  "visibleTabIds": ["introduction", "programme", "services", "cotation", "conditions", "signature"]
 }

@@ -16,6 +16,7 @@ interface NoteRowProps {
   onDragLeave: (e: React.DragEvent) => void;
   onDrop: (e: React.DragEvent, dropIndex: number, type: 'row' | 'note') => void;
   readonly?: boolean;
+  printMode?: boolean;
 }
 
 export const NoteRow: React.FC<NoteRowProps> = ({
@@ -28,26 +29,32 @@ export const NoteRow: React.FC<NoteRowProps> = ({
   onDragOver,
   onDragLeave,
   onDrop,
-  readonly = false
+  readonly = false,
+  printMode = false,
 }) => {
   return (
     <li
-      className="tw-flex tw-items-center tw-gap-2 tw-p-2 tw-border tw-border-border tw-rounded tw-bg-white tw-transition-all tw-duration-200 hover:tw-bg-surface-gray-50"
-      draggable={!readonly}
-      onDragStart={(e) => onDragStart(e, noteIndex, 'note')}
-      onDragEnd={onDragEnd}
-      onDragOver={onDragOver}
-      onDragLeave={onDragLeave}
-      onDrop={(e) => onDrop(e, noteIndex, 'note')}
+      className={`tw-flex tw-items-center tw-gap-2 page-break-inside-avoid ${
+        printMode
+          ? 'tw-p-0.5 tw-bg-transparent'
+          : 'tw-p-2 tw-border tw-border-border tw-rounded tw-bg-white tw-transition-all tw-duration-200 hover:tw-bg-surface-gray-50'
+      } print:tw-border-none print:tw-p-1 print:tw-py-0.5 print:tw-bg-transparent print:tw-rounded-none`}
+      draggable={!readonly && !printMode}
+      onDragStart={!printMode ? (e) => onDragStart(e, noteIndex, 'note') : undefined}
+      onDragEnd={!printMode ? onDragEnd : undefined}
+      onDragOver={!printMode ? onDragOver : undefined}
+      onDragLeave={!printMode ? onDragLeave : undefined}
+      onDrop={!printMode ? (e) => onDrop(e, noteIndex, 'note') : undefined}
       onMouseDown={(e) => {
+        if (printMode) return;
         const target = e.target as HTMLElement;
         if (target.closest('.editableField') || target.closest('input') || target.closest('textarea')) {
           e.stopPropagation();
         }
       }}
     >
-      {!readonly && (
-        <div className="tw-cursor-grab tw-text-text-muted hover:tw-text-primary active:tw-cursor-grabbing">
+      {!readonly && !printMode && (
+        <div className="tw-cursor-grab tw-text-text-muted hover:tw-text-primary active:tw-cursor-grabbing print:tw-hidden">
           <GripVertical size={12} />
         </div>
       )}
@@ -60,12 +67,13 @@ export const NoteRow: React.FC<NoteRowProps> = ({
             value={note.text}
             onSave={(value) => onNoteUpdate(noteIndex, 'text', value)}
             disabled={readonly}
+            printMode={printMode}
             fullWidth={true}
             className={clsx(
-              'tw-text-sm',
+              printMode ? 'tw-text-xs' : 'tw-text-sm print:tw-text-xs',
               note.style === 'bold' && 'tw-font-bold',
               note.style === 'italic' && 'tw-italic',
-              note.style === 'heading' && 'tw-text-base tw-font-semibold',
+              note.style === 'heading' && (printMode ? 'tw-text-sm tw-font-semibold' : 'tw-text-base tw-font-semibold print:tw-text-sm'),
               note.style === 'danger' && 'tw-text-danger tw-font-medium',
               note.style === 'success' && 'tw-text-success tw-font-medium',
               note.style === 'warning' && 'tw-text-warning tw-font-medium'
@@ -82,8 +90,8 @@ export const NoteRow: React.FC<NoteRowProps> = ({
         </div>
       </div>
 
-      {!readonly && (
-        <div className="tw-flex tw-items-center tw-gap-1.5">
+      {!readonly && !printMode && (
+        <div className="tw-flex tw-items-center tw-gap-1.5 print:tw-hidden">
           <StyleSelector
             value={note.style || 'normal'}
             onChange={(style) => onNoteUpdate(noteIndex, 'style', style)}

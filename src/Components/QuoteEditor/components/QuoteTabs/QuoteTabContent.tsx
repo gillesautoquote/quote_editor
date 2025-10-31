@@ -11,6 +11,8 @@ import { InstructionsFrame } from '../InstructionsFrame/InstructionsFrame';
 import { CarbonImpact } from '../CarbonImpact/CarbonImpact';
 import { BusServicesBlock } from '../BusServices/BusServicesBlock';
 import { BlocksContainer } from '../shared/BlocksContainer';
+import { TripProgramBlock } from '../OptionBlock/components/TripProgramBlock';
+import { EditableField } from '../EditableField/EditableField';
 import { calculateGlobalTotals } from '../../utils/calculationUtils';
 import { formatCopyright, formatUrl } from '../QuotePage/utils/textFormatters';
 import { useFieldPath } from '../../hooks/useFieldPath';
@@ -18,6 +20,7 @@ import { createProgrammeVoyageBlock } from '../../utils/itineraryConverters';
 
 interface QuoteTabContentProps {
   activeTab: string;
+  visibleTabIds: string[];
   data: QuoteData;
   onUpdateData: (newData: QuoteData) => void;
   readonly?: boolean;
@@ -26,6 +29,7 @@ interface QuoteTabContentProps {
 
 export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
   activeTab,
+  visibleTabIds,
   data,
   onUpdateData,
   readonly = false,
@@ -93,7 +97,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
   const otherBlocks = currentData.optionBlocks.filter(block => block.type !== 'programme-voyage');
 
   const renderPageContainer = (children: React.ReactNode, showFooter = true) => (
-    <div className="tw-w-full tw-max-w-[min(1000px,calc(100vw-2rem))] tw-bg-white tw-shadow-page tw-px-12 tw-py-8 tw-mx-auto tw-relative tw-flex tw-flex-col tw-text-text tw-min-h-auto tw-rounded-lg tw-border tw-border-black/10 md:tw-px-6 md:tw-py-6 md:tw-rounded md:tw-shadow-sm print:tw-shadow-none print:tw-m-0 print:tw-rounded-none print:tw-border-none print:tw-w-[21cm]">
+    <div className="tw-w-full tw-max-w-[min(1000px,calc(100vw-2rem))] tw-bg-white tw-shadow-page tw-px-12 tw-py-8 tw-mx-auto tw-relative tw-flex tw-flex-col tw-text-text tw-min-h-auto tw-rounded-lg tw-border tw-border-black/10 md:tw-px-6 md:tw-py-6 md:tw-rounded md:tw-shadow-sm print:tw-shadow-none print:tw-m-0 print:tw-rounded-none print:tw-border-none print:tw-w-[21cm]" data-screen-a4="true">
       <QuotePageHeader
         company={currentData.company}
         quote={currentData.quote}
@@ -132,6 +136,8 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
             clientSignature={currentData.clientSignature}
             onFieldUpdate={handleFieldUpdate}
             readonly={readonly}
+            data={currentData}
+            visibleTabIds={visibleTabIds}
           />
         </>
       );
@@ -139,26 +145,65 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
     case 'programme':
       return renderPageContainer(
         <>
-          {programmeBlock && (
-            <BlocksContainer
-              optionBlocks={[programmeBlock]}
-              signatureFrame={currentData.signatureFrame}
-              selectDefinitions={currentData.selectDefinitions}
-              onUpdateOptionBlock={(blockIndex, updatedBlock) => {
+          <h2 className="tw-text-xl tw-font-bold tw-mb-4" style={{ color: currentData.company.mainColor }}>
+            Programme de voyage
+          </h2>
+          {programmeBlock && programmeBlock.type === 'programme-voyage' && programmeBlock.tripSteps ? (
+            <TripProgramBlock
+              steps={programmeBlock.tripSteps}
+              filters={programmeBlock.tripFilters || {
+                depart: true,
+                arrivee: true,
+                mise_en_place: true,
+                retour: false,
+                excludeDepot: true
+              }}
+              onUpdateSteps={(steps) => {
+                const updatedBlock = {
+                  ...programmeBlock,
+                  tripSteps: steps
+                };
                 const newBlocks = currentData.optionBlocks.map(b =>
                   b.id === updatedBlock.id ? updatedBlock : b
                 );
                 onUpdateData({ ...currentData, optionBlocks: newBlocks });
               }}
-              onRemoveOptionBlock={() => {}}
-              onReorderBlocks={() => {}}
-              onUpdateSignatureFrame={() => {}}
+              onUpdateFilters={(filters) => {
+                const updatedBlock = {
+                  ...programmeBlock,
+                  tripFilters: filters
+                };
+                const newBlocks = currentData.optionBlocks.map(b =>
+                  b.id === updatedBlock.id ? updatedBlock : b
+                );
+                onUpdateData({ ...currentData, optionBlocks: newBlocks });
+              }}
               readonly={readonly}
-              showBlockControls={false}
-              allowWidthControl={false}
-              companyColor={currentData.company.mainColor}
+              printMode={false}
+              blockColor={currentData.company.mainColor}
             />
+          ) : (
+            <div className="tw-bg-gray-50 tw-rounded-lg tw-border tw-border-gray-200 tw-p-6 tw-text-center tw-text-sm tw-text-gray-500">
+              Aucun programme de voyage disponible
+            </div>
           )}
+
+          <div className="tw-mt-6">
+            <CarbonImpact
+              carbonImpact={currentData.carbonImpact}
+              onUpdate={(impact) => onUpdateData({ ...currentData, carbonImpact: impact })}
+              readonly={readonly}
+            />
+          </div>
+        </>
+      );
+
+    case 'services':
+      return renderPageContainer(
+        <>
+          <h2 className="tw-text-xl tw-font-bold tw-mb-6" style={{ color: currentData.company.mainColor }}>
+            Services à l'intérieur
+          </h2>
           {currentData.busServices && (
             <BusServicesBlock
               busServices={currentData.busServices}
@@ -167,15 +212,6 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
               onUpdateServices={(services) => {
                 onUpdateData({ ...currentData, busServices: services });
               }}
-            />
-          )}
-          {currentData.carbonImpact && (
-            <CarbonImpact
-              carbonImpact={currentData.carbonImpact}
-              onUpdateCarbonImpact={(carbonImpact) =>
-                onUpdateData({ ...currentData, carbonImpact })
-              }
-              readonly={readonly}
             />
           )}
         </>
@@ -203,6 +239,14 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
             ))}
           </div>
           <QuotePageTotals totals={currentData.totals} />
+          <div className="tw-flex tw-justify-end tw-mb-4">
+            <EditableField
+              value={currentData.validityNotice || ''}
+              onSave={(value) => handleFieldUpdate('validityNotice', value)}
+              disabled={readonly}
+              className="tw-text-sm tw-text-text-muted tw-italic"
+            />
+          </div>
         </>
       );
 
@@ -265,6 +309,14 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
             }}
             readonly={readonly}
           />
+          <div className="tw-flex tw-justify-center tw-mb-4">
+            <EditableField
+              value={currentData.termsNotice || ''}
+              onSave={(value) => handleFieldUpdate('termsNotice', value)}
+              disabled={readonly}
+              className="tw-text-sm tw-text-text-muted tw-italic"
+            />
+          </div>
         </>,
         true
       );
