@@ -256,6 +256,40 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
           <h2 className="tw-text-xl tw-font-bold tw-mb-6" style={{ color: currentData.company.mainColor }}>
             Conditions générales
           </h2>
+
+          {/* Bouton d'ajout de bloc de conditions */}
+          {!readonly && (
+            <div className="tw-mb-3">
+              <button
+                type="button"
+                onClick={() => {
+                  const now = Date.now();
+                  const newBlock = {
+                    id: `block_${now}`,
+                    title: 'Nouveau bloc',
+                    color: currentData.company.mainColor,
+                    columns: 3,
+                    showTitle: true,
+                    allowWidthControl: true,
+                    type: 'list' as const,
+                    rows: [
+                      {
+                        id: `row_${now}`,
+                        label: 'Nouvelle ligne',
+                        style: 'normal' as const
+                      }
+                    ]
+                  };
+                  onUpdateData({ ...currentData, optionBlocks: [...currentData.optionBlocks, newBlock] });
+                }}
+                className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-sm tw-font-medium tw-text-white tw-bg-primary tw-border tw-border-primary tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200 hover:tw-bg-primary-dark hover:tw-shadow-primary"
+                title="Ajouter un bloc de conditions"
+              >
+                + Ajouter un bloc
+              </button>
+            </div>
+          )}
+
           <BlocksContainer
             optionBlocks={otherBlocks}
             signatureFrame={currentData.signatureFrame}
@@ -278,8 +312,8 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
             }}
             onUpdateSignatureFrame={() => {}}
             readonly={readonly}
-            showBlockControls={true}
-            allowWidthControl={true}
+            showBlockControls={false}
+            allowWidthControl={false}
             companyColor={currentData.company.mainColor}
           />
         </>
