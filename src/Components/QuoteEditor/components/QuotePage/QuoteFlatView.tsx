@@ -17,6 +17,8 @@ import { useFieldPath } from '../../hooks/useFieldPath';
 import { formatCopyright, formatUrl } from './utils/textFormatters';
 import { calculateGlobalTotals } from '../../utils/calculationUtils';
 import { createProgrammeVoyageBlock } from '../../utils/itineraryConverters';
+import { useEffect } from 'react';
+import { useColorTheme } from '../../hooks/useColorTheme';
 
 interface QuoteFlatViewProps {
   data: QuoteData;
@@ -38,6 +40,13 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
   showFooter = true
 }) => {
   const { setValueByPath } = useFieldPath();
+  const { applyColorVariables } = useColorTheme(data.company);
+
+  useEffect(() => {
+    if (data?.company?.mainColor) {
+      applyColorVariables();
+    }
+  }, [data?.company?.mainColor, applyColorVariables]);
 
   const dataWithProgrammeVoyage = useMemo(() => {
     if (!data || !data.sections || !data.optionBlocks) {
@@ -258,6 +267,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
               showBlockControls={false}
               allowWidthControl={allowWidthControl}
               printMode={printMode}
+              companyColor={dataWithProgrammeVoyage.company.mainColor}
             />
           </div>
         );

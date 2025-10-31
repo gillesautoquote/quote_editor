@@ -37,7 +37,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
           />
         )}
         <div className="tw-flex-1">
-          <div className="tw-text-[1.1rem] tw-font-bold !tw-text-primary tw-mb-[0.2rem] tw-leading-[1.1] [&_.tw-text-text]:!tw-text-[inherit]" style={{ color: company.mainColor || '#009955' }}>
+          <div className="tw-text-[1.1rem] tw-font-bold !tw-text-primary tw-mb-[0.2rem] tw-leading-[1.1] [&_.tw-text-text]:!tw-text-[inherit]" style={{ color: company.mainColor }}>
             <EditableField
               value={company.name}
               onSave={(value) => onFieldUpdate('company.name', value)}
