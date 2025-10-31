@@ -16,8 +16,8 @@
   size: A4 portrait;
 
   /* Marges de page pour Paged.js */
-  margin-top: 3.5cm;
-  margin-bottom: 2.5cm;
+  margin-top: 4.4cm;
+  margin-bottom: 4.4cm;
   margin-left: 2cm;
   margin-right: 2cm;
 
@@ -26,9 +26,6 @@
 }
 
 /* Première page avec marge supérieure réduite */
-@page :first {
-  margin-top: 4.8cm;
-}
 
 /* Pages de gauche et droite (pour recto-verso) */
 @page :left {
