@@ -35,7 +35,7 @@ export const EditableMarkdownField: React.FC<EditableMarkdownFieldProps> = ({
       >
         {value ? (
           <div
-            className="tw-text-[0.9rem] tw-leading-[1.6] [&_ul]:tw-pl-5 [&_ol]:tw-pl-5 [&_ul]:tw-my-0 [&_ol]:tw-my-0 [&_p]:tw-my-0"
+            className="tw-text-[0.9rem] tw-leading-[1.4] [&_ul]:tw-pl-5 [&_ol]:tw-pl-5 [&_ul]:tw-my-0 [&_ol]:tw-my-0 [&_p]:tw-my-0"
             dangerouslySetInnerHTML={{ __html: markdownToHtml(value) }}
           />
         ) : (
@@ -119,7 +119,7 @@ export const EditableMarkdownField: React.FC<EditableMarkdownFieldProps> = ({
           onBlur={handleBlur}
           className={clsx(
             'tw-border-none tw-bg-transparent tw-p-0 tw-font-inherit tw-text-inherit',
-            'tw-outline-none tw-resize-none tw-rounded-sm tw-leading-[1.6] tw-box-border tw-w-full tw-max-w-full',
+            'tw-outline-none tw-resize-none tw-rounded-sm tw-leading-[1.4] tw-box-border tw-w-full tw-max-w-full',
             'focus:tw-bg-white focus:tw-shadow-[0_0_0_0.5px_var(--tw-shadow-color)] focus:tw-shadow-primary',
             'placeholder:tw-text-text-muted placeholder:tw-text-[0.9em]',
             'tw-min-h-[100px] tw-text-[0.9rem]'
