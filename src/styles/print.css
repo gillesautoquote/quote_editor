@@ -672,10 +672,13 @@ body.print-preview button:not(.print-show) {
 }
 
 @media print {
-  /* Padding bas global pour respirer avant le pied */
+  /* Contenu = zone utile pleine largeur (pas de largeur fixe en cm) */
   [data-component="quote-flat-view"],
   .quote-editor-container,
-  [data-component="quote-editor"] { padding-bottom: 6mm !important; }
+  [data-component="quote-editor"] { width: auto !important; max-width: 100% !important; margin: 0 auto !important; }
+
+  /* Espace visuel entre contenu et pied (en plus de margin-bottom @page) */
+  [data-component="quote-flat-view"] { padding-bottom: 8mm !important; }
 
   /* Utiliser la couleur corporate (company.mainColor) */
   .tw-text-primary { color: rgb(var(--color-primary)) !important; }
@@ -688,3 +691,7 @@ body.print-preview button:not(.print-show) {
     background-color: rgba(var(--color-primary), 0.08) !important;
   }
 }
+
+/* Uniformisation des largeurs: header/footer/contenu = largeur zone utile */
+.pagedjs_margin-top .print-header,
+.pagedjs_margin-bottom .print-footer { width: auto !important; max-width: 100% !important; margin: 0 !important; padding: 0 !important; box-sizing: border-box; }
