@@ -72,15 +72,45 @@
 }
 
 /* Running elements compatibles avec header/footer */
-.print-header { position: running(header) !important; width: 18cm !important; margin: 0 auto !important; display: block !important; height: 0 !important; max-height: 0 !important; overflow: hidden !important; }
-.print-footer { position: running(footer) !important; width: 18cm !important; margin: 0 auto !important; display: block !important; height: 0 !important; max-height: 0 !important; overflow: hidden !important; }
+/* SUPPRIMÉ: anciennes largeurs fixes 18cm */
+
+/* Margins boxes Paged.js alignées sur la même largeur */
+.pagedjs_margin-top-center,
+.pagedjs_margin-bottom-center {
+  width: 17cm !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: left !important;
+}
+
+/* Largeur stricte du contenu (A4 moins marges) */
+[data-component="quote-flat-view"] {
+  width: 100% !important;
+  max-width: 17cm !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+}
+
+/* Running elements header/footer alignés */
+.pagedjs_margin-top .print-header,
+.pagedjs_margin-bottom .print-footer {
+  width: 17cm !important;
+  margin: 0 auto !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  padding: 0 !important;
+  box-sizing: border-box;
+}
 
 /* Rendre visibles les duplications dans les marges Paged.js */
 .pagedjs_margin-top .print-header,
 .pagedjs_margin-bottom .print-footer { height: auto !important; max-height: none !important; overflow: visible !important; }
 
 .pagedjs_margin-top-center,
-.pagedjs_margin-bottom-center { width: 18cm !important; margin: 0 auto !important; display: flex !important; justify-content: center !important; align-items: center !important; text-align: left !important; }
+.pagedjs_margin-bottom-center { width: 17cm !important; margin: 0 auto !important; display: flex !important; justify-content: center !important; align-items: center !important; text-align: left !important; }
 
 /* ========================================
    GENERAL PRINT RULES
