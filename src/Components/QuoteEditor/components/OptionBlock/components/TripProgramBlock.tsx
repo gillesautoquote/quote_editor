@@ -143,24 +143,6 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
           {filters.excludeDepot ? 'Masquer dépôt' : 'Afficher dépôt'}
         </button>
 
-        {!readonly && !printMode && (
-          <>
-            <div className="tw-h-4 tw-w-px tw-bg-gray-300 tw-mx-1" />
-            <button
-              type="button"
-              onClick={handleAddStep}
-              className="tw-inline-flex tw-items-center tw-gap-1 tw-px-3 tw-py-1 tw-text-xs tw-rounded-full tw-border tw-transition-all hover:tw-shadow-sm"
-              style={{
-                backgroundColor: 'white',
-                color: blockColor,
-                borderColor: blockColor
-              }}
-            >
-              <Plus size={12} />
-              Ajouter étape
-            </button>
-          </>
-        )}
       </div>
 
       {Object.keys(groupedByDate).length === 0 ? (
