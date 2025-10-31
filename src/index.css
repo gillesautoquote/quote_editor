@@ -65,5 +65,9 @@ body {
 @media screen {
   [data-screen-a4="true"] {
     min-height: 29.7cm; /* hauteur A4, approximative à l’écran */
+    width: 21cm !important;      /* largeur A4 */
+    max-width: 21cm !important;  /* figer la largeur */
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 }
