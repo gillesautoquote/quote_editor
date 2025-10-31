@@ -60,7 +60,7 @@ export const markdownToHtml = (text: string): string => {
   let html = text;
 
   // Gras: **texte** -> <strong>texte</strong>
-  html = html.replace(/\*\*(.*?)\*\*/g, '<strong style="font-weight: 600;">$1</strong>');
+  html = html.replace(/\*\*(.*?)\*\*/g, '<strong style="font-weight: 700;">$1</strong>');
 
   // Italique: *texte* -> <em>texte</em>
   html = html.replace(/\*(.*?)\*/g, '<em style="font-style: italic;">$1</em>');
