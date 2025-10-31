@@ -71,3 +71,12 @@ body {
     margin-right: auto !important;
   }
 }
+
+/* Listes compactes dans l’introduction */
+.intro-list ul { margin: 0.1rem 0 !important; padding-left: 1.1rem !important; line-height: 1.2 !important; }
+.intro-list li { margin-bottom: 0.05rem !important; line-height: 1.2 !important; }
+
+@media print {
+  .intro-list ul { margin: 0.08rem 0 !important; padding-left: 1rem !important; line-height: 1.15 !important; }
+  .intro-list li { margin-bottom: 0.04rem !important; line-height: 1.15 !important; }
+}

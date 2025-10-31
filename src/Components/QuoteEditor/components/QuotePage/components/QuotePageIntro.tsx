@@ -73,7 +73,7 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
             markdownToHtml={markdownToHtml}
           />
           {sectionsList && (
-            <div className="tw-mt-2" dangerouslySetInnerHTML={{ __html: markdownToHtml(sectionsList) }} />
+            <div className="tw-mt-2 intro-list" dangerouslySetInnerHTML={{ __html: markdownToHtml(sectionsList) }} />
           )}
         </div>
       )}
