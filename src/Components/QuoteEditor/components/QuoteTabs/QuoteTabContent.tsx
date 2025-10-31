@@ -278,8 +278,8 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
             }}
             onUpdateSignatureFrame={() => {}}
             readonly={readonly}
-            showBlockControls={false}
-            allowWidthControl={false}
+            showBlockControls={true}
+            allowWidthControl={true}
             companyColor={currentData.company.mainColor}
           />
         </>

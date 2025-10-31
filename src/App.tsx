@@ -266,6 +266,8 @@ const App: React.FC = () => {
               showHeader={showHeader}
               showFooter={showFooter}
               usePDFV2={true}
+              showAddBlock={true}
+              showTemplateSelector={true}
             />
           </div>
         </div>
