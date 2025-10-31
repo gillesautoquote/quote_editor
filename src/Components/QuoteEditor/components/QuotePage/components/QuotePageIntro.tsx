@@ -50,7 +50,7 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
 
       {/* Civilité du client - afficher seulement si elle existe */}
       {recipient.title && recipient.title.trim() && (
-        <div className="tw-mb-[0.3rem] tw-font-semibold">
+        <div className="tw-mb-[0.3rem]">
           <EditableField
             value={formatTitle(recipient.title)}
             onSave={(value) => onFieldUpdate('recipient.title', value.replace(',', ''))}
