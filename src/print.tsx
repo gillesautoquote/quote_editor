@@ -24,7 +24,7 @@ export default function PrintableQuote() {
         const normalized: any = { ...quoteData };
         if (!normalized.itinerary && Array.isArray(normalized.itineraryData)) {
           normalized.itinerary = normalized.itineraryData;
-        }
+          }
         setData(normalized);
 
         // Attendre que React ait monté le DOM
@@ -87,14 +87,14 @@ export default function PrintableQuote() {
       {/* Corps du devis (flat) */}
       <div data-component="quote-flat-view">
         <QuoteFlatView
-          data={data}
+        data={data}
           onUpdateData={() => {}}
           readonly
           printMode
           allowWidthControl={false}
-          showHeader={false}
-          showFooter={false}
-        />
+        showHeader={false}
+        showFooter={false}
+      />
       </div>
     </>
   );
