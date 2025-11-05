@@ -143,17 +143,6 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
     });
   }
 
-  if (showAddBlock) {
-    editActions.push({
-      id: 'add-block',
-      label: 'Liste',
-      icon: <Plus size={16} />,
-      onClick: onAddBlock,
-      variant: 'outline' as const,
-      tooltip: 'Ajouter un bloc'
-    });
-  }
-
   const moreActions: ToolbarAction[] = readonly ? [] : [];
 
   if (showReset) {
@@ -233,45 +222,6 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
             </div>
           )}
 
-          {!readonly && showTemplateSelector && blockTemplates.length > 0 && onSelectTemplate && (
-            <div className="tw-relative">
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowTemplateDropdown(!showTemplateDropdown);
-                }}
-                className="tw-inline-flex tw-items-center tw-gap-1 tw-px-3 tw-py-1.5 tw-text-sm tw-font-medium tw-text-gray-700 tw-bg-white tw-border tw-border-gray-300 tw-rounded hover:tw-bg-gray-50 tw-transition-colors"
-                title="Templates prédéfinis"
-              >
-                <ChevronDown size={14} />
-              </button>
-              {showTemplateDropdown && (
-                <div
-                  className="tw-absolute tw-top-full tw-right-0 tw-mt-1 tw-w-52 tw-bg-white tw-border tw-border-gray-200 tw-rounded-lg tw-shadow-lg tw-z-50"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {blockTemplates.map((template) => (
-                    <button
-                      key={template.id}
-                      type="button"
-                      className="tw-w-full tw-flex tw-items-center tw-gap-2 tw-px-3 tw-py-2 tw-text-sm tw-text-gray-700 hover:tw-bg-gray-50 tw-transition-colors first:tw-rounded-t-lg last:tw-rounded-b-lg"
-                      onClick={() => {
-                        onSelectTemplate(template.id);
-                        setShowTemplateDropdown(false);
-                      }}
-                    >
-                      <div
-                        className="tw-w-3 tw-h-3 tw-rounded-sm"
-                        style={{ backgroundColor: template.template?.color || '#4863ec' }}
-                      />
-                      {template.name}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
 
           <div className="tw-flex tw-gap-1">
             {onExportPDFBackend ? (
