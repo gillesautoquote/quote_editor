@@ -32,18 +32,40 @@ export const NoteRow: React.FC<NoteRowProps> = ({
   readonly = false,
   printMode = false,
 }) => {
-  const dragHandleRef = React.useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = React.useState(false);
+  const [isDragOver, setIsDragOver] = React.useState(false);
 
   const handleDragStartWrapper = (e: React.DragEvent): void => {
     if (readonly || printMode) return;
+    e.stopPropagation();
     setIsDragging(true);
     onDragStart(e, noteIndex, 'note');
   };
 
   const handleDragEndWrapper = (e: React.DragEvent): void => {
+    e.stopPropagation();
     setIsDragging(false);
     onDragEnd(e);
+  };
+
+  const handleDragOverWrapper = (e: React.DragEvent): void => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(true);
+    onDragOver(e);
+  };
+
+  const handleDragLeaveWrapper = (e: React.DragEvent): void => {
+    e.stopPropagation();
+    setIsDragOver(false);
+    onDragLeave(e);
+  };
+
+  const handleDropWrapper = (e: React.DragEvent): void => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(false);
+    onDrop(e, noteIndex, 'note');
   };
 
   return (
@@ -52,17 +74,16 @@ export const NoteRow: React.FC<NoteRowProps> = ({
         printMode
           ? 'tw-p-0.5 tw-bg-transparent'
           : 'tw-p-2 tw-border tw-border-border tw-rounded tw-bg-white tw-transition-all tw-duration-200 hover:tw-bg-surface-gray-50'
-      } ${isDragging ? 'tw-opacity-50' : ''} print:tw-border-none print:tw-p-1 print:tw-py-0.5 print:tw-bg-transparent print:tw-rounded-none`}
-      draggable={!readonly && !printMode}
-      onDragStart={!printMode ? handleDragStartWrapper : undefined}
-      onDragEnd={!printMode ? handleDragEndWrapper : undefined}
-      onDragOver={!printMode ? onDragOver : undefined}
-      onDragLeave={!printMode ? onDragLeave : undefined}
-      onDrop={!printMode ? (e) => onDrop(e, noteIndex, 'note') : undefined}
+      } ${isDragging ? 'tw-opacity-40 tw-scale-95' : ''} ${isDragOver ? 'tw-border-primary tw-border-2' : ''} print:tw-border-none print:tw-p-1 print:tw-py-0.5 print:tw-bg-transparent print:tw-rounded-none`}
+      onDragOver={!printMode ? handleDragOverWrapper : undefined}
+      onDragLeave={!printMode ? handleDragLeaveWrapper : undefined}
+      onDrop={!printMode ? handleDropWrapper : undefined}
     >
       {!readonly && !printMode && (
         <div
-          ref={dragHandleRef}
+          draggable={true}
+          onDragStart={handleDragStartWrapper}
+          onDragEnd={handleDragEndWrapper}
           className="tw-cursor-grab tw-text-text-muted hover:tw-text-primary active:tw-cursor-grabbing print:tw-hidden"
         >
           <GripVertical size={12} />
