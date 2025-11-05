@@ -251,15 +251,22 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
       );
 
     case 'conditions':
+      const hasIncludedBlock = currentData.optionBlocks.some(block =>
+        block.title.toLowerCase().includes('ces tarifs comprennent')
+      );
+      const hasExcludedBlock = currentData.optionBlocks.some(block =>
+        block.title.toLowerCase().includes('ces tarifs ne comprennent pas')
+      );
+
       return renderPageContainer(
         <>
           <h2 className="tw-text-xl tw-font-bold tw-mb-6" style={{ color: currentData.company.mainColor }}>
             Conditions générales
           </h2>
 
-          {/* Bouton d'ajout de bloc de conditions */}
+          {/* Boutons d'ajout de blocs de conditions */}
           {!readonly && (
-            <div className="tw-mb-3">
+            <div className="tw-mb-3 tw-flex tw-flex-wrap tw-gap-2">
               <button
                 type="button"
                 onClick={() => {
@@ -287,6 +294,76 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
               >
                 + Ajouter un bloc
               </button>
+
+              {!hasIncludedBlock && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const now = Date.now();
+                    const includedBlock = {
+                      id: `included_fees_${now}`,
+                      title: 'Ces tarifs comprennent :',
+                      color: '#28a745',
+                      columns: 6,
+                      showTitle: true,
+                      allowWidthControl: true,
+                      type: 'list' as const,
+                      rows: [
+                        {
+                          id: `row_${now}_1`,
+                          label: 'Mise à disposition du véhicule',
+                          style: 'normal' as const
+                        },
+                        {
+                          id: `row_${now}_2`,
+                          label: 'Frais de carburant',
+                          style: 'normal' as const
+                        }
+                      ]
+                    };
+                    onUpdateData({ ...currentData, optionBlocks: [...currentData.optionBlocks, includedBlock] });
+                  }}
+                  className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-sm tw-font-medium tw-text-white tw-bg-green-600 tw-border tw-border-green-600 tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200 hover:tw-bg-green-700"
+                  title="Ajouter le bloc 'Ces tarifs comprennent'"
+                >
+                  + Ces tarifs comprennent
+                </button>
+              )}
+
+              {!hasExcludedBlock && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const now = Date.now();
+                    const excludedBlock = {
+                      id: `excluded_fees_${now}`,
+                      title: 'Ces tarifs ne comprennent pas :',
+                      color: '#dc3545',
+                      columns: 6,
+                      showTitle: true,
+                      allowWidthControl: true,
+                      type: 'list' as const,
+                      rows: [
+                        {
+                          id: `row_${now}_1`,
+                          label: 'Frais de péages',
+                          style: 'normal' as const
+                        },
+                        {
+                          id: `row_${now}_2`,
+                          label: 'Parkings',
+                          style: 'normal' as const
+                        }
+                      ]
+                    };
+                    onUpdateData({ ...currentData, optionBlocks: [...currentData.optionBlocks, excludedBlock] });
+                  }}
+                  className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-sm tw-font-medium tw-text-white tw-bg-red-600 tw-border tw-border-red-600 tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200 hover:tw-bg-red-700"
+                  title="Ajouter le bloc 'Ces tarifs ne comprennent pas'"
+                >
+                  + Ces tarifs ne comprennent pas
+                </button>
+              )}
             </div>
           )}
 
