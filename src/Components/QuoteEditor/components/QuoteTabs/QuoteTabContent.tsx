@@ -257,67 +257,36 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
             Conditions générales
           </h2>
 
-          {/* Boutons d'ajout de blocs de conditions */}
+          {/* Bouton d'ajout de bloc de conditions */}
           {!readonly && (
-            <div className="tw-mb-3 tw-flex tw-gap-2 tw-flex-wrap">
-              {!otherBlocks.some(b => b.title.toLowerCase().includes('comprennent')) && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    const now = Date.now();
-                    const newBlock = {
-                      id: `block_${now}`,
-                      title: 'Ces tarifs comprennent',
-                      color: currentData.company.mainColor,
-                      columns: 6,
-                      showTitle: true,
-                      allowWidthControl: true,
-                      type: 'list' as const,
-                      rows: [
-                        {
-                          id: `row_${now}`,
-                          label: 'Nouvelle ligne',
-                          style: 'normal' as const
-                        }
-                      ]
-                    };
-                    onUpdateData({ ...currentData, optionBlocks: [...currentData.optionBlocks, newBlock] });
-                  }}
-                  className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-sm tw-font-medium tw-text-white tw-bg-primary tw-border tw-border-primary tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200 hover:tw-bg-primary-dark hover:tw-shadow-primary"
-                  title="Ajouter un bloc 'Ces tarifs comprennent'"
-                >
-                  + Ces tarifs comprennent
-                </button>
-              )}
-              {!otherBlocks.some(b => b.title.toLowerCase().includes('ne comprennent pas')) && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    const now = Date.now();
-                    const newBlock = {
-                      id: `block_${now}`,
-                      title: 'Ces tarifs ne comprennent pas',
-                      color: currentData.company.mainColor,
-                      columns: 6,
-                      showTitle: true,
-                      allowWidthControl: true,
-                      type: 'list' as const,
-                      rows: [
-                        {
-                          id: `row_${now}`,
-                          label: 'Nouvelle ligne',
-                          style: 'normal' as const
-                        }
-                      ]
-                    };
-                    onUpdateData({ ...currentData, optionBlocks: [...currentData.optionBlocks, newBlock] });
-                  }}
-                  className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-sm tw-font-medium tw-text-white tw-bg-primary tw-border tw-border-primary tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200 hover:tw-bg-primary-dark hover:tw-shadow-primary"
-                  title="Ajouter un bloc 'Ces tarifs ne comprennent pas'"
-                >
-                  + Ces tarifs ne comprennent pas
-                </button>
-              )}
+            <div className="tw-mb-3">
+              <button
+                type="button"
+                onClick={() => {
+                  const now = Date.now();
+                  const newBlock = {
+                    id: `block_${now}`,
+                    title: 'Nouveau bloc',
+                    color: currentData.company.mainColor,
+                    columns: 6,
+                    showTitle: true,
+                    allowWidthControl: true,
+                    type: 'list' as const,
+                    rows: [
+                      {
+                        id: `row_${now}`,
+                        label: 'Nouvelle ligne',
+                        style: 'normal' as const
+                      }
+                    ]
+                  };
+                  onUpdateData({ ...currentData, optionBlocks: [...currentData.optionBlocks, newBlock] });
+                }}
+                className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-sm tw-font-medium tw-text-white tw-bg-primary tw-border tw-border-primary tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200 hover:tw-bg-primary-dark hover:tw-shadow-primary"
+                title="Ajouter un bloc de conditions"
+              >
+                + Ajouter un bloc
+              </button>
             </div>
           )}
 
@@ -343,8 +312,8 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
             }}
             onUpdateSignatureFrame={() => {}}
             readonly={readonly}
-            showBlockControls={true}
-            allowWidthControl={true}
+            showBlockControls={false}
+            allowWidthControl={false}
             companyColor={currentData.company.mainColor}
           />
         </>
