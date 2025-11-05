@@ -1,6 +1,6 @@
 import React from 'react';
 import { EditableField } from '../../EditableField/EditableField';
-import { EditableMarkdownField } from '../../EditableField/EditableMarkdownField';
+import { MarkdownEditor } from '../../EditableField/MarkdownEditor';
 import type { Quote, Recipient, ClientSignature, QuoteData } from '../../../entities/QuoteData';
 import { formatDateInFrench, formatDateWithComma, formatTitle, formatTagline, markdownToHtml } from '../utils/dateFormatters';
 import { generatePDFSectionsList } from '../../../utils/pdfSectionsGenerator';
@@ -64,13 +64,12 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
       {/* Tagline d'introduction - afficher seulement si elle existe */}
       {quote.tagline && quote.tagline.trim() && (
         <div className="tw-mb-2">
-          <EditableMarkdownField
+          <MarkdownEditor
             value={quote.tagline}
             onSave={(value) => onFieldUpdate('quote.tagline', value)}
             disabled={readonly}
             printMode={printMode}
             placeholder="Texte d'introduction"
-            markdownToHtml={markdownToHtml}
           />
           {sectionsList && (
             <div className="tw-mt-2 intro-list" dangerouslySetInnerHTML={{ __html: markdownToHtml(sectionsList) }} />
@@ -81,13 +80,11 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
       {/* Texte de remerciements - afficher seulement si il existe */}
       {clientSignature?.tagline && clientSignature.tagline.trim() && (
         <div className="tw-mt-6 tw-mb-2">
-          <EditableField
+          <MarkdownEditor
             value={clientSignature.tagline}
             onSave={(value) => onFieldUpdate('clientSignature.tagline', value)}
             disabled={readonly}
-              printMode={printMode}
-            as="div"
-            fullWidth={true}
+            printMode={printMode}
             placeholder="Texte de remerciements"
           />
         </div>

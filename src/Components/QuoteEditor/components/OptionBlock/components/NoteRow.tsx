@@ -1,6 +1,6 @@
 import React from 'react';
 import { GripVertical, Trash2 } from 'lucide-react';
-import { EditableField } from '../../EditableField/EditableField';
+import { MarkdownEditor } from '../../EditableField/MarkdownEditor';
 import { StyleSelector } from '../StyleSelector';
 import type { NoteItem } from '../../../entities/QuoteData';
 import clsx from 'clsx';
@@ -94,7 +94,7 @@ export const NoteRow: React.FC<NoteRowProps> = ({
         <span className="tw-text-text-muted tw-font-bold">•</span>
 
         <div className="tw-flex-1">
-          <EditableField
+          <MarkdownEditor
             value={note.text}
             onSave={(value) => onNoteUpdate(noteIndex, 'text', value)}
             disabled={readonly}
