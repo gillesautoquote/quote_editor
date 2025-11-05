@@ -242,6 +242,68 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
             <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="conditions">
               Conditions générales
             </h2>
+            {!readonly && !printMode && (
+              <div className="tw-mb-3 tw-flex tw-gap-2 tw-flex-wrap print:tw-hidden">
+                {!conditionBlocks.some(b => b.title.toLowerCase().includes('comprennent')) && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const now = Date.now();
+                      const newBlock = {
+                        id: `block_${now}`,
+                        title: 'Ces tarifs comprennent',
+                        color: dataWithProgrammeVoyage.company.mainColor,
+                        columns: 6,
+                        showTitle: true,
+                        allowWidthControl: true,
+                        type: 'list' as const,
+                        rows: [
+                          {
+                            id: `row_${now}`,
+                            label: 'Nouvelle ligne',
+                            style: 'normal' as const
+                          }
+                        ]
+                      };
+                      onUpdateData({ ...dataWithProgrammeVoyage, optionBlocks: [...dataWithProgrammeVoyage.optionBlocks, newBlock] });
+                    }}
+                    className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-sm tw-font-medium tw-text-white tw-bg-primary tw-border tw-border-primary tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200 hover:tw-bg-primary-dark hover:tw-shadow-primary"
+                    title="Ajouter un bloc 'Ces tarifs comprennent'"
+                  >
+                    + Ces tarifs comprennent
+                  </button>
+                )}
+                {!conditionBlocks.some(b => b.title.toLowerCase().includes('ne comprennent pas')) && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const now = Date.now();
+                      const newBlock = {
+                        id: `block_${now}`,
+                        title: 'Ces tarifs ne comprennent pas',
+                        color: dataWithProgrammeVoyage.company.mainColor,
+                        columns: 6,
+                        showTitle: true,
+                        allowWidthControl: true,
+                        type: 'list' as const,
+                        rows: [
+                          {
+                            id: `row_${now}`,
+                            label: 'Nouvelle ligne',
+                            style: 'normal' as const
+                          }
+                        ]
+                      };
+                      onUpdateData({ ...dataWithProgrammeVoyage, optionBlocks: [...dataWithProgrammeVoyage.optionBlocks, newBlock] });
+                    }}
+                    className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-sm tw-font-medium tw-text-white tw-bg-primary tw-border tw-border-primary tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200 hover:tw-bg-primary-dark hover:tw-shadow-primary"
+                    title="Ajouter un bloc 'Ces tarifs ne comprennent pas'"
+                  >
+                    + Ces tarifs ne comprennent pas
+                  </button>
+                )}
+              </div>
+            )}
             <BlocksContainer
               optionBlocks={conditionBlocks}
               signatureFrame={dataWithProgrammeVoyage.signatureFrame}
@@ -254,7 +316,11 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
                 const newData = { ...dataWithProgrammeVoyage, optionBlocks: newBlocks };
                 onUpdateData(newData);
               }}
-              onRemoveOptionBlock={() => {}}
+              onRemoveOptionBlock={(blockIndex) => {
+                const blockToRemove = conditionBlocks[blockIndex];
+                const newBlocks = dataWithProgrammeVoyage.optionBlocks.filter(b => b.id !== blockToRemove.id);
+                onUpdateData({ ...dataWithProgrammeVoyage, optionBlocks: newBlocks });
+              }}
               onReorderBlocks={(newBlocks) => {
                 const newData = { ...dataWithProgrammeVoyage, optionBlocks: newBlocks };
                 onUpdateData(newData);
@@ -264,8 +330,8 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
                 onUpdateData(newData);
               }}
               readonly={readonly}
-              showBlockControls={false}
-              allowWidthControl={allowWidthControl}
+              showBlockControls={true}
+              allowWidthControl={true}
               printMode={printMode}
               companyColor={dataWithProgrammeVoyage.company.mainColor}
             />
