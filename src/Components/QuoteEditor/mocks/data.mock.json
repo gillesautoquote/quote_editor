@@ -594,12 +594,12 @@
     "ttc": 11396,
     "vatBreakdown": [
       {
-        "rate": 10,
-        "amount": 1033
+        "rate": 10.45,
+        "amount": 1033.65
       },
       {
-        "rate": 20,
-        "amount": 3
+        "rate": 20/13,
+        "amount": 3.40
       }
     ]
   },
