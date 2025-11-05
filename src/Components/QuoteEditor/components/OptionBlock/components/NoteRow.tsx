@@ -1,7 +1,6 @@
 import React from 'react';
 import { GripVertical, Trash2 } from 'lucide-react';
 import { MarkdownEditor } from '../../EditableField/MarkdownEditor';
-import { StyleSelector } from '../StyleSelector';
 import type { NoteItem } from '../../../entities/QuoteData';
 import clsx from 'clsx';
 
@@ -115,10 +114,6 @@ export const NoteRow: React.FC<NoteRowProps> = ({
 
       {!readonly && !printMode && (
         <div className="tw-flex tw-items-center tw-gap-1.5 print:tw-hidden">
-          <StyleSelector
-            value={note.style || 'normal'}
-            onChange={(style) => onNoteUpdate(noteIndex, 'style', style)}
-          />
           <button
             type="button"
             onClick={() => onRemoveRow(noteIndex)}
