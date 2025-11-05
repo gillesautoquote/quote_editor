@@ -301,7 +301,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
                   onClick={() => {
                     const now = Date.now();
                     const includedBlock = {
-                      id: `included_fees_${now}`,
+                      id: 'included_fees',
                       title: 'Ces tarifs comprennent :',
                       color: '#28a745',
                       columns: 6,
@@ -311,12 +311,14 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
                       rows: [
                         {
                           id: `row_${now}_1`,
-                          label: 'Mise à disposition du véhicule',
+                          label: 'Autocars Grand Tourisme',
+                          type: 'a',
                           style: 'normal' as const
                         },
                         {
                           id: `row_${now}_2`,
-                          label: 'Frais de carburant',
+                          label: 'Mise à disposition',
+                          type: 'b',
                           style: 'normal' as const
                         }
                       ]
@@ -336,7 +338,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
                   onClick={() => {
                     const now = Date.now();
                     const excludedBlock = {
-                      id: `excluded_fees_${now}`,
+                      id: 'excluded_fees',
                       title: 'Ces tarifs ne comprennent pas :',
                       color: '#dc3545',
                       columns: 6,
@@ -346,12 +348,14 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
                       rows: [
                         {
                           id: `row_${now}_1`,
-                          label: 'Frais de péages',
+                          label: 'Heure supplémentaire',
+                          type: 'd',
                           style: 'normal' as const
                         },
                         {
                           id: `row_${now}_2`,
-                          label: 'Parkings',
+                          label: 'Frais de péages',
+                          type: 'c',
                           style: 'normal' as const
                         }
                       ]
