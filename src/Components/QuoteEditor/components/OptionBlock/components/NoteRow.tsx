@@ -32,29 +32,39 @@ export const NoteRow: React.FC<NoteRowProps> = ({
   readonly = false,
   printMode = false,
 }) => {
+  const dragHandleRef = React.useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = React.useState(false);
+
+  const handleDragStartWrapper = (e: React.DragEvent): void => {
+    if (readonly || printMode) return;
+    setIsDragging(true);
+    onDragStart(e, noteIndex, 'note');
+  };
+
+  const handleDragEndWrapper = (e: React.DragEvent): void => {
+    setIsDragging(false);
+    onDragEnd(e);
+  };
+
   return (
     <li
       className={`tw-flex tw-items-center tw-gap-2 page-break-inside-avoid ${
         printMode
           ? 'tw-p-0.5 tw-bg-transparent'
           : 'tw-p-2 tw-border tw-border-border tw-rounded tw-bg-white tw-transition-all tw-duration-200 hover:tw-bg-surface-gray-50'
-      } print:tw-border-none print:tw-p-1 print:tw-py-0.5 print:tw-bg-transparent print:tw-rounded-none`}
+      } ${isDragging ? 'tw-opacity-50' : ''} print:tw-border-none print:tw-p-1 print:tw-py-0.5 print:tw-bg-transparent print:tw-rounded-none`}
       draggable={!readonly && !printMode}
-      onDragStart={!printMode ? (e) => onDragStart(e, noteIndex, 'note') : undefined}
-      onDragEnd={!printMode ? onDragEnd : undefined}
+      onDragStart={!printMode ? handleDragStartWrapper : undefined}
+      onDragEnd={!printMode ? handleDragEndWrapper : undefined}
       onDragOver={!printMode ? onDragOver : undefined}
       onDragLeave={!printMode ? onDragLeave : undefined}
       onDrop={!printMode ? (e) => onDrop(e, noteIndex, 'note') : undefined}
-      onMouseDown={(e) => {
-        if (printMode) return;
-        const target = e.target as HTMLElement;
-        if (target.closest('.editableField') || target.closest('input') || target.closest('textarea')) {
-          e.stopPropagation();
-        }
-      }}
     >
       {!readonly && !printMode && (
-        <div className="tw-cursor-grab tw-text-text-muted hover:tw-text-primary active:tw-cursor-grabbing print:tw-hidden">
+        <div
+          ref={dragHandleRef}
+          className="tw-cursor-grab tw-text-text-muted hover:tw-text-primary active:tw-cursor-grabbing print:tw-hidden"
+        >
           <GripVertical size={12} />
         </div>
       )}
@@ -78,14 +88,6 @@ export const NoteRow: React.FC<NoteRowProps> = ({
               note.style === 'success' && 'tw-text-success tw-font-medium',
               note.style === 'warning' && 'tw-text-warning tw-font-medium'
             )}
-            onMouseDown={(e: React.MouseEvent) => {
-              e.stopPropagation();
-            }}
-            onDragStart={(e: React.DragEvent) => {
-              e.preventDefault();
-              e.stopPropagation();
-              return false;
-            }}
           />
         </div>
       </div>

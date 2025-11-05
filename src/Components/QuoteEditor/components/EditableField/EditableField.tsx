@@ -71,14 +71,17 @@ export const EditableField: React.FC<EditableFieldProps> = ({
       return;
     }
     onMouseDown?.(e);
-  }, [isEditing]);
+  }, [isEditing, onMouseDown]);
 
   const handleDragStart = useCallback((e: React.DragEvent) => {
-    // TOUJOURS empêcher le drag sur les champs éditables
-    e.preventDefault();
-    e.stopPropagation();
-    return false;
-  }, []);
+    if (isEditing) {
+      // Empêcher le drag uniquement quand on édite
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
+    onDragStart?.(e);
+  }, [isEditing, onDragStart]);
 
   const handleSave = useCallback(() => {
     if (editValue !== value) {
@@ -166,8 +169,7 @@ export const EditableField: React.FC<EditableFieldProps> = ({
       )}
       onDoubleClick={handleDoubleClick}
       onMouseDown={handleMouseDown}
-      onDragStart={handleDragStart}
-      draggable={isEditing ? false : undefined}
+      draggable={false}
       title={disabled ? undefined : "Double-cliquez pour éditer"}
     >
       {value || <span className="tw-text-text-muted tw-italic">{placeholder}</span>}
