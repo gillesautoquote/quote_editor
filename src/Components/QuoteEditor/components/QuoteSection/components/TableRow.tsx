@@ -123,7 +123,7 @@ export const TableRow: React.FC<TableRowProps> = ({
 
       <td className={getCellClassName(columns.durationHours, printMode)} style={getCellDataStyle(columns.durationHours)}>
         <EditableField
-          value={line.durationHours.toString()}
+          value={(line.durationHours ?? 0).toString()}
           onSave={(value) => onLineUpdate(lineIndex, 'durationHours', parseFloat(value) || 0)}
           disabled={readonly || !columns.durationHours.editable}
           printMode={printMode}
@@ -132,7 +132,7 @@ export const TableRow: React.FC<TableRowProps> = ({
 
       <td className={getCellClassName(columns.pax, printMode)} style={getCellDataStyle(columns.pax)}>
         <EditableField
-          value={line.pax.toString()}
+          value={(line.pax ?? 0).toString()}
           onSave={(value) => onLineUpdate(lineIndex, 'pax', parseInt(value, 10) || 0)}
           disabled={readonly || !columns.pax.editable}
           printMode={printMode}
@@ -140,23 +140,23 @@ export const TableRow: React.FC<TableRowProps> = ({
       </td>
 
       <td className={getCellClassName(columns.unitPrice, printMode)} style={getCellDataStyle(columns.unitPrice)}>
-        {line.unitPrice.toFixed(2)}
+        {(line.unitPrice ?? 0).toFixed(2)}
       </td>
 
       <td className={getCellClassName(columns.quantity, printMode)} style={getCellDataStyle(columns.quantity)}>
-        {line.quantity.toString()}
+        {(line.quantity ?? 0).toString()}
       </td>
 
       <td className={getCellClassName(columns.priceHT, printMode)} style={getCellDataStyle(columns.priceHT)}>
-        {line.priceHT.toFixed(2)}
+        {(line.priceHT ?? 0).toFixed(2)}
       </td>
 
       <td className={getCellClassName(columns.vatRate, printMode)} style={getCellDataStyle(columns.vatRate)}>
-        {typeof line.vatRate === 'number' ? line.vatRate.toString() : line.vatRate}
+        {typeof line.vatRate === 'number' ? line.vatRate.toString() : (line.vatRate ?? '0')}
       </td>
 
       <td className={getCellClassName(columns.priceTTC, printMode)} style={getCellDataStyle(columns.priceTTC)}>
-        {line.priceTTC.toFixed(2)}
+        {(line.priceTTC ?? 0).toFixed(2)}
       </td>
 
       {!readonly && !printMode && (
