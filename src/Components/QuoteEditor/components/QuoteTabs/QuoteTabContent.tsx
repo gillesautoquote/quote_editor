@@ -388,24 +388,13 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
               const newBlocks = currentData.optionBlocks.filter(b => b.id !== blockToRemove.id);
               onUpdateData({ ...currentData, optionBlocks: newBlocks });
             }}
-            onReorderBlocks={(reorderedBlocks) => {
-              const includedBlock = currentData.optionBlocks.find(b =>
-                b.title.toLowerCase().includes('ces tarifs comprennent')
-              );
-              const excludedBlock = currentData.optionBlocks.find(b =>
-                b.title.toLowerCase().includes('ces tarifs ne comprennent pas')
-              );
-
-              const newBlocks = [...reorderedBlocks];
-              if (includedBlock) newBlocks.push(includedBlock);
-              if (excludedBlock) newBlocks.push(excludedBlock);
-
+            onReorderBlocks={(newBlocks) => {
               onUpdateData({ ...currentData, optionBlocks: newBlocks });
             }}
             onUpdateSignatureFrame={() => {}}
             readonly={readonly}
-            showBlockControls={true}
-            allowWidthControl={true}
+            showBlockControls={false}
+            allowWidthControl={false}
             companyColor={currentData.company.mainColor}
           />
         </>
