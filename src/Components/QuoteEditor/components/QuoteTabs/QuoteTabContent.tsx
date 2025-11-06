@@ -229,7 +229,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
               />
             ))}
           </div>
-          <QuotePageTotals totals={currentData.totals} />
+          <QuotePageTotals totals={currentData.totals} mainColor={currentData.company.mainColor} />
           <div className="tw-flex tw-justify-end tw-mb-4">
             <EditableField
               value={currentData.validityNotice || ''}

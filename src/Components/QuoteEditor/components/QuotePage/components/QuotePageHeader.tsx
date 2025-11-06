@@ -20,7 +20,8 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
 }) => {
   return (
     <div
-      className="tw-flex tw-justify-between tw-items-center tw-mb-8 tw-pb-4 tw-border-b tw-border-primary max-md:tw-flex-col max-md:tw-gap-2 max-md:tw-mb-6 page-break-after-avoid print:tw-mb-4 print:tw-pb-2"
+      className="tw-flex tw-justify-between tw-items-center tw-mb-8 tw-pb-4 tw-border-b max-md:tw-flex-col max-md:tw-gap-2 max-md:tw-mb-6 page-break-after-avoid print:tw-mb-4 print:tw-pb-2"
+      style={{ borderColor: company.mainColor }}
       data-component="quote-header"
       data-company-id={company.name}
       data-quote-number={quote.number}
@@ -37,7 +38,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
           />
         )}
         <div className="tw-flex-1">
-          <div className="tw-text-[1.1rem] tw-font-bold !tw-text-primary tw-mb-[0.2rem] tw-leading-[1.1] [&_.tw-text-text]:!tw-text-[inherit]" style={{ color: company.mainColor }}>
+          <div className="tw-text-[1.1rem] tw-font-bold tw-mb-[0.2rem] tw-leading-[1.1] [&_.tw-text-text]:!tw-text-[inherit]" style={{ color: company.mainColor || '#0066cc' }}>
             <EditableField
               value={company.name}
               onSave={(value) => onFieldUpdate('company.name', value)}
@@ -109,7 +110,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
           {/* Afficher seulement si la date existe */}
           {quote.issueDate && quote.issueDate.trim() && (
             <div className="tw-mb-[0.1rem] last:tw-mb-0">
-              <strong className="tw-text-primary">Date:</strong> <EditableField
+              <strong style={{ color: company.mainColor || '#0066cc' }}>Date:</strong> <EditableField
                 value={formatDateDDMMYYYY(quote.issueDate)}
                 onSave={(value) => onFieldUpdate('quote.issueDate', value)}
                 disabled={readonly}
@@ -121,7 +122,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
           {/* Afficher seulement si la date de validité existe */}
           {quote.validUntil && quote.validUntil.trim() && (
             <div className="tw-mb-[0.1rem] last:tw-mb-0">
-              <strong className="tw-text-primary">Valable jusqu'au:</strong> <EditableField
+              <strong style={{ color: company.mainColor || '#0066cc' }}>Valable jusqu'au:</strong> <EditableField
                 value={formatDateDDMMYYYY(quote.validUntil)}
                 onSave={(value) => onFieldUpdate('quote.validUntil', value)}
                 disabled={readonly}
@@ -133,7 +134,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
           {/* Afficher seulement si la référence existe */}
           {quote.reference && quote.reference.trim() && (
             <div className="tw-mb-[0.1rem] last:tw-mb-0">
-              <strong className="tw-text-primary">Référence:</strong> <EditableField
+              <strong style={{ color: company.mainColor || '#0066cc' }}>Référence:</strong> <EditableField
                 value={quote.reference}
                 onSave={(value) => onFieldUpdate('quote.reference', value)}
                 disabled={readonly}

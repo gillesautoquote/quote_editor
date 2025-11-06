@@ -223,7 +223,11 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
                 />
               ))}
             </div>
-            <QuotePageTotals totals={dataWithProgrammeVoyage.totals} printMode={printMode} />
+            <QuotePageTotals
+              totals={dataWithProgrammeVoyage.totals}
+              mainColor={dataWithProgrammeVoyage.company.mainColor}
+              printMode={printMode}
+            />
             <div className="tw-flex tw-justify-end tw-mb-4">
               <EditableField
                 value={dataWithProgrammeVoyage.validityNotice || ''}

@@ -183,7 +183,11 @@ export const QuotePage: React.FC<QuotePageProps> = ({
           </div>
 
           {contentConfig.showTotals && (
-            <QuotePageTotals totals={dataWithProgrammeVoyage.totals} printMode={printMode} />
+            <QuotePageTotals
+              totals={dataWithProgrammeVoyage.totals}
+              mainColor={dataWithProgrammeVoyage.company.mainColor}
+              printMode={printMode}
+            />
           )}
 
           <div className="tw-flex tw-justify-end tw-mb-4">

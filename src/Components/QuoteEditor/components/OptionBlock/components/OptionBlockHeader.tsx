@@ -9,6 +9,7 @@ interface OptionBlockHeaderProps {
   onTitleUpdate: (title: string) => void;
   onAddRow: () => void;
   onAddRowOfType: (lineType: string) => void;
+  mainColor?: string;
   readonly?: boolean;
   printMode?: boolean;
 }
@@ -19,9 +20,12 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
   onTitleUpdate,
   onAddRow,
   onAddRowOfType,
+  mainColor = '#0066cc',
   readonly = false,
   printMode = false
 }) => {
+  const textColor = getContrastColor(mainColor);
+  const darkerColor = getDarkerVariant(mainColor, 0.8);
   const allowedLineTypes = Object.entries(selectDefinitions).filter(([_, definition]) =>
     definition.allowedBlocks.includes(block.id)
   );
@@ -36,7 +40,14 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
             key={typeKey}
             type="button"
             onClick={() => onAddRowOfType(typeKey)}
-            className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-xs tw-font-medium tw-text-white tw-bg-primary tw-border tw-border-primary tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200 hover:tw-bg-primary-dark hover:tw-shadow-primary"
+            className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-xs tw-font-medium tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200"
+            style={{ backgroundColor: mainColor, color: textColor, borderColor: mainColor }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = darkerColor;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = mainColor;
+            }}
             title={`Ajouter une ligne ${definition.title.toLowerCase()}`}
           >
             <Plus size={12} />
@@ -48,7 +59,14 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
           <button
             type="button"
             onClick={onAddRow}
-            className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-xs tw-font-medium tw-text-white tw-bg-primary tw-border tw-border-primary tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200 hover:tw-bg-primary-dark hover:tw-shadow-primary"
+            className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-xs tw-font-medium tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200"
+            style={{ backgroundColor: mainColor, color: textColor, borderColor: mainColor }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = darkerColor;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = mainColor;
+            }}
             title="Ajouter une ligne simple"
           >
             <Plus size={12} />
@@ -60,7 +78,14 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
           <button
             type="button"
             onClick={onAddRow}
-            className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-xs tw-font-medium tw-text-white tw-bg-primary tw-border tw-border-primary tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200 hover:tw-bg-primary-dark hover:tw-shadow-primary"
+            className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-xs tw-font-medium tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200"
+            style={{ backgroundColor: mainColor, color: textColor, borderColor: mainColor }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = darkerColor;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = mainColor;
+            }}
             title="Ajouter une note"
           >
             <Plus size={12} />
@@ -79,7 +104,8 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
         disabled={readonly}
         printMode={printMode}
         as="h4"
-        className={printMode ? 'tw-text-sm tw-font-semibold tw-text-primary' : 'tw-text-base tw-font-semibold tw-text-primary print:tw-text-sm print:tw-font-semibold'}
+        className={printMode ? 'tw-text-sm tw-font-semibold' : 'tw-text-base tw-font-semibold print:tw-text-sm print:tw-font-semibold'}
+        style={{ color: mainColor }}
       />
       {!readonly && !printMode && (
         <div className="tw-flex tw-gap-2">
@@ -88,7 +114,14 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
               key={typeKey}
               type="button"
               onClick={() => onAddRowOfType(typeKey)}
-              className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-xs tw-font-medium tw-text-white tw-bg-primary tw-border tw-border-primary tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200 hover:tw-bg-primary-dark hover:tw-shadow-primary"
+              className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-xs tw-font-medium tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200"
+            style={{ backgroundColor: mainColor, color: textColor, borderColor: mainColor }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = darkerColor;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = mainColor;
+            }}
               title={`Ajouter une ligne ${definition.title.toLowerCase()}`}
             >
               <Plus size={12} />
@@ -100,7 +133,14 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
             <button
               type="button"
               onClick={onAddRow}
-              className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-xs tw-font-medium tw-text-white tw-bg-primary tw-border tw-border-primary tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200 hover:tw-bg-primary-dark hover:tw-shadow-primary"
+              className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-xs tw-font-medium tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200"
+            style={{ backgroundColor: mainColor, color: textColor, borderColor: mainColor }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = darkerColor;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = mainColor;
+            }}
               title="Ajouter une ligne simple"
             >
               <Plus size={12} />
@@ -112,7 +152,14 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
             <button
               type="button"
               onClick={onAddRow}
-              className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-xs tw-font-medium tw-text-white tw-bg-primary tw-border tw-border-primary tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200 hover:tw-bg-primary-dark hover:tw-shadow-primary"
+              className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-xs tw-font-medium tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200"
+            style={{ backgroundColor: mainColor, color: textColor, borderColor: mainColor }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = darkerColor;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = mainColor;
+            }}
               title="Ajouter une note"
             >
               <Plus size={12} />
@@ -124,3 +171,32 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
     </div>
   );
 };
+
+function getContrastColor(backgroundColor: string): 'white' | 'black' {
+  const rgb = hexToRgb(backgroundColor);
+  if (!rgb) return 'white';
+  const luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
+  return luminance > 0.5 ? 'black' : 'white';
+}
+
+function getDarkerVariant(hex: string, factor: number = 0.8): string {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return '#004499';
+
+  const darker = {
+    r: Math.round(rgb.r * factor),
+    g: Math.round(rgb.g * factor),
+    b: Math.round(rgb.b * factor)
+  };
+
+  return `#${darker.r.toString(16).padStart(2, '0')}${darker.g.toString(16).padStart(2, '0')}${darker.b.toString(16).padStart(2, '0')}`;
+}
+
+function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
+  } : null;
+}

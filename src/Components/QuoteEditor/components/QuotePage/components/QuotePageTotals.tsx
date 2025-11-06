@@ -12,10 +12,17 @@ interface QuotePageTotalsProps {
     ttc: number;
     vatBreakdown?: VATBreakdown[];
   };
+  mainColor?: string;
   printMode?: boolean;
 }
 
-export const QuotePageTotals: React.FC<QuotePageTotalsProps> = ({ totals, printMode = false }) => {
+export const QuotePageTotals: React.FC<QuotePageTotalsProps> = ({
+  totals,
+  mainColor = '#0066cc',
+  printMode = false
+}) => {
+  const textColor = getContrastColor(mainColor);
+
   return (
     <div
       className="tw-mb-4 tw-flex tw-justify-end page-break-inside-avoid print-keep-together"
@@ -54,7 +61,10 @@ export const QuotePageTotals: React.FC<QuotePageTotalsProps> = ({ totals, printM
                 <strong>{totals.tva.toFixed(2)} €</strong>
               </td>
             </tr>
-            <tr className="tw-bg-primary tw-text-white print-color-adjust">
+            <tr
+              className="print-color-adjust"
+              style={{ backgroundColor: mainColor, color: textColor }}
+            >
               <td className="tw-p-2 print:tw-p-1.5">
                 <strong>Total TTC</strong>
               </td>
@@ -68,3 +78,19 @@ export const QuotePageTotals: React.FC<QuotePageTotalsProps> = ({ totals, printM
     </div>
   );
 };
+
+function getContrastColor(backgroundColor: string): 'white' | 'black' {
+  const rgb = hexToRgb(backgroundColor);
+  if (!rgb) return 'white';
+  const luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
+  return luminance > 0.5 ? 'black' : 'white';
+}
+
+function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
+  } : null;
+}
