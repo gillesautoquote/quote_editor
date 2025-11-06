@@ -36,36 +36,27 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
   allowWidthControl = true
 }) => {
   const { setValueByPath } = useFieldPath();
-
-  const dataWithProgrammeVoyage = useMemo(() => {
-    if (!data || !data.sections || !data.optionBlocks) {
-      return data;
-    }
-
-    if (data.itinerary && data.itinerary.length > 0) {
-      const hasProgrammeVoyageBlock = data.optionBlocks.some(
-        block => block.type === 'programme-voyage'
-      );
-
-      if (!hasProgrammeVoyageBlock) {
-        const programmeVoyageBlock = createProgrammeVoyageBlock(data.itinerary, data.company.mainColor);
-        return {
-          ...data,
-          optionBlocks: [programmeVoyageBlock, ...data.optionBlocks]
-        };
-      }
-    }
-
-    return data;
-  }, [data]);
+  const hasAddedProgrammeRef = React.useRef(false);
 
   useEffect(() => {
-    if (dataWithProgrammeVoyage !== data) {
-      onUpdateData(dataWithProgrammeVoyage);
+    if (
+      !hasAddedProgrammeRef.current &&
+      data &&
+      data.itinerary &&
+      data.itinerary.length > 0 &&
+      data.optionBlocks &&
+      !data.optionBlocks.some(block => block.type === 'programme-voyage')
+    ) {
+      hasAddedProgrammeRef.current = true;
+      const programmeVoyageBlock = createProgrammeVoyageBlock(data.itinerary, data.company.mainColor);
+      onUpdateData({
+        ...data,
+        optionBlocks: [programmeVoyageBlock, ...data.optionBlocks]
+      });
     }
-  }, [dataWithProgrammeVoyage, data, onUpdateData]);
+  }, []);
 
-  const currentData = dataWithProgrammeVoyage;
+  const currentData = data;
 
   const handleFieldUpdate = (path: string, value: string): void => {
     if (readonly) return;
