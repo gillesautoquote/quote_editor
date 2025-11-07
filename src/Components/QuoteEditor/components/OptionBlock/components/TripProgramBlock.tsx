@@ -55,14 +55,26 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
     });
   }, [steps, filters]);
 
-  const groupedByDate = useMemo(() => {
-    return filteredSteps.reduce((acc, step) => {
-      if (!acc[step.date]) {
-        acc[step.date] = [];
+  const groupedByMission = useMemo(() => {
+    const missions: Record<string, { tripName?: string; date: string; steps: TripProgramStep[] }[]> = {};
+
+    filteredSteps.forEach(step => {
+      const missionKey = step.tripName || 'default';
+
+      if (!missions[missionKey]) {
+        missions[missionKey] = [];
       }
-      acc[step.date].push(step);
-      return acc;
-    }, {} as Record<string, TripProgramStep[]>);
+
+      let dateGroup = missions[missionKey].find(g => g.date === step.date);
+      if (!dateGroup) {
+        dateGroup = { tripName: step.tripName, date: step.date, steps: [] };
+        missions[missionKey].push(dateGroup);
+      }
+
+      dateGroup.steps.push(step);
+    });
+
+    return missions;
   }, [filteredSteps]);
 
   const toggleFilter = (filterId: keyof TripProgramFilters) => {
@@ -145,35 +157,44 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
 
       </div>
 
-      {Object.keys(groupedByDate).length === 0 ? (
+      {Object.keys(groupedByMission).length === 0 ? (
         <div className="tw-bg-gray-50 tw-rounded-lg tw-border tw-border-gray-200 tw-p-6 tw-text-center tw-text-sm tw-text-gray-500">
           Aucune étape ne correspond aux filtres sélectionnés
         </div>
       ) : (
-        <div className="tw-space-y-4">
-          {Object.entries(groupedByDate).map(([date, dateSteps], dateIndex) => (
-            <div
-              key={dateIndex}
-              className="tw-bg-white tw-rounded-lg tw-border tw-border-gray-200 tw-overflow-hidden page-break-inside-avoid print:tw-mb-2"
-              data-print-group="trip-day"
-              data-date={date}
-            >
-              <div
-                className="tw-px-4 tw-py-2 tw-font-semibold tw-text-sm tw-capitalize print:tw-px-2 print:tw-py-1 print:tw-text-xs"
-                style={{ backgroundColor: `${blockColor}15`, color: blockColor }}
-              >
-                {formatDateFr(date)}
-              </div>
-
-              <div className="tw-p-4 print:tw-p-2">
-                <div className="tw-relative">
+        <div className="tw-space-y-6">
+          {Object.entries(groupedByMission).map(([missionKey, dateGroups], missionIndex) => (
+            <div key={missionIndex} className="tw-space-y-4">
+              {dateGroups[0]?.tripName && (
+                <div className="tw-mb-3">
+                  <h3 className="tw-text-base tw-font-bold" style={{ color: blockColor }}>
+                    {dateGroups[0].tripName}
+                  </h3>
+                </div>
+              )}
+              {dateGroups.map((dateGroup, dateIndex) => (
+                <div
+                  key={dateIndex}
+                  className="tw-bg-white tw-overflow-hidden page-break-inside-avoid print:tw-mb-2"
+                  data-print-group="trip-day"
+                  data-date={dateGroup.date}
+                >
                   <div
-                    className="tw-absolute tw-left-4 tw-top-0 tw-bottom-0 tw-w-0.5 print:tw-left-2"
-                    style={{ backgroundColor: `${blockColor}30` }}
-                  />
+                    className="tw-px-4 tw-py-2 tw-font-semibold tw-text-sm tw-capitalize print:tw-px-2 print:tw-py-1 print:tw-text-xs"
+                    style={{ backgroundColor: `${blockColor}15`, color: blockColor }}
+                  >
+                    {formatDateFr(dateGroup.date)}
+                  </div>
 
-                  <div className="tw-space-y-4 print:tw-space-y-2">
-                    {dateSteps.map((step, stepIndex) => (
+                  <div className="tw-p-4 print:tw-p-2">
+                    <div className="tw-relative">
+                      <div
+                        className="tw-absolute tw-left-4 tw-top-0 tw-bottom-0 tw-w-0.5 print:tw-left-2"
+                        style={{ backgroundColor: `${blockColor}30` }}
+                      />
+
+                      <div className="tw-space-y-4 print:tw-space-y-2">
+                        {dateGroup.steps.map((step, stepIndex) => (
                       <div
                         key={step.id}
                         className="tw-relative tw-pl-10 tw-group page-break-inside-avoid print:tw-pl-6"
@@ -243,11 +264,13 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
                             )}
                           </div>
                         </div>
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
           ))}
         </div>

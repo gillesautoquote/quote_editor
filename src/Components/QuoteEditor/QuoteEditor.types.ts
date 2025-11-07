@@ -106,6 +106,7 @@ export interface TripProgramStep {
   city: string;
   address: string;
   label: string;
+  tripName?: string;
 }
 
 export interface TripProgramFilters {

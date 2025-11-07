@@ -14,7 +14,8 @@ export const convertItineraryToTripSteps = (itinerary: DaySchedule[]): TripProgr
               time: step.heure,
               city: item.adresse.ville || '',
               address: item.adresse.adresse || '',
-              label: step.label || ''
+              label: step.label || '',
+              tripName: day.tripName
             });
           }
         });
