@@ -888,6 +888,267 @@
       ]
     },
     {
+      "tripName": "Voyage Paris → Lille (copie)",
+      "date": "2025-11-27",
+      "items": [
+        {
+          "type": "etapesGroupees",
+          "adresse": {
+            "adresse": "1 Rue Duvergier",
+            "codePostal": "75019",
+            "ville": "Paris",
+            "pays": "France",
+            "latitude": 48.8887627,
+            "longitude": 2.3779477
+          },
+          "etapes": [
+            {
+              "type": "etape",
+              "label": "Départ du dépôt",
+              "heure": "08:45",
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": true,
+              "estFinService": false,
+              "uuid": "ef0aa499-4861-4119-8a4e-7fed9958e874"
+            }
+          ]
+        },
+        {
+          "type": "phaseDeVoyage",
+          "distanceKm": 207.7,
+          "durationMin": 177,
+          "resumePeages": {
+            "vignettes": [],
+            "typeVehicule": "Autocar 2 essieux",
+            "detailsPeages": [
+              {
+                "nom": "Paris / Roissy (Péage De Chamant) → Lille / Dourges (Péage De Fresnes)",
+                "cout": 39.5,
+                "etat": "Nord-Pas-de-Calais",
+                "taxe": {
+                  "nom": "VAT",
+                  "incluse": true,
+                  "pourcentage": 20
+                },
+                "type": "ticketSystem1",
+                "route": "A1",
+                "position": "Entrée/Sortie",
+                "heureArrivee": "2025-10-07T17:44:11Z",
+                "distanceArrivee": 176942.27
+              },
+              {
+                "nom": "Paris / Roissy (Péage De Chamant) → Lille / Dourges (Péage De Fresnes)",
+                "cout": 39.5,
+                "etat": "Nord-Pas-de-Calais",
+                "taxe": {
+                  "nom": "VAT",
+                  "incluse": true,
+                  "pourcentage": 20
+                },
+                "type": "ticketSystem1",
+                "route": "A1",
+                "position": "Entrée/Sortie",
+                "heureArrivee": "2025-10-07T17:44:11Z",
+                "distanceArrivee": 176942.27
+              }
+            ],
+            "coutTotalPeages": 79,
+            "coutTotalCarburant": 187.92,
+            "coutTotalVignettes": 0
+          },
+          "estPrisEnComptePourCalculs": true,
+          "estDebutService": true,
+          "estFinService": false
+        },
+        {
+          "type": "etapesGroupees",
+          "adresse": {
+            "adresse": "83 Rue Etienne Dolet",
+            "codePostal": "59185",
+            "ville": "Provin",
+            "pays": "France",
+            "latitude": 50.5192472,
+            "longitude": 2.900835
+          },
+          "etapes": [
+            {
+              "type": "etape",
+              "label": "Mise en place du véhicule",
+              "heure": "11:45",
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": false,
+              "estFinService": false,
+              "uuid": "aac2fb4e-0627-43d6-a69b-1985c4cd42c7"
+            },
+            {
+              "type": "etape",
+              "label": "Départ",
+              "heure": "12:00",
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": false,
+              "estFinService": false,
+              "uuid": "42cbb59b-4ef5-4b69-80c4-ec6a3d4e9e87"
+            }
+          ]
+        },
+        {
+          "type": "phaseDeVoyage",
+          "distanceKm": 30.2,
+          "durationMin": 38,
+          "resumePeages": {
+            "vignettes": [],
+            "typeVehicule": "Autocar 2 essieux",
+            "detailsPeages": [],
+            "coutTotalPeages": 0,
+            "coutTotalCarburant": 27.24,
+            "coutTotalVignettes": 0
+          },
+          "estPrisEnComptePourCalculs": true,
+          "estDebutService": false,
+          "estFinService": false
+        },
+        {
+          "type": "etapesGroupees",
+          "adresse": {
+            "adresse": "",
+            "codePostal": "",
+            "ville": "Lille",
+            "pays": "France",
+            "latitude": 50.624378,
+            "longitude": 3.0678588
+          },
+          "etapes": [
+            {
+              "type": "etape",
+              "label": "Arrivée à destination",
+              "heure": "13:00",
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": false,
+              "estFinService": false,
+              "uuid": "9de69f8c-88ad-4d6b-92f5-f3d4ec0fa828"
+            }
+          ]
+        },
+        {
+          "type": "etapesGroupees",
+          "adresse": {
+            "adresse": "",
+            "codePostal": "",
+            "ville": "Lille",
+            "pays": "France",
+            "latitude": 50.624378,
+            "longitude": 3.0678588
+          },
+          "etapes": [
+            {
+              "type": "coupure",
+              "label": "Attente | Coupure conducteur",
+              "heureDebut": "13:15",
+              "heureFin": "15:15",
+              "dureeEnSecondes": 7200,
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": false,
+              "estFinService": false,
+              "uuid": "8626b978-64a7-465a-9257-030be06aedd6"
+            }
+          ]
+        },
+        {
+          "type": "etapesGroupees",
+          "adresse": {
+            "adresse": "",
+            "codePostal": "",
+            "ville": "Lille",
+            "pays": "France",
+            "latitude": 50.624378,
+            "longitude": 3.0678588
+          },
+          "etapes": [
+            {
+              "type": "etape",
+              "label": "Mise en place du véhicule",
+              "heure": "15:15",
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": false,
+              "estFinService": false,
+              "uuid": "93a9659a-d73a-465b-82fb-b8f93332b8c0"
+            },
+            {
+              "type": "etape",
+              "label": "Départ",
+              "heure": "15:30",
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": false,
+              "estFinService": false,
+              "uuid": "bde3e949-a6b4-4108-a649-bbf81cbe115c"
+            }
+          ]
+        },
+        {
+          "type": "phaseDeVoyage",
+          "distanceKm": 27.8,
+          "durationMin": 41,
+          "resumePeages": {
+            "vignettes": [],
+            "typeVehicule": "Autocar 2 essieux",
+            "detailsPeages": [],
+            "coutTotalPeages": 0,
+            "coutTotalCarburant": 24.52,
+            "coutTotalVignettes": 0
+          },
+          "estPrisEnComptePourCalculs": true,
+          "estDebutService": false,
+          "estFinService": false
+        },
+        {
+          "type": "etapesGroupees",
+          "adresse": {
+            "adresse": "83 Rue Etienne Dolet",
+            "codePostal": "59185",
+            "ville": "Provin",
+            "pays": "France",
+            "latitude": 50.5192472,
+            "longitude": 2.900835
+          },
+          "etapes": [
+            {
+              "type": "etape",
+              "label": "Arrivée à destination",
+              "heure": "16:40",
+              "estPrisEnComptePourCalculs": true,
+              "estDebutService": false,
+              "estFinService": true,
+              "uuid": "bb132a6f-5afd-41b4-8793-6d2c73b6da39"
+            }
+          ]
+        },
+        {
+          "type": "etapesGroupees",
+          "adresse": {
+            "adresse": "83 Rue Etienne Dolet",
+            "codePostal": "59185",
+            "ville": "Provin",
+            "pays": "France",
+            "latitude": 50.5192472,
+            "longitude": 2.900835
+          },
+          "etapes": [
+            {
+              "type": "repos",
+              "label": "Attente | Coupure conducteur",
+              "heureDebut": "16:55",
+              "heureFin": "07:45",
+              "dureeEnSecondes": 53400,
+              "estPrisEnComptePourCalculs": false,
+              "estDebutService": false,
+              "estFinService": false,
+              "uuid": "f956cf1c-c4a0-4448-9950-3b8a865545e2"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2025-11-29",
       "items": [
         {
