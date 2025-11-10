@@ -17,7 +17,7 @@ const STEP_FILTERS = [
   { id: 'depart' as const, label: 'Départs', keywords: ['départ', 'depart'] },
   { id: 'arrivee' as const, label: 'Arrivées', keywords: ['arrivée', 'arrivee'] },
   { id: 'mise_en_place' as const, label: 'Mise en place', keywords: ['mise en place'] },
-  { id: 'depotRoundTrips' as const, label: 'Allers/Retours dépôt', keywords: ['retour'], isDepotFilter: true },
+  { id: 'depotRoundTrips' as const, label: 'Allers/Retours dépôt', keywords: ['départ', 'depart', 'arrivée', 'arrivee', 'retour'], isDepotFilter: true },
 ];
 
 const formatDateFr = (dateString: string): string => {
@@ -48,10 +48,12 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
       return STEP_FILTERS.some(filter => {
         if (!filters[filter.id]) return false;
 
-        // Pour le filtre dépôt, vérifier que c'est un retour ET qu'il contient "dépôt"
+        // Pour le filtre dépôt, vérifier que c'est un aller/retour ET qu'il contient "dépôt"
         if (filter.id === 'depotRoundTrips') {
-          const matchesKeywords = filter.keywords.some(keyword => labelLower.includes(keyword));
-          return matchesKeywords && isDepotStep;
+          const hasDepart = labelLower.includes('départ') || labelLower.includes('depart');
+          const hasArrivee = labelLower.includes('arrivée') || labelLower.includes('arrivee');
+          const hasRetour = labelLower.includes('retour');
+          return (hasDepart || hasArrivee || hasRetour) && isDepotStep;
         }
 
         // Pour les autres filtres, exclure les étapes dépôt si le filtre dépôt n'est pas actif
