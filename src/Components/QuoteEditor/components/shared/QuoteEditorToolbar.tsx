@@ -138,9 +138,9 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
     });
   }
 
-  const moreActions: ToolbarAction[] = readonly ? [] : [];
+  const moreActions: ToolbarAction[] = [];
 
-  if (showReset) {
+  if (showReset && !readonly) {
     moreActions.push({
       id: 'reset',
       label: 'Réinitialiser',
@@ -151,7 +151,7 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
     });
   }
 
-  if (onSave) {
+  if (onSave && !readonly) {
     moreActions.unshift({
       id: 'save',
       label: 'Sauvegarder',
