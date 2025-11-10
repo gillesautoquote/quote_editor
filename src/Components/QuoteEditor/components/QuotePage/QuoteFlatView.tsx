@@ -141,11 +141,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
               <TripProgramBlock
                 steps={programmeBlock.tripSteps}
                 filters={programmeBlock.tripFilters || dataWithProgrammeVoyage.defaultProgrammeFilters || {
-                  depart: true,
-                  arrivee: true,
-                  mise_en_place: true,
-                  retour: false,
-                  excludeDepot: true
+                  showDepotTrips: false
                 }}
                 onUpdateSteps={(steps) => {
                   const realIndex = dataWithProgrammeVoyage.optionBlocks.findIndex(b => b.id === programmeBlock.id);

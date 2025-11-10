@@ -153,11 +153,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
             <TripProgramBlock
               steps={programmeBlock.tripSteps}
               filters={programmeBlock.tripFilters || currentData.defaultProgrammeFilters || {
-                depart: true,
-                arrivee: true,
-                mise_en_place: true,
-                retour: false,
-                excludeDepot: true
+                showDepotTrips: false
               }}
               onUpdateSteps={(steps) => {
                 const updatedBlock = {

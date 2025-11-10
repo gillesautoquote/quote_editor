@@ -34,11 +34,7 @@ export const createProgrammeVoyageBlock = (
   id?: string
 ) => {
   const filters: TripProgramFilters = defaultFilters || {
-    depart: true,
-    arrivee: true,
-    mise_en_place: true,
-    retour: false,
-    excludeDepot: true
+    showDepotTrips: false
   };
 
   return {
