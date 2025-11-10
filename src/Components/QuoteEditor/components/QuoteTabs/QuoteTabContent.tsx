@@ -13,12 +13,10 @@ import { BusServicesBlock } from '../BusServices/BusServicesBlock';
 import { BlocksContainer } from '../shared/BlocksContainer';
 import { TripProgramBlock } from '../OptionBlock/components/TripProgramBlock';
 import { EditableField } from '../EditableField/EditableField';
-import { FormatConditionsModal } from '../shared/FormatConditionsModal';
 import { calculateGlobalTotals } from '../../utils/calculationUtils';
 import { formatCopyright, formatUrl } from '../QuotePage/utils/textFormatters';
 import { useFieldPath } from '../../hooks/useFieldPath';
 import { createProgrammeVoyageBlock } from '../../utils/itineraryConverters';
-import { Sparkles } from 'lucide-react';
 
 interface QuoteTabContentProps {
   activeTab: string;
@@ -38,7 +36,6 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
   allowWidthControl = true
 }) => {
   const { setValueByPath } = useFieldPath();
-  const [isFormatModalOpen, setIsFormatModalOpen] = useState(false);
 
   const currentData = React.useMemo(() => {
     if (!data || !data.optionBlocks) {
@@ -270,17 +267,6 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
             <div className="tw-mb-3 tw-flex tw-flex-wrap tw-gap-2">
               <button
                 type="button"
-                onClick={() => setIsFormatModalOpen(true)}
-                className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-sm tw-font-medium tw-text-white tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200 hover:tw-shadow-lg"
-                style={{ backgroundColor: currentData.company.mainColor }}
-                title="Formater avec ChatGPT"
-              >
-                <Sparkles size={16} />
-                Formater avec ChatGPT
-              </button>
-
-              <button
-                type="button"
                 onClick={() => {
                   const now = Date.now();
                   const newBlock = {
@@ -410,14 +396,6 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
             companyColor={currentData.company.mainColor}
           />
 
-          <FormatConditionsModal
-            isOpen={isFormatModalOpen}
-            onClose={() => setIsFormatModalOpen(false)}
-            onFormatted={(blocks) => {
-              onUpdateData({ ...currentData, optionBlocks: [...currentData.optionBlocks, ...blocks] });
-            }}
-            companyColor={currentData.company.mainColor}
-          />
         </>
       );
 
