@@ -14,14 +14,6 @@ import { useTranslation } from './i18n/translations';
 import { QuotePage } from './components/QuotePage/QuotePage';
 import { QuoteEditorToolbar } from './components/shared/QuoteEditorToolbar';
 import { validateQuoteData } from './utils/dataValidator';
-import { useScopeId } from './hooks/useScopeId';
-import { ScopeProvider } from './context/ScopeContext';
-import './styles/reset.css';
-
-const styles = {
-  'quote-editor': 'tw-font-sans tw-bg-surface-0 tw-min-h-screen',
-  'quote-page-container': 'tw-flex-1 tw-flex tw-flex-col tw-items-center tw-py-12 tw-px-8 tw-gap-6 tw-overflow-y-auto tw-bg-gradient-to-br tw-from-gray-50 tw-to-gray-200'
-};
 
 const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHandle>) => {
   const {
@@ -41,7 +33,6 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
   } = props;
 
   const { t } = useTranslation(locale);
-  const scopeId = useScopeId();
   const [data, setData] = useState<QuoteData | null>(null);
   const [error, setError] = useState<{ code: string; message: string } | null>(null);
   const initialDataRef = useRef<QuoteData | null>(null);
@@ -298,41 +289,33 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
 
   if (error) {
     return (
-      <ScopeProvider scopeId={scopeId}>
-        <div
-          className={clsx(styles['quote-editor'], className)}
-          data-theme={theme}
-          data-quote-editor-scope={scopeId}
-          data-scope-initialized="true"
-          role="alert"
-          aria-live="assertive"
-        >
+      <div
+        className={clsx(styles['quote-editor'], className)}
+        data-theme={theme}
+        role="alert"
+        aria-live="assertive"
+      >
         <div className="tw-flex tw-items-center tw-justify-center tw-min-h-screen tw-p-8">
           <div className="tw-bg-error tw-text-white tw-rounded-2xl tw-p-6 tw-shadow-md tw-max-w-md">
             <h2 className="tw-text-lg tw-font-semibold tw-mb-2">{error.code}</h2>
             <p>{error.message}</p>
           </div>
         </div>
-        </div>
-      </ScopeProvider>
+      </div>
     );
   }
 
   if (!data || !currentData) {
     return (
-      <ScopeProvider scopeId={scopeId}>
-        <div
-          className={clsx(styles['quote-editor'], className)}
-          data-theme={theme}
-          data-quote-editor-scope={scopeId}
-          data-scope-initialized="true"
-          aria-label={t('common.loading')}
-        >
+      <div
+        className={clsx(styles['quote-editor'], className)}
+        data-theme={theme}
+        aria-label={t('common.loading')}
+      >
         <div className="tw-flex tw-items-center tw-justify-center tw-min-h-screen">
           <p className="tw-text-muted-color">{t('common.loading')}</p>
         </div>
-        </div>
-      </ScopeProvider>
+      </div>
     );
   }
 
@@ -341,13 +324,7 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
   }`;
 
   return (
-    <ScopeProvider scopeId={scopeId}>
-      <div
-        className={clsx(styles['quote-editor'], className)}
-        data-theme={theme}
-        data-quote-editor-scope={scopeId}
-        data-scope-initialized="true"
-      >
+    <div className={clsx(styles['quote-editor'], className)} data-theme={theme}>
       {showToolbar && (
         <QuoteEditorToolbar
           title={toolbarTitle}
@@ -386,8 +363,7 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
           allowWidthControl={allowWidthControl}
         />
       </div>
-      </div>
-    </ScopeProvider>
+    </div>
   );
 };
 
