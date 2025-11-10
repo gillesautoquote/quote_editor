@@ -141,7 +141,7 @@ export const normalizeSection = (section: Partial<QuoteSection>): QuoteSection =
  * Assure qu'un bloc d'option a toutes les propriétés nécessaires
  */
 export const normalizeOptionBlock = (block: Partial<OptionBlock>): OptionBlock => {
-  return {
+  const normalized: OptionBlock = {
     id: block.id || `block_${Date.now()}`,
     title: block.title || 'Bloc sans titre',
     color: block.color || '#0066cc',
@@ -152,4 +152,12 @@ export const normalizeOptionBlock = (block: Partial<OptionBlock>): OptionBlock =
     rows: block.rows || [],
     notes: block.notes || []
   };
+
+  if (block.type === 'programme-voyage') {
+    normalized.tripSteps = block.tripSteps || [];
+    normalized.tripFilters = block.tripFilters;
+    normalized.defaultFilters = block.defaultFilters;
+  }
+
+  return normalized;
 };
