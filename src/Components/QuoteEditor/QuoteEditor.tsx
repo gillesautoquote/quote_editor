@@ -489,6 +489,7 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
   if (error && isStandaloneMode) {
     return (
       <div
+        data-quote-editor-scope
         className={clsx('tw-font-sans tw-bg-surface-0 tw-min-h-screen', theme === 'dark' && 'tw-bg-slate-900', className)}
         data-theme={theme}
         role="alert"
@@ -507,6 +508,7 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
   if (!data || !currentData) {
     return (
       <div
+        data-quote-editor-scope
         className={clsx('tw-font-sans tw-bg-surface-0 tw-min-h-screen', theme === 'dark' && 'tw-bg-slate-900', className)}
         data-theme={theme}
         aria-label={isStandaloneMode ? t('common.loading') : 'Chargement...'}
@@ -527,7 +529,11 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
   }`;
 
   return (
-    <div className={clsx('tw-font-sans tw-bg-surface-0 tw-min-h-screen', theme === 'dark' && 'tw-bg-slate-900', className)} data-theme={theme}>
+    <div
+      data-quote-editor-scope
+      className={clsx('tw-font-sans tw-bg-surface-0 tw-min-h-screen', theme === 'dark' && 'tw-bg-slate-900', className)}
+      data-theme={theme}
+    >
       {/* Toolbar optionnelle et propre */}
       {showToolbar && !readonly && (
         <QuoteEditorToolbar

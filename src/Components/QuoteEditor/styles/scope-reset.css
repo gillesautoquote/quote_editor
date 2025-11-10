@@ -1,0 +1,185 @@
+/**
+ * QuoteEditor CSS Scope & Defensive Reset
+ *
+ * Ce fichier isole complètement le QuoteEditor des styles parent
+ * via l'attribut [data-quote-editor-scope]
+ */
+
+/* ========================================
+   SCOPE ROOT - ISOLATION COMPLETE
+   ======================================== */
+
+[data-quote-editor-scope] {
+  /* Reset all inherited properties */
+  all: initial;
+
+  /* Force base properties */
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+  color: #212529 !important;
+
+  /* Force box model */
+  box-sizing: border-box !important;
+
+  /* Create stacking context */
+  position: relative !important;
+  z-index: 0 !important;
+
+  /* Force display */
+  display: block !important;
+
+  /* Neutralize inherited text properties */
+  text-transform: none !important;
+  text-decoration: none !important;
+  letter-spacing: normal !important;
+  word-spacing: normal !important;
+
+  /* Font smoothing */
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* Force box-sizing on all children */
+[data-quote-editor-scope] *,
+[data-quote-editor-scope] *::before,
+[data-quote-editor-scope] *::after {
+  box-sizing: border-box !important;
+}
+
+/* ========================================
+   SCOPED CSS VARIABLES
+   ======================================== */
+
+[data-quote-editor-scope] {
+  /* Color variables (fallback gris neutres) */
+  --qe-color-primary: 75, 85, 99;
+  --qe-color-primary-hover: 55, 65, 81;
+  --qe-color-primary-light: 229, 231, 235;
+  --qe-color-primary-lighter: 243, 244, 246;
+  --qe-color-primary-dark: 31, 41, 55;
+}
+
+/* ========================================
+   COLUMN LAYOUT (SCOPED)
+   ======================================== */
+
+[data-quote-editor-scope] [data-columns="2"] {
+  width: calc((100% - 1rem) / 3) !important;
+  min-width: calc((100% - 1rem) / 3) !important;
+  max-width: calc((100% - 1rem) / 3) !important;
+}
+
+[data-quote-editor-scope] [data-columns="3"] {
+  width: calc((100% - 0.5rem) / 2) !important;
+  min-width: calc((100% - 0.5rem) / 2) !important;
+  max-width: calc((100% - 0.5rem) / 2) !important;
+}
+
+[data-quote-editor-scope] [data-columns="4"] {
+  width: calc((100% * 2 / 3) - 0.5rem) !important;
+  min-width: calc((100% * 2 / 3) - 0.5rem) !important;
+  max-width: calc((100% * 2 / 3) - 0.5rem) !important;
+}
+
+[data-quote-editor-scope] [data-columns="6"] {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Responsive: tous les blocs en pleine largeur sur mobile */
+@media (max-width: 768px) {
+  [data-quote-editor-scope] [data-columns="2"],
+  [data-quote-editor-scope] [data-columns="3"],
+  [data-quote-editor-scope] [data-columns="4"],
+  [data-quote-editor-scope] [data-columns="6"] {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* ========================================
+   A4 SCREEN MODE (SCOPED)
+   ======================================== */
+
+@media screen {
+  [data-quote-editor-scope] [data-screen-a4="true"] {
+    min-height: 29.7cm !important;
+    width: 21cm !important;
+    max-width: 21cm !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+/* ========================================
+   INTRO LIST STYLES (SCOPED)
+   ======================================== */
+
+[data-quote-editor-scope] .intro-list ul {
+  margin: 0.1rem 0 !important;
+  padding-left: 1.1rem !important;
+  line-height: 1.2 !important;
+}
+
+[data-quote-editor-scope] .intro-list li {
+  margin-bottom: 0.05rem !important;
+  line-height: 1.2 !important;
+}
+
+@media print {
+  [data-quote-editor-scope] .intro-list ul {
+    margin: 0.08rem 0 !important;
+    padding-left: 1rem !important;
+    line-height: 1.15 !important;
+  }
+
+  [data-quote-editor-scope] .intro-list li {
+    margin-bottom: 0.04rem !important;
+    line-height: 1.15 !important;
+  }
+}
+
+/* ========================================
+   DEFENSIVE RESETS
+   ======================================== */
+
+/* Neutralize potential parent aggressive resets */
+[data-quote-editor-scope] h1,
+[data-quote-editor-scope] h2,
+[data-quote-editor-scope] h3,
+[data-quote-editor-scope] h4,
+[data-quote-editor-scope] h5,
+[data-quote-editor-scope] h6,
+[data-quote-editor-scope] p,
+[data-quote-editor-scope] ul,
+[data-quote-editor-scope] ol,
+[data-quote-editor-scope] li {
+  font-family: inherit !important;
+  color: inherit !important;
+}
+
+/* Protect against parent styles */
+[data-quote-editor-scope] img {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+[data-quote-editor-scope] button,
+[data-quote-editor-scope] input,
+[data-quote-editor-scope] textarea,
+[data-quote-editor-scope] select {
+  font-family: inherit !important;
+  font-size: inherit !important;
+}
+
+/* ========================================
+   STACKING CONTEXT & Z-INDEX
+   ======================================== */
+
+[data-quote-editor-scope] {
+  /* Isolate z-index */
+  isolation: isolate !important;
+}

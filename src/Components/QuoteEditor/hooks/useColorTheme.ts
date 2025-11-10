@@ -12,9 +12,10 @@ export const useColorTheme = (company: Company) => {
     return generateColorVariables(mainColor);
   }, [mainColor]);
 
-  const applyColorVariables = (element: HTMLElement = document.documentElement) => {
+  const applyColorVariables = (scopeElement?: HTMLElement) => {
+    const target = scopeElement || document.querySelector('[data-quote-editor-scope]') as HTMLElement || document.documentElement;
     Object.entries(colorVariables).forEach(([property, value]) => {
-      element.style.setProperty(property, value);
+      target.style.setProperty(property, value);
     });
   };
 

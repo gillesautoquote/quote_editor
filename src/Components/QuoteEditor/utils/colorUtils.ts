@@ -112,11 +112,18 @@ export const generateColorVariables = (mainColor: string) => {
     '--dynamic-primary-light': lightVariant,
     '--dynamic-primary-lighter': lighterVariant,
     '--dynamic-primary-dark': darkerVariant,
-    '--dynamic-primary-rgb': hexToRgb(mainColor) ? 
-      `${hexToRgb(mainColor)!.r}, ${hexToRgb(mainColor)!.g}, ${hexToRgb(mainColor)!.b}` : 
+    '--dynamic-primary-rgb': hexToRgb(mainColor) ?
+      `${hexToRgb(mainColor)!.r}, ${hexToRgb(mainColor)!.g}, ${hexToRgb(mainColor)!.b}` :
       '0, 102, 204',
 
-    // Variables consommées par Tailwind
+    // Variables scopées pour QuoteEditor
+    '--qe-color-primary': toTriplet(rgb.r, rgb.g, rgb.b),
+    '--qe-color-primary-hover': darken(0.85),
+    '--qe-color-primary-light': lighten(0.85),
+    '--qe-color-primary-lighter': lighten(0.92),
+    '--qe-color-primary-dark': darken(0.75),
+
+    // Fallback variables globales (pour rétrocompatibilité)
     '--color-primary': toTriplet(rgb.r, rgb.g, rgb.b),
     '--color-primary-hover': darken(0.85),
     '--color-primary-light': lighten(0.85),

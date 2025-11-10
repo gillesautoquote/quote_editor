@@ -1,0 +1,462 @@
+/**
+ * QuoteEditor Scoped Print Styles
+ *
+ * Toutes les règles print sont préfixées avec [data-quote-editor-scope]
+ * pour éviter les fuites vers l'application parent
+ */
+
+/* ========================================
+   PAGE CONFIGURATION (Paged.js)
+   ======================================== */
+
+[data-quote-editor-scope] .quote-editor-print-mode {
+  /* Container en mode print */
+  width: 21cm !important;
+  margin: 0 auto !important;
+}
+
+@page {
+  size: A4 portrait;
+  margin-top: 4.4cm;
+  margin-bottom: 4.4cm;
+  margin-left: 2cm;
+  margin-right: 2cm;
+  background: white;
+}
+
+@page :left {
+  margin-left: 2cm;
+  margin-right: 1.5cm;
+}
+
+@page :right {
+  margin-left: 1.5cm;
+  margin-right: 2cm;
+}
+
+/* ========================================
+   RUNNING HEADERS & FOOTERS (SCOPED)
+   ======================================== */
+
+[data-quote-editor-scope] .print-header {
+  position: running(pageHeader) !important;
+}
+
+[data-quote-editor-scope] .print-footer {
+  position: running(pageFooter) !important;
+}
+
+[data-quote-editor-scope] .print-header,
+[data-quote-editor-scope] .print-footer {
+  height: 0 !important;
+  overflow: visible !important;
+  display: block !important;
+  pointer-events: none !important;
+}
+
+@page {
+  @top-center {
+    content: element(pageHeader);
+    vertical-align: middle;
+  }
+
+  @bottom-center {
+    content: element(pageFooter);
+    vertical-align: middle;
+  }
+}
+
+[data-quote-editor-scope] .print-header {
+  position: running(header) !important;
+  width: 18cm !important;
+  margin: 0 auto !important;
+  display: block !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  overflow: hidden !important;
+}
+
+[data-quote-editor-scope] .print-footer {
+  position: running(footer) !important;
+  width: 18cm !important;
+  margin: 0 auto !important;
+  display: block !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  overflow: hidden !important;
+}
+
+.pagedjs_margin-top [data-quote-editor-scope] .print-header,
+.pagedjs_margin-bottom [data-quote-editor-scope] .print-footer {
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.pagedjs_margin-top-center,
+.pagedjs_margin-bottom-center {
+  width: 18cm !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: left !important;
+}
+
+/* ========================================
+   GENERAL PRINT RULES (SCOPED)
+   ======================================== */
+
+[data-quote-editor-scope] * {
+  color-adjust: exact !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+[data-quote-editor-scope] [data-component="quote-flat-view"] {
+  width: 100% !important;
+  max-width: 17.2cm !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+}
+
+.pagedjs_margin-top-center,
+.pagedjs_margin-bottom-center {
+  width: 17.2cm !important;
+  margin: 0 auto !important;
+}
+
+[data-quote-editor-scope] .print-header,
+[data-quote-editor-scope] .print-footer {
+  width: 17.2cm !important;
+  margin: 0 auto !important;
+}
+
+@media print {
+  [data-quote-editor-scope] strong,
+  [data-quote-editor-scope] b {
+    font-weight: 700 !important;
+    font-synthesis: weight !important;
+    font-family: Arial, "Noto Sans", sans-serif !important;
+  }
+
+  [data-quote-editor-scope] .tw-font-bold {
+    font-weight: 700 !important;
+    font-synthesis: weight !important;
+    font-family: Arial, "Noto Sans", sans-serif !important;
+  }
+
+  [data-quote-editor-scope] .tw-font-semibold {
+    font-weight: 600 !important;
+    font-synthesis: weight !important;
+    font-family: Arial, "Noto Sans", sans-serif !important;
+  }
+
+  [data-quote-editor-scope] [data-section="programme"],
+  [data-quote-editor-scope] [data-section="services"],
+  [data-quote-editor-scope] [data-section="cotation"],
+  [data-quote-editor-scope] [data-section="conditions"],
+  [data-quote-editor-scope] [data-section="signature"] {
+    page-break-before: always !important;
+    break-before: page !important;
+  }
+}
+
+/* ========================================
+   COMPONENT VISIBILITY (SCOPED)
+   ======================================== */
+
+[data-quote-editor-scope] .quote-editor-container,
+[data-quote-editor-scope] [data-component="quote-editor"] {
+  width: 21cm !important;
+  max-width: 21cm !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+}
+
+[data-quote-editor-scope] .quote-page {
+  box-shadow: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+[data-quote-editor-scope] .quote-editor-toolbar,
+[data-quote-editor-scope] [data-component="toolbar"] {
+  display: none !important;
+}
+
+[data-quote-editor-scope] .quote-tabs-nav,
+[data-quote-editor-scope] [role="tablist"] {
+  display: none !important;
+}
+
+[data-quote-editor-scope] .quote-tabs-content,
+[data-quote-editor-scope] [role="tabpanel"] {
+  display: block !important;
+  opacity: 1 !important;
+  height: auto !important;
+}
+
+[data-quote-editor-scope] .section-actions,
+[data-quote-editor-scope] [data-component="section-actions"],
+[data-quote-editor-scope] .add-button,
+[data-quote-editor-scope] [data-component="add-button"],
+[data-quote-editor-scope] .column-controls,
+[data-quote-editor-scope] [data-component="column-controls"],
+[data-quote-editor-scope] .style-selector,
+[data-quote-editor-scope] [data-component="style-selector"],
+[data-quote-editor-scope] .option-selector,
+[data-quote-editor-scope] [data-component="option-selector"] {
+  display: none !important;
+}
+
+/* ========================================
+   TABLE OPTIMIZATION (SCOPED)
+   ======================================== */
+
+[data-quote-editor-scope] .quote-section table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+}
+
+[data-quote-editor-scope] .quote-section thead {
+  display: table-header-group !important;
+}
+
+[data-quote-editor-scope] .quote-section tfoot {
+  display: table-footer-group !important;
+}
+
+[data-quote-editor-scope] .quote-section tbody {
+  display: table-row-group !important;
+}
+
+[data-quote-editor-scope] .quote-section tr {
+  page-break-inside: avoid !important;
+}
+
+[data-quote-editor-scope] [data-component="totals-table"],
+[data-quote-editor-scope] [data-component="quote-section"] {
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* ========================================
+   OPTION BLOCKS OPTIMIZATION (SCOPED)
+   ======================================== */
+
+[data-quote-editor-scope] [data-block-id] {
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  margin-bottom: 0.5rem !important;
+  background: transparent !important;
+}
+
+[data-quote-editor-scope] [data-block-id] > div:first-child {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  padding-bottom: 0.25rem !important;
+}
+
+[data-quote-editor-scope] [data-block-id] h4 {
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+}
+
+[data-quote-editor-scope] [data-block-id] ul {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+[data-quote-editor-scope] [data-block-id] li {
+  border: none !important;
+  background: transparent !important;
+  padding: 0.125rem 0.25rem !important;
+  border-radius: 0 !important;
+  margin-bottom: 0.125rem !important;
+  font-size: 0.75rem !important;
+  line-height: 1.4 !important;
+}
+
+[data-quote-editor-scope] .option-block[data-columns="2"] .option-block-content {
+  column-count: 2 !important;
+  column-gap: 1.5rem !important;
+}
+
+[data-quote-editor-scope] .option-block[data-columns="3"] .option-block-content {
+  column-count: 3 !important;
+  column-gap: 1rem !important;
+}
+
+[data-quote-editor-scope] .option-block[data-columns="4"] .option-block-content {
+  column-count: 2 !important;
+  column-gap: 1.5rem !important;
+}
+
+[data-quote-editor-scope] .option-row,
+[data-quote-editor-scope] .note-row,
+[data-quote-editor-scope] .trip-program-day {
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+}
+
+/* ========================================
+   TYPOGRAPHY & COLORS (SCOPED)
+   ======================================== */
+
+[data-quote-editor-scope] h1 { font-size: 24pt !important; }
+[data-quote-editor-scope] h2 { font-size: 20pt !important; }
+[data-quote-editor-scope] h3 { font-size: 16pt !important; }
+[data-quote-editor-scope] h4 { font-size: 14pt !important; }
+[data-quote-editor-scope] h5 { font-size: 12pt !important; }
+[data-quote-editor-scope] h6 { font-size: 11pt !important; }
+[data-quote-editor-scope] p,
+[data-quote-editor-scope] body { font-size: 10pt !important; }
+[data-quote-editor-scope] small { font-size: 8pt !important; }
+
+[data-quote-editor-scope] h1,
+[data-quote-editor-scope] h2,
+[data-quote-editor-scope] h3,
+[data-quote-editor-scope] h4,
+[data-quote-editor-scope] h5,
+[data-quote-editor-scope] h6,
+[data-quote-editor-scope] p {
+  orphans: 3 !important;
+  widows: 3 !important;
+}
+
+[data-quote-editor-scope] .bg-primary,
+[data-quote-editor-scope] .tw-bg-primary,
+[data-quote-editor-scope] [style*="background-color"],
+[data-quote-editor-scope] [style*="backgroundColor"],
+[data-quote-editor-scope] .border-primary,
+[data-quote-editor-scope] .tw-border-primary,
+[data-quote-editor-scope] [style*="border-color"],
+[data-quote-editor-scope] [style*="borderColor"] {
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+  color-adjust: exact !important;
+}
+
+/* ========================================
+   SIGNATURE & SPECIAL SECTIONS (SCOPED)
+   ======================================== */
+
+[data-quote-editor-scope] .signature-section,
+[data-quote-editor-scope] [data-component="signature-section"] {
+  page-break-inside: avoid !important;
+}
+
+[data-quote-editor-scope] .signature-image {
+  max-height: 3cm !important;
+  width: auto !important;
+}
+
+[data-quote-editor-scope] .quote-page-header {
+  page-break-after: avoid !important;
+}
+
+[data-quote-editor-scope] .quote-page-header img {
+  max-height: 2.5cm !important;
+  width: auto !important;
+}
+
+[data-quote-editor-scope] .quote-page-footer {
+  margin-top: 2cm !important;
+  page-break-inside: avoid !important;
+}
+
+[data-quote-editor-scope] .carbon-impact {
+  page-break-inside: avoid !important;
+}
+
+[data-quote-editor-scope] .trip-program-block {
+  page-break-inside: avoid !important;
+}
+
+[data-quote-editor-scope] .trip-program-day {
+  page-break-inside: avoid !important;
+  margin-bottom: 1rem !important;
+}
+
+/* ========================================
+   PAGED.JS SPECIFIC (SCOPED)
+   ======================================== */
+
+.pagedjs_page_content [data-quote-editor-scope] .no-break {
+  break-inside: avoid !important;
+}
+
+.pagedjs_page_content [data-quote-editor-scope] .new-page {
+  break-before: page !important;
+}
+
+[data-quote-editor-scope] .running-header {
+  position: running(running-header) !important;
+  font-size: 9pt !important;
+  color: #6c757d !important;
+}
+
+[data-quote-editor-scope] .no-page-number {
+  counter-increment: none !important;
+}
+
+.pagedjs_margin-top-center {
+  padding-top: 0.3cm !important;
+}
+
+[data-quote-editor-scope] .print-header [data-component="quote-header"] {
+  font-size: 90% !important;
+  padding-bottom: 0.5cm !important;
+}
+
+[data-quote-editor-scope] .print-header [data-component="quote-header"] img {
+  max-height: 1.2cm !important;
+}
+
+/* ========================================
+   PRINT UTILITIES (SCOPED)
+   ======================================== */
+
+[data-quote-editor-scope] .print-show,
+[data-quote-editor-scope] .print\\:tw-block {
+  display: block !important;
+}
+
+[data-quote-editor-scope] .print-inline {
+  display: inline !important;
+}
+
+[data-quote-editor-scope] .print-inline-block {
+  display: inline-block !important;
+}
+
+[data-quote-editor-scope] .print-hide {
+  display: none !important;
+}
+
+[data-quote-editor-scope] .print-keep-together {
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+}
+
+[data-quote-editor-scope] [data-component="quote-header"],
+[data-quote-editor-scope] [data-component="quote-footer"],
+[data-quote-editor-scope] [data-component="totals-table"] {
+  page-break-inside: avoid !important;
+}
+
+[data-quote-editor-scope] [data-component="totals-table"] table {
+  display: table !important;
+  border-collapse: collapse !important;
+}
+
+[data-quote-editor-scope] [data-print-group="trip-day"],
+[data-quote-editor-scope] [data-print-group="trip-step"] {
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+}

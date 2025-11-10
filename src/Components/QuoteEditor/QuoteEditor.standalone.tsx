@@ -15,6 +15,8 @@ import { QuotePage } from './components/QuotePage/QuotePage';
 import { QuoteEditorToolbar } from './components/shared/QuoteEditorToolbar';
 import { validateQuoteData } from './utils/dataValidator';
 
+const styles = { 'quote-editor': 'tw-font-sans tw-bg-surface-0 tw-min-h-screen', 'quote-page-container': 'tw-flex-1 tw-flex tw-flex-col tw-items-center tw-py-12 tw-px-8 tw-gap-6 tw-overflow-y-auto' };
+
 const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHandle>) => {
   const {
     data: initialData,
@@ -290,6 +292,7 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
   if (error) {
     return (
       <div
+        data-quote-editor-scope
         className={clsx(styles['quote-editor'], className)}
         data-theme={theme}
         role="alert"
@@ -308,6 +311,7 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
   if (!data || !currentData) {
     return (
       <div
+        data-quote-editor-scope
         className={clsx(styles['quote-editor'], className)}
         data-theme={theme}
         aria-label={t('common.loading')}
@@ -324,7 +328,7 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
   }`;
 
   return (
-    <div className={clsx(styles['quote-editor'], className)} data-theme={theme}>
+    <div data-quote-editor-scope className={clsx(styles['quote-editor'], className)} data-theme={theme}>
       {showToolbar && (
         <QuoteEditorToolbar
           title={toolbarTitle}

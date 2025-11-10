@@ -1,4 +1,6 @@
 @import './styles/print.css';
+@import './Components/QuoteEditor/styles/scope-reset.css';
+@import './Components/QuoteEditor/styles/scope-print.css';
 
 @tailwind base;
 @tailwind components;
