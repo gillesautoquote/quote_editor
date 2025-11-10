@@ -1424,5 +1424,5 @@
       ]
     }
   ],
-  "visibleTabIds": ["introduction", "programme", "services", "cotation", "conditions", "signature"]
+  "visibleTabIds": ["introduction", "services", "cotation", "conditions", "programme", "signature"]
 }
