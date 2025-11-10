@@ -36,9 +36,9 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
       if (match.includes('<li>')) {
         const firstItem = match.match(/^- /) || match.match(/^\d+\./);
         if (text.match(/^\d+\./m)) {
-          return '<ol class="tw-list-decimal tw-pl-5 tw-my-1">' + match.replace(/^- /gm, '').replace(/^\d+\. /gm, '') + '</ol>';
+          return '<ol class="tw-list-decimal tw-pl-6 tw-my-1">' + match.replace(/^- /gm, '').replace(/^\d+\. /gm, '') + '</ol>';
         }
-        return '<ul class="tw-list-disc tw-pl-5 tw-my-1">' + match.replace(/^- /gm, '') + '</ul>';
+        return '<ul class="tw-list-disc tw-pl-6 tw-my-1">' + match.replace(/^- /gm, '') + '</ul>';
       }
       return match;
     });
@@ -306,7 +306,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
         'tw-relative tw-rounded tw-min-h-[1.2em] tw-text-text tw-w-full',
         'tw-border tw-border-transparent',
         'tw-transition-colors tw-duration-150 tw-ease-in-out',
-        !disabled && 'tw-cursor-pointer hover:tw-bg-primary/5 hover:tw-border-primary tw-p-2',
+        !disabled && 'tw-cursor-pointer hover:tw-bg-primary/5 hover:tw-border-primary',
         disabled && 'tw-cursor-default tw-opacity-100 !tw-text-text',
         className
       )}
