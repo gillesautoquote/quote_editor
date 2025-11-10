@@ -91,7 +91,7 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
       )}
 
       {/* Signature */}
-      <div>
+      <div className="tw-text-right">
         {clientSignature?.title && clientSignature.title.trim() && (
           <div>
             <EditableField
