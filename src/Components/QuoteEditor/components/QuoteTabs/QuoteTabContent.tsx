@@ -38,34 +38,35 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
   allowWidthControl = true
 }) => {
   const { setValueByPath } = useFieldPath();
-  const hasAddedProgrammeRef = React.useRef(false);
   const [isFormatModalOpen, setIsFormatModalOpen] = useState(false);
 
-  useEffect(() => {
-    if (
-      !hasAddedProgrammeRef.current &&
-      data &&
-      data.itinerary &&
-      data.itinerary.length > 0 &&
-      data.optionBlocks &&
-      !data.optionBlocks.some(block => block.type === 'programme-voyage')
-    ) {
-      hasAddedProgrammeRef.current = true;
-      const programmeTitle = data.labels?.pageTitles?.programme;
-      const programmeVoyageBlock = createProgrammeVoyageBlock(
-        data.itinerary,
-        data.company.mainColor,
-        data.defaultProgrammeFilters,
-        programmeTitle
-      );
-      onUpdateData({
-        ...data,
-        optionBlocks: [programmeVoyageBlock, ...data.optionBlocks]
-      });
+  const currentData = React.useMemo(() => {
+    if (!data || !data.optionBlocks) {
+      return data;
     }
-  }, []);
 
-  const currentData = data;
+    if (data.itinerary && data.itinerary.length > 0) {
+      const hasProgrammeVoyageBlock = data.optionBlocks.some(
+        block => block.type === 'programme-voyage'
+      );
+
+      if (!hasProgrammeVoyageBlock) {
+        const programmeTitle = data.labels?.pageTitles?.programme;
+        const programmeVoyageBlock = createProgrammeVoyageBlock(
+          data.itinerary,
+          data.company.mainColor,
+          data.defaultProgrammeFilters,
+          programmeTitle
+        );
+        return {
+          ...data,
+          optionBlocks: [programmeVoyageBlock, ...data.optionBlocks]
+        };
+      }
+    }
+
+    return data;
+  }, [data]);
 
   const handleFieldUpdate = (path: string, value: string): void => {
     if (readonly) return;
