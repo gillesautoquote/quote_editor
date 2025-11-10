@@ -303,10 +303,10 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   return (
     <div
       className={clsx(
-        'tw-relative tw-rounded tw-min-h-[1.2em] tw-text-text tw-w-full tw-p-2',
+        'tw-relative tw-rounded tw-min-h-[1.2em] tw-text-text tw-w-full',
         'tw-border tw-border-transparent',
         'tw-transition-colors tw-duration-150 tw-ease-in-out',
-        !disabled && 'tw-cursor-pointer hover:tw-bg-primary/5 hover:tw-border-primary',
+        !disabled && 'tw-cursor-pointer hover:tw-bg-primary/5 hover:tw-border-primary tw-p-2',
         disabled && 'tw-cursor-default tw-opacity-100 !tw-text-text',
         className
       )}
