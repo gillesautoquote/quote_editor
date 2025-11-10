@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useEffect, useMemo } from 'react';
 import type { QuoteData } from '../../entities/QuoteData';
 import { QuoteSection as QuoteSectionComponent } from '../QuoteSection/QuoteSection';
@@ -93,33 +93,33 @@ export const QuotePage: React.FC<QuotePageProps> = ({
     applyColorVariables();
   }, [dataWithProgrammeVoyage.company.mainColor, applyColorVariables]);
 
-  const handleFieldUpdate = (path: string, value: string): void => {
+  const handleFieldUpdate = useCallback((path: string, value: string): void => {
     if (readonly) return;
     const newData = setValueByPath(dataWithProgrammeVoyage, path, value);
     onUpdateData(newData);
-  };
+  }, [readonly, dataWithProgrammeVoyage, setValueByPath, onUpdateData]);
 
-  const handleCompanyNameUpdate = (value: string): void => {
+  const handleCompanyNameUpdate = useCallback((value: string): void => {
     if (readonly) return;
     const newCopyright = formatCopyright(value);
     handleFieldUpdate('footer.copyright', newCopyright);
-  };
+  }, [readonly, handleFieldUpdate]);
 
-  const handleWebsiteUpdate = (value: string): void => {
+  const handleWebsiteUpdate = useCallback((value: string): void => {
     if (readonly) return;
     const formattedUrl = formatUrl(value);
     handleFieldUpdate('footer.website', formattedUrl);
-  };
+  }, [readonly, handleFieldUpdate]);
 
-  const handleRemoveOptionBlock = (blockIndex: number): void => {
+  const handleRemoveOptionBlock = useCallback((blockIndex: number): void => {
     if (readonly) return;
     const realIndex = contentConfig.optionBlocks[blockIndex];
     const newBlocks = dataWithProgrammeVoyage.optionBlocks.filter((_, index) => index !== realIndex);
     const newData = { ...dataWithProgrammeVoyage, optionBlocks: newBlocks };
     onUpdateData(newData);
-  };
+  }, [readonly, contentConfig.optionBlocks, dataWithProgrammeVoyage, onUpdateData]);
 
-  const handleRemoveSection = (sectionIndex: number): void => {
+  const handleRemoveSection = useCallback((sectionIndex: number): void => {
     if (readonly) return;
     const newSections = dataWithProgrammeVoyage.sections.filter((_, index) => index !== sectionIndex);
 
@@ -127,7 +127,7 @@ export const QuotePage: React.FC<QuotePageProps> = ({
 
     const newData = { ...dataWithProgrammeVoyage, sections: newSections, totals: newTotals };
     onUpdateData(newData);
-  };
+  }, [readonly, dataWithProgrammeVoyage, onUpdateData]);
 
   return (
     <div

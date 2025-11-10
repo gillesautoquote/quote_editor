@@ -204,19 +204,19 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
     loadData();
   }, [mock, onEvent, t, isStandaloneMode]);
 
-  const handleChange = (newData: QuoteData) => {
+  const handleChange = useCallback((newData: QuoteData) => {
     setData(newData);
     if (onChange) onChange(newData);
-  };
+  }, [onChange]);
 
-  const handleSaveWrapper = async (newData: QuoteData) => {
+  const handleSaveWrapper = useCallback(async (newData: QuoteData) => {
     if (isStandaloneMode) {
       onEvent?.({ type: 'save', data: newData });
     }
     if (onSave) {
       await onSave(newData);
     }
-  };
+  }, [isStandaloneMode, onEvent, onSave]);
 
   const {
     data: currentData,
@@ -329,7 +329,7 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
   // 🎯 HANDLERS SIMPLIFIÉS
   // ═══════════════════════════════════════════════════════════════
 
-  const handleSave = async (): Promise<void> => {
+  const handleSave = useCallback(async (): Promise<void> => {
     if (currentData && saveData) {
       try {
         await saveData();
@@ -343,11 +343,11 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
         }
       }
     }
-  };
+  }, [currentData, saveData, isStandaloneMode, onEvent, t]);
 
-  const handleAddSection = (): void => {
+  const handleAddSection = useCallback((): void => {
     if (readonly) return;
-    
+
     // ✅ Section avec toutes les valeurs par défaut sécurisées
     const newSection = {
       title: 'Nouvelle section',
@@ -369,11 +369,11 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
       }],
       subTotal: { ht: 0, tva: 0, ttc: 0 }
     };
-    
+
     // ✅ Calculer les nouveaux totaux de manière sécurisée
     const currentSections = currentData.sections || [];
     const newSections = [...currentSections, newSection];
-    
+
     const newTotals = newSections.reduce(
       (acc, section) => {
         const sectionSubTotal = section.subTotal || { ht: 0, tva: 0, ttc: 0 };
@@ -391,13 +391,13 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
       sections: newSections,
       totals: newTotals
     });
-  };
+  }, [readonly, currentData, updateData]);
 
-  const handleAddOptionBlock = (templateId?: string): void => {
+  const handleAddOptionBlock = useCallback((templateId?: string): void => {
     if (readonly) return;
-    
+
     let newBlock: any;
-    
+
     if (templateId) {
       const templateInfo = blockTemplates.find(t => t.id === templateId);
       if (templateInfo?.template) {
@@ -420,21 +420,21 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
         rows: []
       };
     }
-    
+
     updateData({
       ...currentData,
       optionBlocks: [...(currentData.optionBlocks || []), newBlock],
     });
-  };
+  }, [readonly, blockTemplates, currentData, updateData]);
   
-  const handleResetToInitial = (): void => {
+  const handleResetToInitial = useCallback((): void => {
     if (readonly) return;
     if (window.confirm('Êtes-vous sûr de vouloir réinitialiser le devis ?')) {
       updateData(initialDataRef.current);
     }
-  };
+  }, [readonly, updateData]);
   
-  const handleExportPDF = async (): Promise<void> => {
+  const handleExportPDF = useCallback(async (): Promise<void> => {
     try {
       await exportToPDF(currentData);
       if (isStandaloneMode) {
@@ -449,9 +449,9 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
         });
       }
     }
-  };
+  }, [exportToPDF, currentData, isStandaloneMode, onEvent, t]);
 
-  const handleExportPDFBackend = async (): Promise<void> => {
+  const handleExportPDFBackend = useCallback(async (): Promise<void> => {
     try {
       console.log('[QuoteEditor] Exporting PDF via backend...');
       await exportToPDFBackend(currentData);
@@ -469,22 +469,22 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
         });
       }
     }
-  };
+  }, [exportToPDFBackend, currentData, isStandaloneMode, onEvent]);
 
 
-  const handleUndo = () => {
+  const handleUndo = useCallback(() => {
     undo?.();
     if (isStandaloneMode) {
       onEvent?.({ type: 'undo', data: currentData });
     }
-  };
+  }, [undo, isStandaloneMode, onEvent, currentData]);
 
-  const handleRedo = () => {
+  const handleRedo = useCallback(() => {
     redo?.();
     if (isStandaloneMode) {
       onEvent?.({ type: 'redo', data: currentData });
     }
-  };
+  }, [redo, isStandaloneMode, onEvent, currentData]);
 
   if (error && isStandaloneMode) {
     return (
