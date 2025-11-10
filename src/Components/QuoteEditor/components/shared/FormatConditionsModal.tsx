@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Sparkles, Loader2 } from 'lucide-react';
+import { X, Sparkles, Loader2, Eraser } from 'lucide-react';
 
 interface FormatConditionsModalProps {
   isOpen: boolean;
@@ -37,6 +37,44 @@ export const FormatConditionsModal: React.FC<FormatConditionsModalProps> = ({
   const [text, setText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+
+  // Fonction pour nettoyer le markdown et uniformiser le texte
+  const cleanMarkdown = () => {
+    let cleaned = text;
+
+    // Enlever les titres markdown (# ## ###)
+    cleaned = cleaned.replace(/^#+\s+/gm, '');
+
+    // Enlever les styles gras/italique (**texte** __texte__ *texte* _texte_)
+    cleaned = cleaned.replace(/(\*\*|__)(.*?)\1/g, '$2');
+    cleaned = cleaned.replace(/(\*|_)(.*?)\1/g, '$2');
+
+    // Normaliser les listes (•, *, -, +, →) en texte simple
+    cleaned = cleaned.replace(/^[\s]*[•\*\-\+→➔►▸▹]\s+/gm, '');
+    cleaned = cleaned.replace(/^[\s]*\d+\.\s+/gm, ''); // Listes numérotées
+
+    // Enlever les liens markdown [texte](url)
+    cleaned = cleaned.replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1');
+
+    // Enlever les blocs de code ```
+    cleaned = cleaned.replace(/```[\s\S]*?```/g, '');
+    cleaned = cleaned.replace(/`([^`]+)`/g, '$1');
+
+    // Normaliser les espaces multiples
+    cleaned = cleaned.replace(/ {2,}/g, ' ');
+
+    // Normaliser les sauts de ligne multiples (garder max 2)
+    cleaned = cleaned.replace(/\n{3,}/g, '\n\n');
+
+    // Trim chaque ligne
+    cleaned = cleaned.split('\n').map(line => line.trim()).join('\n');
+
+    // Trim global
+    cleaned = cleaned.trim();
+
+    setText(cleaned);
+    setError('');
+  };
 
   const formatWithChatGPT = async () => {
     if (!text.trim()) {
@@ -189,9 +227,21 @@ Règles CRITIQUES :
         </div>
 
         <div className="tw-p-4 tw-flex-1 tw-overflow-y-auto">
-          <p className="tw-text-sm tw-text-gray-600 tw-mb-3">
-            Collez vos conditions générales non formatées ci-dessous. ChatGPT les structurera automatiquement en blocs organisés.
-          </p>
+          <div className="tw-flex tw-items-start tw-justify-between tw-mb-3">
+            <p className="tw-text-sm tw-text-gray-600">
+              Collez vos conditions générales ci-dessous. ChatGPT les structurera automatiquement en blocs organisés.
+            </p>
+            <button
+              type="button"
+              onClick={cleanMarkdown}
+              disabled={isLoading || !text.trim()}
+              className="tw-ml-2 tw-px-3 tw-py-1.5 tw-text-xs tw-font-medium tw-text-gray-700 tw-bg-white tw-border tw-border-gray-300 tw-rounded hover:tw-bg-gray-50 tw-transition-colors tw-flex tw-items-center tw-gap-1.5 tw-whitespace-nowrap disabled:tw-opacity-50 disabled:tw-cursor-not-allowed"
+              title="Nettoyer le markdown (enlève *, **, •, #, etc.)"
+            >
+              <Eraser size={14} />
+              Nettoyer markdown
+            </button>
+          </div>
 
           <textarea
             value={text}
