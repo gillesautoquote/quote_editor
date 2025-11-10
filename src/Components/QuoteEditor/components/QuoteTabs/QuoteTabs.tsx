@@ -69,12 +69,21 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
 
   const initialVisibleTabs = React.useMemo(() => {
     if (data.visibleTabIds && data.visibleTabIds.length > 0) {
-      return TABS.filter(tab => data.visibleTabIds!.includes(tab.id));
+      // Respecter l'ordre exact fourni par visibleTabIds
+      const byId = new Map(TABS.map(t => [t.id, t]));
+      return data.visibleTabIds
+        .map(id => byId.get(id))
+        .filter((t): t is QuoteTab => Boolean(t));
     }
     return TABS;
-  }, []);
+  }, [data.visibleTabIds]);
 
   const [visibleTabs, setVisibleTabs] = useState<QuoteTab[]>(initialVisibleTabs);
+
+  // Synchroniser l'état local si visibleTabIds change depuis l'extérieur
+  useEffect(() => {
+    setVisibleTabs(initialVisibleTabs);
+  }, [initialVisibleTabs]);
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
   const [showAddMenu, setShowAddMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
