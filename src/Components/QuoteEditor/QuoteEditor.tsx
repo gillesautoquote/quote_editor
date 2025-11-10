@@ -529,7 +529,7 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
   return (
     <div className={clsx('tw-font-sans tw-bg-surface-0 tw-min-h-screen', theme === 'dark' && 'tw-bg-slate-900', className)} data-theme={theme}>
       {/* Toolbar optionnelle et propre */}
-      {showToolbar && (
+      {showToolbar && !readonly && (
         <QuoteEditorToolbar
           title={toolbarTitle}
           readonly={readonly}
