@@ -193,31 +193,15 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
     setDragOverTab(null);
   };
 
-  const lightenColor = (color: string, amount: number) => {
-    const hex = color.replace('#', '');
-    const r = parseInt(hex.substring(0, 2), 16);
-    const g = parseInt(hex.substring(2, 4), 16);
-    const b = parseInt(hex.substring(4, 6), 16);
-
-    const newR = Math.min(255, Math.floor(r + (255 - r) * amount));
-    const newG = Math.min(255, Math.floor(g + (255 - g) * amount));
-    const newB = Math.min(255, Math.floor(b + (255 - b) * amount));
-
-    return `#${newR.toString(16).padStart(2, '0')}${newG.toString(16).padStart(2, '0')}${newB.toString(16).padStart(2, '0')}`;
-  };
-
   const mainColor = data.company.mainColor;
-  const lightBg = lightenColor(mainColor, 0.95);
-  const hoverBg = lightenColor(mainColor, 0.90);
 
   return (
     <div className="tw-w-full tw-flex tw-flex-col tw-relative">
       <div
-        className="tw-border-b tw-border-gray-200 tw-sticky tw-top-0 tw-z-10"
-        style={{ backgroundColor: lightBg }}
+        className="tw-border-b tw-border-gray-200 tw-sticky tw-top-0 tw-z-10 tw-bg-white"
       >
         <div className="tw-w-full tw-max-w-[min(1000px,calc(100vw-2rem))] tw-mx-auto tw-px-3 tw-relative">
-          <div className="tw-flex tw-gap-0.5 tw-overflow-x-auto tw-scrollbar-thin tw-py-1">
+          <div className="tw-flex tw-gap-1 tw-overflow-x-auto tw-scrollbar-thin tw-py-1.5">
             {visibleTabs.map((tab) => (
               <div
                 key={tab.id}
@@ -240,7 +224,7 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
                       backgroundColor: activeTab === tab.id ? 'white' : 'transparent'
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = activeTab === tab.id ? 'white' : hoverBg;
+                      e.currentTarget.style.backgroundColor = activeTab === tab.id ? 'white' : '#f9fafb';
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.backgroundColor = activeTab === tab.id ? 'white' : 'transparent';
@@ -260,7 +244,7 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
                   onMouseEnter={(e) => {
                     enableTabManagement && setHoveredTab(tab.id);
                     if (activeTab !== tab.id) {
-                      e.currentTarget.style.backgroundColor = hoverBg;
+                      e.currentTarget.style.backgroundColor = '#f9fafb';
                     }
                   }}
                   onMouseLeave={(e) => {
@@ -269,7 +253,7 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
                       e.currentTarget.style.backgroundColor = 'transparent';
                     }
                   }}
-                  className="tw-flex tw-items-center tw-gap-2 tw-px-3 tw-py-2 tw-text-sm tw-font-medium tw-whitespace-nowrap tw-border-b-2 tw-transition-all tw-duration-200 tw-min-w-fit tw-relative tw-group tw-rounded-t-md"
+                  className="tw-flex tw-items-center tw-gap-1.5 tw-px-2.5 tw-py-1.5 tw-text-xs tw-font-medium tw-whitespace-nowrap tw-border-b-2 tw-transition-all tw-duration-200 tw-min-w-fit tw-relative tw-group tw-rounded-t-md"
                   style={{
                     color: activeTab === tab.id ? mainColor : '#6b7280',
                     borderBottomColor: activeTab === tab.id ? mainColor : 'transparent',
@@ -302,12 +286,12 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
                 type="button"
                 onClick={() => setShowAddMenu(!showAddMenu)}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = hoverBg;
+                  e.currentTarget.style.backgroundColor = '#f9fafb';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = 'transparent';
                 }}
-                className="tw-flex tw-items-center tw-justify-center tw-px-3 tw-py-2 tw-text-sm tw-font-medium tw-whitespace-nowrap tw-transition-all tw-duration-200 tw-rounded-t-md tw-ml-1"
+                className="tw-flex tw-items-center tw-justify-center tw-px-2.5 tw-py-1.5 tw-text-xs tw-font-medium tw-whitespace-nowrap tw-transition-all tw-duration-200 tw-rounded-t-md tw-ml-1"
                 style={{ color: mainColor }}
                 title="Ajouter un onglet"
               >
@@ -337,14 +321,14 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
               type="button"
               onClick={() => handleAddTab(tab)}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = hoverBg;
+                e.currentTarget.style.backgroundColor = '#f9fafb';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = 'white';
               }}
               className="tw-w-full tw-flex tw-items-center tw-gap-2.5 tw-px-3 tw-py-2.5 tw-text-sm tw-text-left tw-transition-all tw-duration-200 tw-group"
               style={{
-                borderBottom: index < hiddenTabs.length - 1 ? `1px solid ${lightenColor(mainColor, 0.9)}` : 'none',
+                borderBottom: index < hiddenTabs.length - 1 ? '1px solid #e5e7eb' : 'none',
                 backgroundColor: 'white'
               }}
             >
