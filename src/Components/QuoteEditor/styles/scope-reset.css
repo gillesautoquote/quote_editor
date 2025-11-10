@@ -10,41 +10,41 @@
    ======================================== */
 
 [data-quote-editor-scope] {
-  /* Reset all inherited properties */
-  all: initial;
-
-  /* Force base properties */
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
-  font-size: 16px !important;
-  line-height: 1.5 !important;
-  color: #212529 !important;
+  /* Force base properties without breaking Tailwind */
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #212529;
 
   /* Force box model */
-  box-sizing: border-box !important;
+  box-sizing: border-box;
 
   /* Create stacking context */
-  position: relative !important;
-  z-index: 0 !important;
+  position: relative;
+  z-index: 0;
 
   /* Force display */
-  display: block !important;
+  display: block;
 
   /* Neutralize inherited text properties */
-  text-transform: none !important;
-  text-decoration: none !important;
-  letter-spacing: normal !important;
-  word-spacing: normal !important;
+  text-transform: none;
+  text-decoration: none;
+  letter-spacing: normal;
+  word-spacing: normal;
 
   /* Font smoothing */
-  -webkit-font-smoothing: antialiased !important;
-  -moz-osx-font-smoothing: grayscale !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Isolation */
+  isolation: isolate;
 }
 
 /* Force box-sizing on all children */
 [data-quote-editor-scope] *,
 [data-quote-editor-scope] *::before,
 [data-quote-editor-scope] *::after {
-  box-sizing: border-box !important;
+  box-sizing: border-box;
 }
 
 /* ========================================
@@ -157,8 +157,8 @@
 [data-quote-editor-scope] ul,
 [data-quote-editor-scope] ol,
 [data-quote-editor-scope] li {
-  font-family: inherit !important;
-  color: inherit !important;
+  font-family: inherit;
+  color: inherit;
 }
 
 /* Protect against parent styles - no !important to allow Tailwind overrides */
@@ -171,15 +171,6 @@
 [data-quote-editor-scope] input,
 [data-quote-editor-scope] textarea,
 [data-quote-editor-scope] select {
-  font-family: inherit !important;
-  font-size: inherit !important;
-}
-
-/* ========================================
-   STACKING CONTEXT & Z-INDEX
-   ======================================== */
-
-[data-quote-editor-scope] {
-  /* Isolate z-index */
-  isolation: isolate !important;
+  font-family: inherit;
+  font-size: inherit;
 }
