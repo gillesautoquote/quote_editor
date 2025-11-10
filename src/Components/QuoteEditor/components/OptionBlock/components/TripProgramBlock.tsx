@@ -17,7 +17,7 @@ const STEP_FILTERS = [
   { id: 'depart' as const, label: 'Départs', keywords: ['départ', 'depart'] },
   { id: 'arrivee' as const, label: 'Arrivées', keywords: ['arrivée', 'arrivee'] },
   { id: 'mise_en_place' as const, label: 'Mise en place', keywords: ['mise en place'] },
-  { id: 'retour' as const, label: 'Retours', keywords: ['retour'] },
+  { id: 'depotRoundTrips' as const, label: 'Allers/Retours dépôt', keywords: ['retour'], isDepotFilter: true },
 ];
 
 const formatDateFr = (dateString: string): string => {
@@ -43,13 +43,22 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
   const filteredSteps = useMemo(() => {
     return steps.filter(step => {
       const labelLower = step.label.toLowerCase();
-
-      if (filters.excludeDepot && (labelLower.includes('dépôt') || labelLower.includes('depot'))) {
-        return false;
-      }
+      const isDepotStep = labelLower.includes('dépôt') || labelLower.includes('depot');
 
       return STEP_FILTERS.some(filter => {
         if (!filters[filter.id]) return false;
+
+        // Pour le filtre dépôt, vérifier que c'est un retour ET qu'il contient "dépôt"
+        if (filter.id === 'depotRoundTrips') {
+          const matchesKeywords = filter.keywords.some(keyword => labelLower.includes(keyword));
+          return matchesKeywords && isDepotStep;
+        }
+
+        // Pour les autres filtres, exclure les étapes dépôt si le filtre dépôt n'est pas actif
+        if (isDepotStep && !filters.depotRoundTrips) {
+          return false;
+        }
+
         return filter.keywords.some(keyword => labelLower.includes(keyword));
       });
     });
@@ -137,23 +146,6 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
             {filter.label}
           </button>
         ))}
-
-        <div className="tw-h-4 tw-w-px tw-bg-gray-300 tw-mx-1" />
-
-        <button
-          type="button"
-          onClick={() => toggleFilter('excludeDepot')}
-          disabled={readonly}
-          className="tw-px-3 tw-py-1 tw-text-xs tw-rounded-full tw-border tw-transition-all"
-          style={{
-            backgroundColor: filters.excludeDepot ? '#f3f4f6' : 'white',
-            color: filters.excludeDepot ? '#374151' : '#6b7280',
-            borderColor: '#d1d5db',
-            cursor: readonly ? 'default' : 'pointer'
-          }}
-        >
-          {filters.excludeDepot ? 'Masquer dépôt' : 'Afficher dépôt'}
-        </button>
 
       </div>
 

@@ -37,8 +37,7 @@ export const createProgrammeVoyageBlock = (
     depart: true,
     arrivee: true,
     mise_en_place: true,
-    retour: false,
-    excludeDepot: true
+    depotRoundTrips: false
   };
 
   return {

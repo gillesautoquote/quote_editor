@@ -17,19 +17,28 @@ const STEP_FILTERS = [
   { id: 'depart' as const, label: 'Départs', keywords: ['départ', 'depart'] },
   { id: 'arrivee' as const, label: 'Arrivées', keywords: ['arrivée', 'arrivee'] },
   { id: 'mise_en_place' as const, label: 'Mise en place', keywords: ['mise en place'] },
-  { id: 'retour' as const, label: 'Retours', keywords: ['retour'] },
+  { id: 'depotRoundTrips' as const, label: 'Allers/Retours dépôt', keywords: ['retour'], isDepotFilter: true },
 ];
 
 const filterTripSteps = (steps: TripProgramStep[], filters: TripProgramFilters): TripProgramStep[] => {
   return steps.filter(step => {
     const labelLower = step.label.toLowerCase();
-
-    if (filters.excludeDepot && (labelLower.includes('dépôt') || labelLower.includes('depot'))) {
-      return false;
-    }
+    const isDepotStep = labelLower.includes('dépôt') || labelLower.includes('depot');
 
     return STEP_FILTERS.some(filter => {
       if (!filters[filter.id]) return false;
+
+      // Pour le filtre dépôt, vérifier que c'est un retour ET qu'il contient "dépôt"
+      if (filter.id === 'depotRoundTrips') {
+        const matchesKeywords = filter.keywords.some(keyword => labelLower.includes(keyword));
+        return matchesKeywords && isDepotStep;
+      }
+
+      // Pour les autres filtres, exclure les étapes dépôt si le filtre dépôt n'est pas actif
+      if (isDepotStep && !filters.depotRoundTrips) {
+        return false;
+      }
+
       return filter.keywords.some(keyword => labelLower.includes(keyword));
     });
   });

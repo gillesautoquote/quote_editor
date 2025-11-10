@@ -113,8 +113,7 @@ export interface TripProgramFilters {
   depart: boolean;
   arrivee: boolean;
   mise_en_place: boolean;
-  retour: boolean;
-  excludeDepot: boolean;
+  depotRoundTrips: boolean;
 }
 
 export interface OptionBlock {
