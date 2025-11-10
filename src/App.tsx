@@ -19,10 +19,10 @@ const App: React.FC = () => {
   const [printMode, setPrintMode] = useState<boolean>(false);
   const [showHeader, setShowHeader] = useState<boolean>(true);
   const [showFooter, setShowFooter] = useState<boolean>(true);
+  const [externalUpdateCounter, setExternalUpdateCounter] = useState<number>(0);
 
   const handleQuoteChange = useCallback((newData: QuoteData): void => {
-    setQuoteData(newData);
-    console.log('Quote data updated:', newData);
+    console.log('[App] Quote data updated from QuoteEditor (internal change)');
   }, []);
 
   const handleSave = useCallback(async (data: QuoteData): Promise<void> => {
@@ -56,6 +56,73 @@ const App: React.FC = () => {
   const handleTriggerPDFExport = (): void => {
     console.log('🚀 Déclenchement export PDF via événement global');
     globalEventEmitter.emit(EVENTS.EXPORT_PDF);
+  };
+
+  const handleSimulateExternalUpdate = (): void => {
+    console.log('[App] Simulating external data update from left column form');
+    const updatedData = {
+      ...quoteData,
+      quote: {
+        ...quoteData.quote,
+        tagline: `Updated from external form #${externalUpdateCounter + 1}`
+      },
+      totals: {
+        ...quoteData.totals,
+        ttc: quoteData.totals.ttc + 100
+      }
+    };
+    setQuoteData(updatedData);
+    setExternalUpdateCounter(prev => prev + 1);
+    console.log('[App] External data update applied - counter:', externalUpdateCounter + 1);
+  };
+
+  const handleUpdateClientName = (): void => {
+    console.log('[App] Updating client name from external form');
+    const updatedData = {
+      ...quoteData,
+      recipient: {
+        ...quoteData.recipient,
+        fullName: `${quoteData.recipient.fullName} (Modified)`,
+      }
+    };
+    setQuoteData(updatedData);
+    setExternalUpdateCounter(prev => prev + 1);
+  };
+
+  const handleAddSectionExternally = (): void => {
+    console.log('[App] Adding new section from external form');
+    const newSection = {
+      title: `Section externe #${externalUpdateCounter + 1}`,
+      columns: undefined,
+      missionsLines: [],
+      simplesLinesSelect: [],
+      lines: [{
+        date: new Date().toISOString().split('T')[0],
+        description: 'Ligne ajoutée depuis le formulaire externe',
+        durationHours: 1,
+        pax: 1,
+        unitPrice: 50,
+        priceHT: 50,
+        vatRate: 20,
+        vatAmount: 10,
+        quantity: 1,
+        priceTTC: 60,
+        calculable: true
+      }],
+      subTotal: { ht: 50, tva: 10, ttc: 60 }
+    };
+
+    const updatedData = {
+      ...quoteData,
+      sections: [...quoteData.sections, newSection],
+      totals: {
+        ht: quoteData.totals.ht + 50,
+        tva: quoteData.totals.tva + 10,
+        ttc: quoteData.totals.ttc + 60
+      }
+    };
+    setQuoteData(updatedData);
+    setExternalUpdateCounter(prev => prev + 1);
   };
 
   return (
