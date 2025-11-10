@@ -51,7 +51,13 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
       !data.optionBlocks.some(block => block.type === 'programme-voyage')
     ) {
       hasAddedProgrammeRef.current = true;
-      const programmeVoyageBlock = createProgrammeVoyageBlock(data.itinerary, data.company.mainColor);
+      const programmeTitle = data.labels?.pageTitles?.programme;
+      const programmeVoyageBlock = createProgrammeVoyageBlock(
+        data.itinerary,
+        data.company.mainColor,
+        data.defaultProgrammeFilters,
+        programmeTitle
+      );
       onUpdateData({
         ...data,
         optionBlocks: [programmeVoyageBlock, ...data.optionBlocks]
@@ -140,12 +146,12 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
       return renderPageContainer(
         <>
           <h2 className="tw-text-xl tw-font-bold tw-mb-4" style={{ color: currentData.company.mainColor }}>
-            Programme de voyage
+            {currentData.labels?.pageTitles?.programme || 'Programme de voyage'}
           </h2>
           {programmeBlock && programmeBlock.type === 'programme-voyage' && programmeBlock.tripSteps ? (
             <TripProgramBlock
               steps={programmeBlock.tripSteps}
-              filters={programmeBlock.tripFilters || {
+              filters={programmeBlock.tripFilters || currentData.defaultProgrammeFilters || {
                 depart: true,
                 arrivee: true,
                 mise_en_place: true,
@@ -196,7 +202,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
       return renderPageContainer(
         <>
           <h2 className="tw-text-xl tw-font-bold tw-mb-6" style={{ color: currentData.company.mainColor }}>
-            Services à l'intérieur
+            {currentData.labels?.pageTitles?.services || 'Services à l\'intérieur'}
           </h2>
           {currentData.busServices && (
             <BusServicesBlock
@@ -255,7 +261,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
       return renderPageContainer(
         <>
           <h2 className="tw-text-xl tw-font-bold tw-mb-6" style={{ color: currentData.company.mainColor }}>
-            Conditions générales
+            {currentData.labels?.pageTitles?.conditions || 'Conditions générales'}
           </h2>
 
           {/* Boutons d'ajout de blocs de conditions */}
@@ -418,7 +424,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
       return renderPageContainer(
         <>
           <h2 className="tw-text-xl tw-font-bold tw-mb-6" style={{ color: currentData.company.mainColor }}>
-            Bon de commande
+            {currentData.labels?.pageTitles?.signature || 'Bon de commande'}
           </h2>
           <InstructionsFrame
             signatureFrame={currentData.signatureFrame}

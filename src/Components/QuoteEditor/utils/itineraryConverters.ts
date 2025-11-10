@@ -1,4 +1,4 @@
-import type { DaySchedule, TripProgramStep } from '../entities/QuoteData';
+import type { DaySchedule, TripProgramStep, TripProgramFilters } from '../entities/QuoteData';
 
 export const convertItineraryToTripSteps = (itinerary: DaySchedule[]): TripProgramStep[] => {
   const steps: TripProgramStep[] = [];
@@ -26,22 +26,29 @@ export const convertItineraryToTripSteps = (itinerary: DaySchedule[]): TripProgr
   return steps;
 };
 
-export const createProgrammeVoyageBlock = (itinerary: DaySchedule[], companyColor?: string) => {
+export const createProgrammeVoyageBlock = (
+  itinerary: DaySchedule[],
+  companyColor?: string,
+  defaultFilters?: TripProgramFilters,
+  title?: string
+) => {
+  const filters: TripProgramFilters = defaultFilters || {
+    depart: true,
+    arrivee: true,
+    mise_en_place: true,
+    retour: false,
+    excludeDepot: true
+  };
+
   return {
     id: `block-programme-voyage-${Date.now()}`,
-    title: 'Programme de voyage',
+    title: title || 'Programme de voyage',
     color: companyColor,
     columns: 1,
     showTitle: true,
     allowWidthControl: true,
     type: 'programme-voyage' as const,
     tripSteps: convertItineraryToTripSteps(itinerary),
-    tripFilters: {
-      depart: true,
-      arrivee: true,
-      mise_en_place: true,
-      retour: false,
-      excludeDepot: true
-    }
+    tripFilters: filters
   };
 };

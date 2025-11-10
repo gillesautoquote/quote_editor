@@ -1,4 +1,4 @@
-import type { QuoteData, OptionBlock } from '../entities/QuoteData';
+import type { QuoteData, OptionBlock, DocumentSectionLabel } from '../entities/QuoteData';
 
 export interface PDFSection {
   id: string;
@@ -6,8 +6,28 @@ export interface PDFSection {
   enabled: boolean;
 }
 
+const DEFAULT_SECTION_LABELS: Record<string, string> = {
+  programme: 'Le **programme détaillé** de votre voyage',
+  cotation: 'La **cotation précise** du trajet demandé',
+  conditions: 'Nos **conditions générales de vente**',
+  services: 'Les **services disponibles** à bord',
+  impact: 'L\'**impact carbone** de votre trajet',
+  bon_commande: 'Un **bon de commande** à retourner signé'
+};
+
 export const generatePDFSectionsList = (data: QuoteData, visibleTabIds?: string[]): string => {
   const sections: PDFSection[] = [];
+
+  const customLabels: Record<string, string> = {};
+  if (data.labels?.introductionSections) {
+    data.labels.introductionSections.forEach((section: DocumentSectionLabel) => {
+      customLabels[section.id] = section.label;
+    });
+  }
+
+  const getLabel = (id: string): string => {
+    return customLabels[id] || DEFAULT_SECTION_LABELS[id] || '';
+  };
 
   const isTabVisible = (tabId: string) => {
     if (!visibleTabIds || visibleTabIds.length === 0) return true;
@@ -20,7 +40,7 @@ export const generatePDFSectionsList = (data: QuoteData, visibleTabIds?: string[
   if (isTabVisible('programme') && programmeBlock && programmeBlock.tripSteps && programmeBlock.tripSteps.length > 0) {
     sections.push({
       id: 'programme',
-      label: 'Le **programme détaillé** de votre voyage',
+      label: getLabel('programme'),
       enabled: true
     });
   }
@@ -28,7 +48,7 @@ export const generatePDFSectionsList = (data: QuoteData, visibleTabIds?: string[
   if (isTabVisible('cotation') && data.sections && data.sections.length > 0) {
     sections.push({
       id: 'cotation',
-      label: 'La **cotation précise** du trajet demandé',
+      label: getLabel('cotation'),
       enabled: true
     });
   }
@@ -43,7 +63,7 @@ export const generatePDFSectionsList = (data: QuoteData, visibleTabIds?: string[
   if (isTabVisible('conditions') && hasConditions) {
     sections.push({
       id: 'conditions',
-      label: 'Nos **conditions générales de vente**',
+      label: getLabel('conditions'),
       enabled: true
     });
   }
@@ -56,7 +76,7 @@ export const generatePDFSectionsList = (data: QuoteData, visibleTabIds?: string[
       if (availableServices.length > 0) {
         sections.push({
           id: 'services',
-          label: 'Les **services disponibles** à bord',
+          label: getLabel('services'),
           enabled: true
         });
       }
@@ -64,7 +84,7 @@ export const generatePDFSectionsList = (data: QuoteData, visibleTabIds?: string[
     if (hasImpact) {
       sections.push({
         id: 'impact',
-        label: 'L\'**impact carbone** de votre trajet',
+        label: getLabel('impact'),
         enabled: true
       });
     }
@@ -73,7 +93,7 @@ export const generatePDFSectionsList = (data: QuoteData, visibleTabIds?: string[
   if (isTabVisible('signature') && data.signatureFrame) {
     sections.push({
       id: 'bon_commande',
-      label: 'Un **bon de commande** à retourner signé',
+      label: getLabel('bon_commande'),
       enabled: true
     });
   }

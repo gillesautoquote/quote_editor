@@ -62,7 +62,13 @@ export const QuotePage: React.FC<QuotePageProps> = ({
       );
 
       if (!hasProgrammeVoyageBlock) {
-        const programmeVoyageBlock = createProgrammeVoyageBlock(data.itinerary, data.company.mainColor);
+        const programmeTitle = data.labels?.pageTitles?.programme;
+        const programmeVoyageBlock = createProgrammeVoyageBlock(
+          data.itinerary,
+          data.company.mainColor,
+          data.defaultProgrammeFilters,
+          programmeTitle
+        );
         return {
           ...data,
           optionBlocks: [programmeVoyageBlock, ...data.optionBlocks]

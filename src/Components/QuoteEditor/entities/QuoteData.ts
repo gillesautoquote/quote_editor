@@ -117,6 +117,11 @@ export interface TripProgramFilters {
   excludeDepot: boolean;
 }
 
+export interface DocumentSectionLabel {
+  id: string;
+  label: string;
+}
+
 export interface OptionBlock {
   id: string;
   title: string;
@@ -129,6 +134,7 @@ export interface OptionBlock {
   notes?: NoteItem[];
   tripSteps?: TripProgramStep[];
   tripFilters?: TripProgramFilters;
+  defaultFilters?: TripProgramFilters; // Filtres par défaut pour le programme de voyage
 }
 
 export interface SignatureLineItem {
@@ -275,6 +281,20 @@ export interface BusServices {
   services: BusService[];
 }
 
+export interface PageTitles {
+  introduction?: string;
+  programme?: string;
+  services?: string;
+  cotation?: string;
+  conditions?: string;
+  signature?: string;
+}
+
+export interface DocumentLabels {
+  introductionSections: DocumentSectionLabel[];
+  pageTitles: PageTitles;
+}
+
 export interface QuoteData {
   company: Company;
   recipient: Recipient;
@@ -296,6 +316,9 @@ export interface QuoteData {
   footer: Footer;
   selectDefinitions: Record<string, SelectDefinition>;
   itinerary?: DaySchedule[];
+  labels?: DocumentLabels;
+  visibleTabIds?: string[];
+  defaultProgrammeFilters?: TripProgramFilters;
 }
 
 export interface QuoteEditorProps {
