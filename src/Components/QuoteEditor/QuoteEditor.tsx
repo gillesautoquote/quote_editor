@@ -15,6 +15,9 @@ import { QuoteTabs } from './components/QuoteTabs';
 import { QuoteTabContent } from './components/QuoteTabs/QuoteTabContent';
 import { validateQuoteData } from './utils/dataValidator';
 import { createProgrammeVoyageBlock } from './utils/itineraryConverters';
+import { useScopeId } from './hooks/useScopeId';
+import { ScopeProvider } from './context/ScopeContext';
+import './styles/reset.css';
 
 type CombinedQuoteEditorProps = QuoteEditorProps | (Partial<LegacyQuoteEditorProps> & {
   data: any;
@@ -76,6 +79,7 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
   const autoSave = legacyProps?.autoSave ?? true;
 
   const { t } = useTranslation(locale);
+  const scopeId = useScopeId();
 
   // ✅ Initialiser directement avec initialData au lieu de null
   const [data, setData] = useState<QuoteData | null>(initialData || null);
@@ -527,7 +531,13 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
   }`;
 
   return (
-    <div className={clsx('tw-font-sans tw-bg-surface-0 tw-min-h-screen', theme === 'dark' && 'tw-bg-slate-900', className)} data-theme={theme}>
+    <ScopeProvider scopeId={scopeId}>
+      <div
+        className={clsx('tw-font-sans tw-bg-surface-0 tw-min-h-screen', theme === 'dark' && 'tw-bg-slate-900', className)}
+        data-theme={theme}
+        data-quote-editor-scope={scopeId}
+        data-scope-initialized="true"
+      >
       {/* Toolbar optionnelle et propre */}
       {showToolbar && !readonly && (
         <QuoteEditorToolbar
@@ -600,7 +610,8 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
           />
         )}
       </div>
-    </div>
+      </div>
+    </ScopeProvider>
   );
 };
 

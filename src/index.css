@@ -1,71 +1,98 @@
+@import './Components/QuoteEditor/styles/reset.css';
 @import './styles/print.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* ========================================
+   VARIABLES CSS SCOPÉES - QuoteEditor
+   ======================================== */
+
+[data-quote-editor-scope] {
   /* Fallbacks gris neutres (pris avant initialisation du thème) */
-  --color-primary: 75, 85, 99; /* gray-600 */
-  --color-primary-hover: 55, 65, 81; /* gray-700 */
-  --color-primary-light: 229, 231, 235; /* gray-200 */
-  --color-primary-lighter: 243, 244, 246; /* gray-100 */
-  --color-primary-dark: 31, 41, 55; /* gray-800 */
+  --qe-color-primary: 75, 85, 99; /* gray-600 */
+  --qe-color-primary-hover: 55, 65, 81; /* gray-700 */
+  --qe-color-primary-light: 229, 231, 235; /* gray-200 */
+  --qe-color-primary-lighter: 243, 244, 246; /* gray-100 */
+  --qe-color-primary-dark: 31, 41, 55; /* gray-800 */
+
+  /* Rétrocompatibilité: garder les anciennes variables pour éviter les erreurs */
+  --color-primary: var(--qe-color-primary);
+  --color-primary-hover: var(--qe-color-primary-hover);
+  --color-primary-light: var(--qe-color-primary-light);
+  --color-primary-lighter: var(--qe-color-primary-lighter);
+  --color-primary-dark: var(--qe-color-primary-dark);
 }
 
-body {
-  margin: 0;
+/* ========================================
+   STYLES TYPOGRAPHIQUES - SCOPÉS
+   ======================================== */
+
+[data-quote-editor-scope] {
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    sans-serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
 }
 
-* {
-  box-sizing: border-box;
+[data-quote-editor-scope] *,
+[data-quote-editor-scope] *::before,
+[data-quote-editor-scope] *::after {
+  box-sizing: border-box !important;
 }
 
-/* Gestion des largeurs des blocs option selon le nombre de colonnes */
-[data-columns="2"] {
+/* ========================================
+   GESTION DES LARGEURS DES BLOCS - SCOPÉ
+   ======================================== */
+
+[data-quote-editor-scope] [data-columns="2"] {
   width: calc((100% - 1rem) / 3);
   min-width: calc((100% - 1rem) / 3);
   max-width: calc((100% - 1rem) / 3);
 }
 
-[data-columns="3"] {
+[data-quote-editor-scope] [data-columns="3"] {
   width: calc((100% - 0.5rem) / 2);
   min-width: calc((100% - 0.5rem) / 2);
   max-width: calc((100% - 0.5rem) / 2);
 }
 
-[data-columns="4"] {
+[data-quote-editor-scope] [data-columns="4"] {
   width: calc((100% * 2 / 3) - 0.5rem);
   min-width: calc((100% * 2 / 3) - 0.5rem);
   max-width: calc((100% * 2 / 3) - 0.5rem);
 }
 
-[data-columns="6"] {
+[data-quote-editor-scope] [data-columns="6"] {
   width: 100%;
   min-width: 100%;
   max-width: 100%;
 }
 
-/* Responsive: tous les blocs en pleine largeur sur mobile */
+/* ========================================
+   RESPONSIVE - SCOPÉ
+   ======================================== */
+
 @media (max-width: 768px) {
-  [data-columns="2"],
-  [data-columns="3"],
-  [data-columns="4"],
-  [data-columns="6"] {
+  [data-quote-editor-scope] [data-columns="2"],
+  [data-quote-editor-scope] [data-columns="3"],
+  [data-quote-editor-scope] [data-columns="4"],
+  [data-quote-editor-scope] [data-columns="6"] {
     width: 100%;
     min-width: 100%;
     max-width: 100%;
   }
 }
 
+/* ========================================
+   FORMAT A4 - SCOPÉ
+   ======================================== */
+
 @media screen {
-  [data-screen-a4="true"] {
-    min-height: 29.7cm; /* hauteur A4, approximative à l’écran */
+  [data-quote-editor-scope] [data-screen-a4="true"] {
+    min-height: 29.7cm; /* hauteur A4, approximative à l'écran */
     width: 21cm !important;      /* largeur A4 */
     max-width: 21cm !important;  /* figer la largeur */
     margin-left: auto !important;
@@ -73,11 +100,30 @@ body {
   }
 }
 
-/* Listes compactes dans l’introduction */
-.intro-list ul { margin: 0.1rem 0 !important; padding-left: 1.1rem !important; line-height: 1.2 !important; }
-.intro-list li { margin-bottom: 0.05rem !important; line-height: 1.2 !important; }
+/* ========================================
+   LISTES COMPACTES DANS L'INTRODUCTION - SCOPÉ
+   ======================================== */
+
+[data-quote-editor-scope] .intro-list ul {
+  margin: 0.1rem 0 !important;
+  padding-left: 1.1rem !important;
+  line-height: 1.2 !important;
+}
+
+[data-quote-editor-scope] .intro-list li {
+  margin-bottom: 0.05rem !important;
+  line-height: 1.2 !important;
+}
 
 @media print {
-  .intro-list ul { margin: 0.08rem 0 !important; padding-left: 1rem !important; line-height: 1.15 !important; }
-  .intro-list li { margin-bottom: 0.04rem !important; line-height: 1.15 !important; }
+  [data-quote-editor-scope] .intro-list ul {
+    margin: 0.08rem 0 !important;
+    padding-left: 1rem !important;
+    line-height: 1.15 !important;
+  }
+
+  [data-quote-editor-scope] .intro-list li {
+    margin-bottom: 0.04rem !important;
+    line-height: 1.15 !important;
+  }
 }
