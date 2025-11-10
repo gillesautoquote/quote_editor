@@ -69,14 +69,22 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
 
   const initialVisibleTabs = React.useMemo(() => {
     if (data.visibleTabIds && data.visibleTabIds.length > 0) {
-      // Respecter l'ordre exact fourni par visibleTabIds
       const byId = new Map(TABS.map(t => [t.id, t]));
       return data.visibleTabIds
-        .map(id => byId.get(id))
+        .map(id => {
+          const tab = byId.get(id);
+          if (!tab) return null;
+
+          const customLabel = data.tabLabels?.find(tl => tl.id === id);
+          if (customLabel) {
+            return { ...tab, label: customLabel.label };
+          }
+          return tab;
+        })
         .filter((t): t is QuoteTab => Boolean(t));
     }
     return TABS;
-  }, [data.visibleTabIds]);
+  }, [data.visibleTabIds, data.tabLabels]);
 
   const [visibleTabs, setVisibleTabs] = useState<QuoteTab[]>(initialVisibleTabs);
 

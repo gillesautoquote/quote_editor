@@ -173,6 +173,11 @@ export interface VATBreakdown {
   amount: number;
 }
 
+export interface TabLabel {
+  id: string;
+  label: string;
+}
+
 export interface QuoteData {
   company: Company;
   recipient: Recipient;
@@ -190,6 +195,7 @@ export interface QuoteData {
   footer: Footer;
   selectDefinitions: Record<string, SelectDefinition>;
   visibleTabIds?: string[];
+  tabLabels?: TabLabel[];
 }
 
 export type ComponentEvent =

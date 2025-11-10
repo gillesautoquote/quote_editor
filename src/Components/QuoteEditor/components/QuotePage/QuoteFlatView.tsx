@@ -42,6 +42,11 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
   const { setValueByPath } = useFieldPath();
   const { applyColorVariables } = useColorTheme(data.company);
 
+  const getTabLabel = (tabId: string, defaultLabel: string): string => {
+    const customLabel = data.tabLabels?.find(tl => tl.id === tabId);
+    return customLabel?.label || defaultLabel;
+  };
+
   useEffect(() => {
     if (data?.company?.mainColor) {
       applyColorVariables();
@@ -129,7 +134,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
           return (
             <div key="programme" className="tw-mb-4 page-break-inside-avoid" data-section="programme">
               <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="programme">
-                {programmeBlock.title || 'Programme de voyage'}
+                {programmeBlock.title || getTabLabel('programme', 'Programme de voyage')}
               </h2>
               <TripProgramBlock
                 steps={programmeBlock.tripSteps}
@@ -183,7 +188,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
             {dataWithProgrammeVoyage.carbonImpact && (
               <div className="tw-mb-4 page-break-inside-avoid" data-section="carbon-impact">
                 <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="carbon-impact">
-                  Impact carbone
+                  {getTabLabel('programme', 'Impact carbone')}
                 </h2>
                 <CarbonImpact
                   carbonImpact={dataWithProgrammeVoyage.carbonImpact}
@@ -203,7 +208,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
           <React.Fragment key="cotation">
             <div className="tw-mb-4" data-section="cotation">
               <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="cotation">
-                Cotation détaillée
+                {getTabLabel('cotation', 'Cotation détaillée')}
               </h2>
               {(dataWithProgrammeVoyage.sections || []).map((section, sectionIndex) => (
                 <QuoteSectionComponent
@@ -244,7 +249,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
         return (
           <div key="conditions" className="tw-mb-4" data-section="conditions">
             <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="conditions">
-              Conditions générales
+              {getTabLabel('conditions', 'Conditions générales')}
             </h2>
             <BlocksContainer
               optionBlocks={conditionBlocks}
@@ -280,7 +285,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
         return (
           <div key="signature" className="tw-mb-4" data-section="signature">
             <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="order-form">
-              Bon de commande
+              {getTabLabel('signature', 'Bon de commande')}
             </h2>
             <InstructionsFrame
               signatureFrame={dataWithProgrammeVoyage.signatureFrame}

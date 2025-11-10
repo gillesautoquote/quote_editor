@@ -1424,5 +1424,27 @@
       ]
     }
   ],
-  "visibleTabIds": ["introduction", "programme", "services", "cotation", "conditions",  "signature"]
+  "visibleTabIds": ["introduction", "programme", "services", "cotation", "conditions",  "signature"],
+  "tabLabels": [
+    {
+      "id": "cotation",
+      "label": "La cotation précise du trajet demandé"
+    },
+    {
+      "id": "conditions",
+      "label": "Nos conditions générales de vente"
+    },
+    {
+      "id": "services",
+      "label": "Les services disponibles à bord"
+    },
+    {
+      "id": "programme",
+      "label": "L'impact carbone de votre trajet"
+    },
+    {
+      "id": "signature",
+      "label": "Un bon de commande à retourner signé"
+    }
+  ]
 }
