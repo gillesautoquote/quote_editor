@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Sparkles, Loader2, Eraser } from 'lucide-react';
+import { X, Sparkles, Loader2 } from 'lucide-react';
 
 interface FormatConditionsModalProps {
   isOpen: boolean;
@@ -38,9 +38,9 @@ export const FormatConditionsModal: React.FC<FormatConditionsModalProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Fonction pour nettoyer le markdown et uniformiser le texte
-  const cleanMarkdown = () => {
-    let cleaned = text;
+  // Fonction pour nettoyer le markdown et uniformiser le texte automatiquement
+  const cleanMarkdown = (textToClean: string): string => {
+    let cleaned = textToClean;
 
     // Enlever les titres markdown (# ## ###)
     cleaned = cleaned.replace(/^#+\s+/gm, '');
@@ -70,13 +70,10 @@ export const FormatConditionsModal: React.FC<FormatConditionsModalProps> = ({
     cleaned = cleaned.split('\n').map(line => line.trim()).join('\n');
 
     // Trim global
-    cleaned = cleaned.trim();
-
-    setText(cleaned);
-    setError('');
+    return cleaned.trim();
   };
 
-  const formatWithChatGPT = async () => {
+  const formatWithAI = async () => {
     if (!text.trim()) {
       setError('Veuillez entrer du texte');
       return;
@@ -84,7 +81,7 @@ export const FormatConditionsModal: React.FC<FormatConditionsModalProps> = ({
 
     const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
     if (!apiKey) {
-      setError('Clé API OpenAI manquante. Ajoutez VITE_OPENAI_API_KEY dans votre fichier .env');
+      setError('Clé API manquante. Ajoutez VITE_OPENAI_API_KEY dans votre fichier .env');
       return;
     }
 
@@ -92,6 +89,8 @@ export const FormatConditionsModal: React.FC<FormatConditionsModalProps> = ({
     setError('');
 
     try {
+      // Nettoyer le markdown automatiquement avant d'envoyer à l'IA
+      const cleanedText = cleanMarkdown(text);
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
         headers: {
@@ -136,7 +135,7 @@ Règles CRITIQUES :
             },
             {
               role: 'user',
-              content: text
+              content: cleanedText
             }
           ],
           temperature: 0.3,
@@ -200,7 +199,7 @@ Règles CRITIQUES :
       setText('');
       onClose();
     } catch (err) {
-      console.error('Error formatting with ChatGPT:', err);
+      console.error('Error formatting with AI:', err);
       setError(err instanceof Error ? err.message : 'Erreur lors du formatage');
     } finally {
       setIsLoading(false);
@@ -215,7 +214,7 @@ Règles CRITIQUES :
         <div className="tw-flex tw-items-center tw-justify-between tw-p-4 tw-border-b">
           <div className="tw-flex tw-items-center tw-gap-2">
             <Sparkles size={20} style={{ color: companyColor }} />
-            <h3 className="tw-text-lg tw-font-bold">Formater avec ChatGPT</h3>
+            <h3 className="tw-text-lg tw-font-bold">Intégrer vos conditions générales</h3>
           </div>
           <button
             type="button"
@@ -227,21 +226,9 @@ Règles CRITIQUES :
         </div>
 
         <div className="tw-p-4 tw-flex-1 tw-overflow-y-auto">
-          <div className="tw-flex tw-items-start tw-justify-between tw-mb-3">
-            <p className="tw-text-sm tw-text-gray-600">
-              Collez vos conditions générales ci-dessous. ChatGPT les structurera automatiquement en blocs organisés.
-            </p>
-            <button
-              type="button"
-              onClick={cleanMarkdown}
-              disabled={isLoading || !text.trim()}
-              className="tw-ml-2 tw-px-3 tw-py-1.5 tw-text-xs tw-font-medium tw-text-gray-700 tw-bg-white tw-border tw-border-gray-300 tw-rounded hover:tw-bg-gray-50 tw-transition-colors tw-flex tw-items-center tw-gap-1.5 tw-whitespace-nowrap disabled:tw-opacity-50 disabled:tw-cursor-not-allowed"
-              title="Nettoyer le markdown (enlève *, **, •, #, etc.)"
-            >
-              <Eraser size={14} />
-              Nettoyer markdown
-            </button>
-          </div>
+          <p className="tw-text-sm tw-text-gray-600 tw-mb-3">
+            Collez vos conditions générales ci-dessous. L'IA les structurera automatiquement en blocs organisés.
+          </p>
 
           <textarea
             value={text}
@@ -270,7 +257,7 @@ Règles CRITIQUES :
           </button>
           <button
             type="button"
-            onClick={formatWithChatGPT}
+            onClick={formatWithAI}
             disabled={isLoading || !text.trim()}
             className="tw-px-4 tw-py-2 tw-text-sm tw-font-medium tw-text-white tw-rounded tw-transition-colors tw-flex tw-items-center tw-gap-2 disabled:tw-opacity-50 disabled:tw-cursor-not-allowed"
             style={{ backgroundColor: companyColor }}
@@ -278,12 +265,12 @@ Règles CRITIQUES :
             {isLoading ? (
               <>
                 <Loader2 size={16} className="tw-animate-spin" />
-                Formatage en cours...
+                Structuration en cours...
               </>
             ) : (
               <>
                 <Sparkles size={16} />
-                Formater avec ChatGPT
+                Structurer avec l'IA
               </>
             )}
           </button>
