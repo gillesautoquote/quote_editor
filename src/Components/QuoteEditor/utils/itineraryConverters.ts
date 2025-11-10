@@ -30,7 +30,8 @@ export const createProgrammeVoyageBlock = (
   itinerary: DaySchedule[],
   companyColor?: string,
   defaultFilters?: TripProgramFilters,
-  title?: string
+  title?: string,
+  id?: string
 ) => {
   const filters: TripProgramFilters = defaultFilters || {
     depart: true,
@@ -41,7 +42,7 @@ export const createProgrammeVoyageBlock = (
   };
 
   return {
-    id: `block-programme-voyage-${Date.now()}`,
+    id: id || 'block-programme-voyage-auto',
     title: title || 'Programme de voyage',
     color: companyColor,
     columns: 1,
