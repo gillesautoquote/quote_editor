@@ -31,7 +31,7 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
     <div className="tw-mb-4 tw-mt-8 tw-text-[0.9rem] tw-leading-[1.4] tw-text-text">
       {/* Ligne ville et date - afficher seulement si au moins un existe */}
       {((quote.executionCity && quote.executionCity.trim()) || (quote.issueDate && quote.issueDate.trim())) && (
-        <div className="tw-mb-[0.3rem]">
+        <div className="tw-mb-4">
           {quote.executionCity && quote.executionCity.trim() && (
             <EditableField
               value={quote.executionCity}
