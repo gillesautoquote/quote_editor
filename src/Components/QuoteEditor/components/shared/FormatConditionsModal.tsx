@@ -67,23 +67,30 @@ export const FormatConditionsModal: React.FC<FormatConditionsModalProps> = ({
               role: 'system',
               content: `Tu es un assistant qui formate des conditions générales pour des devis de transport.
 
-Analyse le texte fourni et structure-le en blocs logiques avec des titres clairs.
-Chaque bloc doit contenir une liste d'éléments.
+IMPORTANT : Tu dois CONSERVER INTÉGRALEMENT le texte original. Ne résume pas, ne reformule pas, ne modifie pas le contenu.
+Tu dois UNIQUEMENT structurer le texte en blocs logiques.
+
+Analyse le texte fourni et identifie les sections naturelles (paragraphes, thèmes, sujets).
+Crée un bloc pour chaque section avec un titre approprié.
+Découpe chaque section en items (phrases ou éléments de liste).
 
 Réponds UNIQUEMENT avec un JSON valide dans ce format exact :
 {
   "blocks": [
     {
       "title": "Titre du bloc",
-      "items": ["Item 1", "Item 2", "Item 3"]
+      "items": ["Phrase complète 1 du texte original", "Phrase complète 2 du texte original"]
     }
   ]
 }
 
-Règles importantes :
+Règles CRITIQUES :
+- GARDE TOUT LE TEXTE ORIGINAL sans modification
+- Ne résume JAMAIS, ne reformule JAMAIS
+- Chaque phrase/élément doit être TEXTUELLEMENT IDENTIQUE à l'original
 - Crée des blocs logiques (ex: "Ces tarifs comprennent", "Ces tarifs ne comprennent pas", "Modalités de paiement", "Conditions d'annulation", etc.)
-- Chaque item doit être concis et clair
-- Garde le sens et le contenu original
+- Si une phrase est longue, garde-la longue
+- Si le texte est détaillé, garde tous les détails
 - Ne rajoute pas d'explications, juste le JSON`
             },
             {
