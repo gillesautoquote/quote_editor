@@ -1,10 +1,12 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { normalizeQuoteData, validateQuoteData } from '../utils/dataValidator';
+import { hasQuoteDataChanged } from '../utils/deepCompare';
 import type { QuoteData, EditingState, SaveState } from '../entities/QuoteData';
 
 interface HistoryState {
   data: QuoteData;
   timestamp: number;
+  source?: 'user' | 'external';
 }
 
 export const useQuoteEditor = (
@@ -33,6 +35,8 @@ export const useQuoteEditor = (
   }
 
   const [data, setData] = useState<QuoteData>(normalizedInitialData);
+  const lastExternalDataRef = useRef<QuoteData>(normalizedInitialData);
+  const isApplyingExternalChangeRef = useRef<boolean>(false);
   const [editingState, setEditingState] = useState<EditingState>({
     isEditing: false,
     fieldPath: '',
@@ -58,10 +62,11 @@ export const useQuoteEditor = (
     setCanRedo(historyIndexRef.current < historyRef.current.length - 1);
   }, []);
 
-  const addToHistory = useCallback((newData: QuoteData) => {
+  const addToHistory = useCallback((newData: QuoteData, source: 'user' | 'external' = 'user') => {
     const newHistoryItem: HistoryState = {
       data: newData,
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      source
     };
 
     // Remove any future history if we're not at the end
@@ -81,18 +86,20 @@ export const useQuoteEditor = (
     updateHistoryStates();
   }, [updateHistoryStates]);
 
-  const updateData = useCallback((newData: QuoteData, addHistory: boolean = true) => {
-    // ✅ Valider les nouvelles données
+  const updateData = useCallback((newData: QuoteData, addHistory: boolean = true, source: 'user' | 'external' = 'user') => {
     if (!validateQuoteData(newData)) {
       console.error('Tentative de mise à jour avec des données invalides:', newData);
       return;
     }
 
     setData(newData);
-    onChange(newData);
-    
+
+    if (!isApplyingExternalChangeRef.current) {
+      onChange(newData);
+    }
+
     if (addHistory) {
-      addToHistory(newData);
+      addToHistory(newData, source);
     }
 
     setSaveState(prev => ({ ...prev, hasUnsavedChanges: true }));
@@ -105,7 +112,7 @@ export const useQuoteEditor = (
         saveData();
       }, 1000);
     }
-  }, [onChange, addToHistory, autoSave, onSave]);
+  }, [onChange, addToHistory, autoSave]);
 
   const undo = useCallback(() => {
     if (historyIndexRef.current > 0) {
@@ -185,7 +192,29 @@ export const useQuoteEditor = (
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [undo, redo, saveData]);
 
-  // Cleanup
+  useEffect(() => {
+    if (hasQuoteDataChanged(lastExternalDataRef.current, initialData)) {
+      console.log('[useQuoteEditor] External data change detected');
+
+      const normalizedData = normalizeQuoteData(initialData);
+
+      if (!validateQuoteData(normalizedData)) {
+        console.error('[useQuoteEditor] Invalid external data received:', initialData);
+        return;
+      }
+
+      isApplyingExternalChangeRef.current = true;
+      lastExternalDataRef.current = normalizedData;
+
+      setData(normalizedData);
+      addToHistory(normalizedData, 'external');
+
+      isApplyingExternalChangeRef.current = false;
+
+      console.log('[useQuoteEditor] External data applied to internal state');
+    }
+  }, [initialData, addToHistory]);
+
   useEffect(() => {
     return () => {
       if (autoSaveTimerRef.current) {
@@ -206,6 +235,7 @@ export const useQuoteEditor = (
     canUndo,
     canRedo,
     undo,
-    redo
+    redo,
+    isEditingField: editingState.isEditing
   };
 };

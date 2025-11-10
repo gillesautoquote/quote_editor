@@ -80,6 +80,7 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
   // ✅ Initialiser directement avec initialData au lieu de null
   const [data, setData] = useState<QuoteData | null>(initialData || null);
   const [error, setError] = useState<{ code: string; message: string } | null>(null);
+  const isInitialLoadRef = useRef<boolean>(true);
 
   useEffect(() => {
     if (data?.company?.mainColor) {
@@ -143,7 +144,9 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
 
   useEffect(() => {
     const loadData = async () => {
-      console.log('[QuoteEditor] Loading data - isStandaloneMode:', isStandaloneMode, 'initialData:', initialData);
+      if (!isInitialLoadRef.current) return;
+
+      console.log('[QuoteEditor] Initial loading data - isStandaloneMode:', isStandaloneMode, 'initialData:', initialData);
 
       if (isStandaloneMode) {
         try {
@@ -195,9 +198,11 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
           console.error('[QuoteEditor] No initialData provided in legacy mode!');
         }
       }
+
+      isInitialLoadRef.current = false;
     };
     loadData();
-  }, [initialData, mock, onEvent, t, isStandaloneMode]);
+  }, [mock, onEvent, t, isStandaloneMode]);
 
   const handleChange = (newData: QuoteData) => {
     setData(newData);
@@ -221,8 +226,15 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
     canUndo,
     canRedo,
     undo,
-    redo
+    redo,
+    isEditingField
   } = useQuoteEditor(data || {} as QuoteData, handleChange, handleSaveWrapper, autoSave);
+
+  useEffect(() => {
+    if (!isInitialLoadRef.current && initialData && !isEditingField) {
+      console.log('[QuoteEditor] External data update detected in parent props');
+    }
+  }, [initialData, isEditingField]);
 
   const { applyColorVariables } = useColorTheme(currentData?.company || { mainColor: '#4863ec' });
   const { exportToPDF, isGenerating } = usePDFExport(useTabs);

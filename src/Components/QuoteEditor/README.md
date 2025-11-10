@@ -11,13 +11,14 @@
 ## ✨ Fonctionnalités principales
 
 - **🖊️ Édition en temps réel** - Double-clic pour éditer n'importe quel champ
+- **🔄 Réactivité complète** - Synchronisation instantanée avec les données externes
 - **📊 Tableaux dynamiques** - Sections avec lignes modifiables et calculs automatiques TVA
 - **🧩 Blocs d'options** - Système modulaire de blocs personnalisables avec drag & drop
 - **🗂️ Onglets dynamiques** - Gestion des onglets (ajout, suppression, réorganisation)
 - **📄 Export PDF** - Génération PDF haute qualité via @react-pdf/renderer
 - **🎨 Thème dynamique** - Couleurs personnalisables selon l'identité de l'entreprise
 - **💾 Auto-sauvegarde** - Sauvegarde automatique configurable
-- **⏮️ Undo/Redo** - Historique des modifications complet (Ctrl+Z/Ctrl+Y)
+- **⏮️ Undo/Redo** - Historique des modifications complet (Ctrl+Z/Ctrl+Y) incluant changements externes
 - **📱 Responsive** - Interface adaptative desktop/mobile
 - **🎯 Drag & Drop** - Réorganisation intuitive des éléments
 - **🌍 i18n** - Support FR/EN intégré
@@ -327,8 +328,41 @@ Textes traduits :
 
 - **Optimisations** : Mémorisation avec `useMemo` et `useCallback`
 - **Debounce** : Auto-sauvegarde avec délai configurable
+- **Réactivité intelligente** : Deep comparison pour éviter les re-renders inutiles
+- **Historique optimisé** : Limitation automatique à 50 entrées
 - **Taille bundle** : ~600KB gzippé (incluant @react-pdf/renderer)
 - **Compatibilité** : React 18.3+, navigateurs modernes
+
+## 🔄 Réactivité et Intégration
+
+**Le QuoteEditor est conçu pour être entièrement réactif aux changements externes.**
+
+Cas d'usage typique : Interface à 2 colonnes
+- **Colonne gauche** : Formulaire de modification des données
+- **Colonne droite** : QuoteEditor qui reflète instantanément les changements
+
+```tsx
+const [quoteData, setQuoteData] = useState<QuoteData>(initialData);
+
+// Modifier depuis le formulaire parent
+const handleUpdateFromForm = () => {
+  setQuoteData(prev => ({
+    ...prev,
+    recipient: { ...prev.recipient, fullName: "Nouveau nom" }
+  }));
+  // ✅ Le QuoteEditor se met à jour immédiatement
+};
+
+<QuoteEditor data={quoteData} onChange={handleInternalChanges} />
+```
+
+Caractéristiques :
+- ✅ **Synchronisation instantanée** : Chaque changement de la prop `data` est détecté et appliqué
+- ✅ **Historique préservé** : Les changements externes sont ajoutés à l'historique undo/redo
+- ✅ **Pas de conflit** : L'édition interne et les mises à jour externes ne se chevauchent jamais
+- ✅ **Performance optimisée** : Deep comparison pour éviter les re-renders inutiles
+
+📖 **Pour plus de détails, consultez le [Guide de Réactivité](/docs/REACTIVITY_GUIDE.md)**
 
 ## 🔧 Technologies utilisées
 

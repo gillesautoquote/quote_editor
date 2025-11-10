@@ -211,44 +211,68 @@ const App: React.FC = () => {
           <div className="lg:tw-col-span-3">
             <div className="tw-bg-white tw-rounded-lg tw-shadow-md tw-overflow-hidden">
               <div className="tw-bg-green-600 tw-text-white tw-p-4">
-                <h5 className="tw-text-lg tw-font-semibold tw-mb-0">🚀 Sidebar Indépendante</h5>
+                <h5 className="tw-text-lg tw-font-semibold tw-mb-0">🚀 Formulaire Externe</h5>
+                <p className="tw-text-xs tw-mt-1 tw-text-green-100">Simule la colonne gauche</p>
               </div>
               <div className="tw-p-4">
-                <p className="tw-text-sm tw-text-gray-600 tw-mb-3">
-                  Cette sidebar démontre comment déclencher l'export PDF du QuoteEditor depuis un composant complètement indépendant.
+                <div className="tw-bg-blue-50 tw-border tw-border-blue-200 tw-rounded tw-p-3 tw-mb-4">
+                  <div className="tw-text-xs tw-font-semibold tw-text-blue-900 tw-mb-1">✅ Réactivité en temps réel</div>
+                  <div className="tw-text-xs tw-text-blue-700">
+                    Updates: <span className="tw-font-bold">{externalUpdateCounter}</span>
+                  </div>
+                </div>
+
+                <p className="tw-text-sm tw-text-gray-600 tw-mb-3 tw-font-semibold">
+                  Actions externes (depuis le formulaire):
+                </p>
+
+                <div className="tw-flex tw-flex-col tw-gap-2">
+                  <button
+                    type="button"
+                    onClick={handleSimulateExternalUpdate}
+                    className="tw-w-full tw-px-4 tw-py-2 tw-bg-blue-600 tw-text-white tw-rounded tw-font-medium hover:tw-bg-blue-700 tw-transition-colors tw-text-sm"
+                  >
+                    🔄 Modifier tagline + total
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleUpdateClientName}
+                    className="tw-w-full tw-px-3 tw-py-2 tw-bg-purple-600 tw-text-white tw-rounded tw-font-medium hover:tw-bg-purple-700 tw-transition-colors tw-text-sm"
+                  >
+                    👤 Modifier nom client
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleAddSectionExternally}
+                    className="tw-w-full tw-px-3 tw-py-2 tw-bg-orange-600 tw-text-white tw-rounded tw-font-medium hover:tw-bg-orange-700 tw-transition-colors tw-text-sm"
+                  >
+                    ➕ Ajouter une section
+                  </button>
+                </div>
+
+                <hr className="tw-my-3 tw-border-gray-200" />
+
+                <p className="tw-text-sm tw-text-gray-600 tw-mb-2 tw-font-semibold">
+                  Actions PDF:
                 </p>
 
                 <div className="tw-flex tw-flex-col tw-gap-2">
                   <button
                     type="button"
                     onClick={handleTriggerPDFExport}
-                    className="tw-w-full tw-px-4 tw-py-2 tw-bg-green-600 tw-text-white tw-rounded tw-font-medium hover:tw-bg-green-700 tw-transition-colors"
+                    className="tw-w-full tw-px-4 tw-py-2 tw-bg-green-600 tw-text-white tw-rounded tw-font-medium hover:tw-bg-green-700 tw-transition-colors tw-text-sm"
                   >
-                    📄 Télécharger PDF
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => globalEventEmitter.emit(EVENTS.QUOTE_DATA_CHANGED, quoteData)}
-                    className="tw-w-full tw-px-3 tw-py-1.5 tw-bg-white tw-text-blue-600 tw-border tw-border-blue-300 tw-rounded tw-text-sm hover:tw-bg-blue-50 tw-transition-colors"
-                  >
-                    📡 Test événement données
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => globalEventEmitter.emit(EVENTS.SAVE_QUOTE)}
-                    className="tw-w-full tw-px-3 tw-py-1.5 tw-bg-white tw-text-yellow-600 tw-border tw-border-yellow-300 tw-rounded tw-text-sm hover:tw-bg-yellow-50 tw-transition-colors"
-                  >
-                    💾 Test événement sauvegarde
+                    📄 Export PDF
                   </button>
                 </div>
 
                 <hr className="tw-my-3 tw-border-gray-200" />
 
-                <div className="tw-text-sm tw-text-gray-600">
-                  <strong>🎯 Principe :</strong><br />
-                  Ces boutons utilisent un système d'événements global pour communiquer avec le QuoteEditor sans aucune dépendance directe.
+                <div className="tw-text-xs tw-text-gray-600 tw-bg-gray-50 tw-p-2 tw-rounded">
+                  <strong>🎯 Démonstration:</strong><br />
+                  Ces boutons modifient les données du devis depuis le parent. Le QuoteEditor dans la colonne droite réagit instantanément aux changements et les ajoute à l'historique undo/redo.
                 </div>
               </div>
             </div>
