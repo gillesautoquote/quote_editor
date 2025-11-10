@@ -91,6 +91,9 @@ Règles CRITIQUES :
 - Crée des blocs logiques (ex: "Ces tarifs comprennent", "Ces tarifs ne comprennent pas", "Modalités de paiement", "Conditions d'annulation", etc.)
 - Si une phrase est longue, garde-la longue
 - Si le texte est détaillé, garde tous les détails
+- IMPORTANT: Échappe correctement les guillemets dans le JSON (utilise \\" pour les guillemets dans les chaînes)
+- IMPORTANT: Échappe les retours à la ligne avec \\n
+- Assure-toi que le JSON soit valide et bien formé
 - Ne rajoute pas d'explications, juste le JSON`
             },
             {
@@ -99,7 +102,8 @@ Règles CRITIQUES :
             }
           ],
           temperature: 0.3,
-          max_tokens: 2000
+          max_tokens: 4000,
+          response_format: { type: "json_object" }
         })
       });
 
@@ -115,7 +119,29 @@ Règles CRITIQUES :
         throw new Error('Réponse vide de ChatGPT');
       }
 
-      const parsed: ChatGPTResponse = JSON.parse(content);
+      // Nettoyer le contenu avant de le parser
+      let cleanedContent = content.trim();
+
+      // Enlever les blocs markdown si présents
+      if (cleanedContent.startsWith('```json')) {
+        cleanedContent = cleanedContent.replace(/^```json\n?/, '').replace(/\n?```$/, '');
+      } else if (cleanedContent.startsWith('```')) {
+        cleanedContent = cleanedContent.replace(/^```\n?/, '').replace(/\n?```$/, '');
+      }
+
+      let parsed: ChatGPTResponse;
+      try {
+        parsed = JSON.parse(cleanedContent);
+      } catch (parseError) {
+        console.error('JSON parse error:', parseError);
+        console.error('Content received:', cleanedContent);
+        throw new Error('Le format de réponse de ChatGPT est invalide. Veuillez réessayer.');
+      }
+
+      // Valider la structure
+      if (!parsed.blocks || !Array.isArray(parsed.blocks)) {
+        throw new Error('Structure de réponse invalide: "blocks" manquant ou incorrect');
+      }
 
       const formattedBlocks = parsed.blocks.map((block, blockIndex) => ({
         id: `block_${Date.now()}_${blockIndex}`,
