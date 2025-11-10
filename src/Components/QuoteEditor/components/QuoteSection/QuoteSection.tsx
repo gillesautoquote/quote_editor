@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Trash2 } from 'lucide-react';
 import type { QuoteSection as QuoteSectionType, QuoteLine } from '../../entities/QuoteData';
 import { EditableField } from '../EditableField/EditableField';
@@ -44,31 +44,32 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
     dropIndex: null
   });
 
-  const columns = useMemo(() => {
-    if (section.columns) return section.columns;
-    return {
-      date: { title: "Date", width: "70px", align: "center" as const, type: "date" as const, editable: true, style: "normal" as const },
-      description: { title: "Description", align: "left" as const, type: "text" as const, editable: true, style: "normal" as const },
-      durationHours: { title: "Durée", width: "50px", align: "center" as const, type: "number" as const, editable: true, style: "normal" as const },
-      pax: { title: "Pax", width: "40px", align: "center" as const, type: "number" as const, editable: true, style: "normal" as const },
-      unitPrice: { title: "P. U.", width: "60px", align: "right" as const, type: "currency" as const, editable: true, style: "normal" as const },
-      quantity: { title: "Qté", width: "40px", align: "center" as const, type: "number" as const, editable: true, style: "normal" as const },
-      priceHT: { title: "HT", width: "55px", align: "right" as const, type: "currency" as const, editable: false, style: "calculated" as const },
-      vatRate: { title: "TVA", width: "45px", align: "center" as const, type: "number" as const, editable: true, style: "normal" as const },
-      priceTTC: { title: "TTC", width: "60px", align: "right" as const, type: "currency" as const, editable: false, style: "calculated" as const }
-    };
-  }, [section.columns]);
+  const defaultColumns = {
+    date: { title: "Date", width: "70px", align: "center" as const, type: "date" as const, editable: true, style: "normal" as const },
+    description: { title: "Description", align: "left" as const, type: "text" as const, editable: true, style: "normal" as const },
+    durationHours: { title: "Durée", width: "50px", align: "center" as const, type: "number" as const, editable: true, style: "normal" as const },
+    pax: { title: "Pax", width: "40px", align: "center" as const, type: "number" as const, editable: true, style: "normal" as const },
+    unitPrice: { title: "P. U.", width: "60px", align: "right" as const, type: "currency" as const, editable: true, style: "normal" as const },
+    quantity: { title: "Qté", width: "40px", align: "center" as const, type: "number" as const, editable: true, style: "normal" as const },
+    priceHT: { title: "HT", width: "55px", align: "right" as const, type: "currency" as const, editable: false, style: "calculated" as const },
+    vatRate: { title: "TVA", width: "45px", align: "center" as const, type: "number" as const, editable: true, style: "normal" as const },
+    priceTTC: { title: "TTC", width: "60px", align: "right" as const, type: "currency" as const, editable: false, style: "calculated" as const }
+  };
+
+  const columns = section.columns || defaultColumns;
 
   if (!section.lines) {
     console.warn('Section.lines est undefined, utilisation d\'un tableau vide');
   }
 
-  const handleTitleUpdate = useCallback((newTitle: string): void => {
+  const calculateSubTotal = calculateSectionSubTotal;
+
+  const handleTitleUpdate = (newTitle: string): void => {
     if (readonly) return;
     onUpdateSection({ ...section, title: newTitle });
-  }, [readonly, onUpdateSection, section]);
+  };
 
-  const handleLineUpdate = useCallback((lineIndex: number, field: keyof QuoteLine, value: string | number): void => {
+  const handleLineUpdate = (lineIndex: number, field: keyof QuoteLine, value: string | number): void => {
     if (readonly) return;
 
     const newLines = [...section.lines];
@@ -85,11 +86,11 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
       newLines[lineIndex] = recalculateQuoteLine(newLines[lineIndex]);
     }
 
-    const subTotal = calculateSectionSubTotal(newLines);
+    const subTotal = calculateSubTotal(newLines);
     onUpdateSection({ ...section, lines: newLines, subTotal });
-  }, [readonly, section, onUpdateSection]);
+  };
 
-  const handleAddLine = useCallback((): void => {
+  const handleAddLine = (): void => {
     if (readonly) return;
 
     const newLine = normalizeQuoteLine({
@@ -97,11 +98,11 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
     });
 
     const newLines = [...section.lines, newLine];
-    const subTotal = calculateSectionSubTotal(newLines);
+    const subTotal = calculateSubTotal(newLines);
     onUpdateSection({ ...section, lines: newLines, subTotal });
-  }, [readonly, section, onUpdateSection]);
+  };
 
-  const handleAddSimpleLine = useCallback((simpleLine: QuoteLine): void => {
+  const handleAddSimpleLine = (simpleLine: QuoteLine): void => {
     if (readonly) return;
 
     const newLine = recalculateQuoteLine({
@@ -110,11 +111,11 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
     });
 
     const newLines = [...section.lines, newLine];
-    const subTotal = calculateSectionSubTotal(newLines);
+    const subTotal = calculateSubTotal(newLines);
     onUpdateSection({ ...section, lines: newLines, subTotal });
-  }, [readonly, section, onUpdateSection]);
+  };
 
-  const handleAddMissionLine = useCallback((missionLine: QuoteLine): void => {
+  const handleAddMissionLine = (missionLine: QuoteLine): void => {
     if (readonly) return;
 
     const newLine = normalizeQuoteLine({
@@ -123,17 +124,17 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
     });
 
     const newLines = [...section.lines, newLine];
-    const subTotal = calculateSectionSubTotal(newLines);
+    const subTotal = calculateSubTotal(newLines);
     onUpdateSection({ ...section, lines: newLines, subTotal });
-  }, [readonly, section, onUpdateSection]);
+  };
 
-  const handleRemoveLine = useCallback((lineIndex: number): void => {
+  const handleRemoveLine = (lineIndex: number): void => {
     if (readonly) return;
 
     const newLines = section.lines.filter((_, index) => index !== lineIndex);
-    const subTotal = calculateSectionSubTotal(newLines);
+    const subTotal = calculateSubTotal(newLines);
     onUpdateSection({ ...section, lines: newLines, subTotal });
-  }, [readonly, section, onUpdateSection]);
+  };
 
   const handleDragStart = useCallback((e: React.DragEvent, index: number): void => {
     if (readonly) return;
@@ -186,7 +187,7 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
       const [draggedItem] = newLines.splice(sourceIndex, 1);
       newLines.splice(dropIndex, 0, draggedItem);
 
-      const subTotal = calculateSectionSubTotal(newLines);
+      const subTotal = calculateSubTotal(newLines);
       onUpdateSection({ ...section, lines: newLines, subTotal });
     } catch (error) {
       console.error('Error handling drop:', error);
@@ -194,7 +195,7 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
     }
   }, [readonly, sectionIndex, section, onUpdateSection]);
 
-  const shouldShowDropIndicator = useCallback((lineIndex: number): 'before' | 'after' | null => {
+  const shouldShowDropIndicator = (lineIndex: number): 'before' | 'after' | null => {
     if (!dragState.isDragging || dragState.dragIndex === null || dragState.dropIndex === null) {
       return null;
     }
@@ -208,7 +209,7 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
     }
 
     return null;
-  }, [dragState]);
+  };
 
   return (
     <div
