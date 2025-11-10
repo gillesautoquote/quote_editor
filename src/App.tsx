@@ -125,22 +125,6 @@ const App: React.FC = () => {
     setExternalUpdateCounter(prev => prev + 1);
   };
 
-  const handleUpdateTabLabel = (): void => {
-    console.log('[App] Updating tab label from external form');
-    const updatedTabLabels = quoteData.tabLabels?.map(tl =>
-      tl.id === 'cotation'
-        ? { ...tl, label: `${tl.label} - Modifié #${externalUpdateCounter + 1}` }
-        : tl
-    );
-
-    const updatedData = {
-      ...quoteData,
-      tabLabels: updatedTabLabels
-    };
-    setQuoteData(updatedData);
-    setExternalUpdateCounter(prev => prev + 1);
-  };
-
   return (
     <div className="tw-min-h-screen tw-bg-gray-100">
       <div className="tw-container tw-mx-auto tw-px-4 tw-py-4">
@@ -332,14 +316,6 @@ const App: React.FC = () => {
                     className="tw-w-full tw-px-3 tw-py-2 tw-bg-orange-600 tw-text-white tw-rounded tw-font-medium hover:tw-bg-orange-700 tw-transition-colors tw-text-sm"
                   >
                     ➕ Ajouter une section
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={handleUpdateTabLabel}
-                    className="tw-w-full tw-px-3 tw-py-2 tw-bg-indigo-600 tw-text-white tw-rounded tw-font-medium hover:tw-bg-indigo-700 tw-transition-colors tw-text-sm"
-                  >
-                    🏷️ Modifier label "Cotation"
                   </button>
                 </div>
 
