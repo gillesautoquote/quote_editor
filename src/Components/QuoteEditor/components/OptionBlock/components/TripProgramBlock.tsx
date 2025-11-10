@@ -17,6 +17,7 @@ const STEP_FILTERS = [
   { id: 'depart' as const, label: 'Départs', keywords: ['départ', 'depart'] },
   { id: 'arrivee' as const, label: 'Arrivées', keywords: ['arrivée', 'arrivee'] },
   { id: 'mise_en_place' as const, label: 'Mise en place', keywords: ['mise en place'] },
+  { id: 'retour' as const, label: 'Retours', keywords: ['retour'] },
 ];
 
 const formatDateFr = (dateString: string): string => {
@@ -42,15 +43,13 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
   const filteredSteps = useMemo(() => {
     return steps.filter(step => {
       const labelLower = step.label.toLowerCase();
-      const isDepotRelated = labelLower.includes('dépôt') || labelLower.includes('depot');
 
-      // Si showDepotTrips est false, masquer les allers/retours depuis le dépôt
-      if (!filters.showDepotTrips && isDepotRelated) {
+      if (filters.excludeDepot && (labelLower.includes('dépôt') || labelLower.includes('depot'))) {
         return false;
       }
 
-      // Toujours afficher départs, arrivées, mise en place
       return STEP_FILTERS.some(filter => {
+        if (!filters[filter.id]) return false;
         return filter.keywords.some(keyword => labelLower.includes(keyword));
       });
     });
@@ -78,11 +77,11 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
     return missions;
   }, [filteredSteps]);
 
-  const toggleShowDepotTrips = () => {
+  const toggleFilter = (filterId: keyof TripProgramFilters) => {
     if (readonly) return;
     onUpdateFilters({
       ...filters,
-      showDepotTrips: !filters.showDepotTrips
+      [filterId]: !filters[filterId]
     });
   };
 
@@ -118,23 +117,44 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
       <div className={`tw-mb-3 tw-flex tw-flex-wrap tw-gap-2 tw-items-center ${printMode ? 'tw-hidden' : ''} print:tw-hidden`}>
         <div className="tw-flex tw-items-center tw-gap-1.5 tw-text-xs tw-text-gray-600">
           <Filter size={14} />
-          <span className="tw-font-medium">Filtre:</span>
+          <span className="tw-font-medium">Filtres:</span>
         </div>
+
+        {STEP_FILTERS.map(filter => (
+          <button
+            key={filter.id}
+            type="button"
+            onClick={() => toggleFilter(filter.id)}
+            disabled={readonly}
+            className="tw-px-3 tw-py-1 tw-text-xs tw-rounded-full tw-border tw-transition-all"
+            style={{
+              backgroundColor: filters[filter.id] ? blockColor : 'white',
+              color: filters[filter.id] ? 'white' : '#6b7280',
+              borderColor: filters[filter.id] ? blockColor : '#d1d5db',
+              cursor: readonly ? 'default' : 'pointer'
+            }}
+          >
+            {filter.label}
+          </button>
+        ))}
+
+        <div className="tw-h-4 tw-w-px tw-bg-gray-300 tw-mx-1" />
 
         <button
           type="button"
-          onClick={toggleShowDepotTrips}
+          onClick={() => toggleFilter('excludeDepot')}
           disabled={readonly}
-          className="tw-px-3 tw-py-1.5 tw-text-xs tw-rounded-full tw-border tw-transition-all tw-font-medium"
+          className="tw-px-3 tw-py-1 tw-text-xs tw-rounded-full tw-border tw-transition-all"
           style={{
-            backgroundColor: filters.showDepotTrips ? blockColor : 'white',
-            color: filters.showDepotTrips ? 'white' : '#6b7280',
-            borderColor: filters.showDepotTrips ? blockColor : '#d1d5db',
+            backgroundColor: filters.excludeDepot ? '#f3f4f6' : 'white',
+            color: filters.excludeDepot ? '#374151' : '#6b7280',
+            borderColor: '#d1d5db',
             cursor: readonly ? 'default' : 'pointer'
           }}
         >
-          {filters.showDepotTrips ? '✓ Allers/retours dépôt affichés' : 'Afficher allers/retours dépôt'}
+          {filters.excludeDepot ? 'Masquer dépôt' : 'Afficher dépôt'}
         </button>
+
       </div>
 
       {Object.keys(groupedByMission).length === 0 ? (

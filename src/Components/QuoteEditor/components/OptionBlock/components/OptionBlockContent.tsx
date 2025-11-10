@@ -98,7 +98,11 @@ export const OptionBlockContent: React.FC<OptionBlockContentProps> = ({
         <TripProgramBlock
           steps={block.tripSteps || []}
           filters={block.tripFilters || {
-            showDepotTrips: false
+            depart: true,
+            arrivee: true,
+            mise_en_place: true,
+            retour: false,
+            excludeDepot: true
           }}
           onUpdateSteps={handleUpdateTripSteps}
           onUpdateFilters={handleUpdateTripFilters}

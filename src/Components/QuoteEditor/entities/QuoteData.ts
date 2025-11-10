@@ -110,7 +110,11 @@ export interface TripProgramStep {
 }
 
 export interface TripProgramFilters {
-  showDepotTrips: boolean; // Afficher ou masquer les allers/retours depuis le dépôt
+  depart: boolean;
+  arrivee: boolean;
+  mise_en_place: boolean;
+  retour: boolean;
+  excludeDepot: boolean;
 }
 
 export interface DocumentSectionLabel {
