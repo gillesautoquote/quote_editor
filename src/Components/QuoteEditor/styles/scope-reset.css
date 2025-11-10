@@ -161,10 +161,10 @@
   color: inherit !important;
 }
 
-/* Protect against parent styles */
+/* Protect against parent styles - no !important to allow Tailwind overrides */
 [data-quote-editor-scope] img {
-  max-width: 100% !important;
-  height: auto !important;
+  max-width: 100%;
+  height: auto;
 }
 
 [data-quote-editor-scope] button,
