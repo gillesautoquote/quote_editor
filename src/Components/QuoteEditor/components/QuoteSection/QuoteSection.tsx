@@ -213,17 +213,17 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
 
   return (
     <div
-      className="tw-mb-6 tw-border tw-border-border tw-rounded-lg tw-overflow-hidden tw-bg-white tw-shadow-sm page-break-inside-avoid print:tw-shadow-none print:tw-mb-4 print:tw-rounded-none"
+      className="tw-mb-6 tw-border qe-border-border tw-rounded-lg tw-overflow-hidden tw-bg-white tw-shadow-sm page-break-inside-avoid print:tw-shadow-none print:tw-mb-4 print:tw-rounded-none"
       data-component="quote-section"
       data-section-index={sectionIndex}
       data-section-title={section.title}
     >
-      <div className="tw-flex tw-items-center tw-justify-between tw-gap-3 tw-py-3 tw-px-4 tw-bg-surface-gray-50 tw-border-b tw-border-border print:tw-py-2 print:tw-px-3">
+      <div className="tw-flex tw-items-center tw-justify-between tw-gap-3 tw-py-3 tw-px-4 qe-bg-surface-gray-50 tw-border-b qe-border-border print:tw-py-2 print:tw-px-3">
         {!readonly && !printMode && onRemoveSection && (
           <button
             type="button"
             onClick={onRemoveSection}
-            className="tw-inline-flex tw-items-center tw-justify-center tw-w-6 tw-h-6 tw-p-0 tw-border tw-border-danger-light tw-rounded tw-bg-white tw-text-danger tw-cursor-pointer tw-transition-all tw-duration-200 hover:tw-bg-danger/10 hover:tw-border-danger hover:tw-scale-105 print:tw-hidden"
+            className="tw-inline-flex tw-items-center tw-justify-center tw-w-6 tw-h-6 tw-p-0 tw-border qe-border-danger-light tw-rounded tw-bg-white qe-text-danger tw-cursor-pointer tw-transition-all tw-duration-200 hover:qe-bg-danger/10 hover:qe-border-danger hover:tw-scale-105 print:tw-hidden"
             title="Supprimer cette section"
           >
             <Trash2 size={14} />
@@ -234,7 +234,7 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
           onSave={handleTitleUpdate}
           disabled={readonly}
           as="h3"
-          className="tw-text-lg tw-font-semibold tw-text-primary print:tw-text-base"
+          className="tw-text-lg tw-font-semibold qe-text-primary print:tw-text-base"
           printMode={printMode}
         />
         {!printMode && (

@@ -135,7 +135,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
           const programmeTitle = dataWithProgrammeVoyage.labels?.pageTitles?.programme || programmeBlock.title || 'Programme de voyage';
           return (
             <div key="programme" className="tw-mb-4 page-break-inside-avoid" data-section="programme">
-              <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="programme">
+              <h2 className="tw-text-xl tw-font-semibold tw-mb-4 qe-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="programme">
                 {programmeTitle}
               </h2>
               <TripProgramBlock
@@ -175,7 +175,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
           <React.Fragment key="services">
             {dataWithProgrammeVoyage.busServices && (
               <div className="tw-mb-4 page-break-inside-avoid" data-section="services">
-                <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="services">
+                <h2 className="tw-text-xl tw-font-semibold tw-mb-4 qe-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="services">
                   {dataWithProgrammeVoyage.labels?.pageTitles?.services || 'Services à l\'intérieur'}
                 </h2>
                 <BusServicesBlock
@@ -192,7 +192,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
             )}
             {dataWithProgrammeVoyage.carbonImpact && (
               <div className="tw-mb-4 page-break-inside-avoid" data-section="carbon-impact">
-                <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="carbon-impact">
+                <h2 className="tw-text-xl tw-font-semibold tw-mb-4 qe-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="carbon-impact">
                   Impact carbone
                 </h2>
                 <CarbonImpact
@@ -212,7 +212,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
         return (
           <React.Fragment key="cotation">
             <div className="tw-mb-4" data-section="cotation">
-              <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="cotation">
+              <h2 className="tw-text-xl tw-font-semibold tw-mb-4 qe-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="cotation">
                 {dataWithProgrammeVoyage.labels?.pageTitles?.cotation || 'Cotation détaillée'}
               </h2>
               {(dataWithProgrammeVoyage.sections || []).map((section, sectionIndex) => (
@@ -243,7 +243,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
                 value={dataWithProgrammeVoyage.validityNotice || ''}
                 onSave={(value) => handleFieldUpdate('validityNotice', value)}
                 disabled={readonly}
-                className="tw-text-sm tw-text-text-muted tw-italic"
+                className="tw-text-sm qe-text-text-muted tw-italic"
                 printMode={printMode}
               />
             </div>
@@ -253,7 +253,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
       case 'conditions':
         return (
           <div key="conditions" className="tw-mb-4" data-section="conditions">
-            <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="conditions">
+            <h2 className="tw-text-xl tw-font-semibold tw-mb-4 qe-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="conditions">
               {dataWithProgrammeVoyage.labels?.pageTitles?.conditions || 'Conditions générales'}
             </h2>
             <BlocksContainer
@@ -289,7 +289,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
       case 'signature':
         return (
           <div key="signature" className="tw-mb-4" data-section="signature">
-            <h2 className="tw-text-xl tw-font-semibold tw-mb-4 tw-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="order-form">
+            <h2 className="tw-text-xl tw-font-semibold tw-mb-4 qe-text-primary print:tw-text-lg print:tw-mb-2" data-section-title="order-form">
               {dataWithProgrammeVoyage.labels?.pageTitles?.signature || 'Bon de commande'}
             </h2>
             <InstructionsFrame
@@ -319,7 +319,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
                 value={dataWithProgrammeVoyage.termsNotice || ''}
                 onSave={(value) => handleFieldUpdate('termsNotice', value)}
                 disabled={readonly}
-                className="tw-text-sm tw-text-text-muted tw-italic"
+                className="tw-text-sm qe-text-text-muted tw-italic"
                 printMode={printMode}
               />
             </div>
@@ -334,7 +334,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
   return (
     <div
       data-quote-editor-scope
-      className="tw-w-full tw-max-w-[21cm] tw-bg-white tw-shadow-page tw-px-12 tw-py-8 tw-mx-auto tw-relative tw-flex tw-flex-col tw-text-text tw-min-h-auto tw-rounded-lg tw-border tw-border-black/10 print:tw-shadow-none print:tw-m-0 print:tw-rounded-none print:tw-border-none print:tw-w-[21cm] print:tw-px-[1.5cm] print:tw-py-0"
+      className="tw-w-full tw-max-w-[21cm] tw-bg-white tw-shadow-page tw-px-12 tw-py-8 tw-mx-auto tw-relative tw-flex tw-flex-col qe-text-text tw-min-h-auto tw-rounded-lg tw-border tw-border-black/10 print:tw-shadow-none print:tw-m-0 print:tw-rounded-none print:tw-border-none print:tw-w-[21cm] print:tw-px-[1.5cm] print:tw-py-0"
       data-component="quote-flat-view"
       data-print-mode={printMode}
     >

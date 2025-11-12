@@ -98,9 +98,9 @@ export const StyleSelector: React.FC<StyleSelectorProps> = ({
         type="button"
         onClick={handleToggle}
         className={clsx(
-          'tw-inline-flex tw-items-center tw-justify-center tw-w-6 tw-h-6 tw-p-0 tw-border tw-border-primary/30 tw-rounded tw-bg-white tw-text-primary tw-text-[0.7rem] tw-font-medium tw-cursor-pointer tw-transition-all tw-duration-200 tw-ease-out',
-          'hover:tw-bg-primary/10 hover:tw-border-primary hover:tw-scale-105',
-          isOpen && 'tw-bg-primary/10 tw-border-primary tw-scale-105',
+          'tw-inline-flex tw-items-center tw-justify-center tw-w-6 tw-h-6 tw-p-0 tw-border qe-border-primary/30 tw-rounded tw-bg-white qe-text-primary tw-text-[0.7rem] tw-font-medium tw-cursor-pointer tw-transition-all tw-duration-200 tw-ease-out',
+          'hover:qe-bg-primary/10 hover:qe-border-primary hover:tw-scale-105',
+          isOpen && 'qe-bg-primary/10 qe-border-primary tw-scale-105',
           currentStyle.className === 'bold' && 'tw-font-bold',
           currentStyle.className === 'italic' && 'tw-italic',
           currentStyle.className === 'underline' && 'tw-underline',
@@ -122,7 +122,7 @@ export const StyleSelector: React.FC<StyleSelectorProps> = ({
             zIndex: 9999
           }}
         >
-          <div className="tw-bg-white tw-border tw-border-primary/30 tw-rounded-md tw-shadow-lg tw-overflow-hidden tw-min-w-[120px]">
+          <div className="tw-bg-white tw-border qe-border-primary/30 tw-rounded-md tw-shadow-lg tw-overflow-hidden tw-min-w-[120px]">
             <div className="tw-p-1">
               {STYLE_OPTIONS.map((option) => (
                 <button
@@ -131,8 +131,8 @@ export const StyleSelector: React.FC<StyleSelectorProps> = ({
                   onClick={() => handleSelect(option.value)}
                   className={clsx(
                     'tw-w-full tw-flex tw-items-center tw-gap-2 tw-px-2 tw-py-1.5 tw-text-left tw-text-[0.75rem] tw-rounded tw-transition-all tw-duration-150 tw-cursor-pointer',
-                    'hover:tw-bg-primary/10',
-                    value === option.value && 'tw-bg-primary/20 tw-text-primary tw-font-medium',
+                    'hover:qe-bg-primary/10',
+                    value === option.value && 'qe-bg-primary/20 qe-text-primary tw-font-medium',
                     option.className === 'bold' && '[&>span:first-child]:tw-font-bold',
                     option.className === 'italic' && '[&>span:first-child]:tw-italic',
                     option.className === 'underline' && '[&>span:first-child]:tw-underline'

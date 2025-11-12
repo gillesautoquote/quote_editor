@@ -1,0 +1,310 @@
+/* ==============================================
+   QUOTE EDITOR - CUSTOM UTILITY CLASSES
+   Système de classes utilitaires personnalisées
+   pour isolation complète du composant QuoteEditor
+   ============================================== */
+
+/* ==============================================
+   COULEURS PRIMAIRES (Dynamiques via CSS Variables)
+   ============================================== */
+
+/* Texte primaire */
+[data-quote-editor-scope] .qe-text-primary {
+  color: rgb(var(--color-primary)) !important;
+}
+
+[data-quote-editor-scope] .qe-text-primary-hover {
+  color: rgb(var(--color-primary-hover)) !important;
+}
+
+[data-quote-editor-scope] .qe-text-primary-dark {
+  color: rgb(var(--color-primary-dark)) !important;
+}
+
+/* Background primaire */
+[data-quote-editor-scope] .qe-bg-primary {
+  background-color: rgb(var(--color-primary)) !important;
+}
+
+[data-quote-editor-scope] .qe-bg-primary-light {
+  background-color: rgb(var(--color-primary-light)) !important;
+}
+
+[data-quote-editor-scope] .qe-bg-primary-lighter {
+  background-color: rgb(var(--color-primary-lighter)) !important;
+}
+
+[data-quote-editor-scope] .qe-bg-primary-dark {
+  background-color: rgb(var(--color-primary-dark)) !important;
+}
+
+/* Bordures primaires */
+[data-quote-editor-scope] .qe-border-primary {
+  border-color: rgb(var(--color-primary)) !important;
+}
+
+/* Variantes avec opacité */
+[data-quote-editor-scope] .qe-border-primary\/10 {
+  border-color: rgba(var(--color-primary), 0.1) !important;
+}
+
+[data-quote-editor-scope] .qe-border-primary\/20 {
+  border-color: rgba(var(--color-primary), 0.2) !important;
+}
+
+[data-quote-editor-scope] .qe-border-primary\/30 {
+  border-color: rgba(var(--color-primary), 0.3) !important;
+}
+
+[data-quote-editor-scope] .qe-bg-primary\/10 {
+  background-color: rgba(var(--color-primary), 0.1) !important;
+}
+
+[data-quote-editor-scope] .qe-bg-primary\/20 {
+  background-color: rgba(var(--color-primary), 0.2) !important;
+}
+
+/* ==============================================
+   COULEURS DE TEXTE SÉMANTIQUES
+   ============================================== */
+
+[data-quote-editor-scope] .qe-text-text {
+  color: #212529 !important;
+}
+
+[data-quote-editor-scope] .qe-text-text-muted {
+  color: #6c757d !important;
+}
+
+[data-quote-editor-scope] .qe-text-white {
+  color: #ffffff !important;
+}
+
+[data-quote-editor-scope] .qe-text-inherit {
+  color: inherit !important;
+}
+
+/* ==============================================
+   SURFACES (Backgrounds)
+   ============================================== */
+
+[data-quote-editor-scope] .qe-bg-white {
+  background-color: #ffffff !important;
+}
+
+[data-quote-editor-scope] .qe-bg-transparent {
+  background-color: transparent !important;
+}
+
+[data-quote-editor-scope] .qe-bg-surface {
+  background-color: #f8f9fa !important;
+}
+
+[data-quote-editor-scope] .qe-bg-surface-indigo-50 {
+  background-color: #eef2ff !important;
+}
+
+[data-quote-editor-scope] .qe-bg-surface-gray-50 {
+  background-color: #f9fafb !important;
+}
+
+[data-quote-editor-scope] .qe-bg-surface-gray-100 {
+  background-color: #f3f4f6 !important;
+}
+
+[data-quote-editor-scope] .qe-bg-hover {
+  background-color: #f8f9fa !important;
+}
+
+/* ==============================================
+   BORDURES
+   ============================================== */
+
+[data-quote-editor-scope] .qe-border-border {
+  border-color: #dee2e6 !important;
+}
+
+[data-quote-editor-scope] .qe-border-border-light {
+  border-color: #e9ecef !important;
+}
+
+[data-quote-editor-scope] .qe-border-white {
+  border-color: #ffffff !important;
+}
+
+[data-quote-editor-scope] .qe-border-transparent {
+  border-color: transparent !important;
+}
+
+[data-quote-editor-scope] .qe-border-black {
+  border-color: #000000 !important;
+}
+
+/* ==============================================
+   COULEURS SÉMANTIQUES (Danger, Success, Warning)
+   ============================================== */
+
+/* Danger/Error */
+[data-quote-editor-scope] .qe-text-danger {
+  color: #ef4444 !important;
+}
+
+[data-quote-editor-scope] .qe-text-danger-dark {
+  color: #dc2626 !important;
+}
+
+[data-quote-editor-scope] .qe-bg-danger {
+  background-color: #ef4444 !important;
+}
+
+[data-quote-editor-scope] .qe-border-danger {
+  border-color: #ef4444 !important;
+}
+
+[data-quote-editor-scope] .qe-border-danger-light {
+  border-color: #fca5a5 !important;
+}
+
+[data-quote-editor-scope] .qe-border-danger-dark {
+  border-color: #dc2626 !important;
+}
+
+/* Success */
+[data-quote-editor-scope] .qe-text-success {
+  color: #10b981 !important;
+}
+
+[data-quote-editor-scope] .qe-bg-success {
+  background-color: #10b981 !important;
+}
+
+[data-quote-editor-scope] .qe-border-success {
+  border-color: #10b981 !important;
+}
+
+/* Warning */
+[data-quote-editor-scope] .qe-text-warning {
+  color: #f59e0b !important;
+}
+
+[data-quote-editor-scope] .qe-bg-warning {
+  background-color: #f59e0b !important;
+}
+
+[data-quote-editor-scope] .qe-border-warning {
+  border-color: #f59e0b !important;
+}
+
+/* Info */
+[data-quote-editor-scope] .qe-text-info {
+  color: #0ea5e9 !important;
+}
+
+[data-quote-editor-scope] .qe-bg-info {
+  background-color: #0ea5e9 !important;
+}
+
+[data-quote-editor-scope] .qe-border-info {
+  border-color: #0ea5e9 !important;
+}
+
+/* ==============================================
+   COULEURS GRAY (pour compatibilité)
+   ============================================== */
+
+[data-quote-editor-scope] .qe-text-gray-50 { color: #f9fafb !important; }
+[data-quote-editor-scope] .qe-text-gray-100 { color: #f3f4f6 !important; }
+[data-quote-editor-scope] .qe-text-gray-200 { color: #e5e7eb !important; }
+[data-quote-editor-scope] .qe-text-gray-300 { color: #d1d5db !important; }
+[data-quote-editor-scope] .qe-text-gray-400 { color: #9ca3af !important; }
+[data-quote-editor-scope] .qe-text-gray-500 { color: #6b7280 !important; }
+[data-quote-editor-scope] .qe-text-gray-600 { color: #4b5563 !important; }
+[data-quote-editor-scope] .qe-text-gray-700 { color: #374151 !important; }
+[data-quote-editor-scope] .qe-text-gray-800 { color: #1f2937 !important; }
+
+[data-quote-editor-scope] .qe-bg-gray-50 { background-color: #f9fafb !important; }
+[data-quote-editor-scope] .qe-bg-gray-100 { background-color: #f3f4f6 !important; }
+[data-quote-editor-scope] .qe-bg-gray-200 { background-color: #e5e7eb !important; }
+[data-quote-editor-scope] .qe-bg-gray-300 { background-color: #d1d5db !important; }
+
+[data-quote-editor-scope] .qe-border-gray-100 { border-color: #f3f4f6 !important; }
+[data-quote-editor-scope] .qe-border-gray-200 { border-color: #e5e7eb !important; }
+[data-quote-editor-scope] .qe-border-gray-300 { border-color: #d1d5db !important; }
+
+/* ==============================================
+   COULEURS SPÉCIFIQUES (pour compatibilité existante)
+   ============================================== */
+
+/* Red */
+[data-quote-editor-scope] .qe-text-red-50 { color: #fef2f2 !important; }
+[data-quote-editor-scope] .qe-text-red-500 { color: #ef4444 !important; }
+[data-quote-editor-scope] .qe-text-red-600 { color: #dc2626 !important; }
+
+[data-quote-editor-scope] .qe-bg-red-50 { background-color: #fef2f2 !important; }
+[data-quote-editor-scope] .qe-bg-red-100 { background-color: #fee2e2 !important; }
+[data-quote-editor-scope] .qe-bg-red-500 { background-color: #ef4444 !important; }
+
+[data-quote-editor-scope] .qe-border-red-200 { border-color: #fecaca !important; }
+[data-quote-editor-scope] .qe-border-red-300 { border-color: #fca5a5 !important; }
+[data-quote-editor-scope] .qe-border-red-400 { border-color: #f87171 !important; }
+
+/* Green */
+[data-quote-editor-scope] .qe-text-green-600 { color: #16a34a !important; }
+[data-quote-editor-scope] .qe-bg-green-50 { background-color: #f0fdf4 !important; }
+[data-quote-editor-scope] .qe-bg-green-100 { background-color: #dcfce7 !important; }
+[data-quote-editor-scope] .qe-border-green-200 { border-color: #bbf7d0 !important; }
+
+/* Blue */
+[data-quote-editor-scope] .qe-text-blue-600 { color: #2563eb !important; }
+[data-quote-editor-scope] .qe-bg-blue-50 { background-color: #eff6ff !important; }
+[data-quote-editor-scope] .qe-border-blue-200 { border-color: #bfdbfe !important; }
+
+/* Yellow */
+[data-quote-editor-scope] .qe-text-yellow-600 { color: #ca8a04 !important; }
+[data-quote-editor-scope] .qe-bg-yellow-50 { background-color: #fefce8 !important; }
+[data-quote-editor-scope] .qe-border-yellow-300 { border-color: #fde047 !important; }
+
+/* Slate */
+[data-quote-editor-scope] .qe-text-slate-400 { color: #94a3b8 !important; }
+[data-quote-editor-scope] .qe-bg-slate-50 { background-color: #f8fafc !important; }
+
+/* Indigo */
+[data-quote-editor-scope] .qe-bg-indigo-50 { background-color: #eef2ff !important; }
+[data-quote-editor-scope] .qe-bg-indigo-100 { background-color: #e0e7ff !important; }
+
+/* ==============================================
+   VARIANTES HOVER ET FOCUS
+   ============================================== */
+
+[data-quote-editor-scope] .qe-hover-text-primary:hover {
+  color: rgb(var(--color-primary)) !important;
+}
+
+[data-quote-editor-scope] .qe-hover-bg-primary:hover {
+  background-color: rgb(var(--color-primary)) !important;
+}
+
+[data-quote-editor-scope] .qe-hover-bg-primary\/10:hover {
+  background-color: rgba(var(--color-primary), 0.1) !important;
+}
+
+[data-quote-editor-scope] .qe-hover-scale-110:hover {
+  transform: scale(1.1);
+}
+
+/* ==============================================
+   CLASSES PRINT-SAFE
+   ============================================== */
+
+@media print {
+  [data-quote-editor-scope] .qe-text-primary,
+  [data-quote-editor-scope] .qe-bg-primary,
+  [data-quote-editor-scope] .qe-border-primary,
+  [data-quote-editor-scope] .qe-text-danger,
+  [data-quote-editor-scope] .qe-bg-danger,
+  [data-quote-editor-scope] .qe-border-danger {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+}

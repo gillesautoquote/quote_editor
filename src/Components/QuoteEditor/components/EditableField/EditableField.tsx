@@ -37,7 +37,7 @@ export const EditableField: React.FC<EditableFieldProps> = ({
       <Component
         className={clsx(
           'print:tw-border-none print:tw-p-0 print:tw-bg-transparent print:tw-outline-none',
-          'tw-text-text',
+          'qe-text-text',
           fullWidth && 'tw-w-full tw-max-w-full tw-block',
           className
         )}
@@ -136,7 +136,7 @@ export const EditableField: React.FC<EditableFieldProps> = ({
             'tw-border-none tw-bg-transparent tw-p-2 tw-font-inherit tw-text-inherit',
             'tw-outline-none tw-rounded-sm tw-leading-[1.5] tw-box-border tw-w-full tw-max-w-full',
             'focus:tw-bg-white focus:tw-shadow-[0_0_0_0.5px_var(--tw-shadow-color)] focus:tw-shadow-primary',
-            'placeholder:tw-text-text-muted placeholder:tw-text-[0.9em]',
+            'placeholder:qe-text-text-muted placeholder:tw-text-[0.9em]',
             multiline && 'tw-resize-y tw-min-h-[80px]',
             fullWidth && 'tw-w-full tw-max-w-full'
           )}
@@ -159,11 +159,11 @@ export const EditableField: React.FC<EditableFieldProps> = ({
   return (
     <Component
       className={clsx(
-        'tw-relative tw-rounded tw-min-h-[1.2em] tw-inline-block tw-min-w-[20px] tw-text-text',
+        'tw-relative tw-rounded tw-min-h-[1.2em] tw-inline-block tw-min-w-[20px] qe-text-text',
         'tw-outline tw-outline-1 tw-outline-transparent',
         'tw-transition-colors tw-duration-150 tw-ease-in-out',
-        !disabled && 'tw-cursor-pointer hover:tw-bg-primary/5 hover:tw-outline-primary hover:tw-outline-2',
-        disabled && 'tw-cursor-default tw-opacity-100 !tw-text-text',
+        !disabled && 'tw-cursor-pointer hover:qe-bg-primary/5 hover:tw-outline-primary hover:tw-outline-2',
+        disabled && 'tw-cursor-default tw-opacity-100 !qe-text-text',
         fullWidth && 'tw-w-full tw-max-w-full tw-block',
         className
       )}
@@ -172,7 +172,7 @@ export const EditableField: React.FC<EditableFieldProps> = ({
       draggable={false}
       title={disabled ? undefined : "Double-cliquez pour éditer"}
     >
-      {value || <span className="tw-text-text-muted tw-italic">{placeholder}</span>}
+      {value || <span className="qe-text-text-muted tw-italic">{placeholder}</span>}
     </Component>
   );
 };

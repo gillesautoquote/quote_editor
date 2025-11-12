@@ -330,11 +330,11 @@
 }
 
 [data-quote-editor-scope] .bg-primary,
-[data-quote-editor-scope] .tw-bg-primary,
+[data-quote-editor-scope] .qe-bg-primary,
 [data-quote-editor-scope] [style*="background-color"],
 [data-quote-editor-scope] [style*="backgroundColor"],
 [data-quote-editor-scope] .border-primary,
-[data-quote-editor-scope] .tw-border-primary,
+[data-quote-editor-scope] .qe-border-primary,
 [data-quote-editor-scope] [style*="border-color"],
 [data-quote-editor-scope] [style*="borderColor"] {
   -webkit-print-color-adjust: exact !important;

@@ -29,7 +29,7 @@ export const EditableMarkdownField: React.FC<EditableMarkdownFieldProps> = ({
       <div
         className={clsx(
           'print:tw-border-none print:tw-p-0 print:tw-bg-transparent print:tw-outline-none',
-          'tw-text-text tw-w-full',
+          'qe-text-text tw-w-full',
           className
         )}
       >
@@ -39,7 +39,7 @@ export const EditableMarkdownField: React.FC<EditableMarkdownFieldProps> = ({
             dangerouslySetInnerHTML={{ __html: markdownToHtml(value) }}
           />
         ) : (
-          <span className="tw-text-text-muted">{placeholder}</span>
+          <span className="qe-text-text-muted">{placeholder}</span>
         )}
       </div>
     );
@@ -121,7 +121,7 @@ export const EditableMarkdownField: React.FC<EditableMarkdownFieldProps> = ({
             'tw-border-none tw-bg-transparent tw-p-0 tw-font-inherit tw-text-inherit',
             'tw-outline-none tw-resize-none tw-rounded-sm tw-leading-[1.4] tw-box-border tw-w-full tw-max-w-full',
             'focus:tw-bg-white focus:tw-shadow-[0_0_0_0.5px_var(--tw-shadow-color)] focus:tw-shadow-primary',
-            'placeholder:tw-text-text-muted placeholder:tw-text-[0.9em]',
+            'placeholder:qe-text-text-muted placeholder:tw-text-[0.9em]',
             'tw-min-h-[100px] tw-text-[0.9rem]'
           )}
           placeholder={placeholder}
@@ -135,7 +135,7 @@ export const EditableMarkdownField: React.FC<EditableMarkdownFieldProps> = ({
             e.stopPropagation();
           }}
         />
-        <div className="tw-text-xs tw-text-text-muted tw-mt-1 tw-px-1">
+        <div className="tw-text-xs qe-text-text-muted tw-mt-1 tw-px-1">
           Ctrl+Entrée pour sauvegarder, Échap pour annuler
         </div>
       </div>
@@ -145,11 +145,11 @@ export const EditableMarkdownField: React.FC<EditableMarkdownFieldProps> = ({
   return (
     <div
       className={clsx(
-        'tw-relative tw-rounded tw-min-h-[1.2em] tw-text-text tw-w-full',
+        'tw-relative tw-rounded tw-min-h-[1.2em] qe-text-text tw-w-full',
         'tw-outline tw-outline-1 tw-outline-transparent',
         'tw-transition-colors tw-duration-150 tw-ease-in-out',
-        !disabled && 'tw-cursor-pointer hover:tw-bg-primary/5 hover:tw-outline-primary hover:tw-outline-2',
-        disabled && 'tw-cursor-default tw-opacity-100 !tw-text-text',
+        !disabled && 'tw-cursor-pointer hover:qe-bg-primary/5 hover:tw-outline-primary hover:tw-outline-2',
+        disabled && 'tw-cursor-default tw-opacity-100 !qe-text-text',
         className
       )}
       onDoubleClick={handleDoubleClick}
@@ -161,7 +161,7 @@ export const EditableMarkdownField: React.FC<EditableMarkdownFieldProps> = ({
           dangerouslySetInnerHTML={{ __html: markdownToHtml(value) }}
         />
       ) : (
-        <span className="tw-text-text-muted tw-italic">{placeholder}</span>
+        <span className="qe-text-text-muted tw-italic">{placeholder}</span>
       )}
     </div>
   );

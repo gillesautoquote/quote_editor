@@ -183,8 +183,8 @@ export const BlocksContainer: React.FC<BlocksContainerProps> = ({
              dragState.dropIndex === blockIndex &&
              dragState.dropPosition === 'before' && (
               <div className="tw-w-full tw-h-1.5 tw-flex tw-items-center tw-justify-center tw-my-1 tw-opacity-100 tw-transform tw-scale-100 tw-transition-all tw-duration-200 tw-ease-out tw-pointer-events-none tw-z-10 tw-relative">
-                <div className="tw-h-1 tw-bg-primary tw-rounded tw-w-full tw-max-w-md tw-relative tw-shadow-primary-lg tw-animate-pulse-drop before:tw-content-[''] before:tw-absolute before:tw-top-[-4px] before:tw-left-[-6px] before:tw-w-3 before:tw-h-3 before:tw-bg-primary before:tw-rounded-full before:tw-shadow-primary-sm after:tw-content-[''] after:tw-absolute after:tw-top-[-4px] after:tw-right-[-6px] after:tw-w-3 after:tw-h-3 after:tw-bg-primary after:tw-rounded-full after:tw-shadow-primary-sm">
-                  <span className="tw-absolute tw-top-[-18px] tw-left-1/2 tw--translate-x-1/2 tw-bg-primary tw-text-white tw-text-[0.6rem] tw-py-[3px] tw-px-2 tw-rounded-xl tw-whitespace-nowrap tw-font-medium tw-shadow-primary-md tw-z-[11]">Insérer ici</span>
+                <div className="tw-h-1 qe-bg-primary tw-rounded tw-w-full tw-max-w-md tw-relative tw-shadow-primary-lg tw-animate-pulse-drop before:tw-content-[''] before:tw-absolute before:tw-top-[-4px] before:tw-left-[-6px] before:tw-w-3 before:tw-h-3 before:qe-bg-primary before:tw-rounded-full before:tw-shadow-primary-sm after:tw-content-[''] after:tw-absolute after:tw-top-[-4px] after:tw-right-[-6px] after:tw-w-3 after:tw-h-3 after:qe-bg-primary after:tw-rounded-full after:tw-shadow-primary-sm">
+                  <span className="tw-absolute tw-top-[-18px] tw-left-1/2 tw--translate-x-1/2 qe-bg-primary tw-text-white tw-text-[0.6rem] tw-py-[3px] tw-px-2 tw-rounded-xl tw-whitespace-nowrap tw-font-medium tw-shadow-primary-md tw-z-[11]">Insérer ici</span>
                 </div>
               </div>
             )}
@@ -212,8 +212,8 @@ export const BlocksContainer: React.FC<BlocksContainerProps> = ({
              dragState.dropIndex === blockIndex &&
              dragState.dropPosition === 'after' && (
               <div className="tw-w-full tw-h-1.5 tw-flex tw-items-center tw-justify-center tw-my-1 tw-opacity-100 tw-transform tw-scale-100 tw-transition-all tw-duration-200 tw-ease-out tw-pointer-events-none tw-z-10 tw-relative">
-                <div className="tw-h-1 tw-bg-primary tw-rounded tw-w-full tw-max-w-md tw-relative tw-shadow-primary-lg tw-animate-pulse-drop before:tw-content-[''] before:tw-absolute before:tw-top-[-4px] before:tw-left-[-6px] before:tw-w-3 before:tw-h-3 before:tw-bg-primary before:tw-rounded-full before:tw-shadow-primary-sm after:tw-content-[''] after:tw-absolute after:tw-top-[-4px] after:tw-right-[-6px] after:tw-w-3 after:tw-h-3 after:tw-bg-primary after:tw-rounded-full after:tw-shadow-primary-sm">
-                  <span className="tw-absolute tw-top-[-18px] tw-left-1/2 tw--translate-x-1/2 tw-bg-primary tw-text-white tw-text-[0.6rem] tw-py-[3px] tw-px-2 tw-rounded-xl tw-whitespace-nowrap tw-font-medium tw-shadow-primary-md tw-z-[11]">Insérer ici</span>
+                <div className="tw-h-1 qe-bg-primary tw-rounded tw-w-full tw-max-w-md tw-relative tw-shadow-primary-lg tw-animate-pulse-drop before:tw-content-[''] before:tw-absolute before:tw-top-[-4px] before:tw-left-[-6px] before:tw-w-3 before:tw-h-3 before:qe-bg-primary before:tw-rounded-full before:tw-shadow-primary-sm after:tw-content-[''] after:tw-absolute after:tw-top-[-4px] after:tw-right-[-6px] after:tw-w-3 after:tw-h-3 after:qe-bg-primary after:tw-rounded-full after:tw-shadow-primary-sm">
+                  <span className="tw-absolute tw-top-[-18px] tw-left-1/2 tw--translate-x-1/2 qe-bg-primary tw-text-white tw-text-[0.6rem] tw-py-[3px] tw-px-2 tw-rounded-xl tw-whitespace-nowrap tw-font-medium tw-shadow-primary-md tw-z-[11]">Insérer ici</span>
                 </div>
               </div>
             )}
@@ -225,8 +225,8 @@ export const BlocksContainer: React.FC<BlocksContainerProps> = ({
          dragState.dropIndex === optionBlocks.length - 1 &&
          dragState.dropPosition === 'after' && (
           <div className="tw-w-full tw-h-1.5 tw-flex tw-items-center tw-justify-center tw-my-1 tw-opacity-100 tw-transform tw-scale-100 tw-transition-all tw-duration-200 tw-ease-out tw-pointer-events-none tw-z-10 tw-relative">
-            <div className="tw-h-1 tw-bg-primary tw-rounded tw-w-full tw-max-w-md tw-relative tw-shadow-primary-lg tw-animate-pulse-drop before:tw-content-[''] before:tw-absolute before:tw-top-[-4px] before:tw-left-[-6px] before:tw-w-3 before:tw-h-3 before:tw-bg-primary before:tw-rounded-full before:tw-shadow-primary-sm after:tw-content-[''] after:tw-absolute after:tw-top-[-4px] after:tw-right-[-6px] after:tw-w-3 after:tw-h-3 after:tw-bg-primary after:tw-rounded-full after:tw-shadow-primary-sm">
-              <span className="tw-absolute tw-top-[-18px] tw-left-1/2 tw--translate-x-1/2 tw-bg-primary tw-text-white tw-text-[0.6rem] tw-py-[3px] tw-px-2 tw-rounded-xl tw-whitespace-nowrap tw-font-medium tw-shadow-primary-md tw-z-[11]">Insérer ici</span>
+            <div className="tw-h-1 qe-bg-primary tw-rounded tw-w-full tw-max-w-md tw-relative tw-shadow-primary-lg tw-animate-pulse-drop before:tw-content-[''] before:tw-absolute before:tw-top-[-4px] before:tw-left-[-6px] before:tw-w-3 before:tw-h-3 before:qe-bg-primary before:tw-rounded-full before:tw-shadow-primary-sm after:tw-content-[''] after:tw-absolute after:tw-top-[-4px] after:tw-right-[-6px] after:tw-w-3 after:tw-h-3 after:qe-bg-primary after:tw-rounded-full after:tw-shadow-primary-sm">
+              <span className="tw-absolute tw-top-[-18px] tw-left-1/2 tw--translate-x-1/2 qe-bg-primary tw-text-white tw-text-[0.6rem] tw-py-[3px] tw-px-2 tw-rounded-xl tw-whitespace-nowrap tw-font-medium tw-shadow-primary-md tw-z-[11]">Insérer ici</span>
             </div>
           </div>
         )}

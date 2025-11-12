@@ -18,7 +18,7 @@ export const SignatureSection: React.FC<SignatureSectionProps> = ({
   return (
     <div className="tw-mt-8 page-break-inside-avoid print:tw-mt-4" data-component="signature-section">
       {clientSignature.tagline && clientSignature.tagline.trim() && (
-        <div className="tw-leading-[1.4] tw-text-[0.9rem] tw-text-text tw-mb-4">
+        <div className="tw-leading-[1.4] tw-text-[0.9rem] qe-text-text tw-mb-4">
           <EditableField
             value={clientSignature.tagline}
             onSave={(value) => onUpdateClientSignature({ ...clientSignature, tagline: value })}
@@ -34,7 +34,7 @@ export const SignatureSection: React.FC<SignatureSectionProps> = ({
       {((clientSignature.title && clientSignature.title.trim()) || (clientSignature.fullName && clientSignature.fullName.trim())) && (
         <div className="tw-text-right tw-flex tw-flex-col tw-gap-[0.2rem] tw-self-end tw-ml-auto max-md:tw-text-center max-md:tw-ml-0 max-md:tw-self-center">
           {clientSignature.title && clientSignature.title.trim() && (
-            <div className="tw-text-[0.85rem] tw-font-normal tw-text-primary">
+            <div className="tw-text-[0.85rem] tw-font-normal qe-text-primary">
               <EditableField
                 value={clientSignature.title.endsWith(',') ? clientSignature.title : `${clientSignature.title},`}
                 onSave={(value) => onUpdateClientSignature({ ...clientSignature, title: value.replace(',', '') })}
@@ -46,7 +46,7 @@ export const SignatureSection: React.FC<SignatureSectionProps> = ({
             </div>
           )}
           {clientSignature.fullName && clientSignature.fullName.trim() && (
-            <div className="tw-text-[0.85rem] tw-font-medium tw-text-text">
+            <div className="tw-text-[0.85rem] tw-font-medium qe-text-text">
               <EditableField
                 value={clientSignature.fullName}
                 onSave={(value) => onUpdateClientSignature({ ...clientSignature, fullName: value })}

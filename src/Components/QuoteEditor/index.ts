@@ -1,5 +1,6 @@
 // Import CSS unifié avec isolation complète
 import './styles/quote-editor-scoped.css';
+import './styles/quote-editor-utilities.css';
 
 // Exports principaux du composant QuoteEditor
 export { QuoteEditor } from './QuoteEditor';

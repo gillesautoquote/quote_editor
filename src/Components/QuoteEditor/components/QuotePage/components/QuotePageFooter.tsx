@@ -22,10 +22,10 @@ export const QuotePageFooter: React.FC<QuotePageFooterProps> = ({
 }) => {
   return (
     <div
-      className="tw-mt-auto tw-pt-4 tw-border-t tw-border-primary page-break-inside-avoid print:tw-pt-2"
+      className="tw-mt-auto tw-pt-4 tw-border-t qe-border-primary page-break-inside-avoid print:tw-pt-2"
       data-component="quote-footer"
     >
-      <div className="tw-text-center tw-mb-2 tw-text-[0.7rem] tw-text-text-muted tw-italic print:tw-text-[0.6rem]">
+      <div className="tw-text-center tw-mb-2 tw-text-[0.7rem] qe-text-text-muted tw-italic print:tw-text-[0.6rem]">
         <EditableField
           value={footer.confidentialNotice || ''}
           onSave={(value) => onFieldUpdate('footer.confidentialNotice', value)}
@@ -33,7 +33,7 @@ export const QuotePageFooter: React.FC<QuotePageFooterProps> = ({
           printMode={printMode}
         />
       </div>
-      <div className="tw-flex tw-justify-between tw-gap-4 tw-text-[0.7rem] tw-leading-[1.3] tw-text-text max-md:tw-flex-col max-md:tw-gap-2 print:tw-text-[0.6rem] print:tw-gap-2">
+      <div className="tw-flex tw-justify-between tw-gap-4 tw-text-[0.7rem] tw-leading-[1.3] qe-text-text max-md:tw-flex-col max-md:tw-gap-2 print:tw-text-[0.6rem] print:tw-gap-2">
         {/* Colonne gauche : Infos légales */}
         <div className="tw-flex-1 tw-min-w-0">
           {footer.rcs && footer.rcs.trim() && (
@@ -83,7 +83,7 @@ export const QuotePageFooter: React.FC<QuotePageFooterProps> = ({
               printMode={printMode}
                     />
                   </span>
-                  {((footer.phone && footer.phone.trim()) || (footer.website && footer.website.trim())) && <span className="tw-mx-[0.3rem] tw-text-text-muted">•</span>}
+                  {((footer.phone && footer.phone.trim()) || (footer.website && footer.website.trim())) && <span className="tw-mx-[0.3rem] qe-text-text-muted">•</span>}
                 </>
               )}
               {footer.phone && footer.phone.trim() && (
@@ -94,7 +94,7 @@ export const QuotePageFooter: React.FC<QuotePageFooterProps> = ({
                     disabled={readonly}
               printMode={printMode}
                   />
-                  {footer.website && footer.website.trim() && <span className="tw-mx-[0.3rem] tw-text-text-muted">•</span>}
+                  {footer.website && footer.website.trim() && <span className="tw-mx-[0.3rem] qe-text-text-muted">•</span>}
                 </>
               )}
               {footer.website && footer.website.trim() && (

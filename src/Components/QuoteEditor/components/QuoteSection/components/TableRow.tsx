@@ -51,13 +51,13 @@ export const TableRow: React.FC<TableRowProps> = ({
 }) => {
   const getCellClassName = (columnDef: ColumnDefinition, printMode: boolean): string => {
     return clsx(
-      'tw-p-2 tw-border-b tw-border-border',
+      'tw-p-2 tw-border-b qe-border-border',
       printMode && 'print:tw-p-1.5',
       columnDef.align === 'center' && 'tw-text-center',
       columnDef.align === 'right' && 'tw-text-right',
-      columnDef.style === 'calculated' && 'tw-bg-surface-gray-50 tw-font-medium',
-      columnDef.style === 'primary' && 'tw-text-primary tw-font-medium',
-      columnDef.style === 'danger' && 'tw-text-danger tw-font-medium'
+      columnDef.style === 'calculated' && 'qe-bg-surface-gray-50 tw-font-medium',
+      columnDef.style === 'primary' && 'qe-text-primary tw-font-medium',
+      columnDef.style === 'danger' && 'qe-text-danger tw-font-medium'
     );
   };
 
@@ -80,7 +80,7 @@ export const TableRow: React.FC<TableRowProps> = ({
   return (
     <tr
       className={clsx(
-        'quoteLine tw-bg-white tw-transition-all tw-duration-200 hover:tw-bg-surface-gray-50',
+        'quoteLine tw-bg-white tw-transition-all tw-duration-200 hover:qe-bg-surface-gray-50',
         isDragging && 'dragging tw-opacity-50',
         printMode && 'print:hover:tw-bg-white'
       )}
@@ -93,8 +93,8 @@ export const TableRow: React.FC<TableRowProps> = ({
       onDrop={(e) => onDrop(e, lineIndex)}
     >
       {!readonly && !printMode && (
-        <td className="tw-w-8 tw-p-2 tw-border-b tw-border-border tw-text-center print:tw-hidden">
-          <div className="tw-cursor-grab tw-text-text-muted hover:tw-text-primary active:tw-cursor-grabbing">
+        <td className="tw-w-8 tw-p-2 tw-border-b qe-border-border tw-text-center print:tw-hidden">
+          <div className="tw-cursor-grab qe-text-text-muted hover:qe-text-primary active:tw-cursor-grabbing">
             <GripVertical size={12} />
           </div>
         </td>
@@ -160,11 +160,11 @@ export const TableRow: React.FC<TableRowProps> = ({
       </td>
 
       {!readonly && !printMode && (
-        <td className="tw-w-8 tw-p-2 tw-border-b tw-border-border tw-text-center print:tw-hidden">
+        <td className="tw-w-8 tw-p-2 tw-border-b qe-border-border tw-text-center print:tw-hidden">
           <button
             type="button"
             onClick={() => onRemoveLine(lineIndex)}
-            className="tw-inline-flex tw-items-center tw-justify-center tw-w-5 tw-h-5 tw-p-0 tw-text-danger tw-transition-all tw-duration-200 hover:tw-text-danger-dark hover:tw-scale-110"
+            className="tw-inline-flex tw-items-center tw-justify-center tw-w-5 tw-h-5 tw-p-0 qe-text-danger tw-transition-all tw-duration-200 hover:qe-text-danger-dark hover:tw-scale-110"
             title="Supprimer cette ligne"
           >
             <Trash2 size={12} />

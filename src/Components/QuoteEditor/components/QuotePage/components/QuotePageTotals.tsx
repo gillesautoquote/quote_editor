@@ -28,14 +28,14 @@ export const QuotePageTotals: React.FC<QuotePageTotalsProps> = ({
       className="tw-mb-4 tw-flex tw-justify-end page-break-inside-avoid print-keep-together"
       data-component="totals-table"
     >
-      <div className="tw-border tw-border-border tw-rounded-lg tw-overflow-hidden tw-bg-white tw-shadow-sm print:tw-shadow-none print:tw-rounded-none">
-        <table className="tw-border-collapse tw-text-[0.85rem] tw-min-w-[280px] tw-text-text print-color-adjust print:tw-text-xs">
+      <div className="tw-border qe-border-border tw-rounded-lg tw-overflow-hidden tw-bg-white tw-shadow-sm print:tw-shadow-none print:tw-rounded-none">
+        <table className="tw-border-collapse tw-text-[0.85rem] tw-min-w-[280px] qe-text-text print-color-adjust print:tw-text-xs">
           <tbody>
             <tr className="tw-bg-white">
-              <td className="tw-p-2 tw-border-b tw-border-border print:tw-p-1.5">
+              <td className="tw-p-2 tw-border-b qe-border-border print:tw-p-1.5">
                 <strong>Total HT</strong>
               </td>
-              <td className="tw-p-2 tw-border-b tw-border-border tw-text-right print:tw-p-1.5">
+              <td className="tw-p-2 tw-border-b qe-border-border tw-text-right print:tw-p-1.5">
                 <strong>{totals.ht.toFixed(2)} €</strong>
               </td>
             </tr>
@@ -43,10 +43,10 @@ export const QuotePageTotals: React.FC<QuotePageTotalsProps> = ({
               <>
                 {totals.vatBreakdown.map((vat, index) => (
                   <tr key={index} className="tw-bg-white">
-                    <td className="tw-p-2 tw-border-b tw-border-border tw-pl-8 print:tw-p-1.5 print:tw-pl-6">
+                    <td className="tw-p-2 tw-border-b qe-border-border tw-pl-8 print:tw-p-1.5 print:tw-pl-6">
                       dont TVA à {vat.rate} %
                     </td>
-                    <td className="tw-p-2 tw-border-b tw-border-border tw-text-right print:tw-p-1.5">
+                    <td className="tw-p-2 tw-border-b qe-border-border tw-text-right print:tw-p-1.5">
                       {vat.amount.toFixed(2)} €
                     </td>
                   </tr>
@@ -54,10 +54,10 @@ export const QuotePageTotals: React.FC<QuotePageTotalsProps> = ({
               </>
             )}
             <tr className="tw-bg-white">
-              <td className="tw-p-2 tw-border-b tw-border-border print:tw-p-1.5">
+              <td className="tw-p-2 tw-border-b qe-border-border print:tw-p-1.5">
                 <strong>Total TVA</strong>
               </td>
-              <td className="tw-p-2 tw-border-b tw-border-border tw-text-right print:tw-p-1.5">
+              <td className="tw-p-2 tw-border-b qe-border-border tw-text-right print:tw-p-1.5">
                 <strong>{totals.tva.toFixed(2)} €</strong>
               </td>
             </tr>

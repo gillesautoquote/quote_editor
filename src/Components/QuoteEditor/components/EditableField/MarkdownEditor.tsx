@@ -53,7 +53,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
       <div
         className={clsx(
           'print:tw-border-none print:tw-p-0 print:tw-bg-transparent print:tw-outline-none',
-          'tw-text-text tw-w-full',
+          'qe-text-text tw-w-full',
           className
         )}
       >
@@ -63,7 +63,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
             dangerouslySetInnerHTML={{ __html: markdownToHtml(value) }}
           />
         ) : (
-          <span className="tw-text-text-muted">{placeholder}</span>
+          <span className="qe-text-text-muted">{placeholder}</span>
         )}
       </div>
     );
@@ -196,7 +196,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
       <div
         className={clsx(
           'tw-relative tw-rounded tw-transition-all tw-duration-200 tw-ease-out',
-          'tw-border tw-border-primary tw-bg-white',
+          'tw-border qe-border-primary tw-bg-white',
           'tw-w-full tw-max-w-full tw-block',
           className
         )}
@@ -257,7 +257,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
           className={clsx(
             'tw-border-none tw-bg-transparent tw-p-3 tw-font-inherit tw-text-inherit',
             'tw-outline-none tw-resize-none tw-leading-relaxed tw-box-border tw-w-full tw-max-w-full',
-            'placeholder:tw-text-text-muted placeholder:tw-text-sm',
+            'placeholder:qe-text-text-muted placeholder:tw-text-sm',
             'tw-min-h-[100px] tw-text-sm'
           )}
           placeholder={placeholder}
@@ -271,7 +271,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
             e.stopPropagation();
           }}
         />
-        <div className="tw-flex tw-justify-between tw-items-center tw-text-xs tw-text-text-muted tw-px-3 tw-py-2 tw-border-t tw-border-gray-200 tw-bg-gray-50">
+        <div className="tw-flex tw-justify-between tw-items-center tw-text-xs qe-text-text-muted tw-px-3 tw-py-2 tw-border-t tw-border-gray-200 tw-bg-gray-50">
           <span>Ctrl+Entrée pour sauvegarder, Échap pour annuler</span>
           <div className="tw-flex tw-gap-2">
             <button
@@ -290,7 +290,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
                 e.preventDefault();
                 handleSave();
               }}
-              className="tw-px-2 tw-py-1 tw-rounded tw-bg-primary tw-text-white hover:tw-bg-primary-dark tw-transition-colors"
+              className="tw-px-2 tw-py-1 tw-rounded qe-bg-primary tw-text-white hover:qe-bg-primary-dark tw-transition-colors"
             >
               Sauvegarder
             </button>
@@ -303,11 +303,11 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   return (
     <div
       className={clsx(
-        'tw-relative tw-rounded tw-min-h-[1.2em] tw-text-text tw-w-full',
+        'tw-relative tw-rounded tw-min-h-[1.2em] qe-text-text tw-w-full',
         'tw-border tw-border-transparent',
         'tw-transition-colors tw-duration-150 tw-ease-in-out',
-        !disabled && 'tw-cursor-pointer hover:tw-bg-primary/5 hover:tw-border-primary',
-        disabled && 'tw-cursor-default tw-opacity-100 !tw-text-text',
+        !disabled && 'tw-cursor-pointer hover:qe-bg-primary/5 hover:qe-border-primary',
+        disabled && 'tw-cursor-default tw-opacity-100 !qe-text-text',
         className
       )}
       onDoubleClick={handleDoubleClick}
@@ -319,7 +319,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
           dangerouslySetInnerHTML={{ __html: markdownToHtml(value) }}
         />
       ) : (
-        <span className="tw-text-text-muted tw-italic">{placeholder}</span>
+        <span className="qe-text-text-muted tw-italic">{placeholder}</span>
       )}
     </div>
   );

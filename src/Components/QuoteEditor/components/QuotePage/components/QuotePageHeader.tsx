@@ -38,7 +38,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
           />
         )}
         <div className="tw-flex-1">
-          <div className="tw-text-[1.1rem] tw-font-bold tw-mb-[0.2rem] tw-leading-[1.1] [&_.tw-text-text]:!tw-text-[inherit]" style={{ color: company.mainColor || '#0066cc' }}>
+          <div className="tw-text-[1.1rem] tw-font-bold tw-mb-[0.2rem] tw-leading-[1.1] [&_.qe-text-text]:!tw-text-[inherit]" style={{ color: company.mainColor || '#0066cc' }}>
             <EditableField
               value={company.name}
               onSave={(value) => onFieldUpdate('company.name', value)}
@@ -46,7 +46,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
               printMode={printMode}
             />
           </div>
-          <div className="tw-text-[0.8rem] tw-text-text tw-leading-[1.3] [&_.editableField]:tw-p-[0.1rem_0.15rem] [&_.editableField]:tw--m-[0.1rem] [&_.editableField.editing]:tw-p-[0.1rem_0.15rem] [&_.editableField.editing]:tw--m-[0.1rem] [&_.editInput]:tw-p-[0.1rem_0.15rem] [&_.editInput]:tw-text-[inherit]">
+          <div className="tw-text-[0.8rem] qe-text-text tw-leading-[1.3] [&_.editableField]:tw-p-[0.1rem_0.15rem] [&_.editableField]:tw--m-[0.1rem] [&_.editableField.editing]:tw-p-[0.1rem_0.15rem] [&_.editableField.editing]:tw--m-[0.1rem] [&_.editInput]:tw-p-[0.1rem_0.15rem] [&_.editInput]:tw-text-[inherit]">
             <div>
               <EditableField
                 value={company.address}
@@ -90,7 +90,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
       </div>
 
       <div className="tw-text-right tw-min-w-[200px] max-md:tw-text-left">
-        <div className="tw-text-base tw-font-bold tw-mb-[0.2rem] tw-leading-[1.1] tw-text-text">
+        <div className="tw-text-base tw-font-bold tw-mb-[0.2rem] tw-leading-[1.1] qe-text-text">
           Devis N° <EditableField
             value={quote.number}
             onSave={(value) => onFieldUpdate('quote.number', value)}
@@ -98,7 +98,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
             printMode={printMode}
           />
         </div>
-        <div className="tw-text-[0.85rem] tw-text-text tw-mb-[0.4rem] tw-leading-[1.1]">
+        <div className="tw-text-[0.85rem] qe-text-text tw-mb-[0.4rem] tw-leading-[1.1]">
           Version: <EditableField
             value={quote.version}
             onSave={(value) => onFieldUpdate('quote.version', value)}
@@ -106,7 +106,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
             printMode={printMode}
           />
         </div>
-        <div className="tw-text-xs tw-leading-[1.2] tw-text-text">
+        <div className="tw-text-xs tw-leading-[1.2] qe-text-text">
           {/* Afficher seulement si la date existe */}
           {quote.issueDate && quote.issueDate.trim() && (
             <div className="tw-mb-[0.1rem] last:tw-mb-0">

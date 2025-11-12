@@ -392,7 +392,7 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
     return (
       <div
         data-quote-editor-scope
-        className={clsx('tw-font-sans tw-bg-surface-0 tw-min-h-screen', theme === 'dark' && 'tw-bg-slate-900', className)}
+        className={clsx('tw-font-sans qe-bg-surface-0 tw-min-h-screen', theme === 'dark' && 'tw-bg-slate-900', className)}
         data-theme={theme}
         role="alert"
         aria-live="assertive"
@@ -411,7 +411,7 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
     return (
       <div
         data-quote-editor-scope
-        className={clsx('tw-font-sans tw-bg-surface-0 tw-min-h-screen', theme === 'dark' && 'tw-bg-slate-900', className)}
+        className={clsx('tw-font-sans qe-bg-surface-0 tw-min-h-screen', theme === 'dark' && 'tw-bg-slate-900', className)}
         data-theme={theme}
         aria-label={t('common.loading')}
       >
@@ -433,7 +433,7 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
   return (
     <div
       data-quote-editor-scope
-      className={clsx('tw-font-sans tw-bg-surface-0 tw-min-h-screen', theme === 'dark' && 'tw-bg-slate-900', className)}
+      className={clsx('tw-font-sans qe-bg-surface-0 tw-min-h-screen', theme === 'dark' && 'tw-bg-slate-900', className)}
       data-theme={theme}
     >
       {showToolbar && !readonly && (

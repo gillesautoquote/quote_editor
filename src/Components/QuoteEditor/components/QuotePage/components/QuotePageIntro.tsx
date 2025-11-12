@@ -28,7 +28,7 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
 }) => {
   const sectionsList = generatePDFSectionsList(data, visibleTabIds);
   return (
-    <div className="tw-mb-4 tw-mt-8 tw-text-[0.9rem] tw-leading-[1.4] tw-text-text">
+    <div className="tw-mb-4 tw-mt-8 tw-text-[0.9rem] tw-leading-[1.4] qe-text-text">
       {/* Ligne ville et date - afficher seulement si au moins un existe */}
       {((quote.executionCity && quote.executionCity.trim()) || (quote.issueDate && quote.issueDate.trim())) && (
         <div className="tw-mb-4">

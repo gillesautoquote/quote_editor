@@ -218,8 +218,8 @@ export const InstructionsFrame: React.FC<InstructionsFrameProps> = ({
       </div>
 
       {/* 4. Encart de signature */}
-      <div className="tw-w-full tw-border-2 tw-border-dashed tw-border-primary/30 tw-rounded tw-bg-primary/5">
-        <div className="tw-h-32 tw-flex tw-items-center tw-justify-center tw-text-primary/40 tw-text-sm tw-font-medium"></div>
+      <div className="tw-w-full tw-border-2 tw-border-dashed qe-border-primary/30 tw-rounded qe-bg-primary/5">
+        <div className="tw-h-32 tw-flex tw-items-center tw-justify-center qe-text-primary/40 tw-text-sm tw-font-medium"></div>
       </div>
     </div>
   );

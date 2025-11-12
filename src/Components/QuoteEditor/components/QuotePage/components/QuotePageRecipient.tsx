@@ -17,12 +17,12 @@ export const QuotePageRecipient: React.FC<QuotePageRecipientProps> = ({
 }) => {
   return (
     <div className="tw-mb-4 tw-flex tw-justify-end max-md:tw-justify-start">
-      <div className="tw-bg-surface-indigo-50 tw-border tw-border-border-light tw-rounded tw-p-3 tw-inline-block tw-min-w-[300px] tw-max-w-[400px]">
-        <div className="tw-text-[0.65rem] tw-font-bold tw-text-primary tw-mb-2 tw-tracking-wider tw-uppercase">DESTINATAIRE</div>
-        <div className="tw-text-[0.85rem] tw-leading-[1.3] tw-text-text">
+      <div className="qe-bg-surface-indigo-50 tw-border qe-border-border-light tw-rounded tw-p-3 tw-inline-block tw-min-w-[300px] tw-max-w-[400px]">
+        <div className="tw-text-[0.65rem] tw-font-bold qe-text-primary tw-mb-2 tw-tracking-wider tw-uppercase">DESTINATAIRE</div>
+        <div className="tw-text-[0.85rem] tw-leading-[1.3] qe-text-text">
           {/* Organisation - afficher seulement si elle existe */}
           {recipient.organization && recipient.organization.trim() && (
-            <div className="tw-font-semibold tw-mb-[0.15rem] tw-text-text">
+            <div className="tw-font-semibold tw-mb-[0.15rem] qe-text-text">
               <EditableField
                 value={recipient.organization}
                 onSave={(value) => onFieldUpdate('recipient.organization', value)}
@@ -35,7 +35,7 @@ export const QuotePageRecipient: React.FC<QuotePageRecipientProps> = ({
 
           {/* Nom complet - afficher seulement s'il existe */}
           {recipient.fullName && recipient.fullName.trim() && (
-            <div className="tw-font-medium tw-mb-[0.15rem] tw-text-text">
+            <div className="tw-font-medium tw-mb-[0.15rem] qe-text-text">
               <EditableField
                 value={recipient.fullName}
                 onSave={(value) => onFieldUpdate('recipient.fullName', value)}
@@ -48,7 +48,7 @@ export const QuotePageRecipient: React.FC<QuotePageRecipientProps> = ({
 
           {/* Adresse - afficher seulement si elle existe */}
           {recipient.address && recipient.address.trim() && (
-            <div className="tw-mb-[0.15rem] tw-text-text">
+            <div className="tw-mb-[0.15rem] qe-text-text">
               <EditableField
                 value={recipient.address}
                 onSave={(value) => onFieldUpdate('recipient.address', value)}
@@ -61,7 +61,7 @@ export const QuotePageRecipient: React.FC<QuotePageRecipientProps> = ({
 
           {/* Code postal + Ville - afficher seulement si au moins un existe */}
           {((recipient.postalCode && recipient.postalCode.trim()) || (recipient.city && recipient.city.trim())) && (
-            <div className="tw-mb-[0.15rem] tw-text-text">
+            <div className="tw-mb-[0.15rem] qe-text-text">
               {recipient.postalCode && recipient.postalCode.trim() && (
                 <EditableField
                   value={recipient.postalCode}
@@ -86,7 +86,7 @@ export const QuotePageRecipient: React.FC<QuotePageRecipientProps> = ({
 
           {/* Téléphone et Email - afficher seulement si au moins un existe */}
           {((recipient.phone && recipient.phone.trim()) || (recipient.email && recipient.email.trim())) && (
-            <div className="tw-text-[0.8rem] tw-text-text-muted tw-mt-[0.3rem]">
+            <div className="tw-text-[0.8rem] qe-text-text-muted tw-mt-[0.3rem]">
               {recipient.phone && recipient.phone.trim() && (
                 <span>
                   <EditableField

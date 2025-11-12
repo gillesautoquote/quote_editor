@@ -125,9 +125,9 @@ export const OptionSelector: React.FC<OptionSelectorProps> = ({
         type="button"
         onClick={handleToggle}
         className={clsx(
-          'tw-inline-flex tw-items-center tw-justify-center tw-w-6 tw-h-6 tw-p-0 tw-border tw-border-primary/30 tw-rounded tw-bg-white tw-text-primary tw-cursor-pointer tw-transition-all tw-duration-200 tw-ease-out',
-          'hover:tw-bg-primary/10 hover:tw-border-primary hover:tw-scale-105',
-          isOpen && 'tw-bg-primary/10 tw-border-primary tw-scale-105',
+          'tw-inline-flex tw-items-center tw-justify-center tw-w-6 tw-h-6 tw-p-0 tw-border qe-border-primary/30 tw-rounded tw-bg-white qe-text-primary tw-cursor-pointer tw-transition-all tw-duration-200 tw-ease-out',
+          'hover:qe-bg-primary/10 hover:qe-border-primary hover:tw-scale-105',
+          isOpen && 'qe-bg-primary/10 qe-border-primary tw-scale-105',
           className
         )}
         title="Sélectionner une autre valeur"
@@ -147,14 +147,14 @@ export const OptionSelector: React.FC<OptionSelectorProps> = ({
             zIndex: 9999
           }}
         >
-          <div className="tw-bg-white tw-border tw-border-primary/30 tw-rounded-md tw-shadow-lg tw-overflow-hidden tw-max-h-[300px] tw-overflow-y-auto">
+          <div className="tw-bg-white tw-border qe-border-primary/30 tw-rounded-md tw-shadow-lg tw-overflow-hidden tw-max-h-[300px] tw-overflow-y-auto">
             <div className="tw-p-1">
               {options.map((option, index) => (
                 <button
                   key={index}
                   type="button"
                   onClick={() => handleSelect(option)}
-                  className="tw-w-full tw-flex tw-items-center tw-px-3 tw-py-2 tw-text-left tw-text-[0.75rem] tw-rounded tw-transition-all tw-duration-150 tw-cursor-pointer hover:tw-bg-primary/10 tw-text-text"
+                  className="tw-w-full tw-flex tw-items-center tw-px-3 tw-py-2 tw-text-left tw-text-[0.75rem] tw-rounded tw-transition-all tw-duration-150 tw-cursor-pointer hover:qe-bg-primary/10 qe-text-text"
                   title={option}
                 >
                   <span className="tw-flex-1 tw-truncate">{option}</span>

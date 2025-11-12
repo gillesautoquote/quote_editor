@@ -72,8 +72,8 @@ export const NoteRow: React.FC<NoteRowProps> = ({
       className={`tw-flex tw-items-center tw-gap-2 page-break-inside-avoid ${
         printMode
           ? 'tw-p-0.5 tw-bg-transparent'
-          : 'tw-p-2 tw-border tw-border-border tw-rounded tw-bg-white tw-transition-all tw-duration-200 hover:tw-bg-surface-gray-50'
-      } ${isDragging ? 'tw-opacity-40 tw-scale-95' : ''} ${isDragOver ? 'tw-border-primary tw-border-2' : ''} print:tw-border-none print:tw-p-1 print:tw-py-0.5 print:tw-bg-transparent print:tw-rounded-none`}
+          : 'tw-p-2 tw-border qe-border-border tw-rounded tw-bg-white tw-transition-all tw-duration-200 hover:qe-bg-surface-gray-50'
+      } ${isDragging ? 'tw-opacity-40 tw-scale-95' : ''} ${isDragOver ? 'qe-border-primary tw-border-2' : ''} print:tw-border-none print:tw-p-1 print:tw-py-0.5 print:tw-bg-transparent print:tw-rounded-none`}
       onDragOver={!printMode ? handleDragOverWrapper : undefined}
       onDragLeave={!printMode ? handleDragLeaveWrapper : undefined}
       onDrop={!printMode ? handleDropWrapper : undefined}
@@ -83,14 +83,14 @@ export const NoteRow: React.FC<NoteRowProps> = ({
           draggable={true}
           onDragStart={handleDragStartWrapper}
           onDragEnd={handleDragEndWrapper}
-          className="tw-cursor-grab tw-text-text-muted hover:tw-text-primary active:tw-cursor-grabbing print:tw-hidden"
+          className="tw-cursor-grab qe-text-text-muted hover:qe-text-primary active:tw-cursor-grabbing print:tw-hidden"
         >
           <GripVertical size={12} />
         </div>
       )}
 
       <div className="tw-flex tw-items-center tw-gap-2 tw-flex-1">
-        <span className="tw-text-text-muted tw-font-bold">•</span>
+        <span className="qe-text-text-muted tw-font-bold">•</span>
 
         <div className="tw-flex-1">
           <MarkdownEditor
@@ -104,9 +104,9 @@ export const NoteRow: React.FC<NoteRowProps> = ({
               note.style === 'bold' && 'tw-font-bold',
               note.style === 'italic' && 'tw-italic',
               note.style === 'heading' && (printMode ? 'tw-text-sm tw-font-semibold' : 'tw-text-base tw-font-semibold print:tw-text-sm'),
-              note.style === 'danger' && 'tw-text-danger tw-font-medium',
-              note.style === 'success' && 'tw-text-success tw-font-medium',
-              note.style === 'warning' && 'tw-text-warning tw-font-medium'
+              note.style === 'danger' && 'qe-text-danger tw-font-medium',
+              note.style === 'success' && 'qe-text-success tw-font-medium',
+              note.style === 'warning' && 'qe-text-warning tw-font-medium'
             )}
           />
         </div>
@@ -117,7 +117,7 @@ export const NoteRow: React.FC<NoteRowProps> = ({
           <button
             type="button"
             onClick={() => onRemoveRow(noteIndex)}
-            className="tw-inline-flex tw-items-center tw-justify-center tw-w-5 tw-h-5 tw-p-0 tw-text-danger tw-transition-all tw-duration-200 hover:tw-text-danger-dark hover:tw-scale-110"
+            className="tw-inline-flex tw-items-center tw-justify-center tw-w-5 tw-h-5 tw-p-0 qe-text-danger tw-transition-all tw-duration-200 hover:qe-text-danger-dark hover:tw-scale-110"
             title="Supprimer cette note"
           >
             <Trash2 size={12} />

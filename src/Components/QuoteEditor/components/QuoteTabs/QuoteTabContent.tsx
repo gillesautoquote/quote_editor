@@ -95,7 +95,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
   const otherBlocks = currentData.optionBlocks.filter(block => block.type !== 'programme-voyage');
 
   const renderPageContainer = (children: React.ReactNode, showFooter = true) => (
-    <div className="tw-w-full tw-max-w-[min(1000px,calc(100vw-2rem))] tw-bg-white tw-shadow-page tw-px-12 tw-py-8 tw-mx-auto tw-relative tw-flex tw-flex-col tw-text-text tw-min-h-auto tw-rounded-lg tw-border tw-border-black/10 md:tw-px-6 md:tw-py-6 md:tw-rounded md:tw-shadow-sm print:tw-shadow-none print:tw-m-0 print:tw-rounded-none print:tw-border-none print:tw-w-[21cm]" data-screen-a4="true">
+    <div className="tw-w-full tw-max-w-[min(1000px,calc(100vw-2rem))] tw-bg-white tw-shadow-page tw-px-12 tw-py-8 tw-mx-auto tw-relative tw-flex tw-flex-col qe-text-text tw-min-h-auto tw-rounded-lg tw-border tw-border-black/10 md:tw-px-6 md:tw-py-6 md:tw-rounded md:tw-shadow-sm print:tw-shadow-none print:tw-m-0 print:tw-rounded-none print:tw-border-none print:tw-w-[21cm]" data-screen-a4="true">
       <QuotePageHeader
         company={currentData.company}
         quote={currentData.quote}
@@ -242,7 +242,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
               value={currentData.validityNotice || ''}
               onSave={(value) => handleFieldUpdate('validityNotice', value)}
               disabled={readonly}
-              className="tw-text-sm tw-text-text-muted tw-italic"
+              className="tw-text-sm qe-text-text-muted tw-italic"
             />
           </div>
         </>
@@ -287,7 +287,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
                   };
                   onUpdateData({ ...currentData, optionBlocks: [...currentData.optionBlocks, newBlock] });
                 }}
-                className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-sm tw-font-medium tw-text-white tw-bg-primary tw-border tw-border-primary tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200 hover:tw-bg-primary-dark hover:tw-shadow-primary"
+                className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-sm tw-font-medium tw-text-white qe-bg-primary tw-border qe-border-primary tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200 hover:qe-bg-primary-dark hover:tw-shadow-primary"
                 title="Ajouter un bloc de conditions"
               >
                 + Ajouter un bloc
@@ -428,7 +428,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
               value={currentData.termsNotice || ''}
               onSave={(value) => handleFieldUpdate('termsNotice', value)}
               disabled={readonly}
-              className="tw-text-sm tw-text-text-muted tw-italic"
+              className="tw-text-sm qe-text-text-muted tw-italic"
             />
           </div>
         </>,
