@@ -298,7 +298,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
                   };
                   onUpdateData({ ...currentData, optionBlocks: [...currentData.optionBlocks, newBlock] });
                 }}
-                className="tw-inline-flex tw-items-center tw-gap-1 tw-px-2 tw-py-1 tw-text-xs tw-font-medium qe-text-white qe-bg-primary tw-border qe-border-primary tw-rounded-sm tw-cursor-pointer tw-transition-all tw-duration-200 tw-whitespace-nowrap hover:tw-opacity-90 hover:tw-shadow-sm"
+                className="tw-inline-flex tw-items-center tw-gap-1 tw-px-1.5 tw-py-0.5 tw-text-xs tw-font-medium qe-text-white qe-bg-primary tw-border qe-border-primary tw-rounded-sm tw-cursor-pointer tw-transition-all tw-duration-200 tw-whitespace-nowrap hover:tw-opacity-90 hover:tw-shadow-sm"
                 title="Ajouter un bloc de conditions"
               >
                 + Ajouter un bloc
@@ -334,7 +334,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
                     };
                     onUpdateData({ ...currentData, optionBlocks: [...currentData.optionBlocks, includedBlock] });
                   }}
-                  className="tw-inline-flex tw-items-center tw-gap-1 tw-px-2 tw-py-1 tw-text-xs tw-font-medium qe-text-white qe-bg-success tw-border qe-border-success tw-rounded-sm tw-cursor-pointer tw-transition-all tw-duration-200 tw-whitespace-nowrap hover:tw-opacity-90 hover:tw-shadow-sm"
+                  className="tw-inline-flex tw-items-center tw-gap-1 tw-px-1.5 tw-py-0.5 tw-text-xs tw-font-medium qe-text-white qe-bg-success tw-border qe-border-success tw-rounded-sm tw-cursor-pointer tw-transition-all tw-duration-200 tw-whitespace-nowrap hover:tw-opacity-90 hover:tw-shadow-sm"
                   title="Ajouter le bloc 'Ces tarifs comprennent'"
                 >
                   + Ces tarifs comprennent
@@ -371,7 +371,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
                     };
                     onUpdateData({ ...currentData, optionBlocks: [...currentData.optionBlocks, excludedBlock] });
                   }}
-                  className="tw-inline-flex tw-items-center tw-gap-1 tw-px-2 tw-py-1 tw-text-xs tw-font-medium qe-text-white qe-bg-danger tw-border qe-border-danger tw-rounded-sm tw-cursor-pointer tw-transition-all tw-duration-200 tw-whitespace-nowrap hover:tw-opacity-90 hover:tw-shadow-sm"
+                  className="tw-inline-flex tw-items-center tw-gap-1 tw-px-1.5 tw-py-0.5 tw-text-xs tw-font-medium qe-text-white qe-bg-danger tw-border qe-border-danger tw-rounded-sm tw-cursor-pointer tw-transition-all tw-duration-200 tw-whitespace-nowrap hover:tw-opacity-90 hover:tw-shadow-sm"
                   title="Ajouter le bloc 'Ces tarifs ne comprennent pas'"
                 >
                   + Ces tarifs ne comprennent pas
