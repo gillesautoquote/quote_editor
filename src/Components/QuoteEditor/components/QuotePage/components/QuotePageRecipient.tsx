@@ -17,15 +17,10 @@ export const QuotePageRecipient: React.FC<QuotePageRecipientProps> = ({
   printMode = false,
   company
 }) => {
-  const mainColor = company?.mainColor || '#0066cc';
-
   return (
     <div className="tw-mb-4 tw-flex tw-justify-end max-md:tw-justify-start">
       <div className="qe-bg-surface-indigo-50 tw-border qe-border-border-light tw-rounded-2xl tw-p-3 tw-inline-block tw-min-w-[300px] tw-max-w-[400px]">
-        <div
-          className="tw-text-[0.65rem] tw-font-bold tw-mb-2 tw-tracking-wider tw-uppercase"
-          style={{ color: mainColor }}
-        >
+        <div className="tw-text-[0.65rem] tw-font-bold tw-mb-2 tw-tracking-wider tw-uppercase qe-text-primary">
           DESTINATAIRE
         </div>
         <div className="tw-text-[0.85rem] tw-leading-[1.3] qe-text-text">
