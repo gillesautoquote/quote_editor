@@ -431,7 +431,8 @@ export const PDFOptionBlocks: React.FC<PDFOptionBlocksProps> = ({
                   top: 12,
                   bottom: 0,
                   width: 2,
-                  backgroundColor: `${blockColor}50`
+                  backgroundColor: blockColor,
+                  opacity: 0.5
                 }} />
               )}
               {/* Liste des étapes */}

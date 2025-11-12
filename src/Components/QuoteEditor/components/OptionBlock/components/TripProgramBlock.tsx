@@ -185,7 +185,11 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
                       {/* Ligne verticale continue derrière les icônes pour montrer le trajet */}
                       <div
                         className="tw-absolute tw-left-4 tw-top-0 tw-bottom-0 tw-w-0.5 print:tw-left-2 print:tw-w-[2px]"
-                        style={{ backgroundColor: `${blockColor}50` }}
+                        style={{
+                          backgroundColor: blockColor,
+                          opacity: 0.5,
+                          zIndex: 0
+                        }}
                       />
 
                       <div className="tw-space-y-4 print:tw-space-y-2">
@@ -200,7 +204,8 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
                           className="tw-absolute tw-left-0 tw-top-1 tw-w-8 tw-h-8 tw-rounded-full tw-flex tw-items-center tw-justify-center tw-shadow-sm print:tw-w-6 print:tw-h-6 print:tw-top-0 print:tw-left-[-4px]"
                           style={{
                             backgroundColor: blockColor,
-                            color: 'white'
+                            color: 'white',
+                            zIndex: 1
                           }}
                         >
                           <Clock size={printMode ? 12 : 14} />
