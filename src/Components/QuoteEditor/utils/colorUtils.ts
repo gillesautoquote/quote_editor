@@ -62,8 +62,26 @@ export const getContrastColor = (backgroundColor: string): 'white' | 'black' => 
 export const getLightVariant = (hex: string, opacity: number = 0.1): string => {
   const rgb = hexToRgb(hex);
   if (!rgb) return `rgba(0, 102, 204, ${opacity})`; // Fallback
-  
+
   return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${opacity})`;
+};
+
+/**
+ * Génère une version éclaircie d'une couleur (mélange avec du blanc)
+ * @param hex - Couleur hexadécimale
+ * @param amount - Pourcentage de blanc à ajouter (0-1, 0.9 = très clair)
+ * @returns Couleur hexadécimale éclaircie
+ */
+export const getLighterColor = (hex: string, amount: number = 0.9): string => {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return '#e6f2ff'; // Fallback bleu clair
+
+  // Mélanger avec du blanc
+  const r = Math.round(rgb.r + (255 - rgb.r) * amount);
+  const g = Math.round(rgb.g + (255 - rgb.g) * amount);
+  const b = Math.round(rgb.b + (255 - rgb.b) * amount);
+
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
 };
 
 /**

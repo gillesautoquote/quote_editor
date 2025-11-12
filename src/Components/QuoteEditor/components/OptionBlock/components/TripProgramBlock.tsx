@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { MapPin, Clock, Filter, Trash2, Plus } from 'lucide-react';
 import type { TripProgramStep, TripProgramFilters } from '../../../QuoteEditor.types';
 import { EditableField } from '../../EditableField/EditableField';
-import { getLightVariant } from '../../../utils/colorUtils';
+import { getLightVariant, getLighterColor } from '../../../utils/colorUtils';
 
 interface TripProgramBlockProps {
   steps: TripProgramStep[];
@@ -170,14 +170,15 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
                 </div>
               )}
               {dateGroups.map((dateGroup, dateIndex) => {
+                // Toujours utiliser companyColor pour les en-têtes de jour (cohérence visuelle)
                 const containerColor = companyColor || blockColor;
                 return (
                 <div
                   key={dateIndex}
                   className="tw-rounded-xl tw-overflow-hidden tw-border page-break-inside-avoid print:tw-mb-2 print:tw-rounded-lg"
                   style={{
-                    borderColor: getLightVariant(containerColor, 0.25),
-                    backgroundColor: getLightVariant(containerColor, 0.02)
+                    borderColor: getLighterColor(containerColor, 0.7),
+                    backgroundColor: getLighterColor(containerColor, 0.95)
                   }}
                   data-print-group="trip-day"
                   data-date={dateGroup.date}
@@ -185,7 +186,7 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
                   <div
                     className="tw-px-4 tw-py-2.5 tw-font-semibold tw-text-base tw-capitalize print:tw-px-2 print:tw-py-1.5 print:tw-text-xs"
                     style={{
-                      backgroundColor: getLightVariant(containerColor, 0.08),
+                      backgroundColor: getLighterColor(containerColor, 0.85),
                       color: containerColor
                     }}
                   >
