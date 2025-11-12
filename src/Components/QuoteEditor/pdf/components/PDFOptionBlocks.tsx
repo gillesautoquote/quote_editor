@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Svg, Path } from '@react-pdf/renderer';
 import { createOptionBlocksStyles } from '../styles/optionBlocksStyles';
 import type { OptionBlock, SignatureFrame, Company, TripProgramStep, TripProgramFilters } from '../../entities/QuoteData';
+import { getLightVariant } from '../../utils/colorUtils';
 
 const isGrayColor = (color: string): boolean => {
   const normalizedColor = color.toLowerCase();
@@ -391,23 +392,27 @@ export const PDFOptionBlocks: React.FC<PDFOptionBlocksProps> = ({
             {dateEntries.map(([date, steps]: [string, any]) => (
           <View
             key={`${block.id}-${date}`}
-            style={{ marginBottom: 8 }}
+            style={{
+              marginBottom: 8,
+              border: `1pt solid ${blockColor}`,
+              borderRadius: 8,
+              overflow: 'hidden',
+              backgroundColor: getLightVariant(blockColor, 0.05)
+            }}
             wrap={false}
             minPresenceAhead={60}
           >
             {/* En-tête de date */}
             <View
               style={{
-                backgroundColor: `${blockColor}15`,
-                paddingVertical: 4,
-                paddingHorizontal: 8,
-                borderRadius: 3,
-                marginBottom: 4
+                backgroundColor: getLightVariant(blockColor, 0.15),
+                paddingVertical: 5,
+                paddingHorizontal: 8
               }}
               wrap={false}
             >
               <Text style={{
-                fontSize: 8.5,
+                fontSize: 9,
                 fontWeight: 'bold',
                 color: blockColor,
                 textTransform: 'capitalize'
@@ -422,7 +427,7 @@ export const PDFOptionBlocks: React.FC<PDFOptionBlocksProps> = ({
             </View>
 
             {/* Conteneur avec ligne verticale continue */}
-            <View style={{ position: 'relative', paddingLeft: 0 }}>
+            <View style={{ position: 'relative', paddingLeft: 0, paddingHorizontal: 6, paddingVertical: 6 }}>
               {/* Ligne verticale continue derrière toutes les icônes pour montrer le trajet */}
               {steps.length > 1 && (
                 <View style={{

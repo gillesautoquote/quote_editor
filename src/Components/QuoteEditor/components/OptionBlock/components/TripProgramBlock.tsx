@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { MapPin, Clock, Filter, Trash2, Plus } from 'lucide-react';
 import type { TripProgramStep, TripProgramFilters } from '../../../QuoteEditor.types';
 import { EditableField } from '../../EditableField/EditableField';
+import { getLightVariant } from '../../../utils/colorUtils';
 
 interface TripProgramBlockProps {
   steps: TripProgramStep[];
@@ -169,13 +170,20 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
               {dateGroups.map((dateGroup, dateIndex) => (
                 <div
                   key={dateIndex}
-                  className="tw-bg-white tw-overflow-hidden page-break-inside-avoid print:tw-mb-2"
+                  className="tw-rounded-xl tw-overflow-hidden tw-border page-break-inside-avoid print:tw-mb-2 print:tw-rounded-lg"
+                  style={{
+                    borderColor: blockColor,
+                    backgroundColor: getLightVariant(blockColor, 0.05)
+                  }}
                   data-print-group="trip-day"
                   data-date={dateGroup.date}
                 >
                   <div
-                    className="tw-px-4 tw-py-2 tw-font-semibold tw-text-sm tw-capitalize print:tw-px-2 print:tw-py-1 print:tw-text-xs"
-                    style={{ backgroundColor: `${blockColor}15`, color: blockColor }}
+                    className="tw-px-4 tw-py-2.5 tw-font-semibold tw-text-base tw-capitalize print:tw-px-2 print:tw-py-1.5 print:tw-text-xs"
+                    style={{
+                      backgroundColor: getLightVariant(blockColor, 0.15),
+                      color: blockColor
+                    }}
                   >
                     {formatDateFr(dateGroup.date)}
                   </div>
