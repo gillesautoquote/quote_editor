@@ -310,7 +310,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
                   color: 'white',
                   backgroundColor: currentData.company.mainColor,
                   border: `1px solid ${currentData.company.mainColor}`,
-                  borderRadius: '0.25rem',
+                  borderRadius: '0.125rem',
                   cursor: 'pointer',
                   whiteSpace: 'nowrap'
                 }}
@@ -369,7 +369,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
                     color: 'white',
                     backgroundColor: '#28a745',
                     border: '1px solid #28a745',
-                    borderRadius: '0.25rem',
+                    borderRadius: '0.125rem',
                     cursor: 'pointer',
                     whiteSpace: 'nowrap'
                   }}
@@ -427,7 +427,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
                     color: 'white',
                     backgroundColor: '#dc3545',
                     border: '1px solid #dc3545',
-                    borderRadius: '0.25rem',
+                    borderRadius: '0.125rem',
                     cursor: 'pointer',
                     whiteSpace: 'nowrap'
                   }}

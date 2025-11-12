@@ -79,7 +79,7 @@ export const SectionActions: React.FC<SectionActionsProps> = ({
               fontWeight: '500',
               color: 'white',
               border: '1px solid',
-              borderRadius: '0.25rem',
+              borderRadius: '0.125rem',
               cursor: 'pointer',
               whiteSpace: 'nowrap'
             }}
