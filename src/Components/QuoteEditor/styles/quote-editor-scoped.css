@@ -95,6 +95,11 @@
   /* Removed margin and padding resets to allow Tailwind tw-m-*, tw-p-* classes */
 }
 
+/* Exception: Recap title uses company color */
+[data-quote-editor-scope] .qe-recap-title {
+  color: var(--recap-color, #0066cc) !important;
+}
+
 [data-quote-editor-scope] p,
 [data-quote-editor-scope] ul,
 [data-quote-editor-scope] ol,

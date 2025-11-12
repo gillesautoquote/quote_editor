@@ -118,7 +118,10 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
 
       {/* Récapitulatif de la proposition (non modifiable) */}
       <div className="tw-mt-6 tw-border tw-border-gray-200 tw-rounded-xl tw-bg-gray-50 tw-p-5 print:tw-bg-white print:tw-p-4">
-        <h3 className="tw-text-base tw-font-semibold tw-mb-3 tw-tracking-normal" style={{ color: data.company?.mainColor || '#0066cc' }}>
+        <h3
+          className="tw-text-base tw-font-semibold tw-mb-3 tw-tracking-normal qe-recap-title"
+          style={{ '--recap-color': data.company?.mainColor || '#0066cc' } as React.CSSProperties}
+        >
           Récapitulatif de la proposition
         </h3>
         {(() => {
