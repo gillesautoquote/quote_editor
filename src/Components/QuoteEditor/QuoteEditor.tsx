@@ -55,7 +55,10 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
 
   useEffect(() => {
     if (data?.company?.mainColor) {
-      const root = document.documentElement;
+      // Find the scope element instead of using :root
+      const scopeElement = document.querySelector('[data-quote-editor-scope]') as HTMLElement;
+      if (!scopeElement) return;
+
       const mainColor = data.company.mainColor;
 
       const hexToRgb = (hex: string) => {
@@ -93,11 +96,11 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
         const lighterValue = lightenColor(mainColor, 0.92);
         const darkValue = darkenColor(mainColor, 0.15);
 
-        root.style.setProperty('--color-primary', primaryValue);
-        root.style.setProperty('--color-primary-hover', hoverValue);
-        root.style.setProperty('--color-primary-light', lightValue);
-        root.style.setProperty('--color-primary-lighter', lighterValue);
-        root.style.setProperty('--color-primary-dark', darkValue);
+        scopeElement.style.setProperty('--color-primary', primaryValue);
+        scopeElement.style.setProperty('--color-primary-hover', hoverValue);
+        scopeElement.style.setProperty('--color-primary-light', lightValue);
+        scopeElement.style.setProperty('--color-primary-lighter', lighterValue);
+        scopeElement.style.setProperty('--color-primary-dark', darkValue);
       }
     }
   }, [data?.company?.mainColor]);
