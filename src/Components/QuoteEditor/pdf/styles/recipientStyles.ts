@@ -14,7 +14,7 @@ export const createRecipientStyles = (company: Company) => {
       marginBottom: 12,
     },
     
-    // Carte destinataire - EXACTEMENT comme l'éditeur
+    // Carte destinataire - Coins plus arrondis
     recipientCard: {
       width: '60%',              // ✅ ÉLARGI : 50% → 60%
       maxWidth: 280,             // ✅ ÉLARGI : 200 → 280 points
@@ -22,7 +22,7 @@ export const createRecipientStyles = (company: Company) => {
       border: '1px solid #e1e5e9',
       borderLeftWidth: 3,        // ✅ Bordure gauche épaisse
       borderLeftColor: mainColor, // ✅ Couleur dynamique comme l'éditeur
-      borderRadius: 4,
+      borderRadius: 12,          // ✅ AUGMENTÉ : 4 → 12 (coins plus arrondis)
       padding: 12,
       boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)', // ✅ Ombre subtile
       position: 'relative',

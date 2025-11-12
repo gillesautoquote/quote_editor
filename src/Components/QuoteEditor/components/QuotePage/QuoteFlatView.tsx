@@ -355,6 +355,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
             onFieldUpdate={handleFieldUpdate}
             readonly={readonly}
             printMode={printMode}
+            company={data.company}
           />
 
           <QuotePageIntro

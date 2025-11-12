@@ -152,6 +152,7 @@ export const QuotePage: React.FC<QuotePageProps> = ({
               onFieldUpdate={handleFieldUpdate}
               readonly={readonly}
               printMode={printMode}
+              company={data.company}
             />
           )}
 
