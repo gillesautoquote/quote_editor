@@ -110,14 +110,7 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
         if (initialData) {
           const validation = validateQuoteData(initialData);
           if (!validation.valid) {
-            const errorEvent: ComponentEvent = {
-              type: 'error',
-              code: 'INVALID_DATA',
-              message: validation.errors.join(', '),
-            };
-            setError({ code: errorEvent.code, message: errorEvent.message });
-            onEvent?.(errorEvent);
-            return;
+            console.warn('[QuoteEditor] Validation warnings:', validation.errors);
           }
           setData(initialData);
           initialDataRef.current = initialData;
@@ -138,6 +131,7 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
 
         onEvent?.({ type: 'ready' });
       } catch (err) {
+        console.error('[QuoteEditor] Load error:', err);
         const errorEvent: ComponentEvent = {
           type: 'error',
           code: 'LOAD_ERROR',
@@ -151,7 +145,7 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
     };
 
     loadData();
-  }, [mock, onEvent, t]);
+  }, [initialData, mock, onEvent, t]);
 
   const handleChange = (newData: QuoteData) => {
     setData(newData);
