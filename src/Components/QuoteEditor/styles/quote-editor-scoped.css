@@ -214,14 +214,16 @@
 [data-quote-editor-scope] .intro-list ul {
   margin: 0.1rem 0 !important;
   padding-left: 1.1rem !important;
-  line-height: 1.2 !important;
+  line-height: 1.4 !important;
   list-style: disc !important;
+  font-size: 0.9rem !important;
 }
 
 [data-quote-editor-scope] .intro-list li {
-  margin-bottom: 0.05rem !important;
-  line-height: 1.2 !important;
+  margin-bottom: 0.1rem !important;
+  line-height: 1.4 !important;
   list-style: disc !important;
+  font-size: 0.9rem !important;
 }
 
 /* ========================================
@@ -592,12 +594,14 @@
   [data-quote-editor-scope] .intro-list ul {
     margin: 0.08rem 0 !important;
     padding-left: 1rem !important;
-    line-height: 1.15 !important;
+    line-height: 1.4 !important;
+    font-size: 0.9rem !important;
   }
 
   [data-quote-editor-scope] .intro-list li {
-    margin-bottom: 0.04rem !important;
-    line-height: 1.15 !important;
+    margin-bottom: 0.1rem !important;
+    line-height: 1.4 !important;
+    font-size: 0.9rem !important;
   }
 
   [data-quote-editor-scope] strong,
