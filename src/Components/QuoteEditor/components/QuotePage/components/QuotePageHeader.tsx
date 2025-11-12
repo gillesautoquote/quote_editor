@@ -52,7 +52,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
                 value={company.address}
                 onSave={(value) => onFieldUpdate('company.address', value)}
                 disabled={readonly}
-              printMode={printMode}
+                printMode={printMode}
               />
             </div>
             <div>
@@ -60,13 +60,13 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
                 value={company.postalCode}
                 onSave={(value) => onFieldUpdate('company.postalCode', value)}
                 disabled={readonly}
-              printMode={printMode}
+                printMode={printMode}
               /> {' '}
               <EditableField
                 value={company.city}
                 onSave={(value) => onFieldUpdate('company.city', value)}
                 disabled={readonly}
-              printMode={printMode}
+                printMode={printMode}
               />
             </div>
             <div className="tw-mt-1">
@@ -74,7 +74,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
                 value={company.phone}
                 onSave={(value) => onFieldUpdate('company.phone', value)}
                 disabled={readonly}
-              printMode={printMode}
+                printMode={printMode}
               />
             </div>
             <div>
@@ -82,7 +82,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
                 value={company.email}
                 onSave={(value) => onFieldUpdate('company.email', value)}
                 disabled={readonly}
-              printMode={printMode}
+                printMode={printMode}
               />
             </div>
           </div>
@@ -95,7 +95,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
             value={quote.number}
             onSave={(value) => onFieldUpdate('quote.number', value)}
             disabled={readonly}
-              printMode={printMode}
+            printMode={printMode}
           />
         </div>
         <div className="tw-text-[0.85rem] tw-text-text tw-mb-[0.4rem] tw-leading-[1.1]">
@@ -103,7 +103,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
             value={quote.version}
             onSave={(value) => onFieldUpdate('quote.version', value)}
             disabled={readonly}
-              printMode={printMode}
+            printMode={printMode}
           />
         </div>
         <div className="tw-text-xs tw-leading-[1.2] tw-text-text">
@@ -114,7 +114,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
                 value={formatDateDDMMYYYY(quote.issueDate)}
                 onSave={(value) => onFieldUpdate('quote.issueDate', value)}
                 disabled={readonly}
-              printMode={printMode}
+                printMode={printMode}
               />
             </div>
           )}
@@ -126,7 +126,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
                 value={formatDateDDMMYYYY(quote.validUntil)}
                 onSave={(value) => onFieldUpdate('quote.validUntil', value)}
                 disabled={readonly}
-              printMode={printMode}
+                printMode={printMode}
               />
             </div>
           )}
@@ -138,7 +138,7 @@ export const QuotePageHeader: React.FC<QuotePageHeaderProps> = ({
                 value={quote.reference}
                 onSave={(value) => onFieldUpdate('quote.reference', value)}
                 disabled={readonly}
-              printMode={printMode}
+                printMode={printMode}
               />
             </div>
           )}

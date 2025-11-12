@@ -27,7 +27,7 @@ export const QuotePageRecipient: React.FC<QuotePageRecipientProps> = ({
                 value={recipient.organization}
                 onSave={(value) => onFieldUpdate('recipient.organization', value)}
                 disabled={readonly}
-              printMode={printMode}
+                printMode={printMode}
                 placeholder="Entreprise"
               />
             </div>
@@ -40,7 +40,7 @@ export const QuotePageRecipient: React.FC<QuotePageRecipientProps> = ({
                 value={recipient.fullName}
                 onSave={(value) => onFieldUpdate('recipient.fullName', value)}
                 disabled={readonly}
-              printMode={printMode}
+                printMode={printMode}
                 placeholder="Nom complet"
               />
             </div>
@@ -53,7 +53,7 @@ export const QuotePageRecipient: React.FC<QuotePageRecipientProps> = ({
                 value={recipient.address}
                 onSave={(value) => onFieldUpdate('recipient.address', value)}
                 disabled={readonly}
-              printMode={printMode}
+                printMode={printMode}
                 placeholder="Adresse"
               />
             </div>
@@ -67,7 +67,7 @@ export const QuotePageRecipient: React.FC<QuotePageRecipientProps> = ({
                   value={recipient.postalCode}
                   onSave={(value) => onFieldUpdate('recipient.postalCode', value)}
                   disabled={readonly}
-              printMode={printMode}
+                  printMode={printMode}
                   placeholder="Code postal"
                 />
               )}
@@ -77,7 +77,7 @@ export const QuotePageRecipient: React.FC<QuotePageRecipientProps> = ({
                   value={recipient.city}
                   onSave={(value) => onFieldUpdate('recipient.city', value)}
                   disabled={readonly}
-              printMode={printMode}
+                  printMode={printMode}
                   placeholder="Ville"
                 />
               )}
@@ -93,7 +93,7 @@ export const QuotePageRecipient: React.FC<QuotePageRecipientProps> = ({
                     value={recipient.phone}
                     onSave={(value) => onFieldUpdate('recipient.phone', value)}
                     disabled={readonly}
-              printMode={printMode}
+                    printMode={printMode}
                     placeholder="Téléphone"
                   />
                 </span>
@@ -109,7 +109,7 @@ export const QuotePageRecipient: React.FC<QuotePageRecipientProps> = ({
                     value={recipient.email}
                     onSave={(value) => onFieldUpdate('recipient.email', value)}
                     disabled={readonly}
-              printMode={printMode}
+                    printMode={printMode}
                     placeholder="Email"
                   />
                 </span>
