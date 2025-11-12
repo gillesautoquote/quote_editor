@@ -54,58 +54,6 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
   const isInitialLoadRef = useRef<boolean>(true);
 
   useEffect(() => {
-    if (data?.company?.mainColor) {
-      // Find the scope element instead of using :root
-      const scopeElement = document.querySelector('[data-quote-editor-scope]') as HTMLElement;
-      if (!scopeElement) return;
-
-      const mainColor = data.company.mainColor;
-
-      const hexToRgb = (hex: string) => {
-        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-          r: parseInt(result[1], 16),
-          g: parseInt(result[2], 16),
-          b: parseInt(result[3], 16)
-        } : null;
-      };
-
-      const lightenColor = (hex: string, amount: number) => {
-        const rgb = hexToRgb(hex);
-        if (!rgb) return hex;
-        const r = Math.min(255, Math.floor(rgb.r + (255 - rgb.r) * amount));
-        const g = Math.min(255, Math.floor(rgb.g + (255 - rgb.g) * amount));
-        const b = Math.min(255, Math.floor(rgb.b + (255 - rgb.b) * amount));
-        return `${r}, ${g}, ${b}`;
-      };
-
-      const darkenColor = (hex: string, amount: number) => {
-        const rgb = hexToRgb(hex);
-        if (!rgb) return hex;
-        const r = Math.max(0, Math.floor(rgb.r * (1 - amount)));
-        const g = Math.max(0, Math.floor(rgb.g * (1 - amount)));
-        const b = Math.max(0, Math.floor(rgb.b * (1 - amount)));
-        return `${r}, ${g}, ${b}`;
-      };
-
-      const rgb = hexToRgb(mainColor);
-      if (rgb) {
-        const primaryValue = `${rgb.r}, ${rgb.g}, ${rgb.b}`;
-        const hoverValue = darkenColor(mainColor, 0.15);
-        const lightValue = lightenColor(mainColor, 0.85);
-        const lighterValue = lightenColor(mainColor, 0.92);
-        const darkValue = darkenColor(mainColor, 0.15);
-
-        scopeElement.style.setProperty('--color-primary', primaryValue);
-        scopeElement.style.setProperty('--color-primary-hover', hoverValue);
-        scopeElement.style.setProperty('--color-primary-light', lightValue);
-        scopeElement.style.setProperty('--color-primary-lighter', lighterValue);
-        scopeElement.style.setProperty('--color-primary-dark', darkValue);
-      }
-    }
-  }, [data?.company?.mainColor]);
-
-  useEffect(() => {
     const loadData = async () => {
       if (!isInitialLoadRef.current) return;
 

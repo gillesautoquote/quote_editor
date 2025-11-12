@@ -115,7 +115,7 @@ export const generateColorVariables = (mainColor: string) => {
   const darkerVariant = getDarkerVariant(mainColor, 0.8);
   const rgb = hexToRgb(mainColor) || { r: 75, g: 85, b: 99 }; // gris de repli
 
-  const toTriplet = (r: number, g: number, b: number) => `${r} ${g} ${b}`;
+  const toTriplet = (r: number, g: number, b: number) => `${r}, ${g}, ${b}`;
   const clamp = (v: number) => Math.max(0, Math.min(255, Math.round(v)));
   const darken = (factor: number) => toTriplet(clamp(rgb.r * factor), clamp(rgb.g * factor), clamp(rgb.b * factor));
   const lighten = (amount: number) => toTriplet(
