@@ -82,6 +82,7 @@
    ======================================== */
 
 /* Reset headings and text elements */
+/* IMPORTANT: Only reset font properties, NOT spacing (margin/padding) to allow Tailwind classes */
 [data-quote-editor-scope] h1,
 [data-quote-editor-scope] h2,
 [data-quote-editor-scope] h3,
@@ -91,8 +92,7 @@
   font-family: inherit !important;
   color: inherit !important;
   font-weight: 600 !important;
-  margin: 0 !important;
-  padding: 0 !important;
+  /* Removed margin and padding resets to allow Tailwind tw-m-*, tw-p-* classes */
 }
 
 [data-quote-editor-scope] p,
@@ -101,9 +101,8 @@
 [data-quote-editor-scope] li {
   font-family: inherit !important;
   color: inherit !important;
-  margin: 0 !important;
-  padding: 0 !important;
   list-style: none !important;
+  /* Removed margin and padding resets to allow Tailwind tw-m-*, tw-p-* classes */
 }
 
 /* Protect against parent styles */
