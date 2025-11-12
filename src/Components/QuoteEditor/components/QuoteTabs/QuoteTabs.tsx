@@ -200,7 +200,7 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
       <div
         className="tw-border-b tw-border-gray-200 tw-sticky tw-top-0 tw-z-10 tw-bg-white"
       >
-        <div className="tw-w-full tw-max-w-[min(1000px,calc(100vw-2rem))] tw-mx-auto tw-px-3 tw-relative">
+        <div className="tw-w-full tw-px-3 tw-relative">
           <div className="tw-flex tw-gap-1 tw-overflow-x-auto tw-scrollbar-thin tw-py-1.5">
             {visibleTabs.map((tab) => (
               <div
