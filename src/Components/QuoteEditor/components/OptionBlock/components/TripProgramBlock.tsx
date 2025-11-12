@@ -178,7 +178,7 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
                   className="tw-rounded-xl tw-overflow-hidden tw-border page-break-inside-avoid print:tw-mb-2 print:tw-rounded-lg"
                   style={{
                     borderColor: getLighterColor(containerColor, 0.7),
-                    backgroundColor: getLighterColor(containerColor, 0.95)
+                    backgroundColor: 'white'
                   }}
                   data-print-group="trip-day"
                   data-date={dateGroup.date}
@@ -186,7 +186,7 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
                   <div
                     className="tw-px-4 tw-py-2.5 tw-font-semibold tw-text-base tw-capitalize print:tw-px-2 print:tw-py-1.5 print:tw-text-xs"
                     style={{
-                      backgroundColor: getLighterColor(containerColor, 0.85),
+                      backgroundColor: 'white',
                       color: containerColor
                     }}
                   >
