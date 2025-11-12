@@ -12,6 +12,7 @@ interface TripProgramBlockProps {
   readonly?: boolean;
   printMode?: boolean;
   blockColor: string;
+  companyColor?: string;
 }
 
 const STEP_FILTERS = [
@@ -39,7 +40,8 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
   onUpdateFilters,
   readonly = false,
   printMode = false,
-  blockColor
+  blockColor,
+  companyColor
 }) => {
   const filteredSteps = useMemo(() => {
     return steps.filter(step => {
@@ -167,13 +169,15 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
                   </h3>
                 </div>
               )}
-              {dateGroups.map((dateGroup, dateIndex) => (
+              {dateGroups.map((dateGroup, dateIndex) => {
+                const containerColor = companyColor || blockColor;
+                return (
                 <div
                   key={dateIndex}
                   className="tw-rounded-xl tw-overflow-hidden tw-border page-break-inside-avoid print:tw-mb-2 print:tw-rounded-lg"
                   style={{
-                    borderColor: blockColor,
-                    backgroundColor: getLightVariant(blockColor, 0.05)
+                    borderColor: getLightVariant(containerColor, 0.25),
+                    backgroundColor: getLightVariant(containerColor, 0.02)
                   }}
                   data-print-group="trip-day"
                   data-date={dateGroup.date}
@@ -181,8 +185,8 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
                   <div
                     className="tw-px-4 tw-py-2.5 tw-font-semibold tw-text-base tw-capitalize print:tw-px-2 print:tw-py-1.5 print:tw-text-xs"
                     style={{
-                      backgroundColor: getLightVariant(blockColor, 0.15),
-                      color: blockColor
+                      backgroundColor: getLightVariant(containerColor, 0.08),
+                      color: containerColor
                     }}
                   >
                     {formatDateFr(dateGroup.date)}
@@ -278,7 +282,8 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
                     </div>
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
           ))}
         </div>

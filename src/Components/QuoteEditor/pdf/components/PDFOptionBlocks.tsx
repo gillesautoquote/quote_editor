@@ -394,10 +394,10 @@ export const PDFOptionBlocks: React.FC<PDFOptionBlocksProps> = ({
             key={`${block.id}-${date}`}
             style={{
               marginBottom: 8,
-              border: `1pt solid ${blockColor}`,
+              border: `1pt solid ${getLightVariant(company.mainColor, 0.25)}`,
               borderRadius: 8,
               overflow: 'hidden',
-              backgroundColor: getLightVariant(blockColor, 0.05)
+              backgroundColor: getLightVariant(company.mainColor, 0.02)
             }}
             wrap={false}
             minPresenceAhead={60}
@@ -405,7 +405,7 @@ export const PDFOptionBlocks: React.FC<PDFOptionBlocksProps> = ({
             {/* En-tête de date */}
             <View
               style={{
-                backgroundColor: getLightVariant(blockColor, 0.15),
+                backgroundColor: getLightVariant(company.mainColor, 0.08),
                 paddingVertical: 5,
                 paddingHorizontal: 8
               }}
@@ -414,7 +414,7 @@ export const PDFOptionBlocks: React.FC<PDFOptionBlocksProps> = ({
               <Text style={{
                 fontSize: 9,
                 fontWeight: 'bold',
-                color: blockColor,
+                color: company.mainColor,
                 textTransform: 'capitalize'
               }}>
                 {new Date(date).toLocaleDateString('fr-FR', {

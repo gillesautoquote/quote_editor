@@ -19,6 +19,7 @@ interface OptionBlockContentProps {
   printMode?: boolean;
   onUpdateBlock?: (block: OptionBlock) => void;
   blockColor?: string;
+  companyColor?: string;
 }
 
 export const OptionBlockContent: React.FC<OptionBlockContentProps> = ({
@@ -35,7 +36,8 @@ export const OptionBlockContent: React.FC<OptionBlockContentProps> = ({
   readonly = false,
   printMode = false,
   onUpdateBlock,
-  blockColor
+  blockColor,
+  companyColor
 }) => {
   const handleUpdateTripSteps = (steps: TripProgramStep[]) => {
     if (onUpdateBlock) {
@@ -109,6 +111,7 @@ export const OptionBlockContent: React.FC<OptionBlockContentProps> = ({
           readonly={readonly}
           printMode={printMode}
           blockColor={blockColor}
+          companyColor={companyColor}
         />
       )}
     </div>
