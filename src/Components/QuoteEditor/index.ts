@@ -1,7 +1,5 @@
-// Imports CSS obligatoires pour le fonctionnement standalone
-import './styles/global.css';
-import './styles/scope-reset.css';
-import './styles/scope-print.css';
+// Import CSS unifié avec isolation complète
+import './styles/quote-editor-scoped.css';
 
 // Exports principaux du composant QuoteEditor
 export { QuoteEditor } from './QuoteEditor';

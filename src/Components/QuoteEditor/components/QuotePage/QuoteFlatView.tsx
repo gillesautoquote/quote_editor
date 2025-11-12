@@ -333,6 +333,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
 
   return (
     <div
+      data-quote-editor-scope
       className="tw-w-full tw-max-w-[21cm] tw-bg-white tw-shadow-page tw-px-12 tw-py-8 tw-mx-auto tw-relative tw-flex tw-flex-col tw-text-text tw-min-h-auto tw-rounded-lg tw-border tw-border-black/10 print:tw-shadow-none print:tw-m-0 print:tw-rounded-none print:tw-border-none print:tw-w-[21cm] print:tw-px-[1.5cm] print:tw-py-0"
       data-component="quote-flat-view"
       data-print-mode={printMode}
