@@ -421,8 +421,19 @@ export const PDFOptionBlocks: React.FC<PDFOptionBlocksProps> = ({
               </Text>
             </View>
 
-            {/* Conteneur avec ligne verticale */}
+            {/* Conteneur avec ligne verticale continue */}
             <View style={{ position: 'relative', paddingLeft: 0 }}>
+              {/* Ligne verticale continue derrière toutes les icônes pour montrer le trajet */}
+              {steps.length > 1 && (
+                <View style={{
+                  position: 'absolute',
+                  left: 12,
+                  top: 12,
+                  bottom: 0,
+                  width: 2,
+                  backgroundColor: `${blockColor}50`
+                }} />
+              )}
               {/* Liste des étapes */}
               {steps.map((step: any, stepIndex: number) => (
                 <View
@@ -434,17 +445,6 @@ export const PDFOptionBlocks: React.FC<PDFOptionBlocksProps> = ({
                   }}
                   wrap={false}
                 >
-                  {/* Ligne verticale pour cette étape */}
-                  {stepIndex < steps.length - 1 && (
-                    <View style={{
-                      position: 'absolute',
-                      left: 12,
-                      top: 24,
-                      bottom: -5,
-                      width: 1.5,
-                      backgroundColor: `${blockColor}20`
-                    }} />
-                  )}
                   {/* Icône ronde avec Clock */}
                   <View style={{
                     width: 24,

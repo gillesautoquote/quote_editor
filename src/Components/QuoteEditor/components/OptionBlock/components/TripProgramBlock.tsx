@@ -182,9 +182,10 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
 
                   <div className="tw-p-4 print:tw-p-2">
                     <div className="tw-relative">
+                      {/* Ligne verticale continue derrière les icônes pour montrer le trajet */}
                       <div
-                        className="tw-absolute tw-left-4 tw-top-0 tw-bottom-0 tw-w-0.5 print:tw-left-2"
-                        style={{ backgroundColor: `${blockColor}30` }}
+                        className="tw-absolute tw-left-4 tw-top-0 tw-bottom-0 tw-w-0.5 print:tw-left-2 print:tw-w-[2px]"
+                        style={{ backgroundColor: `${blockColor}50` }}
                       />
 
                       <div className="tw-space-y-4 print:tw-space-y-2">
