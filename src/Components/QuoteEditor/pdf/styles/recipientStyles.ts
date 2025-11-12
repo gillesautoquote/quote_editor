@@ -3,7 +3,17 @@ import type { Company } from '../../entities/QuoteData';
 
 export const createRecipientStyles = (company: Company) => {
   const mainColor = company.mainColor || '#0066cc';
-  
+
+  // Convertir la couleur hex en rgba avec 10% d'opacité
+  const hexToRgba = (hex: string, alpha: number = 0.1): string => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  };
+
+  const bgColor = hexToRgba(mainColor, 0.1);
+
   return StyleSheet.create({
     // Container principal - aligné à DROITE comme l'éditeur
     recipientWrapper: {
@@ -13,12 +23,12 @@ export const createRecipientStyles = (company: Company) => {
       justifyContent: 'flex-end', // ✅ ALIGNEMENT À DROITE comme l'éditeur
       marginBottom: 12,
     },
-    
+
     // Carte destinataire - Coins plus arrondis
     recipientCard: {
       width: '60%',              // ✅ ÉLARGI : 50% → 60%
       maxWidth: 280,             // ✅ ÉLARGI : 200 → 280 points
-      backgroundColor: '#f8fafe', // ✅ Background dégradé simulé
+      backgroundColor: bgColor,   // ✅ Background avec 10% opacité de mainColor
       border: '1px solid #e1e5e9',
       borderLeftWidth: 3,        // ✅ Bordure gauche épaisse
       borderLeftColor: mainColor, // ✅ Couleur dynamique comme l'éditeur
