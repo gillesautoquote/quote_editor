@@ -13,6 +13,16 @@
   color: rgb(var(--color-primary)) !important;
 }
 
+/* Force primary color on headings with qe-text-primary class */
+[data-quote-editor-scope] h1.qe-text-primary,
+[data-quote-editor-scope] h2.qe-text-primary,
+[data-quote-editor-scope] h3.qe-text-primary,
+[data-quote-editor-scope] h4.qe-text-primary,
+[data-quote-editor-scope] h5.qe-text-primary,
+[data-quote-editor-scope] h6.qe-text-primary {
+  color: rgb(var(--color-primary)) !important;
+}
+
 [data-quote-editor-scope] .qe-text-primary-hover {
   color: rgb(var(--color-primary-hover)) !important;
 }

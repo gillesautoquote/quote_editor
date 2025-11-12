@@ -144,7 +144,10 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
     case 'programme':
       return renderPageContainer(
         <>
-          <h2 className="tw-text-xl tw-font-bold tw-mb-4" style={{ color: currentData.company.mainColor }}>
+          <h2
+            className="tw-text-xl tw-font-bold tw-mb-4 qe-tab-title"
+            style={{ '--tab-title-color': currentData.company.mainColor } as React.CSSProperties}
+          >
             {currentData.labels?.pageTitles?.programme || 'Programme de voyage'}
           </h2>
           {programmeBlock && programmeBlock.type === 'programme-voyage' && programmeBlock.tripSteps ? (
@@ -201,7 +204,10 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
     case 'services':
       return renderPageContainer(
         <>
-          <h2 className="tw-text-xl tw-font-bold tw-mb-6" style={{ color: currentData.company.mainColor }}>
+          <h2
+            className="tw-text-xl tw-font-bold tw-mb-6 qe-tab-title"
+            style={{ '--tab-title-color': currentData.company.mainColor } as React.CSSProperties}
+          >
             {currentData.labels?.pageTitles?.services || 'Services à l\'intérieur'}
           </h2>
           {currentData.busServices && (
@@ -260,7 +266,10 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
 
       return renderPageContainer(
         <>
-          <h2 className="tw-text-xl tw-font-bold tw-mb-6" style={{ color: currentData.company.mainColor }}>
+          <h2
+            className="tw-text-xl tw-font-bold tw-mb-6 qe-tab-title"
+            style={{ '--tab-title-color': currentData.company.mainColor } as React.CSSProperties}
+          >
             {currentData.labels?.pageTitles?.conditions || 'Conditions générales'}
           </h2>
 
@@ -404,7 +413,10 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
     case 'signature':
       return renderPageContainer(
         <>
-          <h2 className="tw-text-xl tw-font-bold tw-mb-6" style={{ color: currentData.company.mainColor }}>
+          <h2
+            className="tw-text-xl tw-font-bold tw-mb-6 qe-tab-title"
+            style={{ '--tab-title-color': currentData.company.mainColor } as React.CSSProperties}
+          >
             {currentData.labels?.pageTitles?.signature || 'Bon de commande'}
           </h2>
           <InstructionsFrame
