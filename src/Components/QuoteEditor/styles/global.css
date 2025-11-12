@@ -1,0 +1,106 @@
+/**
+ * QuoteEditor Global Styles
+ *
+ * Styles globaux nécessaires au bon fonctionnement du QuoteEditor
+ * - Variables CSS pour les couleurs thématiques
+ * - Gestion des largeurs de colonnes
+ * - Format A4 à l'écran
+ * - Styles des listes
+ */
+
+/* ========================================
+   VARIABLES CSS THEMATIQUES
+   ======================================== */
+
+:root {
+  /* Fallbacks gris neutres (pris avant initialisation du thème) */
+  --color-primary: 75, 85, 99; /* gray-600 */
+  --color-primary-hover: 55, 65, 81; /* gray-700 */
+  --color-primary-light: 229, 231, 235; /* gray-200 */
+  --color-primary-lighter: 243, 244, 246; /* gray-100 */
+  --color-primary-dark: 31, 41, 55; /* gray-800 */
+}
+
+/* ========================================
+   GESTION DES LARGEURS DE COLONNES
+   ======================================== */
+
+/* Gestion des largeurs des blocs option selon le nombre de colonnes */
+[data-columns="2"] {
+  width: calc((100% - 1rem) / 3);
+  min-width: calc((100% - 1rem) / 3);
+  max-width: calc((100% - 1rem) / 3);
+}
+
+[data-columns="3"] {
+  width: calc((100% - 0.5rem) / 2);
+  min-width: calc((100% - 0.5rem) / 2);
+  max-width: calc((100% - 0.5rem) / 2);
+}
+
+[data-columns="4"] {
+  width: calc((100% * 2 / 3) - 0.5rem);
+  min-width: calc((100% * 2 / 3) - 0.5rem);
+  max-width: calc((100% * 2 / 3) - 0.5rem);
+}
+
+[data-columns="6"] {
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+}
+
+/* Responsive: tous les blocs en pleine largeur sur mobile */
+@media (max-width: 768px) {
+  [data-columns="2"],
+  [data-columns="3"],
+  [data-columns="4"],
+  [data-columns="6"] {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* ========================================
+   FORMAT A4 À L'ÉCRAN
+   ======================================== */
+
+@media screen {
+  [data-screen-a4="true"] {
+    min-height: 29.7cm; /* hauteur A4, approximative à l'écran */
+    width: 21cm !important;      /* largeur A4 */
+    max-width: 21cm !important;  /* figer la largeur */
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+/* ========================================
+   STYLES DES LISTES
+   ======================================== */
+
+/* Listes compactes dans l'introduction */
+.intro-list ul {
+  margin: 0.1rem 0 !important;
+  padding-left: 1.1rem !important;
+  line-height: 1.2 !important;
+}
+
+.intro-list li {
+  margin-bottom: 0.05rem !important;
+  line-height: 1.2 !important;
+}
+
+@media print {
+  .intro-list ul {
+    margin: 0.08rem 0 !important;
+    padding-left: 1rem !important;
+    line-height: 1.15 !important;
+  }
+
+  .intro-list li {
+    margin-bottom: 0.04rem !important;
+    line-height: 1.15 !important;
+  }
+}

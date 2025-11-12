@@ -1,4 +1,5 @@
 // Imports CSS obligatoires pour le fonctionnement standalone
+import './styles/global.css';
 import './styles/scope-reset.css';
 import './styles/scope-print.css';
 
