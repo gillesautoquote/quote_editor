@@ -186,7 +186,7 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
                   <div
                     className="tw-px-4 tw-py-2.5 tw-font-semibold tw-text-base tw-capitalize print:tw-px-2 print:tw-py-1.5 print:tw-text-xs"
                     style={{
-                      backgroundColor: 'white',
+                      backgroundColor: getLighterColor(containerColor, 0.85),
                       color: containerColor
                     }}
                   >
