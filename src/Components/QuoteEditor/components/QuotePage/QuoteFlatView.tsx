@@ -164,6 +164,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
                 readonly={readonly}
                 printMode={printMode}
                 blockColor={programmeBlock.color || dataWithProgrammeVoyage.company.mainColor}
+                companyColor={dataWithProgrammeVoyage.company.mainColor}
               />
             </div>
           );

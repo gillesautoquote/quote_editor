@@ -180,6 +180,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
               readonly={readonly}
               printMode={false}
               blockColor={currentData.company.mainColor}
+              companyColor={currentData.company.mainColor}
             />
           ) : (
             <div className="tw-bg-gray-50 tw-rounded-lg tw-border tw-border-gray-200 tw-p-6 tw-text-center tw-text-sm tw-text-gray-500">
