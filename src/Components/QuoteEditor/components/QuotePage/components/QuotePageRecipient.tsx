@@ -17,9 +17,17 @@ export const QuotePageRecipient: React.FC<QuotePageRecipientProps> = ({
   printMode = false,
   company
 }) => {
+  // Utiliser la couleur principale avec 10% d'opacité pour le fond
+  const bgStyle = company?.mainColor
+    ? { backgroundColor: `${company.mainColor}1A` } // 1A = ~10% en hexadécimal
+    : {};
+
   return (
     <div className="tw-mb-4 tw-flex tw-justify-end max-md:tw-justify-start">
-      <div className="qe-bg-surface-indigo-50 tw-border qe-border-border-light tw-rounded-2xl tw-p-3 tw-inline-block tw-min-w-[300px] tw-max-w-[400px]">
+      <div
+        className="tw-border qe-border-border-light tw-rounded-2xl tw-p-3 tw-inline-block tw-min-w-[300px] tw-max-w-[400px]"
+        style={bgStyle}
+      >
         <div className="tw-text-[0.65rem] tw-font-bold tw-mb-2 tw-tracking-wider tw-uppercase qe-text-primary">
           DESTINATAIRE
         </div>
