@@ -127,6 +127,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
             recipient={currentData.recipient}
             onFieldUpdate={handleFieldUpdate}
             readonly={readonly}
+            company={currentData.company}
           />
           <QuotePageIntro
             quote={currentData.quote}
