@@ -68,7 +68,29 @@ export const SectionActions: React.FC<SectionActionsProps> = ({
           <button
             type="button"
             onClick={() => setShowMissionDropdown(!showMissionDropdown)}
-            className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-xs tw-font-medium tw-text-white qe-bg-primary tw-border qe-border-primary tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200 hover:qe-bg-primary-dark hover:tw-shadow-primary"
+            className="tw-transition-all tw-duration-200 qe-bg-primary qe-border-primary"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.375rem',
+              padding: '0.375rem 0.75rem',
+              fontSize: '0.75rem',
+              lineHeight: '1rem',
+              fontWeight: '500',
+              color: 'white',
+              border: '1px solid',
+              borderRadius: '0.25rem',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = '0.9';
+              e.currentTarget.style.boxShadow = '0 1px 3px 0 rgba(0, 0, 0, 0.1)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = '1';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
             title="Ajouter une ligne mission pré-définie"
           >
             <Plus size={12} />
@@ -98,7 +120,29 @@ export const SectionActions: React.FC<SectionActionsProps> = ({
         <button
           type="button"
           onClick={() => setShowSimpleDropdown(!showSimpleDropdown)}
-          className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-xs tw-font-medium tw-text-white qe-bg-primary tw-border qe-border-primary tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200 hover:qe-bg-primary-dark hover:tw-shadow-primary"
+          className="tw-transition-all tw-duration-200 qe-bg-primary qe-border-primary"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.375rem',
+            padding: '0.375rem 0.75rem',
+            fontSize: '0.75rem',
+            lineHeight: '1rem',
+            fontWeight: '500',
+            color: 'white',
+            border: '1px solid',
+            borderRadius: '0.25rem',
+            cursor: 'pointer',
+            whiteSpace: 'nowrap'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.opacity = '0.9';
+            e.currentTarget.style.boxShadow = '0 1px 3px 0 rgba(0, 0, 0, 0.1)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.opacity = '1';
+            e.currentTarget.style.boxShadow = 'none';
+          }}
           title="Ajouter une ligne"
         >
           <Plus size={12} />
