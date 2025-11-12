@@ -224,7 +224,7 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
                           <Clock size={printMode ? 12 : 14} />
                         </div>
 
-                        <div className="tw-bg-gray-50 tw-rounded-lg tw-p-3 tw-border tw-border-gray-200 print:tw-p-2 print:tw-text-xs">
+                        <div className="tw-bg-white tw-rounded-lg tw-p-3 tw-border tw-border-gray-200 print:tw-p-2 print:tw-text-xs">
                           <div className="tw-flex tw-items-start tw-justify-between tw-gap-2">
                             <div className="tw-flex-1 tw-space-y-2">
                               <div className="tw-flex tw-items-center tw-gap-3 tw-flex-wrap">
