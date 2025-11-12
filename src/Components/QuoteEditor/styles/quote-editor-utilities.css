@@ -70,12 +70,6 @@
   background-color: rgba(var(--color-primary), 0.05) !important;
 }
 
-/* Signature frame - force company colors */
-[data-quote-editor-scope] .qe-signature-frame {
-  border-color: rgba(var(--color-primary), 0.3) !important;
-  background-color: rgba(var(--color-primary), 0.05) !important;
-}
-
 [data-quote-editor-scope] .qe-bg-primary\/10 {
   background-color: rgba(var(--color-primary), 0.1) !important;
 }
