@@ -142,7 +142,7 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
             disabled={readonly}
             className="tw-transition-all"
             style={{
-              padding: '0.25rem 0.75rem',
+              padding: '0.25rem 0.5rem',
               fontSize: '0.75rem',
               lineHeight: '1rem',
               fontWeight: '500',

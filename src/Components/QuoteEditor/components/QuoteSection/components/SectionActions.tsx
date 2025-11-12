@@ -124,8 +124,8 @@ export const SectionActions: React.FC<SectionActionsProps> = ({
           style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '0.375rem',
-            padding: '0.375rem 0.75rem',
+            gap: '0.25rem',
+            padding: '0.25rem 0.5rem',
             fontSize: '0.75rem',
             lineHeight: '1rem',
             fontWeight: '500',
