@@ -298,30 +298,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
                   };
                   onUpdateData({ ...currentData, optionBlocks: [...currentData.optionBlocks, newBlock] });
                 }}
-                className="tw-transition-all tw-duration-200"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.25rem',
-                  padding: '0.25rem 0.5rem',
-                  fontSize: '0.75rem',
-                  lineHeight: '1rem',
-                  fontWeight: '500',
-                  color: 'white',
-                  backgroundColor: currentData.company.mainColor,
-                  border: `1px solid ${currentData.company.mainColor}`,
-                  borderRadius: '0.125rem',
-                  cursor: 'pointer',
-                  whiteSpace: 'nowrap'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.opacity = '0.9';
-                  e.currentTarget.style.boxShadow = '0 1px 3px 0 rgba(0, 0, 0, 0.1)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.opacity = '1';
-                  e.currentTarget.style.boxShadow = 'none';
-                }}
+                className="tw-inline-flex tw-items-center tw-gap-1 tw-px-2 tw-py-1 tw-text-xs tw-font-medium qe-text-white qe-bg-primary tw-border qe-border-primary tw-rounded-sm tw-cursor-pointer tw-transition-all tw-duration-200 tw-whitespace-nowrap hover:tw-opacity-90 hover:tw-shadow-sm"
                 title="Ajouter un bloc de conditions"
               >
                 + Ajouter un bloc
@@ -357,28 +334,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
                     };
                     onUpdateData({ ...currentData, optionBlocks: [...currentData.optionBlocks, includedBlock] });
                   }}
-                  className="tw-transition-all tw-duration-200"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.375rem',
-                    padding: '0.375rem 0.75rem',
-                    fontSize: '0.875rem',
-                    lineHeight: '1.25rem',
-                    fontWeight: '500',
-                    color: 'white',
-                    backgroundColor: '#28a745',
-                    border: '1px solid #28a745',
-                    borderRadius: '0.125rem',
-                    cursor: 'pointer',
-                    whiteSpace: 'nowrap'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#218838';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#28a745';
-                  }}
+                  className="tw-inline-flex tw-items-center tw-gap-1 tw-px-2 tw-py-1 tw-text-xs tw-font-medium qe-text-white qe-bg-success tw-border qe-border-success tw-rounded-sm tw-cursor-pointer tw-transition-all tw-duration-200 tw-whitespace-nowrap hover:tw-opacity-90 hover:tw-shadow-sm"
                   title="Ajouter le bloc 'Ces tarifs comprennent'"
                 >
                   + Ces tarifs comprennent
@@ -415,28 +371,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
                     };
                     onUpdateData({ ...currentData, optionBlocks: [...currentData.optionBlocks, excludedBlock] });
                   }}
-                  className="tw-transition-all tw-duration-200"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.375rem',
-                    padding: '0.375rem 0.75rem',
-                    fontSize: '0.875rem',
-                    lineHeight: '1.25rem',
-                    fontWeight: '500',
-                    color: 'white',
-                    backgroundColor: '#dc3545',
-                    border: '1px solid #dc3545',
-                    borderRadius: '0.125rem',
-                    cursor: 'pointer',
-                    whiteSpace: 'nowrap'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#c82333';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#dc3545';
-                  }}
+                  className="tw-inline-flex tw-items-center tw-gap-1 tw-px-2 tw-py-1 tw-text-xs tw-font-medium qe-text-white qe-bg-danger tw-border qe-border-danger tw-rounded-sm tw-cursor-pointer tw-transition-all tw-duration-200 tw-whitespace-nowrap hover:tw-opacity-90 hover:tw-shadow-sm"
                   title="Ajouter le bloc 'Ces tarifs ne comprennent pas'"
                 >
                   + Ces tarifs ne comprennent pas
