@@ -320,26 +320,6 @@ export interface QuoteData {
   defaultProgrammeFilters?: TripProgramFilters;
 }
 
-export interface QuoteEditorProps {
-  data: QuoteData;
-  onChange: (data: QuoteData) => void | any;
-  onSave?: (data: QuoteData) => Promise<void> | any;
-  autoSave?: boolean;
-  readonly?: boolean;
-  ref?: any; // ✅ Support explicite du ref
-  [key: string]: any; // ✅ Permet toutes les props additionnelles
-}
-
-export interface QuoteEditorHandle {
-  exportToPDF?: () => Promise<void>;
-  saveData?: () => Promise<void>;
-  undo?: () => void;
-  redo?: () => void;
-  getData?: () => QuoteData;
-  canUndo?: boolean;
-  canRedo?: boolean;
-  [key: string]: any; // ✅ Tolérant aux propriétés supplémentaires
-}
 
 export interface EditingState {
   isEditing: boolean;

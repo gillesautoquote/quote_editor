@@ -3,8 +3,12 @@ import clsx from 'clsx';
 import { usePDFExport } from './hooks/usePDFExport';
 import { useBackendPDFExport } from './hooks/useBackendPDFExport';
 import { globalEventEmitter, EVENTS } from './utils/eventEmitter';
-import type { QuoteEditorProps as LegacyQuoteEditorProps, QuoteEditorHandle as LegacyQuoteEditorHandle } from './entities/QuoteData';
-import type { QuoteEditorProps, QuoteEditorHandle, QuoteData, ComponentEvent } from './QuoteEditor.types';
+import type {
+  QuoteEditorProps,
+  QuoteEditorHandle,
+  QuoteData,
+  ComponentEvent,
+} from './QuoteEditor.types';
 import { useQuoteEditor } from './hooks/useQuoteEditor';
 import { useColorTheme } from './hooks/useColorTheme';
 import { useTranslation } from './i18n/translations';
@@ -14,23 +18,8 @@ import { QuoteEditorToolbar } from './components/shared/QuoteEditorToolbar';
 import { QuoteTabs } from './components/QuoteTabs';
 import { QuoteTabContent } from './components/QuoteTabs/QuoteTabContent';
 import { validateQuoteData } from './utils/dataValidator';
-import { createProgrammeVoyageBlock } from './utils/itineraryConverters';
 
-type CombinedQuoteEditorProps = QuoteEditorProps | (Partial<LegacyQuoteEditorProps> & {
-  data: any;
-  onChange?: (data: any) => void | any;
-  onSave?: ((data: any) => Promise<void>) | any;
-  autoSave?: boolean;
-  [key: string]: any;
-});
-
-const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
-  const isStandaloneMode = 'onEvent' in props || 'mock' in props || 'locale' in props;
-  const legacyProps = 'onChange' in props ? props as any : null;
-  const standaloneProps = isStandaloneMode ? props as QuoteEditorProps : null;
-
-  console.log('[QuoteEditor] Render - Mode:', isStandaloneMode ? 'Standalone' : 'Legacy', 'Props keys:', Object.keys(props));
-
+const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHandle>) => {
   const {
     data: initialData,
     mock = false,
@@ -50,43 +39,24 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
     allowWidthControl = true,
     showHeader = true,
     showFooter = true,
-  } = standaloneProps || {
-    data: legacyProps?.data,
-    readonly: legacyProps?.readonly ?? false,
-    printMode: legacyProps?.printMode ?? false,
-    flatMode: legacyProps?.flatMode ?? false,
-    previewMode: legacyProps?.previewMode ?? false,
-    className: legacyProps?.className ?? '',
-    showToolbar: legacyProps?.showToolbar ?? true,
-    showAddSection: legacyProps?.showAddSection ?? false,
-    showAddBlock: legacyProps?.showAddBlock ?? false,
-    showReset: legacyProps?.showReset ?? false,
-    showTemplateSelector: legacyProps?.showTemplateSelector ?? false,
-    allowWidthControl: legacyProps?.allowWidthControl ?? true,
-    showHeader: legacyProps?.showHeader ?? true,
-    showFooter: legacyProps?.showFooter ?? true,
-  };
-
-  const useTabs = legacyProps?.useTabs ?? true;
-  const printMode = propPrintMode || propFlatMode;
-  const flatMode = propFlatMode || propPrintMode;
-
-  const onChange = legacyProps?.onChange;
-  const onSave = legacyProps?.onSave;
-  const autoSave = legacyProps?.autoSave ?? true;
+    useTabs = true,
+    usePDFV2 = false,
+  } = props;
 
   const { t } = useTranslation(locale);
 
-  // ✅ Initialiser directement avec initialData au lieu de null
+  const printMode = propPrintMode || propFlatMode;
+  const flatMode = propFlatMode || propPrintMode;
+
   const [data, setData] = useState<QuoteData | null>(initialData || null);
   const [error, setError] = useState<{ code: string; message: string } | null>(null);
+  const initialDataRef = useRef<QuoteData | null>(initialData || null);
   const isInitialLoadRef = useRef<boolean>(true);
 
   useEffect(() => {
     if (data?.company?.mainColor) {
       const root = document.documentElement;
       const mainColor = data.company.mainColor;
-      console.log('[QuoteEditor] Applying theme color:', mainColor);
 
       const hexToRgb = (hex: string) => {
         const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -123,14 +93,6 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
         const lighterValue = lightenColor(mainColor, 0.92);
         const darkValue = darkenColor(mainColor, 0.15);
 
-        console.log('[QuoteEditor] Setting CSS variables:', {
-          primary: primaryValue,
-          hover: hoverValue,
-          light: lightValue,
-          lighter: lighterValue,
-          dark: darkValue
-        });
-
         root.style.setProperty('--color-primary', primaryValue);
         root.style.setProperty('--color-primary-hover', hoverValue);
         root.style.setProperty('--color-primary-light', lightValue);
@@ -140,82 +102,64 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
     }
   }, [data?.company?.mainColor]);
 
-  const initialDataRef = useRef<QuoteData | null>(initialData || null);
-
   useEffect(() => {
     const loadData = async () => {
       if (!isInitialLoadRef.current) return;
 
-      console.log('[QuoteEditor] Initial loading data - isStandaloneMode:', isStandaloneMode, 'initialData:', initialData);
-
-      if (isStandaloneMode) {
-        try {
-          if (initialData) {
-            const validation = validateQuoteData(initialData);
-            if (!validation.valid) {
-              const errorEvent: ComponentEvent = {
-                type: 'error',
-                code: 'INVALID_DATA',
-                message: validation.errors.join(', '),
-              };
-              setError({ code: errorEvent.code, message: errorEvent.message });
-              onEvent?.(errorEvent);
-              return;
-            }
-            setData(initialData);
-            initialDataRef.current = initialData;
-          } else if (mock) {
-            const mockData = await import('./mocks/data.mock.json');
-            setData(mockData.default as QuoteData);
-            initialDataRef.current = mockData.default as QuoteData;
-          } else {
+      try {
+        if (initialData) {
+          const validation = validateQuoteData(initialData);
+          if (!validation.valid) {
             const errorEvent: ComponentEvent = {
               type: 'error',
-              code: 'NO_DATA',
-              message: t('errors.noData'),
+              code: 'INVALID_DATA',
+              message: validation.errors.join(', '),
             };
             setError({ code: errorEvent.code, message: errorEvent.message });
             onEvent?.(errorEvent);
             return;
           }
-          onEvent?.({ type: 'ready' });
-        } catch (err) {
+          setData(initialData);
+          initialDataRef.current = initialData;
+        } else if (mock) {
+          const mockData = await import('./mocks/data.mock.json');
+          setData(mockData.default as QuoteData);
+          initialDataRef.current = mockData.default as QuoteData;
+        } else {
           const errorEvent: ComponentEvent = {
             type: 'error',
-            code: 'LOAD_ERROR',
-            message: t('errors.loadError'),
+            code: 'NO_DATA',
+            message: t('errors.noData'),
           };
           setError({ code: errorEvent.code, message: errorEvent.message });
           onEvent?.(errorEvent);
+          return;
         }
-      } else {
-        console.log('[QuoteEditor] Legacy mode - setting data directly');
-        if (initialData) {
-          console.log('[QuoteEditor] InitialData sections:', initialData.sections?.length, 'optionBlocks:', initialData.optionBlocks?.length);
-          setData(initialData);
-          initialDataRef.current = initialData;
-        } else {
-          console.error('[QuoteEditor] No initialData provided in legacy mode!');
-        }
+
+        onEvent?.({ type: 'ready' });
+      } catch (err) {
+        const errorEvent: ComponentEvent = {
+          type: 'error',
+          code: 'LOAD_ERROR',
+          message: t('errors.loadError'),
+        };
+        setError({ code: errorEvent.code, message: errorEvent.message });
+        onEvent?.(errorEvent);
       }
 
       isInitialLoadRef.current = false;
     };
+
     loadData();
-  }, [mock, onEvent, t, isStandaloneMode]);
+  }, [mock, onEvent, t]);
 
   const handleChange = (newData: QuoteData) => {
     setData(newData);
-    if (onChange) onChange(newData);
+    onEvent?.({ type: 'change', path: '', value: newData, data: newData });
   };
 
-  const handleSaveWrapper = async (newData: QuoteData) => {
-    if (isStandaloneMode) {
-      onEvent?.({ type: 'save', data: newData });
-    }
-    if (onSave) {
-      await onSave(newData);
-    }
+  const handleSave = async (newData: QuoteData) => {
+    onEvent?.({ type: 'save', data: newData });
   };
 
   const {
@@ -228,11 +172,11 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
     undo,
     redo,
     isEditingField
-  } = useQuoteEditor(data || {} as QuoteData, handleChange, handleSaveWrapper, autoSave);
+  } = useQuoteEditor(data || {} as QuoteData, handleChange, handleSave, false);
 
   useEffect(() => {
     if (!isInitialLoadRef.current && initialData && !isEditingField) {
-      console.log('[QuoteEditor] External data update detected in parent props');
+      setData(initialData);
     }
   }, [initialData, isEditingField]);
 
@@ -240,14 +184,11 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
   const { exportToPDF, isGenerating } = usePDFExport(useTabs);
   const { exportToPDF: exportToPDFBackend, isLoading: isExportingBackend, error: backendError } = useBackendPDFExport();
 
-  // Expose les méthodes via le ref avec protection
   useImperativeHandle(ref, () => ({
     exportToPDF: async () => {
       try {
-        console.log('[QuoteEditor] Export PDF using V1 engine');
-        return await exportToPDF(currentData);
+        await exportToPDF(currentData);
       } catch (error) {
-        console.error('Export PDF error:', error);
         throw error;
       }
     },
@@ -256,33 +197,34 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
     redo: redo || (() => {}),
     getData: () => currentData,
     canUndo: canUndo || false,
-    canRedo: canRedo || false
+    canRedo: canRedo || false,
   }), [currentData, exportToPDF, saveData, undo, redo, canUndo, canRedo]);
-  
-  // Appliquer les variables de couleur
+
   useEffect(() => {
     if (currentData?.company?.mainColor) {
       applyColorVariables();
     }
   }, [currentData?.company?.mainColor, applyColorVariables]);
-  
+
   useEffect(() => {
     const handleGlobalPDFExport = async () => {
       try {
-        console.log('[QuoteEditor] PDF export via global event using V1 engine');
         await exportToPDF(currentData);
-        console.log('[QuoteEditor] PDF exported successfully');
+        onEvent?.({ type: 'export_pdf', data: currentData });
       } catch (error) {
-        console.error('[QuoteEditor] PDF export error:', error);
+        onEvent?.({
+          type: 'error',
+          code: 'EXPORT_ERROR',
+          message: t('errors.exportError'),
+        });
       }
     };
 
     globalEventEmitter.on(EVENTS.EXPORT_PDF, handleGlobalPDFExport);
-
     return () => {
       globalEventEmitter.off(EVENTS.EXPORT_PDF, handleGlobalPDFExport);
     };
-  }, [currentData, exportToPDF]);
+  }, [currentData, exportToPDF, onEvent, t]);
 
   const blockTemplates = useMemo(() => {
     const templates = [
@@ -306,7 +248,6 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
       }
     ];
 
-    // Ajouter les templates existants s'ils existent
     if (initialDataRef.current?.optionBlocks) {
       const existingTemplates = [
         { id: 'included_fees', name: 'Ces tarifs comprennent' },
@@ -325,30 +266,9 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
     return templates.filter(t => t.template !== null);
   }, []);
 
-  // ═══════════════════════════════════════════════════════════════
-  // 🎯 HANDLERS SIMPLIFIÉS
-  // ═══════════════════════════════════════════════════════════════
-
-  const handleSave = async (): Promise<void> => {
-    if (currentData && saveData) {
-      try {
-        await saveData();
-      } catch (error) {
-        if (isStandaloneMode) {
-          onEvent?.({
-            type: 'error',
-            code: 'SAVE_ERROR',
-            message: t('errors.saveError'),
-          });
-        }
-      }
-    }
-  };
-
   const handleAddSection = (): void => {
     if (readonly) return;
-    
-    // ✅ Section avec toutes les valeurs par défaut sécurisées
+
     const newSection = {
       title: 'Nouvelle section',
       columns: undefined,
@@ -369,11 +289,10 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
       }],
       subTotal: { ht: 0, tva: 0, ttc: 0 }
     };
-    
-    // ✅ Calculer les nouveaux totaux de manière sécurisée
+
     const currentSections = currentData.sections || [];
     const newSections = [...currentSections, newSection];
-    
+
     const newTotals = newSections.reduce(
       (acc, section) => {
         const sectionSubTotal = section.subTotal || { ht: 0, tva: 0, ttc: 0 };
@@ -391,13 +310,15 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
       sections: newSections,
       totals: newTotals
     });
+
+    onEvent?.({ type: 'action', name: 'add_section', payload: newSection });
   };
 
   const handleAddOptionBlock = (templateId?: string): void => {
     if (readonly) return;
-    
+
     let newBlock: any;
-    
+
     if (templateId) {
       const templateInfo = blockTemplates.find(t => t.id === templateId);
       if (templateInfo?.template) {
@@ -420,73 +341,60 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
         rows: []
       };
     }
-    
+
     updateData({
       ...currentData,
       optionBlocks: [...(currentData.optionBlocks || []), newBlock],
     });
+
+    onEvent?.({ type: 'action', name: 'add_block', payload: newBlock });
   };
-  
+
   const handleResetToInitial = (): void => {
     if (readonly) return;
     if (window.confirm('Êtes-vous sûr de vouloir réinitialiser le devis ?')) {
       updateData(initialDataRef.current);
+      onEvent?.({ type: 'action', name: 'reset' });
     }
   };
-  
+
   const handleExportPDF = async (): Promise<void> => {
     try {
       await exportToPDF(currentData);
-      if (isStandaloneMode) {
-        onEvent?.({ type: 'export_pdf', data: currentData });
-      }
+      onEvent?.({ type: 'export_pdf', data: currentData });
     } catch (error) {
-      if (isStandaloneMode) {
-        onEvent?.({
-          type: 'error',
-          code: 'EXPORT_ERROR',
-          message: t('errors.exportError'),
-        });
-      }
+      onEvent?.({
+        type: 'error',
+        code: 'EXPORT_ERROR',
+        message: t('errors.exportError'),
+      });
     }
   };
 
   const handleExportPDFBackend = async (): Promise<void> => {
     try {
-      console.log('[QuoteEditor] Exporting PDF via backend...');
       await exportToPDFBackend(currentData);
-      console.log('[QuoteEditor] Backend PDF export successful');
-      if (isStandaloneMode) {
-        onEvent?.({ type: 'export_pdf', data: currentData });
-      }
+      onEvent?.({ type: 'export_pdf', data: currentData });
     } catch (error) {
-      console.error('[QuoteEditor] Backend PDF export error:', error);
-      if (isStandaloneMode) {
-        onEvent?.({
-          type: 'error',
-          code: 'BACKEND_EXPORT_ERROR',
-          message: error instanceof Error ? error.message : 'Erreur lors de l\'export PDF backend'
-        });
-      }
+      onEvent?.({
+        type: 'error',
+        code: 'BACKEND_EXPORT_ERROR',
+        message: error instanceof Error ? error.message : 'Erreur lors de l\'export PDF backend'
+      });
     }
   };
 
-
   const handleUndo = () => {
     undo?.();
-    if (isStandaloneMode) {
-      onEvent?.({ type: 'undo', data: currentData });
-    }
+    onEvent?.({ type: 'undo', data: currentData });
   };
 
   const handleRedo = () => {
     redo?.();
-    if (isStandaloneMode) {
-      onEvent?.({ type: 'redo', data: currentData });
-    }
+    onEvent?.({ type: 'redo', data: currentData });
   };
 
-  if (error && isStandaloneMode) {
+  if (error) {
     return (
       <div
         data-quote-editor-scope
@@ -511,10 +419,10 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
         data-quote-editor-scope
         className={clsx('tw-font-sans tw-bg-surface-0 tw-min-h-screen', theme === 'dark' && 'tw-bg-slate-900', className)}
         data-theme={theme}
-        aria-label={isStandaloneMode ? t('common.loading') : 'Chargement...'}
+        aria-label={t('common.loading')}
       >
         <div className="tw-flex tw-items-center tw-justify-center tw-min-h-screen">
-          <p className="tw-text-gray-500">{isStandaloneMode ? t('common.loading') : 'Chargement des données...'}</p>
+          <p className="tw-text-gray-500">{t('common.loading')}</p>
         </div>
       </div>
     );
@@ -534,7 +442,6 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
       className={clsx('tw-font-sans tw-bg-surface-0 tw-min-h-screen', theme === 'dark' && 'tw-bg-slate-900', className)}
       data-theme={theme}
     >
-      {/* Toolbar optionnelle et propre */}
       {showToolbar && !readonly && (
         <QuoteEditorToolbar
           title={toolbarTitle}
@@ -548,9 +455,9 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
           canRedo={canRedo}
           onUndo={handleUndo}
           onRedo={handleRedo}
-          onSave={onSave ? handleSave : undefined}
+          onSave={undefined}
           onExportPDF={handleExportPDF}
-          onExportPDFBackend={handleExportPDFBackend}
+          onExportPDFBackend={usePDFV2 ? handleExportPDFBackend : undefined}
           onAddSection={handleAddSection}
           onAddBlock={() => handleAddOptionBlock()}
           onReset={handleResetToInitial}
@@ -610,4 +517,4 @@ const QuoteEditorBase = (props: CombinedQuoteEditorProps, ref: any) => {
   );
 };
 
-export const QuoteEditor = forwardRef<QuoteEditorHandle | LegacyQuoteEditorHandle, CombinedQuoteEditorProps>(QuoteEditorBase);
+export const QuoteEditor = forwardRef<QuoteEditorHandle, QuoteEditorProps>(QuoteEditorBase);

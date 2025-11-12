@@ -1,8 +1,11 @@
 // Exports principaux du composant QuoteEditor
 export { QuoteEditor } from './QuoteEditor';
-export type { 
+export type {
   QuoteEditorProps,
   QuoteEditorHandle,
+  ComponentEvent,
+} from './QuoteEditor.types';
+export type {
   QuoteData,
   Company,
   Recipient,

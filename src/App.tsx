@@ -14,26 +14,39 @@ const App: React.FC = () => {
 
   const [quoteData, setQuoteData] = useState<QuoteData>(quoteDataMock as QuoteData);
   const [readonly, setReadonly] = useState<boolean>(false);
-  const [autoSave, setAutoSave] = useState<boolean>(true);
   const [flatMode, setFlatMode] = useState<boolean>(false);
   const [printMode, setPrintMode] = useState<boolean>(false);
   const [showHeader, setShowHeader] = useState<boolean>(true);
   const [showFooter, setShowFooter] = useState<boolean>(true);
   const [externalUpdateCounter, setExternalUpdateCounter] = useState<number>(0);
 
-  const handleQuoteChange = useCallback((newData: QuoteData): void => {
-    console.log('[App] Quote data updated from QuoteEditor (internal change)');
-  }, []);
+  const handleEvent = useCallback((evt: any): void => {
+    console.log('[App] Event received:', evt.type, evt);
 
-  const handleSave = useCallback(async (data: QuoteData): Promise<void> => {
-    console.log('Saving quote data...', data);
-
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        console.log('Quote saved successfully!');
-        resolve();
-      }, 1000);
-    });
+    switch (evt.type) {
+      case 'ready':
+        console.log('[App] QuoteEditor is ready');
+        break;
+      case 'change':
+        console.log('[App] Data changed:', evt.data);
+        break;
+      case 'save':
+        console.log('[App] Saving quote data...', evt.data);
+        break;
+      case 'export_pdf':
+        console.log('[App] PDF exported');
+        break;
+      case 'error':
+        console.error('[App] Error:', evt.code, evt.message);
+        break;
+      case 'undo':
+      case 'redo':
+        console.log('[App] History action:', evt.type);
+        break;
+      case 'action':
+        console.log('[App] Action:', evt.name, evt.payload);
+        break;
+    }
   }, []);
 
   const handleExportJSON = (): void => {
@@ -152,17 +165,6 @@ const App: React.FC = () => {
                       </button>
                       <button
                         type="button"
-                        onClick={() => setAutoSave(!autoSave)}
-                        className={`tw-px-3 tw-py-1.5 tw-rounded tw-text-sm tw-font-medium tw-transition-colors ${
-                          autoSave
-                            ? 'tw-bg-green-500 tw-text-white hover:tw-bg-green-600'
-                            : 'tw-bg-white/20 tw-text-white hover:tw-bg-white/30 tw-border tw-border-white/30'
-                        }`}
-                      >
-                        Auto-save: {autoSave ? 'ON' : 'OFF'}
-                      </button>
-                      <button
-                        type="button"
                         onClick={handleExportJSON}
                         className="tw-px-3 tw-py-1.5 tw-rounded tw-text-sm tw-font-medium tw-bg-white/20 tw-text-white hover:tw-bg-white/30 tw-border tw-border-white/30 tw-transition-colors"
                       >
@@ -250,7 +252,6 @@ const App: React.FC = () => {
                   <ul className="tw-mb-2 tw-text-sm tw-space-y-1">
                     <li><strong>Double-cliquez</strong> sur n'importe quel texte pour l'éditer</li>
                     <li>Utilisez <strong>Ctrl+Z</strong> / <strong>Ctrl+Y</strong> pour annuler/rétablir</li>
-                    <li>Les modifications sont automatiquement sauvegardées (si activé)</li>
                     <li>Ajoutez des lignes et sections avec les boutons <strong>+</strong></li>
                     <li>Supprimez des éléments avec l'icône corbeille au survol</li>
                     <li>Réorganisez avec les poignées de glisser-déposer</li>
@@ -348,9 +349,7 @@ const App: React.FC = () => {
           <div className="lg:tw-col-span-9">
             <QuoteEditor
               data={quoteData}
-              onChange={handleQuoteChange}
-              onSave={handleSave}
-              autoSave={autoSave}
+              onEvent={handleEvent}
               readonly={readonly}
               flatMode={flatMode}
               printMode={printMode}
@@ -359,6 +358,7 @@ const App: React.FC = () => {
               usePDFV2={true}
               showAddBlock={true}
               showTemplateSelector={true}
+              useTabs={true}
             />
           </div>
         </div>

@@ -220,6 +220,8 @@ export interface QuoteEditorProps {
   allowWidthControl?: boolean;
   showHeader?: boolean;
   showFooter?: boolean;
+  useTabs?: boolean;
+  usePDFV2?: boolean;
 }
 
 export interface QuoteEditorHandle {
