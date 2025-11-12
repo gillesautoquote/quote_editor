@@ -19,6 +19,8 @@ export const QuotePageRecipient: React.FC<QuotePageRecipientProps> = ({
 }) => {
   const mainColor = company?.mainColor || '#0066cc';
 
+  console.log('[QuotePageRecipient] company:', company, 'mainColor:', mainColor);
+
   return (
     <div className="tw-mb-4 tw-flex tw-justify-end max-md:tw-justify-start">
       <div className="qe-bg-surface-indigo-50 tw-border qe-border-border-light tw-rounded-2xl tw-p-3 tw-inline-block tw-min-w-[300px] tw-max-w-[400px]">
