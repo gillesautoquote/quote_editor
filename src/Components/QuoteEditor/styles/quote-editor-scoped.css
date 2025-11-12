@@ -131,17 +131,16 @@
   line-height: inherit !important;
 }
 
-/* Reset tables */
+/* Reset tables - CRITICAL: Do not reset padding/text-align to allow Tailwind classes */
 [data-quote-editor-scope] table {
   border-collapse: collapse !important;
   border-spacing: 0 !important;
-  width: 100% !important;
 }
 
+/* Note: padding and text-align are NOT reset here to allow Tailwind utility classes (tw-p-*, tw-text-*) to work properly */
 [data-quote-editor-scope] td,
 [data-quote-editor-scope] th {
-  padding: 0 !important;
-  text-align: left !important;
+  /* Intentionally left empty - padding and alignment controlled by component classes */
 }
 
 /* ========================================
