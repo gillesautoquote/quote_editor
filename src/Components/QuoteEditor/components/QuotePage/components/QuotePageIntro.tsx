@@ -117,8 +117,8 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
       </div>
 
       {/* Récapitulatif de la proposition (non modifiable) */}
-      <div className="tw-mt-6 tw-border tw-border-gray-200 tw-rounded-lg tw-bg-gray-50 tw-p-4 print:tw-bg-white">
-        <h3 className="tw-text-sm tw-font-semibold tw-mb-2" style={{ color: (data.company?.mainColor) || '#0a6' }}>
+      <div className="tw-mt-6 tw-border tw-border-gray-200 tw-rounded-xl tw-bg-gray-50 tw-p-5 print:tw-bg-white print:tw-p-4">
+        <h3 className="tw-text-base tw-font-semibold tw-mb-3 tw-tracking-normal" style={{ color: data.company?.mainColor || '#0066cc' }}>
           Récapitulatif de la proposition
         </h3>
         {(() => {
@@ -137,12 +137,12 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
               return `${days[d.getDay()]} ${toOrdinal(d.getDate())} ${months[d.getMonth()]} ${d.getFullYear()}`;
             } catch { return iso; }
           };
-          const validityText = valid ? `jusqu’au ${formatFancy(quote.validUntil)}` : ((data as any)?.validityNotice || '');
+          const validityText = valid ? `jusqu'au ${formatFancy(quote.validUntil)}` : ((data as any)?.validityNotice || '');
           const firstDay = Array.isArray((data as any)?.itinerary) && (data as any).itinerary.length > 0 ? (data as any).itinerary[0] : undefined;
           const tripName = firstDay?.tripName || 'Votre voyage';
 
           return (
-            <div className="tw-space-y-1 tw-text-[0.9rem] print:tw-text-[0.85rem]">
+            <div className="tw-space-y-1.5 tw-text-[0.9rem] tw-leading-relaxed print:tw-text-[0.85rem]">
               <div><strong>Voyage&nbsp;:</strong> {tripName}</div>
               <div><strong>Montant&nbsp;:</strong> {fmtCurrency(totals?.ht)} HT – {fmtCurrency(totals?.ttc)} TTC</div>
               {carbon && <div><strong>Impact carbone estimé&nbsp;:</strong> {carbon.co2Amount} {carbon.unit}</div>}
