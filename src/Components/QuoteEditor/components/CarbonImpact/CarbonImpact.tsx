@@ -8,28 +8,30 @@ interface CarbonImpactProps {
   onUpdateCarbonImpact?: (carbonImpact: CarbonImpactType) => void;
   readonly?: boolean;
   printMode?: boolean;
+  mainColor?: string;
 }
 
 export const CarbonImpact: React.FC<CarbonImpactProps> = ({
   carbonImpact,
   onUpdateCarbonImpact,
   readonly = false,
-  printMode = false
+  printMode = false,
+  mainColor = '#0066cc'
 }) => {
-  const greenColor = '#00796b'; // Vert environnemental
+  const impactColor = mainColor;
 
   return (
     <div className="tw-mb-6 tw-flex tw-justify-center">
       <div
         className="tw-flex tw-flex-col tw-items-center tw-gap-3 tw-border-2 tw-rounded-xl tw-px-6 tw-py-4 tw-shadow-sm"
         style={{
-          backgroundColor: '#e8f5f0',
-          borderColor: '#b8dccf'
+          backgroundColor: `${mainColor}10`,
+          borderColor: `${mainColor}40`
         }}
       >
         <h3
           className="tw-text-sm tw-font-semibold tw-flex tw-items-center tw-gap-2"
-          style={{ color: greenColor }}
+          style={{ color: impactColor }}
         >
           <svg className="tw-w-5 tw-h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <circle cx="12" cy="12" r="10"/>
@@ -41,13 +43,13 @@ export const CarbonImpact: React.FC<CarbonImpactProps> = ({
         <div className="tw-flex tw-items-center tw-gap-4">
           <div
             className="tw-flex tw-items-center tw-gap-3 tw-bg-white tw-rounded-lg tw-px-4 tw-py-3 tw-border"
-            style={{ borderColor: '#b8dccf' }}
+            style={{ borderColor: `${mainColor}40` }}
           >
-            <Bus className="tw-w-7 tw-h-7" strokeWidth={2} style={{ color: greenColor }} />
+            <Bus className="tw-w-7 tw-h-7" strokeWidth={2} style={{ color: impactColor }} />
             <div className="tw-flex tw-flex-col">
               <span
                 className="tw-text-2xl tw-font-bold tw-leading-none"
-                style={{ color: greenColor }}
+                style={{ color: impactColor }}
               >
                 {carbonImpact.equivalentKm}
               </span>
@@ -57,17 +59,17 @@ export const CarbonImpact: React.FC<CarbonImpactProps> = ({
             </div>
           </div>
 
-          <div className="tw-text-xl tw-font-bold" style={{ color: greenColor }}>=</div>
+          <div className="tw-text-xl tw-font-bold" style={{ color: impactColor }}>=</div>
 
           <div
             className="tw-flex tw-items-center tw-gap-3 tw-bg-white tw-rounded-lg tw-px-4 tw-py-3 tw-border"
-            style={{ borderColor: '#b8dccf' }}
+            style={{ borderColor: `${mainColor}40` }}
           >
-            <Cloud className="tw-w-7 tw-h-7" strokeWidth={2} style={{ color: greenColor }} />
+            <Cloud className="tw-w-7 tw-h-7" strokeWidth={2} style={{ color: impactColor }} />
             <div className="tw-flex tw-flex-col">
               <span
                 className="tw-text-2xl tw-font-bold tw-leading-none"
-                style={{ color: greenColor }}
+                style={{ color: impactColor }}
               >
                 {carbonImpact.co2Amount}
               </span>
@@ -81,7 +83,7 @@ export const CarbonImpact: React.FC<CarbonImpactProps> = ({
         {carbonImpact.description && (
           <div
             className="tw-mt-3 tw-pt-3 tw-border-t tw-w-full tw-flex tw-justify-center"
-            style={{ borderColor: '#b8dccf' }}
+            style={{ borderColor: `${mainColor}40` }}
           >
             <div className="tw-max-w-2xl tw-w-full">
               <EditableField

@@ -196,6 +196,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
               carbonImpact={currentData.carbonImpact}
               onUpdate={(impact) => onUpdateData({ ...currentData, carbonImpact: impact })}
               readonly={readonly}
+              mainColor={currentData.company?.mainColor}
             />
           </div>
         </>

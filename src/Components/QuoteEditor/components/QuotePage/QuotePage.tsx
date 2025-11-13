@@ -266,6 +266,7 @@ export const QuotePage: React.FC<QuotePageProps> = ({
             }
             readonly={readonly}
             printMode={printMode}
+            mainColor={dataWithProgrammeVoyage.company?.mainColor}
           />
         )}
       </div>

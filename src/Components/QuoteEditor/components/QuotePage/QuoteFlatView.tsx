@@ -203,6 +203,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
                   }
                   readonly={readonly}
                   printMode={printMode}
+                  mainColor={dataWithProgrammeVoyage.company?.mainColor}
                 />
               </div>
             )}
