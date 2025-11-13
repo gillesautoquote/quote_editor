@@ -26,6 +26,27 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
   data,
   visibleTabIds
 }) => {
+  // Fix interligne de la liste "ce que le document comprend" en mode print
+  // sans modifier le fichier global src/styles/print.css
+  React.useEffect(() => {
+    if (typeof document === 'undefined') return;
+
+    const styleId = 'qe-intro-list-print-lineheight-fix';
+    if (document.getElementById(styleId)) return;
+
+    const style = document.createElement('style');
+    style.id = styleId;
+    style.textContent = `
+      @media print {
+        .intro-list ul,
+        .intro-list li {
+          line-height: 0.8 !important;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }, []);
+
   const sectionsList = generatePDFSectionsList(data, visibleTabIds);
   return (
     <div className="tw-mb-4 tw-mt-8 tw-text-[0.9rem] tw-leading-[1.4] qe-text-text">

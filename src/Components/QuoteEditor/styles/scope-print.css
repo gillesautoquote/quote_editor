@@ -329,6 +329,12 @@
   widows: 3 !important;
 }
 
+/* Titres dynamiques basés sur la couleur principale de la compagnie */
+[data-quote-editor-scope] .qe-text-primary,
+[data-quote-editor-scope] .qe-recap-title {
+  color: rgb(var(--color-primary)) !important;
+}
+
 [data-quote-editor-scope] .bg-primary,
 [data-quote-editor-scope] .qe-bg-primary,
 [data-quote-editor-scope] [style*="background-color"],

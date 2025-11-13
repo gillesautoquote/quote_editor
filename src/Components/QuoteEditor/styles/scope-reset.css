@@ -58,6 +58,13 @@
   --qe-color-primary-light: 229, 231, 235;
   --qe-color-primary-lighter: 243, 244, 246;
   --qe-color-primary-dark: 31, 41, 55;
+
+  /* Alias global pour compatibilité avec les utilitaires (qe-text-primary, etc.) */
+  --color-primary: var(--qe-color-primary);
+  --color-primary-hover: var(--qe-color-primary-hover);
+  --color-primary-light: var(--qe-color-primary-light);
+  --color-primary-lighter: var(--qe-color-primary-lighter);
+  --color-primary-dark: var(--qe-color-primary-dark);
 }
 
 /* ========================================

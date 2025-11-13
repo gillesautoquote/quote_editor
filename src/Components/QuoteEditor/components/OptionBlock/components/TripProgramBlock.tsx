@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { MapPin, Clock, Filter, Trash2, Plus } from 'lucide-react';
 import type { TripProgramStep, TripProgramFilters } from '../../../QuoteEditor.types';
 import { EditableField } from '../../EditableField/EditableField';
@@ -43,6 +43,25 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
   blockColor,
   companyColor
 }) => {
+  // Style d'impression : forcer un saut de page avant chaque nouvelle mission
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+
+    const styleId = 'qe-trip-program-mission-break-print-style';
+    if (document.getElementById(styleId)) return;
+
+    const style = document.createElement('style');
+    style.id = styleId;
+    style.textContent = `
+      @media print {
+        .qe-new-mission-break {
+          break-before: page !important;
+          page-break-before: always !important;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }, []);
   const filteredSteps = useMemo(() => {
     return steps.filter(step => {
       const labelLower = step.label.toLowerCase();
@@ -160,15 +179,18 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
         </div>
       ) : (
         <div className="tw-space-y-6">
-          {Object.entries(groupedByMission).map(([missionKey, dateGroups], missionIndex) => (
-            <div key={missionIndex} className="tw-space-y-4">
-              {dateGroups[0]?.tripName && (
-                <div className="tw-mb-3">
-                  <h3 className="tw-text-base tw-font-bold" style={{ color: blockColor }}>
-                    {dateGroups[0].tripName}
-                  </h3>
-                </div>
-              )}
+        {Object.entries(groupedByMission).map(([missionKey, dateGroups], missionIndex) => (
+          <div
+            key={missionIndex}
+            className={missionIndex > 0 ? 'qe-new-mission-break tw-space-y-4' : 'tw-space-y-4'}
+          >
+            {dateGroups[0]?.tripName && (
+              <div className="tw-mb-3">
+                <h3 className="tw-text-base tw-font-bold" style={{ color: blockColor }}>
+                  {dateGroups[0].tripName}
+                </h3>
+              </div>
+            )}
               {dateGroups.map((dateGroup, dateIndex) => {
                 // Toujours utiliser companyColor pour les en-têtes de jour (cohérence visuelle)
                 const containerColor = companyColor || blockColor;

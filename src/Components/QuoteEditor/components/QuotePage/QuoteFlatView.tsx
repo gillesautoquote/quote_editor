@@ -1,4 +1,8 @@
 import React, { useMemo } from 'react';
+// Import explicite des styles scoped pour garantir qu'ils sont présents
+// même dans le mode print (/print) qui n'utilise pas directement QuoteEditor/index.ts
+import '../../styles/quote-editor-scoped.css';
+import '../../styles/quote-editor-utilities.css';
 import type { QuoteData } from '../../entities/QuoteData';
 import { QuoteSection as QuoteSectionComponent } from '../QuoteSection/QuoteSection';
 import { SignatureSection } from '../SignatureSection/SignatureSection';
