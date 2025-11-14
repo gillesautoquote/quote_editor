@@ -247,16 +247,6 @@
   background: white;
 }
 
-@page :left {
-  margin-left: 2cm;
-  margin-right: 1.5cm;
-}
-
-@page :right {
-  margin-left: 1.5cm;
-  margin-right: 2cm;
-}
-
 /* Running headers & footers */
 [data-quote-editor-scope] .print-header {
   position: running(pageHeader) !important;
