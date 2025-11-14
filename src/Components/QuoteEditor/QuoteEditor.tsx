@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, forwardRef, useImperativeHandle, useMemo } from 'react';
 import clsx from 'clsx';
+import './styles/print.css';
 import { usePDFExport } from './hooks/usePDFExport';
 import { useBackendPDFExport } from './hooks/useBackendPDFExport';
 import { globalEventEmitter, EVENTS } from './utils/eventEmitter';
