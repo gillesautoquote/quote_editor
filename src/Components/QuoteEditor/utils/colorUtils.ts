@@ -146,6 +146,13 @@ export const generateColorVariables = (mainColor: string) => {
     '--color-primary-hover': darken(0.85),
     '--color-primary-light': lighten(0.85),
     '--color-primary-lighter': lighten(0.92),
-    '--color-primary-dark': darken(0.75)
+    '--color-primary-dark': darken(0.75),
+
+    // Dynamic inline style variables
+    '--recap-color': mainColor,
+    '--tab-title-color': mainColor,
+    '--hover-color': darkerVariant,
+    '--hover-bg': `linear-gradient(to bottom right, ${mainColor}, ${darkerVariant})`,
+    '--tw-shadow-color': mainColor
   };
 };

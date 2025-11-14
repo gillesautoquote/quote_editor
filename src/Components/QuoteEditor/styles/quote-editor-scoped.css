@@ -75,6 +75,13 @@
   --color-primary-light: var(--qe-color-primary-light);
   --color-primary-lighter: var(--qe-color-primary-lighter);
   --color-primary-dark: var(--qe-color-primary-dark);
+
+  /* Dynamic inline style variables - fallbacks */
+  --recap-color: #0066cc;
+  --tab-title-color: #0066cc;
+  --hover-color: #004499;
+  --hover-bg: linear-gradient(to bottom right, #0066cc, #004499);
+  --tw-shadow-color: rgb(var(--qe-color-primary));
 }
 
 /* ========================================
