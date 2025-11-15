@@ -255,7 +255,7 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
   };
 
   return (
-    <div className={`tw-sticky tw-top-0 tw-bg-white/95 tw-backdrop-blur-sm tw-border-b tw-border-gray-200 tw-shadow-md tw-z-10 tw-mb-2 ${className}`}>
+    <div className={`tw-sticky tw-top-0 tw-bg-white tw-border-b tw-border-gray-300 tw-z-10 tw-mb-2 ${className}`}>
       <div className="tw-flex tw-justify-between tw-items-center tw-px-3 tw-py-3 tw-gap-4">
         {/* Left: Badge and Tabs */}
         <div className="tw-flex tw-items-center tw-gap-3 tw-flex-1 tw-min-w-0">
