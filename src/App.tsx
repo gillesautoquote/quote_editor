@@ -358,6 +358,7 @@ const App: React.FC = () => {
               usePDFV2={true}
               showAddBlock={true}
               showTemplateSelector={true}
+              showReset={true}
               useTabs={true}
             />
           </div>
