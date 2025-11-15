@@ -134,23 +134,30 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
   // Update indicator position when active tab changes
   useEffect(() => {
     if (tabs?.active) {
-      const activeButton = tabRefs.current.get(tabs.active);
-      if (activeButton) {
-        // Find the container with tw-relative class
-        let container = activeButton.parentElement;
-        while (container && !container.classList.contains('tw-relative')) {
-          container = container.parentElement;
-        }
+      // Small delay to ensure DOM is fully rendered
+      const timer = setTimeout(() => {
+        const activeButton = tabRefs.current.get(tabs.active);
+        if (activeButton) {
+          // Find the container with tw-relative class
+          let container = activeButton.parentElement;
+          while (container && !container.classList.contains('tw-relative')) {
+            container = container.parentElement;
+          }
 
-        if (container) {
-          const containerRect = container.getBoundingClientRect();
-          const buttonRect = activeButton.getBoundingClientRect();
-          setIndicatorStyle({
-            left: buttonRect.left - containerRect.left,
-            width: buttonRect.width
-          });
+          if (container) {
+            const containerRect = container.getBoundingClientRect();
+            const buttonRect = activeButton.getBoundingClientRect();
+            const newStyle = {
+              left: buttonRect.left - containerRect.left,
+              width: buttonRect.width
+            };
+            console.log('Indicator style:', newStyle, 'Active tab:', tabs.active);
+            setIndicatorStyle(newStyle);
+          }
         }
-      }
+      }, 10);
+
+      return () => clearTimeout(timer);
     }
   }, [tabs?.active, tabs?.visible]);
 
@@ -373,13 +380,14 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
               {/* Animated indicator */}
               {indicatorStyle.width > 0 && (
                 <div
-                  className="tw-absolute tw-bottom-0 tw-h-0.5 tw-transition-all tw-duration-300 tw-ease-out tw-rounded-full"
+                  className="tw-absolute tw-bottom-0 tw-transition-all tw-duration-300 tw-ease-out"
                   style={{
                     backgroundColor: tabs.mainColor,
                     left: `${indicatorStyle.left}px`,
                     width: `${indicatorStyle.width}px`,
                     transform: 'translateZ(0)', // Hardware acceleration
-                    height: '2px'
+                    height: '3px',
+                    borderRadius: '2px 2px 0 0'
                   }}
                 />
               )}
