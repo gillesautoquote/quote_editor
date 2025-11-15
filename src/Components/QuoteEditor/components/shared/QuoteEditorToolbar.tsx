@@ -398,6 +398,30 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
 
         {/* Right: Action Buttons */}
         <div className="tw-flex tw-flex-wrap tw-items-center tw-gap-2 tw-flex-shrink-0">
+          {/* Reset Button */}
+          {showReset && (
+            <button
+              type="button"
+              onClick={onReset}
+              className="tw-inline-flex tw-items-center tw-px-2.5 tw-py-1.5 tw-text-sm tw-font-medium tw-text-gray-700 tw-bg-white tw-border tw-border-gray-300 tw-rounded hover:tw-bg-gray-50 tw-transition-colors"
+              title="Réinitialiser le devis"
+            >
+              <RotateCcw size={16} />
+            </button>
+          )}
+
+          {/* Save Button */}
+          {onSave && (
+            <button
+              type="button"
+              onClick={onSave}
+              className="tw-inline-flex tw-items-center tw-px-2.5 tw-py-1.5 tw-text-sm tw-font-medium tw-text-white tw-bg-blue-600 tw-border tw-border-blue-600 tw-rounded hover:tw-bg-blue-700 tw-transition-colors"
+              title="Sauvegarder les modifications"
+            >
+              <Save size={16} />
+            </button>
+          )}
+
           {editActions.length > 0 && (
             <div className="tw-flex tw-gap-1">
               {editActions.map(renderAction)}
