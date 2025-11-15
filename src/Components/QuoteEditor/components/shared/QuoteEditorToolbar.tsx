@@ -106,8 +106,6 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
   const tabMenuRef = useRef<HTMLDivElement>(null);
   const tabButtonRef = useRef<HTMLButtonElement>(null);
   const [tabMenuPosition, setTabMenuPosition] = useState<{ top: number; left: number } | null>(null);
-  const [indicatorStyle, setIndicatorStyle] = useState<{ left: number; width: number }>({ left: 0, width: 0 });
-  const tabRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -130,36 +128,6 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
       });
     }
   }, [showAddTabMenu]);
-
-  // Update indicator position when active tab changes
-  useEffect(() => {
-    if (tabs?.active) {
-      // Small delay to ensure DOM is fully rendered
-      const timer = setTimeout(() => {
-        const activeButton = tabRefs.current.get(tabs.active);
-        if (activeButton) {
-          // Find the container with tw-relative class
-          let container = activeButton.parentElement;
-          while (container && !container.classList.contains('tw-relative')) {
-            container = container.parentElement;
-          }
-
-          if (container) {
-            const containerRect = container.getBoundingClientRect();
-            const buttonRect = activeButton.getBoundingClientRect();
-            const newStyle = {
-              left: buttonRect.left - containerRect.left,
-              width: buttonRect.width
-            };
-            console.log('Indicator style:', newStyle, 'Active tab:', tabs.active);
-            setIndicatorStyle(newStyle);
-          }
-        }
-      }, 10);
-
-      return () => clearTimeout(timer);
-    }
-  }, [tabs?.active, tabs?.visible]);
 
   const getSaveIndicatorClass = (): string => {
     if (saveState?.isSaving) return 'tw-bg-yellow-50 tw-text-yellow-800 tw-border-yellow-200';
@@ -295,7 +263,7 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
 
           {/* Tabs */}
           {tabs && tabs.visible.length > 0 && (
-            <div className="tw-flex tw-gap-1 tw-overflow-x-auto tw-scrollbar-thin tw-flex-1 tw-relative">
+            <div className="tw-flex tw-gap-1 tw-overflow-x-auto tw-scrollbar-thin tw-flex-1">
               {tabs.visible.map((tab) => (
                 <div
                   key={tab.id}
@@ -333,9 +301,6 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
                     </div>
                   )}
                   <button
-                    ref={(el) => {
-                      if (el) tabRefs.current.set(tab.id, el);
-                    }}
                     type="button"
                     onClick={() => tabs.onTabChange(tab.id)}
                     onMouseEnter={(e) => {
@@ -350,14 +315,15 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
                         e.currentTarget.style.backgroundColor = 'transparent';
                       }
                     }}
-                    className="tw-flex tw-items-center tw-gap-1.5 tw-px-2 tw-py-1.5 tw-text-xs tw-font-medium tw-whitespace-nowrap tw-border-b-2 tw-border-transparent tw-min-w-fit tw-relative tw-group tw-rounded-t-md"
+                    className="tw-flex tw-items-center tw-gap-1.5 tw-px-2 tw-py-1.5 tw-text-xs tw-font-medium tw-whitespace-nowrap tw-border-b-2 tw-min-w-fit tw-relative tw-group tw-rounded-t-md"
                     style={{
                       color: tabs.active === tab.id ? tabs.mainColor : '#6b7280',
+                      borderBottomColor: tabs.active === tab.id ? tabs.mainColor : 'transparent',
                       backgroundColor: tabs.active === tab.id ? 'white' : 'transparent',
                       opacity: draggedTab === tab.id ? 0.5 : 1,
                       cursor: 'pointer',
                       transform: tabs.active === tab.id ? 'translateY(0)' : 'none',
-                      transition: 'color 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s ease'
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
                     }}
                     title={tab.description}
                   >
@@ -377,20 +343,6 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
                   </button>
                 </div>
               ))}
-              {/* Animated indicator */}
-              {indicatorStyle.width > 0 && (
-                <div
-                  className="tw-absolute tw-bottom-0 tw-transition-all tw-duration-300 tw-ease-out"
-                  style={{
-                    backgroundColor: tabs.mainColor,
-                    left: `${indicatorStyle.left}px`,
-                    width: `${indicatorStyle.width}px`,
-                    transform: 'translateZ(0)', // Hardware acceleration
-                    height: '3px',
-                    borderRadius: '2px 2px 0 0'
-                  }}
-                />
-              )}
               {tabs.enableTabManagement && tabs.hidden.length > 0 && (
                 <button
                   ref={tabButtonRef}
