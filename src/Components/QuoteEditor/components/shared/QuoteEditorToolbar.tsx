@@ -285,66 +285,14 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
 
   return (
     <div className={`tw-sticky tw-top-0 tw-bg-white/95 tw-backdrop-blur-sm tw-border-b tw-border-gray-200 tw-shadow-md tw-z-10 tw-mb-2 ${className}`}>
-      <div className="tw-flex tw-flex-col">
-        {/* Top row: Badge and Action Buttons */}
-        <div className="tw-flex tw-justify-between tw-items-center tw-px-3 tw-pt-3 tw-pb-2">
-          <div className="tw-flex tw-items-center tw-gap-2">
-            {readonly && <span className="tw-px-2 tw-py-0.5 tw-bg-green-100 tw-text-green-800 tw-text-xs tw-font-medium tw-rounded">Lecture</span>}
-          </div>
+      <div className="tw-flex tw-justify-between tw-items-center tw-px-3 tw-py-3 tw-gap-4">
+        {/* Left: Badge and Tabs */}
+        <div className="tw-flex tw-items-center tw-gap-3 tw-flex-1 tw-min-w-0">
+          {readonly && <span className="tw-px-2 tw-py-0.5 tw-bg-green-100 tw-text-green-800 tw-text-xs tw-font-medium tw-rounded tw-flex-shrink-0">Lecture</span>}
 
-          <div className="tw-flex tw-flex-wrap tw-items-center tw-gap-2">
-            {editActions.length > 0 && (
-              <div className="tw-flex tw-gap-1">
-                {editActions.map(renderAction)}
-              </div>
-            )}
-
-            {moreActions.length > 0 && (
-              <div className="tw-relative">
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setShowMoreMenu(!showMoreMenu);
-                  }}
-                  className="tw-inline-flex tw-items-center tw-px-2.5 tw-py-1.5 tw-text-sm tw-font-medium tw-text-gray-700 tw-bg-white tw-border tw-border-gray-300 tw-rounded hover:tw-bg-gray-50 tw-transition-colors"
-                  title="Plus d'actions"
-                >
-                  <MoreHorizontal size={14} />
-                </button>
-                {showMoreMenu && (
-                  <div
-                    className="tw-absolute tw-top-full tw-right-0 tw-mt-1 tw-w-44 tw-bg-white tw-border tw-border-gray-200 tw-rounded-lg tw-shadow-lg tw-z-50"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {moreActions.map((action) => (
-                      <button
-                        key={action.id}
-                        type="button"
-                        className={`tw-w-full tw-flex tw-items-center tw-gap-2 tw-px-3 tw-py-2 tw-text-sm hover:tw-bg-gray-50 tw-transition-colors first:tw-rounded-t-lg last:tw-rounded-b-lg ${
-                          action.variant === 'danger' ? 'tw-text-red-600' : 'tw-text-gray-700'
-                        }`}
-                        onClick={() => {
-                          action.onClick();
-                          setShowMoreMenu(false);
-                        }}
-                        disabled={action.disabled}
-                      >
-                        {action.icon}
-                        {action.label}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Bottom row: Tabs */}
-        {tabs && tabs.visible.length > 0 && (
-          <div className="tw-px-3 tw-pb-1">
-            <div className="tw-flex tw-gap-1 tw-overflow-x-auto tw-scrollbar-thin">
+          {/* Tabs */}
+          {tabs && tabs.visible.length > 0 && (
+            <div className="tw-flex tw-gap-1 tw-overflow-x-auto tw-scrollbar-thin tw-flex-1">
               {tabs.visible.map((tab) => (
                 <div
                   key={tab.id}
@@ -445,8 +393,57 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
                 </button>
               )}
             </div>
-          </div>
-        )}
+          )}
+        </div>
+
+        {/* Right: Action Buttons */}
+        <div className="tw-flex tw-flex-wrap tw-items-center tw-gap-2 tw-flex-shrink-0">
+          {editActions.length > 0 && (
+            <div className="tw-flex tw-gap-1">
+              {editActions.map(renderAction)}
+            </div>
+          )}
+
+          {moreActions.length > 0 && (
+            <div className="tw-relative">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowMoreMenu(!showMoreMenu);
+                }}
+                className="tw-inline-flex tw-items-center tw-px-2.5 tw-py-1.5 tw-text-sm tw-font-medium tw-text-gray-700 tw-bg-white tw-border tw-border-gray-300 tw-rounded hover:tw-bg-gray-50 tw-transition-colors"
+                title="Plus d'actions"
+              >
+                <MoreHorizontal size={14} />
+              </button>
+              {showMoreMenu && (
+                <div
+                  className="tw-absolute tw-top-full tw-right-0 tw-mt-1 tw-w-44 tw-bg-white tw-border tw-border-gray-200 tw-rounded-lg tw-shadow-lg tw-z-50"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {moreActions.map((action) => (
+                    <button
+                      key={action.id}
+                      type="button"
+                      className={`tw-w-full tw-flex tw-items-center tw-gap-2 tw-px-3 tw-py-2 tw-text-sm hover:tw-bg-gray-50 tw-transition-colors first:tw-rounded-t-lg last:tw-rounded-b-lg ${
+                        action.variant === 'danger' ? 'tw-text-red-600' : 'tw-text-gray-700'
+                      }`}
+                      onClick={() => {
+                        action.onClick();
+                        setShowMoreMenu(false);
+                      }}
+                      disabled={action.disabled}
+                    >
+                      {action.icon}
+                      {action.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Add Tab Menu */}
