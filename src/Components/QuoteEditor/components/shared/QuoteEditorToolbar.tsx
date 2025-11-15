@@ -315,14 +315,15 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
                         e.currentTarget.style.backgroundColor = 'transparent';
                       }
                     }}
-                    className="tw-flex tw-items-center tw-gap-1.5 tw-px-2 tw-py-1.5 tw-text-xs tw-font-medium tw-whitespace-nowrap tw-border-b-2 tw-transition-all tw-duration-200 tw-min-w-fit tw-relative tw-group tw-rounded-t-md"
+                    className="tw-flex tw-items-center tw-gap-1.5 tw-px-2 tw-py-1.5 tw-text-xs tw-font-medium tw-whitespace-nowrap tw-border-b-2 tw-min-w-fit tw-relative tw-group tw-rounded-t-md"
                     style={{
                       color: tabs.active === tab.id ? tabs.mainColor : '#6b7280',
                       borderBottomColor: tabs.active === tab.id ? tabs.mainColor : 'transparent',
                       backgroundColor: tabs.active === tab.id ? 'white' : 'transparent',
                       opacity: draggedTab === tab.id ? 0.5 : 1,
                       cursor: 'pointer',
-                      transform: tabs.active === tab.id ? 'translateY(0)' : 'none'
+                      transform: tabs.active === tab.id ? 'translateY(0)' : 'none',
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
                     }}
                     title={tab.description}
                   >
