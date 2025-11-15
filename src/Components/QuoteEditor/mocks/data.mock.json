@@ -112,6 +112,79 @@
   "sections": [
     {
       "title": "Transport",
+      "columns": {
+        "date": {
+          "title": "Date",
+          "width": "70px",
+          "align": "center",
+          "type": "date",
+          "editable": true,
+          "style": "normal"
+        },
+        "description": {
+          "title": "Description",
+          "align": "left",
+          "type": "text",
+          "editable": true,
+          "style": "normal"
+        },
+        "durationHours": {
+          "title": "Durée",
+          "width": "50px",
+          "align": "center",
+          "type": "number",
+          "editable": true,
+          "style": "normal"
+        },
+        "pax": {
+          "title": "Pax",
+          "width": "40px",
+          "align": "center",
+          "type": "number",
+          "editable": true,
+          "style": "normal"
+        },
+        "unitPrice": {
+          "title": "P. U.",
+          "width": "60px",
+          "align": "right",
+          "type": "currency",
+          "editable": true,
+          "style": "normal"
+        },
+        "quantity": {
+          "title": "Qté",
+          "width": "40px",
+          "align": "center",
+          "type": "number",
+          "editable": true,
+          "style": "normal"
+        },
+        "priceHT": {
+          "title": "HT",
+          "width": "55px",
+          "align": "right",
+          "type": "currency",
+          "editable": false,
+          "style": "calculated"
+        },
+        "vatRate": {
+          "title": "TVA",
+          "width": "45px",
+          "align": "center",
+          "type": "number",
+          "editable": true,
+          "style": "normal"
+        },
+        "priceTTC": {
+          "title": "TTC",
+          "width": "60px",
+          "align": "right",
+          "type": "currency",
+          "editable": false,
+          "style": "calculated"
+        }
+      },
       "missionsLines": [
         {
           "date": "2024-06-20",
