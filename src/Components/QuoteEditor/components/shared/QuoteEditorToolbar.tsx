@@ -361,7 +361,7 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
                       draggable
                       onDragStart={(e) => handleTabDragStart(e, tab.id)}
                       onDragEnd={handleTabDragEnd}
-                      className="tw-flex tw-items-center tw-px-1 tw-cursor-move tw-transition-all tw-duration-200 tw-rounded-l-md"
+                      className="tw-flex tw-items-center tw-px-0.5 tw-cursor-move tw-transition-all tw-duration-200 tw-rounded-l-md"
                       style={{
                         opacity: draggedTab === tab.id ? 0.5 : 0.5,
                         backgroundColor: tabs.active === tab.id ? 'white' : 'transparent'
@@ -375,7 +375,7 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
                       title="Glisser pour réorganiser"
                     >
                       <GripVertical
-                        size={12}
+                        size={10}
                         style={{ color: tabs.mainColor, opacity: 0.4 }}
                         className="group-hover/tab:tw-opacity-80 tw-transition-opacity"
                       />
@@ -396,7 +396,7 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
                         e.currentTarget.style.backgroundColor = 'transparent';
                       }
                     }}
-                    className="tw-flex tw-items-center tw-gap-1.5 tw-px-2.5 tw-py-1.5 tw-text-xs tw-font-medium tw-whitespace-nowrap tw-border-b-2 tw-transition-all tw-duration-200 tw-min-w-fit tw-relative tw-group tw-rounded-t-md"
+                    className="tw-flex tw-items-center tw-gap-1 tw-px-2 tw-py-1 tw-text-xs tw-font-medium tw-whitespace-nowrap tw-border-b-2 tw-transition-all tw-duration-200 tw-min-w-fit tw-relative tw-group tw-rounded-t-md"
                     style={{
                       color: tabs.active === tab.id ? tabs.mainColor : '#6b7280',
                       borderBottomColor: tabs.active === tab.id ? tabs.mainColor : 'transparent',
@@ -410,14 +410,14 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
                     <span className="tw-transition-transform tw-duration-200 group-hover:tw-scale-110">
                       {tab.icon}
                     </span>
-                    <span className="tw-transition-all tw-duration-200">{tab.label}</span>
+                    <span className="tw-transition-all tw-duration-200 tw-text-[11px]">{tab.label}</span>
                     {tabs.enableTabManagement && hoveredTab === tab.id && tabs.visible.length > 1 && (
                       <span
                         onClick={(e) => handleRemoveTab(tab.id, e)}
                         className="tw-ml-0.5 tw-p-0.5 tw-rounded-full hover:tw-bg-red-50 tw-transition-all tw-duration-200 tw-cursor-pointer hover:tw-scale-110"
                         title="Supprimer l'onglet"
                       >
-                        <X size={12} className="tw-text-red-500 hover:tw-text-red-700" />
+                        <X size={10} className="tw-text-red-500 hover:tw-text-red-700" />
                       </span>
                     )}
                   </button>
@@ -437,11 +437,11 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
                   onMouseLeave={(e) => {
                     e.currentTarget.style.backgroundColor = 'transparent';
                   }}
-                  className="tw-flex tw-items-center tw-justify-center tw-px-2.5 tw-py-1.5 tw-text-xs tw-font-medium tw-whitespace-nowrap tw-transition-all tw-duration-200 tw-rounded-t-md tw-ml-1"
+                  className="tw-flex tw-items-center tw-justify-center tw-px-2 tw-py-1 tw-text-xs tw-font-medium tw-whitespace-nowrap tw-transition-all tw-duration-200 tw-rounded-t-md tw-ml-1"
                   style={{ color: tabs.mainColor }}
                   title="Ajouter un onglet"
                 >
-                  <Plus size={14} className="tw-transition-transform tw-duration-200 hover:tw-rotate-90" />
+                  <Plus size={12} className="tw-transition-transform tw-duration-200 hover:tw-rotate-90" />
                 </button>
               )}
             </div>
