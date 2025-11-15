@@ -106,6 +106,7 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
   const tabMenuRef = useRef<HTMLDivElement>(null);
   const tabButtonRef = useRef<HTMLButtonElement>(null);
   const [tabMenuPosition, setTabMenuPosition] = useState<{ top: number; left: number } | null>(null);
+  const tabRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -301,6 +302,9 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
                     </div>
                   )}
                   <button
+                    ref={(el) => {
+                      if (el) tabRefs.current.set(tab.id, el);
+                    }}
                     type="button"
                     onClick={() => tabs.onTabChange(tab.id)}
                     onMouseEnter={(e) => {
