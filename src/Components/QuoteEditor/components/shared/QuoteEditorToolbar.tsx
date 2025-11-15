@@ -3,11 +3,8 @@ import {
   Save,
   Undo2,
   Redo2,
-  FileText,
-  Download,
   Plus,
   RotateCcw,
-  MoreHorizontal,
   GripVertical,
   X
 } from 'lucide-react';
@@ -102,7 +99,6 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
   className = '',
   tabs
 }) => {
-  const [showMoreMenu, setShowMoreMenu] = useState(false);
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
   const [showAddTabMenu, setShowAddTabMenu] = useState(false);
   const [draggedTab, setDraggedTab] = useState<string | null>(null);
@@ -113,7 +109,6 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      setShowMoreMenu(false);
       if (tabMenuRef.current && !tabMenuRef.current.contains(event.target as Node) &&
           tabButtonRef.current && !tabButtonRef.current.contains(event.target as Node)) {
         setShowAddTabMenu(false);
@@ -226,30 +221,6 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
     });
   }
 
-  const moreActions: ToolbarAction[] = readonly ? [] : [];
-
-  if (showReset) {
-    moreActions.push({
-      id: 'reset',
-      label: 'Réinitialiser',
-      icon: <RotateCcw size={16} />,
-      onClick: onReset,
-      variant: 'danger' as const,
-      tooltip: 'Remettre à l\'état initial'
-    });
-  }
-
-  if (onSave) {
-    moreActions.unshift({
-      id: 'save',
-      label: 'Sauvegarder',
-      icon: <Save size={16} />,
-      onClick: onSave,
-      disabled: saveState?.isSaving,
-      variant: 'primary' as const,
-      tooltip: 'Sauvegarder (Ctrl+S)'
-    });
-  }
 
   const renderAction = (action: ToolbarAction) => {
     let buttonClasses = 'tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-sm tw-font-medium tw-rounded tw-transition-colors';
@@ -398,6 +369,12 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
 
         {/* Right: Action Buttons */}
         <div className="tw-flex tw-flex-wrap tw-items-center tw-gap-2 tw-flex-shrink-0">
+          {editActions.length > 0 && (
+            <div className="tw-flex tw-gap-1">
+              {editActions.map(renderAction)}
+            </div>
+          )}
+
           {/* Reset Button */}
           {showReset && (
             <button
@@ -420,52 +397,6 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
             >
               <Save size={16} />
             </button>
-          )}
-
-          {editActions.length > 0 && (
-            <div className="tw-flex tw-gap-1">
-              {editActions.map(renderAction)}
-            </div>
-          )}
-
-          {moreActions.length > 0 && (
-            <div className="tw-relative">
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowMoreMenu(!showMoreMenu);
-                }}
-                className="tw-inline-flex tw-items-center tw-px-2.5 tw-py-1.5 tw-text-sm tw-font-medium tw-text-gray-700 tw-bg-white tw-border tw-border-gray-300 tw-rounded hover:tw-bg-gray-50 tw-transition-colors"
-                title="Plus d'actions"
-              >
-                <MoreHorizontal size={14} />
-              </button>
-              {showMoreMenu && (
-                <div
-                  className="tw-absolute tw-top-full tw-right-0 tw-mt-1 tw-w-44 tw-bg-white tw-border tw-border-gray-200 tw-rounded-lg tw-shadow-lg tw-z-50"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {moreActions.map((action) => (
-                    <button
-                      key={action.id}
-                      type="button"
-                      className={`tw-w-full tw-flex tw-items-center tw-gap-2 tw-px-3 tw-py-2 tw-text-sm hover:tw-bg-gray-50 tw-transition-colors first:tw-rounded-t-lg last:tw-rounded-b-lg ${
-                        action.variant === 'danger' ? 'tw-text-red-600' : 'tw-text-gray-700'
-                      }`}
-                      onClick={() => {
-                        action.onClick();
-                        setShowMoreMenu(false);
-                      }}
-                      disabled={action.disabled}
-                    >
-                      {action.icon}
-                      {action.label}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
           )}
         </div>
       </div>
