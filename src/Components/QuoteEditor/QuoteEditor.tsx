@@ -396,7 +396,7 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
       className={clsx('tw-font-sans qe-bg-surface-0 tw-min-h-screen', theme === 'dark' && 'tw-bg-slate-900', className)}
       data-theme={theme}
     >
-      {showToolbar && !readonly && (
+      {showToolbar && (
         <QuoteEditorToolbar
           title={toolbarTitle}
           readonly={readonly}
