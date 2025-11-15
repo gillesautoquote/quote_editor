@@ -136,9 +136,15 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
     if (tabs?.active) {
       const activeButton = tabRefs.current.get(tabs.active);
       if (activeButton) {
-        const containerRect = activeButton.parentElement?.parentElement?.getBoundingClientRect();
-        const buttonRect = activeButton.getBoundingClientRect();
-        if (containerRect) {
+        // Find the container with tw-relative class
+        let container = activeButton.parentElement;
+        while (container && !container.classList.contains('tw-relative')) {
+          container = container.parentElement;
+        }
+
+        if (container) {
+          const containerRect = container.getBoundingClientRect();
+          const buttonRect = activeButton.getBoundingClientRect();
           setIndicatorStyle({
             left: buttonRect.left - containerRect.left,
             width: buttonRect.width
@@ -365,15 +371,18 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
                 </div>
               ))}
               {/* Animated indicator */}
-              <div
-                className="tw-absolute tw-bottom-0 tw-h-0.5 tw-transition-all tw-duration-300 tw-ease-out"
-                style={{
-                  backgroundColor: tabs.mainColor,
-                  left: `${indicatorStyle.left}px`,
-                  width: `${indicatorStyle.width}px`,
-                  transform: 'translateZ(0)' // Hardware acceleration
-                }}
-              />
+              {indicatorStyle.width > 0 && (
+                <div
+                  className="tw-absolute tw-bottom-0 tw-h-0.5 tw-transition-all tw-duration-300 tw-ease-out tw-rounded-full"
+                  style={{
+                    backgroundColor: tabs.mainColor,
+                    left: `${indicatorStyle.left}px`,
+                    width: `${indicatorStyle.width}px`,
+                    transform: 'translateZ(0)', // Hardware acceleration
+                    height: '2px'
+                  }}
+                />
+              )}
               {tabs.enableTabManagement && tabs.hidden.length > 0 && (
                 <button
                   ref={tabButtonRef}
