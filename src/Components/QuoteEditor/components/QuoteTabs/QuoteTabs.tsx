@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { FileText, Calculator, List, FileSignature, Mail, BusFront } from 'lucide-react';
 import type { QuoteData } from '../../entities/QuoteData';
 
@@ -92,59 +92,68 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
 
   const [visibleTabs, setVisibleTabs] = useState<QuoteTab[]>(initialVisibleTabs);
 
-  // Synchroniser l'état local si visibleTabIds change depuis l'extérieur
-  useEffect(() => {
-    setVisibleTabs(initialVisibleTabs);
-  }, [initialVisibleTabs]);
+  const hiddenTabs = useMemo(() =>
+    TABS.filter(tab => !visibleTabs.find(vt => vt.id === tab.id)),
+    [visibleTabs]
+  );
 
-  const hiddenTabs = TABS.filter(tab => !visibleTabs.find(vt => vt.id === tab.id));
-
-  const handleAddTab = (tab: QuoteTab) => {
-    const newVisibleTabs = [...visibleTabs, tab];
-    setVisibleTabs(newVisibleTabs);
+  const handleAddTab = useCallback((tab: QuoteTab) => {
+    setVisibleTabs(prev => {
+      const newVisibleTabs = [...prev, tab];
+      onUpdateData({
+        ...data,
+        visibleTabIds: newVisibleTabs.map(t => t.id)
+      });
+      return newVisibleTabs;
+    });
     setActiveTab(tab.id);
-    setShowAddMenu(false);
+  }, [data, onUpdateData]);
+
+  const handleTabRemove = useCallback((tabId: string) => {
+    setVisibleTabs(prev => {
+      const newTabs = prev.filter(tab => tab.id !== tabId);
+      onUpdateData({
+        ...data,
+        visibleTabIds: newTabs.map(t => t.id)
+      });
+      return newTabs;
+    });
+    setActiveTab(prev => {
+      if (prev === tabId) {
+        const newTabs = visibleTabs.filter(tab => tab.id !== tabId);
+        return newTabs.length > 0 ? newTabs[0].id : 'introduction';
+      }
+      return prev;
+    });
+  }, [data, onUpdateData, visibleTabs]);
+
+  const handleTabReorder = useCallback((newTabs: QuoteTab[]) => {
+    setVisibleTabs(newTabs);
     onUpdateData({
       ...data,
-      visibleTabIds: newVisibleTabs.map(t => t.id)
+      visibleTabIds: newTabs.map(t => t.id)
     });
-  };
-
+  }, [data, onUpdateData]);
 
   const mainColor = data.company.mainColor;
 
-  // Expose tab data for external rendering (e.g., in toolbar)
-  React.useEffect(() => {
-    if (renderTabs) {
-      renderTabs({
-        visible: visibleTabs,
-        hidden: hiddenTabs,
-        active: activeTab,
-        mainColor,
-        enableTabManagement,
-        onTabChange: setActiveTab,
-        onTabAdd: handleAddTab,
-        onTabRemove: (tabId: string) => {
-          const newTabs = visibleTabs.filter(tab => tab.id !== tabId);
-          setVisibleTabs(newTabs);
-          if (activeTab === tabId) {
-            setActiveTab(newTabs[0].id);
-          }
-          onUpdateData({
-            ...data,
-            visibleTabIds: newTabs.map(t => t.id)
-          });
-        },
-        onTabReorder: (newTabs: QuoteTab[]) => {
-          setVisibleTabs(newTabs);
-          onUpdateData({
-            ...data,
-            visibleTabIds: newTabs.map(t => t.id)
-          });
-        }
-      });
-    }
-  }, [visibleTabs, hiddenTabs, activeTab, mainColor, enableTabManagement]);
+  // Only call renderTabs on mount or when these specific values change
+  useEffect(() => {
+    if (!renderTabs) return;
+
+    renderTabs({
+      visible: visibleTabs,
+      hidden: hiddenTabs,
+      active: activeTab,
+      mainColor,
+      enableTabManagement,
+      onTabChange: setActiveTab,
+      onTabAdd: handleAddTab,
+      onTabRemove: handleTabRemove,
+      onTabReorder: handleTabReorder
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="tw-w-full tw-flex tw-flex-col tw-relative">
