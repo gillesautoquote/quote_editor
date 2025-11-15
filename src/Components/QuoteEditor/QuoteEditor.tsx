@@ -382,6 +382,8 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
     currentData?.quote?.number || ''
   }`;
 
+  const [tabsData, setTabsData] = useState<any>(null);
+
   return (
     <div
       data-quote-editor-scope
@@ -409,6 +411,7 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
           onReset={handleResetToInitial}
           blockTemplates={blockTemplates}
           onSelectTemplate={handleAddOptionBlock}
+          tabs={useTabs ? tabsData : undefined}
         />
       )}
 
@@ -430,6 +433,7 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
             readonly={readonly}
             allowWidthControl={allowWidthControl}
             enableTabManagement={!readonly}
+            renderTabs={setTabsData}
           >
             {(activeTab, visibleTabIds) => (
               <QuoteTabContent

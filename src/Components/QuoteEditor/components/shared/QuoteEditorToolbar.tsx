@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Save,
   Undo2,
@@ -7,7 +7,9 @@ import {
   Download,
   Plus,
   RotateCcw,
-  MoreHorizontal
+  MoreHorizontal,
+  GripVertical,
+  X
 } from 'lucide-react';
 
 interface ToolbarAction {
@@ -25,6 +27,13 @@ interface ToolbarGroup {
   actions: ToolbarAction[];
   type?: 'buttons' | 'dropdown';
   dropdownLabel?: string;
+}
+
+export interface QuoteTab {
+  id: string;
+  label: string;
+  icon: React.ReactNode;
+  description: string;
 }
 
 interface QuoteEditorToolbarProps {
@@ -56,6 +65,18 @@ interface QuoteEditorToolbarProps {
   }>;
   onSelectTemplate?: (templateId: string) => void;
   className?: string;
+  // Tab props
+  tabs?: {
+    visible: QuoteTab[];
+    hidden: QuoteTab[];
+    active: string;
+    mainColor: string;
+    enableTabManagement: boolean;
+    onTabChange: (tabId: string) => void;
+    onTabAdd: (tab: QuoteTab) => void;
+    onTabRemove: (tabId: string) => void;
+    onTabReorder: (newOrder: QuoteTab[]) => void;
+  };
 }
 
 export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
@@ -78,18 +99,40 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
   onReset,
   blockTemplates = [],
   onSelectTemplate,
-  className = ''
+  className = '',
+  tabs
 }) => {
   const [showMoreMenu, setShowMoreMenu] = useState(false);
+  const [hoveredTab, setHoveredTab] = useState<string | null>(null);
+  const [showAddTabMenu, setShowAddTabMenu] = useState(false);
+  const [draggedTab, setDraggedTab] = useState<string | null>(null);
+  const [dragOverTab, setDragOverTab] = useState<string | null>(null);
+  const tabMenuRef = useRef<HTMLDivElement>(null);
+  const tabButtonRef = useRef<HTMLButtonElement>(null);
+  const [tabMenuPosition, setTabMenuPosition] = useState<{ top: number; left: number } | null>(null);
 
   useEffect(() => {
-    const handleClickOutside = () => {
+    const handleClickOutside = (event: MouseEvent) => {
       setShowMoreMenu(false);
+      if (tabMenuRef.current && !tabMenuRef.current.contains(event.target as Node) &&
+          tabButtonRef.current && !tabButtonRef.current.contains(event.target as Node)) {
+        setShowAddTabMenu(false);
+      }
     };
 
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (showAddTabMenu && tabButtonRef.current) {
+      const rect = tabButtonRef.current.getBoundingClientRect();
+      setTabMenuPosition({
+        top: rect.bottom + 4,
+        left: rect.left
+      });
+    }
+  }, [showAddTabMenu]);
 
   const getSaveIndicatorClass = (): string => {
     if (saveState?.isSaving) return 'tw-bg-yellow-50 tw-text-yellow-800 tw-border-yellow-200';
@@ -104,6 +147,51 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
       return `Sauvegardé à ${saveState.lastSaved.toLocaleTimeString()}`;
     }
     return 'Sauvegardé';
+  };
+
+  const handleTabDragStart = (e: React.DragEvent, tabId: string) => {
+    if (!tabs?.enableTabManagement) return;
+    setDraggedTab(tabId);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleTabDragOver = (e: React.DragEvent, tabId: string) => {
+    e.preventDefault();
+    if (!tabs?.enableTabManagement || !draggedTab || draggedTab === tabId) return;
+    setDragOverTab(tabId);
+  };
+
+  const handleTabDragLeave = () => {
+    setDragOverTab(null);
+  };
+
+  const handleTabDrop = (e: React.DragEvent, targetTabId: string) => {
+    e.preventDefault();
+    if (!tabs?.enableTabManagement || !draggedTab || draggedTab === targetTabId || !tabs?.visible) return;
+
+    const draggedIndex = tabs.visible.findIndex(tab => tab.id === draggedTab);
+    const targetIndex = tabs.visible.findIndex(tab => tab.id === targetTabId);
+
+    if (draggedIndex === -1 || targetIndex === -1) return;
+
+    const newTabs = [...tabs.visible];
+    const [removed] = newTabs.splice(draggedIndex, 1);
+    newTabs.splice(targetIndex, 0, removed);
+
+    tabs.onTabReorder(newTabs);
+    setDraggedTab(null);
+    setDragOverTab(null);
+  };
+
+  const handleTabDragEnd = () => {
+    setDraggedTab(null);
+    setDragOverTab(null);
+  };
+
+  const handleRemoveTab = (tabId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!tabs?.visible || tabs.visible.length <= 1) return;
+    tabs.onTabRemove(tabId);
   };
 
   const primaryActions: ToolbarAction[] = [];
@@ -196,60 +284,212 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
   };
 
   return (
-    <div className={`tw-sticky tw-top-0 tw-bg-white/95 tw-backdrop-blur-sm tw-border-b tw-border-gray-200 tw-p-3 tw-shadow-md tw-z-10 tw-mb-2 ${className}`}>
-      <div className="tw-flex tw-flex-col sm:tw-flex-row tw-justify-between tw-items-start sm:tw-items-center tw-gap-3">
-        <div className="tw-flex tw-items-center tw-gap-2">
-          {readonly && <span className="tw-px-2 tw-py-0.5 tw-bg-green-100 tw-text-green-800 tw-text-xs tw-font-medium tw-rounded">Lecture</span>}
+    <div className={`tw-sticky tw-top-0 tw-bg-white/95 tw-backdrop-blur-sm tw-border-b tw-border-gray-200 tw-shadow-md tw-z-10 tw-mb-2 ${className}`}>
+      <div className="tw-flex tw-flex-col">
+        {/* Top row: Badge and Action Buttons */}
+        <div className="tw-flex tw-justify-between tw-items-center tw-px-3 tw-pt-3 tw-pb-2">
+          <div className="tw-flex tw-items-center tw-gap-2">
+            {readonly && <span className="tw-px-2 tw-py-0.5 tw-bg-green-100 tw-text-green-800 tw-text-xs tw-font-medium tw-rounded">Lecture</span>}
+          </div>
+
+          <div className="tw-flex tw-flex-wrap tw-items-center tw-gap-2">
+            {editActions.length > 0 && (
+              <div className="tw-flex tw-gap-1">
+                {editActions.map(renderAction)}
+              </div>
+            )}
+
+            {moreActions.length > 0 && (
+              <div className="tw-relative">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowMoreMenu(!showMoreMenu);
+                  }}
+                  className="tw-inline-flex tw-items-center tw-px-2.5 tw-py-1.5 tw-text-sm tw-font-medium tw-text-gray-700 tw-bg-white tw-border tw-border-gray-300 tw-rounded hover:tw-bg-gray-50 tw-transition-colors"
+                  title="Plus d'actions"
+                >
+                  <MoreHorizontal size={14} />
+                </button>
+                {showMoreMenu && (
+                  <div
+                    className="tw-absolute tw-top-full tw-right-0 tw-mt-1 tw-w-44 tw-bg-white tw-border tw-border-gray-200 tw-rounded-lg tw-shadow-lg tw-z-50"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {moreActions.map((action) => (
+                      <button
+                        key={action.id}
+                        type="button"
+                        className={`tw-w-full tw-flex tw-items-center tw-gap-2 tw-px-3 tw-py-2 tw-text-sm hover:tw-bg-gray-50 tw-transition-colors first:tw-rounded-t-lg last:tw-rounded-b-lg ${
+                          action.variant === 'danger' ? 'tw-text-red-600' : 'tw-text-gray-700'
+                        }`}
+                        onClick={() => {
+                          action.onClick();
+                          setShowMoreMenu(false);
+                        }}
+                        disabled={action.disabled}
+                      >
+                        {action.icon}
+                        {action.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
-        <div className="tw-flex tw-flex-wrap tw-items-center tw-gap-2">
-          {editActions.length > 0 && (
-            <div className="tw-flex tw-gap-1">
-              {editActions.map(renderAction)}
-            </div>
-          )}
-
-          {moreActions.length > 0 && (
-            <div className="tw-relative">
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowMoreMenu(!showMoreMenu);
-                }}
-                className="tw-inline-flex tw-items-center tw-px-2.5 tw-py-1.5 tw-text-sm tw-font-medium tw-text-gray-700 tw-bg-white tw-border tw-border-gray-300 tw-rounded hover:tw-bg-gray-50 tw-transition-colors"
-                title="Plus d'actions"
-              >
-                <MoreHorizontal size={14} />
-              </button>
-              {showMoreMenu && (
+        {/* Bottom row: Tabs */}
+        {tabs && tabs.visible.length > 0 && (
+          <div className="tw-px-3 tw-pb-1">
+            <div className="tw-flex tw-gap-1 tw-overflow-x-auto tw-scrollbar-thin">
+              {tabs.visible.map((tab) => (
                 <div
-                  className="tw-absolute tw-top-full tw-right-0 tw-mt-1 tw-w-44 tw-bg-white tw-border tw-border-gray-200 tw-rounded-lg tw-shadow-lg tw-z-50"
-                  onClick={(e) => e.stopPropagation()}
+                  key={tab.id}
+                  className="tw-flex tw-items-stretch tw-relative tw-group/tab"
+                  onDragOver={(e) => handleTabDragOver(e, tab.id)}
+                  onDragLeave={handleTabDragLeave}
+                  onDrop={(e) => handleTabDrop(e, tab.id)}
+                  style={{
+                    borderLeft: dragOverTab === tab.id ? `3px solid ${tabs.mainColor}` : 'none'
+                  }}
                 >
-                  {moreActions.map((action) => (
-                    <button
-                      key={action.id}
-                      type="button"
-                      className={`tw-w-full tw-flex tw-items-center tw-gap-2 tw-px-3 tw-py-2 tw-text-sm hover:tw-bg-gray-50 tw-transition-colors first:tw-rounded-t-lg last:tw-rounded-b-lg ${
-                        action.variant === 'danger' ? 'tw-text-red-600' : 'tw-text-gray-700'
-                      }`}
-                      onClick={() => {
-                        action.onClick();
-                        setShowMoreMenu(false);
+                  {tabs.enableTabManagement && (
+                    <div
+                      draggable
+                      onDragStart={(e) => handleTabDragStart(e, tab.id)}
+                      onDragEnd={handleTabDragEnd}
+                      className="tw-flex tw-items-center tw-px-1 tw-cursor-move tw-transition-all tw-duration-200 tw-rounded-l-md"
+                      style={{
+                        opacity: draggedTab === tab.id ? 0.5 : 0.5,
+                        backgroundColor: tabs.active === tab.id ? 'white' : 'transparent'
                       }}
-                      disabled={action.disabled}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = tabs.active === tab.id ? 'white' : '#f9fafb';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = tabs.active === tab.id ? 'white' : 'transparent';
+                      }}
+                      title="Glisser pour réorganiser"
                     >
-                      {action.icon}
-                      {action.label}
-                    </button>
-                  ))}
+                      <GripVertical
+                        size={12}
+                        style={{ color: tabs.mainColor, opacity: 0.4 }}
+                        className="group-hover/tab:tw-opacity-80 tw-transition-opacity"
+                      />
+                    </div>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => tabs.onTabChange(tab.id)}
+                    onMouseEnter={(e) => {
+                      tabs.enableTabManagement && setHoveredTab(tab.id);
+                      if (tabs.active !== tab.id) {
+                        e.currentTarget.style.backgroundColor = '#f9fafb';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      setHoveredTab(null);
+                      if (tabs.active !== tab.id) {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                      }
+                    }}
+                    className="tw-flex tw-items-center tw-gap-1.5 tw-px-2.5 tw-py-1.5 tw-text-xs tw-font-medium tw-whitespace-nowrap tw-border-b-2 tw-transition-all tw-duration-200 tw-min-w-fit tw-relative tw-group tw-rounded-t-md"
+                    style={{
+                      color: tabs.active === tab.id ? tabs.mainColor : '#6b7280',
+                      borderBottomColor: tabs.active === tab.id ? tabs.mainColor : 'transparent',
+                      backgroundColor: tabs.active === tab.id ? 'white' : 'transparent',
+                      opacity: draggedTab === tab.id ? 0.5 : 1,
+                      cursor: 'pointer',
+                      transform: tabs.active === tab.id ? 'translateY(0)' : 'none'
+                    }}
+                    title={tab.description}
+                  >
+                    <span className="tw-transition-transform tw-duration-200 group-hover:tw-scale-110">
+                      {tab.icon}
+                    </span>
+                    <span className="tw-transition-all tw-duration-200">{tab.label}</span>
+                    {tabs.enableTabManagement && hoveredTab === tab.id && tabs.visible.length > 1 && (
+                      <span
+                        onClick={(e) => handleRemoveTab(tab.id, e)}
+                        className="tw-ml-0.5 tw-p-0.5 tw-rounded-full hover:tw-bg-red-50 tw-transition-all tw-duration-200 tw-cursor-pointer hover:tw-scale-110"
+                        title="Supprimer l'onglet"
+                      >
+                        <X size={12} className="tw-text-red-500 hover:tw-text-red-700" />
+                      </span>
+                    )}
+                  </button>
                 </div>
+              ))}
+              {tabs.enableTabManagement && tabs.hidden.length > 0 && (
+                <button
+                  ref={tabButtonRef}
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowAddTabMenu(!showAddTabMenu);
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#f9fafb';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                  }}
+                  className="tw-flex tw-items-center tw-justify-center tw-px-2.5 tw-py-1.5 tw-text-xs tw-font-medium tw-whitespace-nowrap tw-transition-all tw-duration-200 tw-rounded-t-md tw-ml-1"
+                  style={{ color: tabs.mainColor }}
+                  title="Ajouter un onglet"
+                >
+                  <Plus size={14} className="tw-transition-transform tw-duration-200 hover:tw-rotate-90" />
+                </button>
               )}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
+
+      {/* Add Tab Menu */}
+      {showAddTabMenu && tabMenuPosition && tabs && (
+        <div
+          ref={tabMenuRef}
+          className="tw-fixed tw-bg-white tw-rounded-lg tw-shadow-xl tw-z-[99999] tw-min-w-[200px] tw-overflow-hidden tw-border tw-border-gray-200"
+          style={{
+            top: `${tabMenuPosition.top}px`,
+            left: `${tabMenuPosition.left}px`
+          }}
+        >
+          {tabs.hidden.map((tab, index) => (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => {
+                tabs.onTabAdd(tab);
+                setShowAddTabMenu(false);
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#f9fafb';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'white';
+              }}
+              className="tw-w-full tw-flex tw-items-center tw-gap-2.5 tw-px-3 tw-py-2.5 tw-text-sm tw-text-left tw-transition-all tw-duration-200 tw-group"
+              style={{
+                borderBottom: index < tabs.hidden.length - 1 ? '1px solid #e5e7eb' : 'none',
+                backgroundColor: 'white'
+              }}
+            >
+              <span
+                className="tw-transition-transform tw-duration-200 group-hover:tw-scale-110"
+                style={{ color: tabs.mainColor }}
+              >
+                {tab.icon}
+              </span>
+              <span className="tw-font-medium tw-text-gray-700 group-hover:tw-text-gray-900">{tab.label}</span>
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
