@@ -5,7 +5,7 @@ interface TableHeaderProps {
   columns: {
     date: ColumnDefinition;
     description: ColumnDefinition;
-    durationHours: ColumnDefinition;
+    durationHours?: ColumnDefinition;
     pax: ColumnDefinition;
     unitPrice: ColumnDefinition;
     quantity: ColumnDefinition;
@@ -44,7 +44,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({ columns, readonly = fa
         {!readonly && !printMode && <th className="print:tw-hidden"></th>}
         <th className={thClassName} style={getHeaderStyle(columns.date)}>{columns.date.title}</th>
         <th className={thClassName} style={getHeaderStyle(columns.description)}>{columns.description.title}</th>
-        <th className={thClassName} style={getHeaderStyle(columns.durationHours)}>{columns.durationHours.title}</th>
+        {columns.durationHours && <th className={thClassName} style={getHeaderStyle(columns.durationHours)}>{columns.durationHours.title}</th>}
         <th className={thClassName} style={getHeaderStyle(columns.pax)}>{columns.pax.title}</th>
         <th className={thClassName} style={getHeaderStyle(columns.unitPrice)}>{columns.unitPrice.title}</th>
         <th className={thClassName} style={getHeaderStyle(columns.quantity)}>{columns.quantity.title}</th>

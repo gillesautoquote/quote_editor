@@ -10,7 +10,7 @@ interface TableRowProps {
   columns: {
     date: ColumnDefinition;
     description: ColumnDefinition;
-    durationHours: ColumnDefinition;
+    durationHours?: ColumnDefinition;
     pax: ColumnDefinition;
     unitPrice: ColumnDefinition;
     quantity: ColumnDefinition;
@@ -121,14 +121,16 @@ export const TableRow: React.FC<TableRowProps> = ({
         />
       </td>
 
-      <td className={getCellClassName(columns.durationHours, printMode)} style={getCellDataStyle(columns.durationHours)}>
-        <EditableField
-          value={(line.durationHours ?? 0).toString()}
-          onSave={(value) => onLineUpdate(lineIndex, 'durationHours', parseFloat(value) || 0)}
-          disabled={readonly || !columns.durationHours.editable}
-          printMode={printMode}
-        />
-      </td>
+      {columns.durationHours && (
+        <td className={getCellClassName(columns.durationHours, printMode)} style={getCellDataStyle(columns.durationHours)}>
+          <EditableField
+            value={(line.durationHours ?? 0).toString()}
+            onSave={(value) => onLineUpdate(lineIndex, 'durationHours', parseFloat(value) || 0)}
+            disabled={readonly || !columns.durationHours.editable}
+            printMode={printMode}
+          />
+        </td>
+      )}
 
       <td className={getCellClassName(columns.pax, printMode)} style={getCellDataStyle(columns.pax)}>
         <EditableField
