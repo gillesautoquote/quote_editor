@@ -199,36 +199,15 @@ export const QuoteEditorToolbar: React.FC<QuoteEditorToolbarProps> = ({
     <div className={`tw-sticky tw-top-0 tw-bg-white/95 tw-backdrop-blur-sm tw-border-b tw-border-gray-200 tw-p-3 tw-shadow-md tw-z-10 tw-mb-2 ${className}`}>
       <div className="tw-flex tw-flex-col sm:tw-flex-row tw-justify-between tw-items-start sm:tw-items-center tw-gap-3">
         <div className="tw-flex tw-items-center tw-gap-2">
-          <FileText size={20} className="tw-text-gray-700" />
-          <span className="tw-font-semibold tw-text-gray-900">{title}</span>
           {readonly && <span className="tw-px-2 tw-py-0.5 tw-bg-green-100 tw-text-green-800 tw-text-xs tw-font-medium tw-rounded">Lecture</span>}
         </div>
 
         <div className="tw-flex tw-flex-wrap tw-items-center tw-gap-2">
-          {!readonly && saveState && (
-            <div className={`tw-px-2.5 tw-py-1 tw-rounded tw-text-xs tw-font-medium tw-border ${getSaveIndicatorClass()}`}>
-              <span>{getSaveIndicatorText()}</span>
-            </div>
-          )}
-
           {editActions.length > 0 && (
             <div className="tw-flex tw-gap-1">
               {editActions.map(renderAction)}
             </div>
           )}
-
-
-          <div className="tw-flex tw-gap-1">
-            <button
-              type="button"
-              onClick={onExportPDFBackend || onExportPDF}
-              className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-sm tw-font-medium tw-bg-white tw-text-gray-700 tw-border tw-border-gray-300 tw-rounded hover:tw-bg-gray-50 tw-transition-colors"
-              title="Exporter en PDF"
-            >
-              <Download size={16} />
-              <span>PDF</span>
-            </button>
-          </div>
 
           {moreActions.length > 0 && (
             <div className="tw-relative">
