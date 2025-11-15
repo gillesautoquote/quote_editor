@@ -298,10 +298,16 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
 
   const handleResetToInitial = (): void => {
     if (readonly) return;
+    onEvent?.({ type: 'action', name: 'reset_clicked' });
     if (window.confirm('Êtes-vous sûr de vouloir réinitialiser le devis ?')) {
       updateData(initialDataRef.current);
-      onEvent?.({ type: 'action', name: 'reset' });
+      onEvent?.({ type: 'action', name: 'reset_confirmed' });
     }
+  };
+
+  const handleSaveClick = (): void => {
+    if (readonly) return;
+    onEvent?.({ type: 'action', name: 'save_clicked', payload: currentData });
   };
 
   const handleExportPDF = async (): Promise<void> => {
@@ -403,7 +409,7 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
           canRedo={canRedo}
           onUndo={handleUndo}
           onRedo={handleRedo}
-          onSave={undefined}
+          onSave={handleSaveClick}
           onExportPDF={handleExportPDF}
           onExportPDFBackend={usePDFV2 ? handleExportPDFBackend : undefined}
           onAddSection={handleAddSection}
