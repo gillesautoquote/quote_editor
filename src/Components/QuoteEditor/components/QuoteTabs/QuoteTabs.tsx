@@ -137,7 +137,7 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
 
   const mainColor = data.company.mainColor;
 
-  // Only call renderTabs on mount or when these specific values change
+  // Update toolbar tabs data whenever tabs or active tab changes
   useEffect(() => {
     if (!renderTabs) return;
 
@@ -152,8 +152,7 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
       onTabRemove: handleTabRemove,
       onTabReorder: handleTabReorder
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [renderTabs, visibleTabs, hiddenTabs, activeTab, mainColor, enableTabManagement, handleAddTab, handleTabRemove, handleTabReorder]);
 
   return (
     <div className="tw-w-full tw-flex tw-flex-col tw-relative">
