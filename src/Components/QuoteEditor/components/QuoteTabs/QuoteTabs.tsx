@@ -144,7 +144,7 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
         }
       });
     }
-  }, [visibleTabs, hiddenTabs, activeTab, mainColor, enableTabManagement, renderTabs]);
+  }, [visibleTabs, hiddenTabs, activeTab, mainColor, enableTabManagement]);
 
   return (
     <div className="tw-w-full tw-flex tw-flex-col tw-relative">
