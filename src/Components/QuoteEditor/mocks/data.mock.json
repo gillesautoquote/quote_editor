@@ -128,14 +128,6 @@
           "editable": true,
           "style": "normal"
         },
-        "durationHours": {
-          "title": "Durée",
-          "width": "50px",
-          "align": "center",
-          "type": "number",
-          "editable": true,
-          "style": "normal"
-        },
         "pax": {
           "title": "Pax",
           "width": "40px",
@@ -189,7 +181,6 @@
         {
           "date": "2024-06-20",
           "description": "Transfert simple vers les Docks de Pullman (49 places)",
-          "durationHours": 1,
           "pax": 49,
           "unitPrice": 200,
           "priceHT": 3800,
@@ -202,7 +193,6 @@
         {
           "date": "2024-06-20",
           "description": "Transfert simple vers les Docks de Pullman (57 places)",
-          "durationHours": 1,
           "pax": 57,
           "unitPrice": 180,
           "priceHT": 2340,
@@ -215,7 +205,6 @@
         {
           "date": "2024-06-20",
           "description": "Minibus PMR – transfert BDT / Docks Pullman (4 places)",
-          "durationHours": 1,
           "pax": 4,
           "unitPrice": 120,
           "priceHT": 120,
@@ -228,7 +217,6 @@
         {
           "date": "2024-06-20",
           "description": "Service d'un régulateur (soirée 6 h)",
-          "durationHours": 6,
           "pax": 1,
           "unitPrice": 20,
           "priceHT": 20,
@@ -243,7 +231,6 @@
         {
           "date": "2025-10-21",
           "description": "Régulateur",
-          "durationHours": 6,
           "pax": 1,
           "unitPrice": 150,
           "priceHT": 150,
@@ -256,7 +243,6 @@
         {
           "date": "2024-06-20",
           "description": "Hébergement conducteur",
-          "durationHours": 8,
           "pax": 1,
           "unitPrice": 80,
           "priceHT": 80,
@@ -269,7 +255,6 @@
         {
           "date": "2025-10-21",
           "description": "Kilomètre supplémentaire",
-          "durationHours": 0,
           "pax": 0,
           "unitPrice": 1.6,
           "priceHT": 16,
@@ -284,7 +269,6 @@
         {
           "date": "2024-06-20",
           "description": "Transfert simple vers les Docks de Pullman (49 places)",
-          "durationHours": 1,
           "pax": 49,
           "unitPrice": 200,
           "priceHT": 3800,
@@ -297,7 +281,6 @@
         {
           "date": "2024-06-20",
           "description": "Transfert simple vers les Docks de Pullman (57 places)",
-          "durationHours": 1,
           "pax": 57,
           "unitPrice": 180,
           "priceHT": 2340,
@@ -310,7 +293,6 @@
         {
           "date": "2024-06-20",
           "description": "Minibus PMR – transfert BDT / Docks Pullman (4 places)",
-          "durationHours": 1,
           "pax": 4,
           "unitPrice": 120,
           "priceHT": 120,
@@ -323,7 +305,6 @@
         {
           "date": "2024-06-20",
           "description": "Service d'un régulateur (soirée 6 h)",
-          "durationHours": 6,
           "pax": 1,
           "unitPrice": 20,
           "priceHT": 20,
@@ -336,7 +317,6 @@
         {
           "date": "2024-06-20",
           "description": "Navette retour soirée (49 places) x12",
-          "durationHours": 1,
           "pax": 49,
           "unitPrice": 200,
           "priceHT": 2400,
@@ -349,7 +329,6 @@
         {
           "date": "2024-06-20",
           "description": "Navette retour soirée (55 places) x6",
-          "durationHours": 1,
           "pax": 55,
           "unitPrice": 180,
           "priceHT": 1080,
@@ -362,7 +341,6 @@
         {
           "date": "2024-06-20",
           "description": "Navette retour soirée – VAN (8 places) x1",
-          "durationHours": 1,
           "pax": 8,
           "unitPrice": 120,
           "priceHT": 120,
@@ -375,7 +353,6 @@
         {
           "date": "2024-06-20",
           "description": "V.L PMR (21 h 00 → 01 h 00)",
-          "durationHours": 1,
           "pax": 4,
           "unitPrice": 150,
           "priceHT": 150,
@@ -388,7 +365,6 @@
         {
           "date": "2024-06-20",
           "description": "Relais conducteurs",
-          "durationHours": 1,
           "pax": 1,
           "unitPrice": 80,
           "priceHT": 240,
