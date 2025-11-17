@@ -93,13 +93,13 @@ export const ColumnControls: React.FC<ColumnControlsProps> = ({
             onClick={handleDecrease}
             disabled={currentIndex <= 0}
             className={clsx(
-              'tw-inline-flex tw-items-center tw-justify-center qe-button-square-sm tw-p-0 tw-border qe-border-primary/30 tw-rounded tw-bg-white qe-text-primary tw-cursor-pointer tw-transition-all tw-duration-200',
+              'tw-inline-flex tw-items-center tw-justify-center tw-w-7 tw-h-7 tw-p-0 tw-border qe-border-primary/30 tw-rounded tw-bg-white qe-text-primary tw-cursor-pointer tw-transition-all tw-duration-200',
               'hover:qe-bg-primary/10 hover:qe-border-primary hover:tw-scale-105',
               'disabled:tw-opacity-30 disabled:tw-cursor-not-allowed disabled:hover:tw-bg-white disabled:hover:qe-border-primary/30 disabled:hover:tw-scale-100'
             )}
             title="Réduire la largeur"
           >
-            <Minus size={12} />
+            <Minus size={14} />
           </button>
 
           <span className="tw-flex tw-items-center tw-gap-[2px]">
@@ -119,13 +119,13 @@ export const ColumnControls: React.FC<ColumnControlsProps> = ({
             onClick={handleIncrease}
             disabled={currentIndex >= allowedModes.length - 1}
             className={clsx(
-              'tw-inline-flex tw-items-center tw-justify-center qe-button-square-sm tw-p-0 tw-border qe-border-primary/30 tw-rounded tw-bg-white qe-text-primary tw-cursor-pointer tw-transition-all tw-duration-200',
+              'tw-inline-flex tw-items-center tw-justify-center tw-w-7 tw-h-7 tw-p-0 tw-border qe-border-primary/30 tw-rounded tw-bg-white qe-text-primary tw-cursor-pointer tw-transition-all tw-duration-200',
               'hover:qe-bg-primary/10 hover:qe-border-primary hover:tw-scale-105',
               'disabled:tw-opacity-30 disabled:tw-cursor-not-allowed disabled:hover:tw-bg-white disabled:hover:qe-border-primary/30 disabled:hover:tw-scale-100'
             )}
             title="Augmenter la largeur"
           >
-            <Plus size={12} />
+            <Plus size={14} />
           </button>
         </div>
       </div>
@@ -136,11 +136,11 @@ export const ColumnControls: React.FC<ColumnControlsProps> = ({
           <button
             type="button"
             onClick={handleColorClick}
-            className="tw-inline-flex tw-items-center tw-justify-center qe-button-square-sm tw-p-0 tw-border qe-border-border tw-rounded tw-bg-white tw-cursor-pointer tw-transition-all tw-duration-200 hover:qe-border-primary hover:tw-scale-105"
+            className="tw-inline-flex tw-items-center tw-justify-center tw-w-7 tw-h-7 tw-p-0 tw-border qe-border-border tw-rounded tw-bg-white tw-cursor-pointer tw-transition-all tw-duration-200 hover:qe-border-primary hover:tw-scale-105"
             title="Changer la couleur du bloc"
           >
             <div
-              className="tw-w-3 tw-h-3 tw-rounded-full tw-border tw-border-white"
+              className="tw-w-3.5 tw-h-3.5 tw-rounded-full tw-border tw-border-white"
               style={{ backgroundColor: color }}
             />
           </button>
@@ -149,10 +149,10 @@ export const ColumnControls: React.FC<ColumnControlsProps> = ({
           <button
             type="button"
             onClick={onRemoveBlock}
-            className="tw-inline-flex tw-items-center tw-justify-center qe-button-square-sm tw-p-0 tw-border qe-border-danger-light tw-rounded tw-bg-white qe-text-danger tw-cursor-pointer tw-transition-all tw-duration-200 hover:qe-bg-danger/10 hover:qe-border-danger hover:tw-scale-105"
+            className="tw-inline-flex tw-items-center tw-justify-center tw-w-7 tw-h-7 tw-p-0 tw-border qe-border-danger-light tw-rounded tw-bg-white qe-text-danger tw-cursor-pointer tw-transition-all tw-duration-200 hover:qe-bg-danger/10 hover:qe-border-danger hover:tw-scale-105"
             title="Supprimer ce bloc"
           >
-            <X size={12} />
+            <X size={14} />
           </button>
         )}
       </div>

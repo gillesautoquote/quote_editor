@@ -125,14 +125,14 @@ export const OptionSelector: React.FC<OptionSelectorProps> = ({
         type="button"
         onClick={handleToggle}
         className={clsx(
-          'tw-inline-flex tw-items-center tw-justify-center tw-w-6 tw-h-6 tw-p-0 tw-border qe-border-primary/30 tw-rounded tw-bg-white qe-text-primary tw-cursor-pointer tw-transition-all tw-duration-200 tw-ease-out',
+          'tw-inline-flex tw-items-center tw-justify-center tw-w-7 tw-h-7 tw-p-0 tw-border qe-border-primary/30 tw-rounded tw-bg-white qe-text-primary tw-cursor-pointer tw-transition-all tw-duration-200 tw-ease-out',
           'hover:qe-bg-primary/10 hover:qe-border-primary hover:tw-scale-105',
           isOpen && 'qe-bg-primary/10 qe-border-primary tw-scale-105',
           className
         )}
         title="Sélectionner une autre valeur"
       >
-        <ChevronDown size={12} className={clsx('tw-transition-transform tw-duration-200', isOpen && 'tw-rotate-180')} />
+        <ChevronDown size={14} className={clsx('tw-transition-transform tw-duration-200', isOpen && 'tw-rotate-180')} />
       </button>
 
       {isOpen && createPortal(

@@ -98,7 +98,7 @@ export const StyleSelector: React.FC<StyleSelectorProps> = ({
         type="button"
         onClick={handleToggle}
         className={clsx(
-          'tw-inline-flex tw-items-center tw-justify-center tw-w-6 tw-h-6 tw-p-0 tw-border qe-border-primary/30 tw-rounded tw-bg-white qe-text-primary tw-text-[0.7rem] tw-font-medium tw-cursor-pointer tw-transition-all tw-duration-200 tw-ease-out',
+          'tw-inline-flex tw-items-center tw-justify-center tw-w-7 tw-h-7 tw-p-0 tw-border qe-border-primary/30 tw-rounded tw-bg-white qe-text-primary tw-text-[0.75rem] tw-font-medium tw-cursor-pointer tw-transition-all tw-duration-200 tw-ease-out',
           'hover:qe-bg-primary/10 hover:qe-border-primary hover:tw-scale-105',
           isOpen && 'qe-bg-primary/10 qe-border-primary tw-scale-105',
           currentStyle.className === 'bold' && 'tw-font-bold',
