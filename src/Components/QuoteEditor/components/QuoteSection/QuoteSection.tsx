@@ -44,18 +44,7 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
     dropIndex: null
   });
 
-  const defaultColumns = {
-    date: { title: "Date", width: "58px", align: "center" as const, type: "date" as const, editable: true, style: "normal" as const },
-    description: { title: "Description", width: "calc(100% - 355px)", align: "left" as const, type: "text" as const, editable: true, style: "normal" as const },
-    pax: { title: "Pax", width: "38px", align: "center" as const, type: "number" as const, editable: true, style: "normal" as const },
-    unitPrice: { title: "P. U.", width: "58px", align: "right" as const, type: "currency" as const, editable: true, style: "normal" as const },
-    quantity: { title: "Qté", width: "35px", align: "center" as const, type: "number" as const, editable: true, style: "normal" as const },
-    priceHT: { title: "HT", width: "58px", align: "right" as const, type: "currency" as const, editable: false, style: "calculated" as const },
-    vatRate: { title: "TVA", width: "38px", align: "center" as const, type: "number" as const, editable: true, style: "normal" as const },
-    priceTTC: { title: "TTC", width: "60px", align: "right" as const, type: "currency" as const, editable: false, style: "calculated" as const }
-  };
-
-  const columns = section.columns || defaultColumns;
+  const columns = section.columns;
 
   if (!section.lines) {
     console.warn('Section.lines est undefined, utilisation d\'un tableau vide');

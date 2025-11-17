@@ -115,7 +115,7 @@
       "columns": {
         "date": {
           "title": "Date",
-          "width": "70px",
+          "width": "58px",
           "align": "center",
           "type": "date",
           "editable": true,
@@ -123,7 +123,7 @@
         },
         "description": {
           "title": "Description",
-          "width": "calc(100% - 370px)",
+          "width": "calc(100% - 350px)",
           "align": "left",
           "type": "text",
           "editable": true,
@@ -131,7 +131,7 @@
         },
         "pax": {
           "title": "Pax",
-          "width": "40px",
+          "width": "38px",
           "align": "center",
           "type": "number",
           "editable": true,
@@ -139,7 +139,7 @@
         },
         "unitPrice": {
           "title": "P. U.",
-          "width": "60px",
+          "width": "55px",
           "align": "right",
           "type": "currency",
           "editable": true,
@@ -147,7 +147,7 @@
         },
         "quantity": {
           "title": "Qté",
-          "width": "40px",
+          "width": "35px",
           "align": "center",
           "type": "number",
           "editable": true,
@@ -155,7 +155,7 @@
         },
         "priceHT": {
           "title": "HT",
-          "width": "55px",
+          "width": "53px",
           "align": "right",
           "type": "currency",
           "editable": false,
@@ -163,7 +163,7 @@
         },
         "vatRate": {
           "title": "TVA",
-          "width": "45px",
+          "width": "38px",
           "align": "center",
           "type": "number",
           "editable": true,
@@ -171,7 +171,7 @@
         },
         "priceTTC": {
           "title": "TTC",
-          "width": "60px",
+          "width": "58px",
           "align": "right",
           "type": "currency",
           "editable": false,
