@@ -288,6 +288,9 @@ const App: React.FC = () => {
                   <div className="tw-text-xs tw-text-blue-700">
                     Updates: <span className="tw-font-bold">{externalUpdateCounter}</span>
                   </div>
+                  <div className="tw-text-xs tw-text-blue-600 tw-mt-2 tw-pt-2 tw-border-t tw-border-blue-200">
+                    💡 <strong>Astuce:</strong> Double-cliquez sur un texte dans le devis pour l'éditer, puis cliquez sur un bouton ci-dessous. Le changement externe sera mis en file d'attente et appliqué automatiquement quand vous terminez l'édition!
+                  </div>
                 </div>
 
                 <p className="tw-text-sm tw-text-gray-600 tw-mb-3 tw-font-semibold">

@@ -118,7 +118,8 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
     canRedo,
     undo,
     redo,
-    isEditingField
+    isEditingField,
+    hasPendingExternalChanges
   } = useQuoteEditor(data || {} as QuoteData, handleChange, handleSave, false);
 
   // Supprimé : cette logique est gérée par useQuoteEditor
@@ -418,6 +419,23 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
           onSelectTemplate={handleAddOptionBlock}
           tabs={useTabs ? tabsData : undefined}
         />
+      )}
+
+      {hasPendingExternalChanges && !printMode && (
+        <div className="tw-bg-yellow-50 tw-border-l-4 tw-border-yellow-400 tw-p-3 tw-mx-4 tw-mt-2 tw-rounded tw-shadow-sm">
+          <div className="tw-flex tw-items-center">
+            <div className="tw-flex-shrink-0">
+              <svg className="tw-h-5 tw-w-5 tw-text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <div className="tw-ml-3">
+              <p className="tw-text-sm tw-text-yellow-700 tw-font-medium">
+                {t('notifications.pendingExternalChanges') || 'External changes are pending. They will be applied when you finish editing.'}
+              </p>
+            </div>
+          </div>
+        </div>
       )}
 
       <div className="tw-flex-1 tw-flex tw-flex-col tw-items-center tw-py-12 tw-px-8 tw-gap-6 tw-overflow-y-auto tw-bg-gradient-to-br tw-from-gray-50 tw-to-gray-200 md:tw-px-4 lg:tw-px-16 max-md:tw-px-2 max-md:tw-py-8 max-md:tw-gap-4 max-md:tw-bg-gray-50 print:tw-p-0 print:tw-gap-0 print:tw-bg-white">

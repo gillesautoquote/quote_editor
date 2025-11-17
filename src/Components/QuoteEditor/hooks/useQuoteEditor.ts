@@ -6,7 +6,14 @@ import type { QuoteData, EditingState, SaveState } from '../entities/QuoteData';
 interface HistoryState {
   data: QuoteData;
   timestamp: number;
-  source?: 'user' | 'external';
+  source: 'user' | 'external';
+  externalUpdateId?: string;
+}
+
+interface PendingExternalChange {
+  data: QuoteData;
+  timestamp: number;
+  updateId: string;
 }
 
 export const useQuoteEditor = (
@@ -36,7 +43,10 @@ export const useQuoteEditor = (
 
   const [data, setData] = useState<QuoteData>(normalizedInitialData);
   const lastExternalDataRef = useRef<QuoteData>(normalizedInitialData);
+  const lastExternalUpdateIdRef = useRef<string>('');
   const isApplyingExternalChangeRef = useRef<boolean>(false);
+  const pendingExternalChangesRef = useRef<PendingExternalChange[]>([]);
+  const externalDataTimestampRef = useRef<number>(Date.now());
   const [editingState, setEditingState] = useState<EditingState>({
     isEditing: false,
     fieldPath: '',
@@ -62,11 +72,12 @@ export const useQuoteEditor = (
     setCanRedo(historyIndexRef.current < historyRef.current.length - 1);
   }, []);
 
-  const addToHistory = useCallback((newData: QuoteData, source: 'user' | 'external' = 'user') => {
+  const addToHistory = useCallback((newData: QuoteData, source: 'user' | 'external' = 'user', externalUpdateId?: string) => {
     const newHistoryItem: HistoryState = {
       data: newData,
       timestamp: Date.now(),
-      source
+      source,
+      externalUpdateId
     };
 
     // Remove any future history if we're not at the end
@@ -167,7 +178,12 @@ export const useQuoteEditor = (
       fieldPath: '',
       value: ''
     });
-  }, []);
+
+    // Apply any pending external changes after editing stops
+    setTimeout(() => {
+      applyPendingExternalChanges();
+    }, 0);
+  }, [applyPendingExternalChanges]);
 
   const updateEditingValue = useCallback((value: string) => {
     setEditingState(prev => ({ ...prev, value }));
@@ -192,46 +208,94 @@ export const useQuoteEditor = (
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [undo, redo, saveData]);
 
-  // Gérer les changements externes de manière plus stricte
+  // Apply pending external changes after editing stops
+  const applyPendingExternalChanges = useCallback(() => {
+    if (pendingExternalChangesRef.current.length === 0) {
+      return;
+    }
+
+    console.log('[useQuoteEditor] Applying pending external changes:', pendingExternalChangesRef.current.length);
+
+    const latestPending = pendingExternalChangesRef.current[pendingExternalChangesRef.current.length - 1];
+    pendingExternalChangesRef.current = [];
+
+    if (!validateQuoteData(latestPending.data)) {
+      console.error('[useQuoteEditor] Invalid pending external data');
+      return;
+    }
+
+    isApplyingExternalChangeRef.current = true;
+    lastExternalDataRef.current = latestPending.data;
+    lastExternalUpdateIdRef.current = latestPending.updateId;
+    externalDataTimestampRef.current = latestPending.timestamp;
+
+    setData(latestPending.data);
+    addToHistory(latestPending.data, 'external', latestPending.updateId);
+
+    setTimeout(() => {
+      isApplyingExternalChangeRef.current = false;
+    }, 0);
+
+    console.log('[useQuoteEditor] Pending external data applied');
+  }, [addToHistory]);
+
+  // Handle external data changes with edit session protection
   const initialDataRef = useRef(initialData);
 
   useEffect(() => {
-    // Ignorer les changements si on est en train d'éditer ou d'appliquer des changements externes
     if (isApplyingExternalChangeRef.current) {
       return;
     }
 
-    // Ne traiter que si initialData a vraiment changé (référence différente)
     if (initialDataRef.current === initialData) {
       return;
     }
 
     const normalizedNewData = normalizeQuoteData(initialData);
 
-    // Comparer avec lastExternalDataRef pour éviter les boucles
-    if (hasQuoteDataChanged(lastExternalDataRef.current, normalizedNewData)) {
-      console.log('[useQuoteEditor] External data change detected');
-
-      if (!validateQuoteData(normalizedNewData)) {
-        console.error('[useQuoteEditor] Invalid external data received:', initialData);
-        return;
-      }
-
-      isApplyingExternalChangeRef.current = true;
-      lastExternalDataRef.current = normalizedNewData;
+    if (!hasQuoteDataChanged(lastExternalDataRef.current, normalizedNewData)) {
       initialDataRef.current = initialData;
-
-      setData(normalizedNewData);
-      addToHistory(normalizedNewData, 'external');
-
-      // Utiliser setTimeout pour s'assurer que le flag est réinitialisé après le cycle de render
-      setTimeout(() => {
-        isApplyingExternalChangeRef.current = false;
-      }, 0);
-
-      console.log('[useQuoteEditor] External data applied to internal state');
+      return;
     }
-  }, [initialData, addToHistory]);
+
+    if (!validateQuoteData(normalizedNewData)) {
+      console.error('[useQuoteEditor] Invalid external data received:', initialData);
+      return;
+    }
+
+    const updateId = `ext_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const updateTimestamp = Date.now();
+
+    console.log('[useQuoteEditor] External data change detected:', updateId);
+
+    // If user is currently editing, queue the change
+    if (editingState.isEditing) {
+      console.log('[useQuoteEditor] User is editing, queueing external change');
+      pendingExternalChangesRef.current.push({
+        data: normalizedNewData,
+        timestamp: updateTimestamp,
+        updateId
+      });
+      initialDataRef.current = initialData;
+      return;
+    }
+
+    // Apply external change immediately
+    isApplyingExternalChangeRef.current = true;
+    lastExternalDataRef.current = normalizedNewData;
+    lastExternalUpdateIdRef.current = updateId;
+    externalDataTimestampRef.current = updateTimestamp;
+    initialDataRef.current = initialData;
+
+    setData(normalizedNewData);
+    addToHistory(normalizedNewData, 'external', updateId);
+
+    setTimeout(() => {
+      isApplyingExternalChangeRef.current = false;
+    }, 0);
+
+    console.log('[useQuoteEditor] External data applied immediately');
+  }, [initialData, addToHistory, editingState.isEditing]);
 
   useEffect(() => {
     return () => {
@@ -254,6 +318,7 @@ export const useQuoteEditor = (
     canRedo,
     undo,
     redo,
-    isEditingField: editingState.isEditing
+    isEditingField: editingState.isEditing,
+    hasPendingExternalChanges: pendingExternalChangesRef.current.length > 0
   };
 };
