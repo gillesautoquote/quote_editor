@@ -236,7 +236,7 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
       </div>
 
       <div className="tw-overflow-x-auto">
-        <table className="tw-border-collapse tw-text-[0.8rem] print:tw-text-xs" style={{ width: '85%' }}>
+        <table className="tw-border-collapse tw-text-[0.8rem] print:tw-text-xs" style={{ width: '95%' }}>
           <TableHeader readonly={readonly} printMode={printMode} />
           <tbody>
             {(section.lines || []).map((line, lineIndex) => (
