@@ -20,7 +20,7 @@ export const AddButton: React.FC<AddButtonProps> = ({
   mainColor = '#0066cc'
 }) => {
   const sizeClasses = size === 'sm' ? 'qe-btn-sm' : 'qe-btn-md';
-  const iconSize = size === 'sm' ? 5 : 6;
+  const iconSize = size === 'sm' ? 8 : 9;
 
   const darkerColor = getDarkerVariant(mainColor, 0.8);
 

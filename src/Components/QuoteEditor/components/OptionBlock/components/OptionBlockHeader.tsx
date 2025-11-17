@@ -50,7 +50,7 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
             }}
             title={`Ajouter une ligne ${definition.title.toLowerCase()}`}
           >
-            <Plus size={6} />
+            <Plus size={9} />
             {definition.title}
           </button>
         ))}
@@ -69,7 +69,7 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
             }}
             title="Ajouter une ligne simple"
           >
-            <Plus size={6} />
+            <Plus size={9} />
             Ligne
           </button>
         )}
@@ -88,7 +88,7 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
             }}
             title="Ajouter une note"
           >
-            <Plus size={6} />
+            <Plus size={9} />
             Note
           </button>
         )}
@@ -124,7 +124,7 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
             }}
               title={`Ajouter une ligne ${definition.title.toLowerCase()}`}
             >
-              <Plus size={6} />
+              <Plus size={9} />
               {definition.title}
             </button>
           ))}
@@ -143,7 +143,7 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
             }}
               title="Ajouter une ligne simple"
             >
-              <Plus size={6} />
+              <Plus size={9} />
               Ligne
             </button>
           )}
@@ -162,7 +162,7 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
             }}
               title="Ajouter une note"
             >
-              <Plus size={6} />
+              <Plus size={9} />
               Note
             </button>
           )}

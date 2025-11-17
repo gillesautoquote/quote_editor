@@ -148,8 +148,8 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
   return (
     <div className="tw-p-4 print:tw-p-2" data-component="trip-program">
       <div className={`tw-mb-3 tw-flex tw-flex-wrap tw-gap-2 tw-items-center ${printMode ? 'tw-hidden' : ''} print:tw-hidden`}>
-        <div className="tw-flex tw-items-center tw-gap-1.5 tw-text-xs tw-text-gray-600">
-          <Filter size={14} />
+        <div className="tw-flex tw-items-center tw-gap-1.5 qe-button-text-base tw-text-gray-600">
+          <Filter size={11} />
           <span className="tw-font-medium">Filtres:</span>
         </div>
 
@@ -159,7 +159,7 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
             type="button"
             onClick={() => toggleFilter(filter.id)}
             disabled={readonly}
-            className="tw-inline-flex tw-items-center qe-px-1.5 qe-py-0.5 tw-text-xs tw-font-medium qe-rounded-full qe-border tw-transition-all tw-whitespace-nowrap"
+            className="tw-inline-flex tw-items-center qe-btn-compact tw-font-medium qe-rounded-full qe-border tw-transition-all tw-whitespace-nowrap"
             style={{
               backgroundColor: filters[filter.id] ? blockColor : 'white',
               color: filters[filter.id] ? 'white' : '#6b7280',
