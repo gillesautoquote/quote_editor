@@ -90,8 +90,13 @@ export const calculateVATBreakdown = (sections: any[] = []): VATBreakdown[] => {
 
 /**
  * Calcule les totaux globaux de manière sécurisée
+ * @param sections Les sections du devis
+ * @param existingVatBreakdown Le vatBreakdown existant à préserver (optionnel)
  */
-export const calculateGlobalTotals = (sections: any[] = []): SafeTotals & { vatBreakdown?: VATBreakdown[] } => {
+export const calculateGlobalTotals = (
+  sections: any[] = [],
+  existingVatBreakdown?: VATBreakdown[]
+): SafeTotals & { vatBreakdown?: VATBreakdown[] } => {
   const totals = sections.reduce(
     (acc, section) => {
       const subTotal = section?.subTotal || { ht: 0, tva: 0, ttc: 0 };
@@ -104,11 +109,15 @@ export const calculateGlobalTotals = (sections: any[] = []): SafeTotals & { vatB
     { ht: 0, tva: 0, ttc: 0 }
   );
 
-  const vatBreakdown = calculateVATBreakdown(sections);
+  // Si un vatBreakdown existant est fourni, le préserver tel quel
+  // Sinon, le recalculer à partir des sections
+  const vatBreakdown = existingVatBreakdown !== undefined
+    ? existingVatBreakdown
+    : calculateVATBreakdown(sections);
 
   return {
     ...totals,
-    vatBreakdown: vatBreakdown.length > 0 ? vatBreakdown : undefined
+    vatBreakdown: vatBreakdown && vatBreakdown.length > 0 ? vatBreakdown : undefined
   };
 };
 
