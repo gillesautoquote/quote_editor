@@ -162,7 +162,7 @@ export const TableRow: React.FC<TableRowProps> = ({
       </td>
 
       {!readonly && !printMode && (
-        <td className="tw-p-2 tw-border-b qe-border-border tw-text-center print:tw-hidden" style={{ width: '15px', minWidth: '15px', maxWidth: '15px' }}>
+        <td className="tw-border-b qe-border-border tw-text-center print:tw-hidden" style={{ width: '15px', minWidth: '15px', maxWidth: '15px', padding: '0.25rem' }}>
           <button
             type="button"
             onClick={() => onRemoveLine(lineIndex)}

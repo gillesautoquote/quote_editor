@@ -373,5 +373,6 @@
   width: 15px !important;
   min-width: 15px !important;
   max-width: 15px !important;
-  padding: 0.5rem !important;
+  padding: 0.25rem !important;
+  box-sizing: border-box !important;
 }
