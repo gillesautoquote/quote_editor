@@ -79,11 +79,9 @@ export const QuotePage: React.FC<QuotePageProps> = ({
     return data;
   }, [data]);
 
-  useEffect(() => {
-    if (dataWithProgrammeVoyage !== data) {
-      onUpdateData(dataWithProgrammeVoyage);
-    }
-  }, [dataWithProgrammeVoyage, data, onUpdateData]);
+  // Supprimé : Ce useEffect créait une boucle infinie
+  // La logique de création du programme voyage est maintenant gérée dans le render
+  // Si le programme voyage doit être ajouté, cela sera fait lors de la première modification par l'utilisateur
 
   if (!dataWithProgrammeVoyage || !dataWithProgrammeVoyage.sections || !dataWithProgrammeVoyage.optionBlocks) {
     return <div>Chargement des données...</div>;

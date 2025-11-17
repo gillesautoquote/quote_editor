@@ -97,51 +97,51 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
     [visibleTabs]
   );
 
+  const dataRef = React.useRef(data);
+  dataRef.current = data;
+
   const handleAddTab = useCallback((tab: QuoteTab) => {
-    setVisibleTabs(prev => {
-      const newVisibleTabs = [...prev, tab];
-      onUpdateData({
-        ...data,
-        visibleTabIds: newVisibleTabs.map(t => t.id)
-      });
-      return newVisibleTabs;
+    const newVisibleTabs = [...visibleTabs, tab];
+    setVisibleTabs(newVisibleTabs);
+    onUpdateData({
+      ...dataRef.current,
+      visibleTabIds: newVisibleTabs.map(t => t.id)
     });
     setActiveTab(tab.id);
-  }, [data, onUpdateData]);
+  }, [visibleTabs, onUpdateData]);
 
   const handleTabRemove = useCallback((tabId: string) => {
-    setVisibleTabs(prev => {
-      const newTabs = prev.filter(tab => tab.id !== tabId);
-      onUpdateData({
-        ...data,
-        visibleTabIds: newTabs.map(t => t.id)
-      });
-      return newTabs;
+    const newTabs = visibleTabs.filter(tab => tab.id !== tabId);
+    setVisibleTabs(newTabs);
+    onUpdateData({
+      ...dataRef.current,
+      visibleTabIds: newTabs.map(t => t.id)
     });
-    setActiveTab(prev => {
-      if (prev === tabId) {
-        const newTabs = visibleTabs.filter(tab => tab.id !== tabId);
-        return newTabs.length > 0 ? newTabs[0].id : 'introduction';
-      }
-      return prev;
-    });
-  }, [data, onUpdateData, visibleTabs]);
+
+    if (activeTab === tabId) {
+      setActiveTab(newTabs.length > 0 ? newTabs[0].id : 'introduction');
+    }
+  }, [visibleTabs, activeTab, onUpdateData]);
 
   const handleTabReorder = useCallback((newTabs: QuoteTab[]) => {
     setVisibleTabs(newTabs);
     onUpdateData({
-      ...data,
+      ...dataRef.current,
       visibleTabIds: newTabs.map(t => t.id)
     });
-  }, [data, onUpdateData]);
+  }, [onUpdateData]);
 
   const mainColor = data.company.mainColor;
 
+  // Utiliser useRef pour éviter que renderTabs ne déclenche des re-renders
+  const renderTabsRef = React.useRef(renderTabs);
+  renderTabsRef.current = renderTabs;
+
   // Update toolbar tabs data whenever tabs or active tab changes
   useEffect(() => {
-    if (!renderTabs) return;
+    if (!renderTabsRef.current) return;
 
-    renderTabs({
+    renderTabsRef.current({
       visible: visibleTabs,
       hidden: hiddenTabs,
       active: activeTab,
@@ -152,7 +152,7 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
       onTabRemove: handleTabRemove,
       onTabReorder: handleTabReorder
     });
-  }, [renderTabs, visibleTabs, hiddenTabs, activeTab, mainColor, enableTabManagement, handleAddTab, handleTabRemove, handleTabReorder]);
+  }, [visibleTabs, hiddenTabs, activeTab, mainColor, enableTabManagement, handleAddTab, handleTabRemove, handleTabReorder]);
 
   return (
     <div className="tw-w-full tw-flex tw-flex-col tw-relative">
