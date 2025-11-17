@@ -45,14 +45,14 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
   });
 
   const defaultColumns = {
-    date: { title: "Date", width: "50px", align: "center" as const, type: "date" as const, editable: true, style: "normal" as const },
-    description: { title: "Description", align: "left" as const, type: "text" as const, editable: true, style: "normal" as const },
-    pax: { title: "Pax", width: "30px", align: "center" as const, type: "number" as const, editable: true, style: "normal" as const },
-    unitPrice: { title: "P. U.", width: "45px", align: "right" as const, type: "currency" as const, editable: true, style: "normal" as const },
-    quantity: { title: "Qté", width: "30px", align: "center" as const, type: "number" as const, editable: true, style: "normal" as const },
-    priceHT: { title: "HT", width: "48px", align: "right" as const, type: "currency" as const, editable: false, style: "calculated" as const },
-    vatRate: { title: "TVA", width: "32px", align: "center" as const, type: "number" as const, editable: true, style: "normal" as const },
-    priceTTC: { title: "TTC", width: "52px", align: "right" as const, type: "currency" as const, editable: false, style: "calculated" as const }
+    date: { title: "Date", width: "65px", align: "center" as const, type: "date" as const, editable: true, style: "normal" as const },
+    description: { title: "Description", width: "calc(100% - 370px)", align: "left" as const, type: "text" as const, editable: true, style: "normal" as const },
+    pax: { title: "Pax", width: "40px", align: "center" as const, type: "number" as const, editable: true, style: "normal" as const },
+    unitPrice: { title: "P. U.", width: "60px", align: "right" as const, type: "currency" as const, editable: true, style: "normal" as const },
+    quantity: { title: "Qté", width: "40px", align: "center" as const, type: "number" as const, editable: true, style: "normal" as const },
+    priceHT: { title: "HT", width: "55px", align: "right" as const, type: "currency" as const, editable: false, style: "calculated" as const },
+    vatRate: { title: "TVA", width: "45px", align: "center" as const, type: "number" as const, editable: true, style: "normal" as const },
+    priceTTC: { title: "TTC", width: "60px", align: "right" as const, type: "currency" as const, editable: false, style: "calculated" as const }
   };
 
   const columns = section.columns || defaultColumns;
