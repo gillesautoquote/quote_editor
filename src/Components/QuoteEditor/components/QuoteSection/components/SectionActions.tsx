@@ -68,7 +68,7 @@ export const SectionActions: React.FC<SectionActionsProps> = ({
           <button
             type="button"
             onClick={() => setShowMissionDropdown(!showMissionDropdown)}
-            className="tw-inline-flex tw-items-center tw-gap-1 tw-px-1.5 tw-py-[0.2rem] tw-text-[0.7rem] tw-font-medium qe-text-white qe-bg-primary qe-border qe-border-primary qe-rounded-sm tw-cursor-pointer tw-transition-all tw-duration-200 tw-whitespace-nowrap hover:tw-opacity-90 hover:tw-shadow-sm"
+            className="tw-inline-flex tw-items-center tw-gap-1 tw-px-[0.35rem] tw-py-[0.15rem] tw-text-[0.68rem] tw-font-medium qe-text-white qe-bg-primary qe-border qe-border-primary qe-rounded-sm tw-cursor-pointer tw-transition-all tw-duration-200 tw-whitespace-nowrap hover:tw-opacity-90 hover:tw-shadow-sm"
             title="Ajouter une ligne mission pré-définie"
           >
             <Plus size={12} />

@@ -20,8 +20,8 @@ export const AddButton: React.FC<AddButtonProps> = ({
   mainColor = '#0066cc'
 }) => {
   const sizeClasses = size === 'sm'
-    ? 'tw-text-[0.65rem] tw-py-[0.15rem] tw-px-[0.35rem]'
-    : 'tw-text-[0.7rem] tw-py-[0.2rem] tw-px-1.5';
+    ? 'tw-text-[0.65rem] tw-py-[0.1rem] tw-px-[0.3rem]'
+    : 'tw-text-[0.68rem] tw-py-[0.15rem] tw-px-[0.35rem]';
 
   const darkerColor = getDarkerVariant(mainColor, 0.8);
 
