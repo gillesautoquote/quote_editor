@@ -91,6 +91,54 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
   const groupedByMission = useMemo(() => {
     const missions: Record<string, { tripName?: string; date: string; steps: TripProgramStep[] }[]> = {};
 
+    // Fonction pour regrouper les étapes au même endroit
+    const mergeStepsAtSameLocation = (steps: TripProgramStep[]): TripProgramStep[] => {
+      const merged: TripProgramStep[] = [];
+      const locationMap = new Map<string, TripProgramStep[]>();
+
+      // Grouper par localisation (ville + adresse normalisée)
+      steps.forEach(step => {
+        const locationKey = `${step.city.toLowerCase().trim()}_${(step.address || '').toLowerCase().trim()}`;
+        if (!locationMap.has(locationKey)) {
+          locationMap.set(locationKey, []);
+        }
+        locationMap.get(locationKey)!.push(step);
+      });
+
+      // Pour chaque localisation, fusionner si nécessaire
+      locationMap.forEach(stepsAtLocation => {
+        if (stepsAtLocation.length === 1) {
+          merged.push(stepsAtLocation[0]);
+        } else {
+          // Trier par heure
+          stepsAtLocation.sort((a, b) => a.time.localeCompare(b.time));
+
+          // Identifier mise en place et départ
+          const miseEnPlace = stepsAtLocation.find(s =>
+            s.label.toLowerCase().includes('mise en place')
+          );
+          const depart = stepsAtLocation.find(s =>
+            s.label.toLowerCase().includes('départ') &&
+            !s.label.toLowerCase().includes('mise en place')
+          );
+
+          if (miseEnPlace && depart) {
+            // Fusionner en une seule étape avec les deux horaires
+            merged.push({
+              ...miseEnPlace,
+              time: `${miseEnPlace.time} - ${depart.time}`,
+              label: `Mise en place / Départ`
+            });
+          } else {
+            // Sinon garder toutes les étapes séparées
+            merged.push(...stepsAtLocation);
+          }
+        }
+      });
+
+      return merged;
+    };
+
     filteredSteps.forEach(step => {
       const missionKey = step.tripName || 'default';
 
@@ -105,6 +153,13 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
       }
 
       dateGroup.steps.push(step);
+    });
+
+    // Fusionner les étapes au même endroit pour chaque groupe de date
+    Object.values(missions).forEach(dateGroups => {
+      dateGroups.forEach(dateGroup => {
+        dateGroup.steps = mergeStepsAtSameLocation(dateGroup.steps);
+      });
     });
 
     return missions;
