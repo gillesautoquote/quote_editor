@@ -14,14 +14,14 @@ export const TableHeader: React.FC<TableHeaderProps> = ({ readonly = false, prin
     <thead>
       <tr>
         {!readonly && !printMode && <th className="print:tw-hidden" style={{ width: '15px', minWidth: '15px', maxWidth: '15px' }}></th>}
-        <th className={`${thClassName} tw-text-center`} style={{ width: '55px', minWidth: '55px', maxWidth: '55px' }}>Date</th>
+        <th className={`${thClassName} tw-text-center`} style={{ width: '70px', minWidth: '70px', maxWidth: '70px' }}>Date</th>
         <th className={thClassName} style={{ width: 'auto' }}>Description</th>
         <th className={`${thClassName} tw-text-center`} style={{ width: '35px', minWidth: '35px', maxWidth: '35px' }}>Pax</th>
         <th className={`${thClassName} tw-text-right`} style={{ width: '55px', minWidth: '55px', maxWidth: '55px' }}>P. U.</th>
         <th className={`${thClassName} tw-text-center`} style={{ width: '35px', minWidth: '35px', maxWidth: '35px' }}>Qté</th>
-        <th className={`${thClassName} tw-text-right`} style={{ width: '55px', minWidth: '55px', maxWidth: '55px' }}>HT</th>
+        <th className={`${thClassName} tw-text-right`} style={{ width: '45px', minWidth: '45px', maxWidth: '45px' }}>HT</th>
         <th className={`${thClassName} tw-text-center`} style={{ width: '35px', minWidth: '35px', maxWidth: '35px' }}>TVA</th>
-        <th className={`${thClassName} tw-text-right`} style={{ width: '55px', minWidth: '55px', maxWidth: '55px' }}>TTC</th>
+        <th className={`${thClassName} tw-text-right`} style={{ width: '45px', minWidth: '45px', maxWidth: '45px' }}>TTC</th>
         {!readonly && !printMode && <th className="print:tw-hidden" style={{ width: '15px', minWidth: '15px', maxWidth: '15px' }}></th>}
       </tr>
     </thead>

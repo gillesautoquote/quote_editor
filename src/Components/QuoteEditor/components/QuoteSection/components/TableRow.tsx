@@ -62,7 +62,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         </td>
       )}
 
-      <td className={`${baseCellClass} tw-text-center`} style={{ width: '55px', minWidth: '55px', maxWidth: '55px' }}>
+      <td className={`${baseCellClass} tw-text-center`} style={{ width: '70px', minWidth: '70px', maxWidth: '70px' }}>
         <EditableField
           value={formatDateFrench(line.date)}
           onSave={(value) => onLineUpdate(lineIndex, 'date', value)}
@@ -100,7 +100,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         {(line.quantity ?? 0).toString()}
       </td>
 
-      <td className={`${baseCellClass} qe-bg-surface-gray-50 tw-font-medium tw-text-right`} style={{ width: '55px', minWidth: '55px', maxWidth: '55px' }}>
+      <td className={`${baseCellClass} qe-bg-surface-gray-50 tw-font-medium tw-text-right`} style={{ width: '45px', minWidth: '45px', maxWidth: '45px' }}>
         {(line.priceHT ?? 0).toFixed(2)}
       </td>
 
@@ -108,7 +108,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         {typeof line.vatRate === 'number' ? line.vatRate.toString() : (line.vatRate ?? '0')}
       </td>
 
-      <td className={`${baseCellClass} qe-bg-surface-gray-50 tw-font-medium tw-text-right`} style={{ width: '55px', minWidth: '55px', maxWidth: '55px' }}>
+      <td className={`${baseCellClass} qe-bg-surface-gray-50 tw-font-medium tw-text-right`} style={{ width: '45px', minWidth: '45px', maxWidth: '45px' }}>
         {(line.priceTTC ?? 0).toFixed(2)}
       </td>
 
