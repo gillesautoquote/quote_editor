@@ -287,7 +287,7 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
                 )}
               </React.Fragment>
             ))}
-            <SubtotalRow subTotal={section.subTotal} readonly={readonly} printMode={printMode} />
+            <SubtotalRow subTotal={section.subTotal} columns={effectiveColumns} readonly={readonly} printMode={printMode} />
           </tbody>
         </table>
       </div>
