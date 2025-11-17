@@ -41,7 +41,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({ columns, readonly = fa
   return (
     <thead>
       <tr>
-        {!readonly && !printMode && <th className="print:tw-hidden"></th>}
+        {!readonly && !printMode && <th className="print:tw-hidden" style={{ width: '15px', minWidth: '15px', maxWidth: '15px' }}></th>}
         <th className={thClassName} style={getHeaderStyle(columns.date)}>{columns.date.title}</th>
         <th className={thClassName} style={getHeaderStyle(columns.description)}>{columns.description.title}</th>
         {columns.durationHours && <th className={thClassName} style={getHeaderStyle(columns.durationHours)}>{columns.durationHours.title}</th>}
@@ -51,7 +51,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({ columns, readonly = fa
         <th className={thClassName} style={getHeaderStyle(columns.priceHT)}>{columns.priceHT.title}</th>
         <th className={thClassName} style={getHeaderStyle(columns.vatRate)}>{columns.vatRate.title}</th>
         <th className={thClassName} style={getHeaderStyle(columns.priceTTC)}>{columns.priceTTC.title}</th>
-        {!readonly && !printMode && <th className="print:tw-hidden"></th>}
+        {!readonly && !printMode && <th className="print:tw-hidden" style={{ width: '15px', minWidth: '15px', maxWidth: '15px' }}></th>}
       </tr>
     </thead>
   );
