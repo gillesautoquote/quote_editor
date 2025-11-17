@@ -164,6 +164,37 @@ export const useQuoteEditor = (
     }
   }, [onSave, data]);
 
+  // Apply pending external changes after editing stops
+  const applyPendingExternalChanges = useCallback(() => {
+    if (pendingExternalChangesRef.current.length === 0) {
+      return;
+    }
+
+    console.log('[useQuoteEditor] Applying pending external changes:', pendingExternalChangesRef.current.length);
+
+    const latestPending = pendingExternalChangesRef.current[pendingExternalChangesRef.current.length - 1];
+    pendingExternalChangesRef.current = [];
+
+    if (!validateQuoteData(latestPending.data)) {
+      console.error('[useQuoteEditor] Invalid pending external data');
+      return;
+    }
+
+    isApplyingExternalChangeRef.current = true;
+    lastExternalDataRef.current = latestPending.data;
+    lastExternalUpdateIdRef.current = latestPending.updateId;
+    externalDataTimestampRef.current = latestPending.timestamp;
+
+    setData(latestPending.data);
+    addToHistory(latestPending.data, 'external', latestPending.updateId);
+
+    setTimeout(() => {
+      isApplyingExternalChangeRef.current = false;
+    }, 0);
+
+    console.log('[useQuoteEditor] Pending external data applied');
+  }, [addToHistory]);
+
   const startEditing = useCallback((fieldPath: string, currentValue: string) => {
     setEditingState({
       isEditing: true,
@@ -207,37 +238,6 @@ export const useQuoteEditor = (
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [undo, redo, saveData]);
-
-  // Apply pending external changes after editing stops
-  const applyPendingExternalChanges = useCallback(() => {
-    if (pendingExternalChangesRef.current.length === 0) {
-      return;
-    }
-
-    console.log('[useQuoteEditor] Applying pending external changes:', pendingExternalChangesRef.current.length);
-
-    const latestPending = pendingExternalChangesRef.current[pendingExternalChangesRef.current.length - 1];
-    pendingExternalChangesRef.current = [];
-
-    if (!validateQuoteData(latestPending.data)) {
-      console.error('[useQuoteEditor] Invalid pending external data');
-      return;
-    }
-
-    isApplyingExternalChangeRef.current = true;
-    lastExternalDataRef.current = latestPending.data;
-    lastExternalUpdateIdRef.current = latestPending.updateId;
-    externalDataTimestampRef.current = latestPending.timestamp;
-
-    setData(latestPending.data);
-    addToHistory(latestPending.data, 'external', latestPending.updateId);
-
-    setTimeout(() => {
-      isApplyingExternalChangeRef.current = false;
-    }, 0);
-
-    console.log('[useQuoteEditor] Pending external data applied');
-  }, [addToHistory]);
 
   // Handle external data changes with edit session protection
   const initialDataRef = useRef(initialData);
