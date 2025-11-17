@@ -120,11 +120,7 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
     isEditingField
   } = useQuoteEditor(data || {} as QuoteData, handleChange, handleSave, false);
 
-  useEffect(() => {
-    if (!isInitialLoadRef.current && initialData && !isEditingField) {
-      setData(initialData);
-    }
-  }, [initialData, isEditingField]);
+  // Supprimé : cette logique est gérée par useQuoteEditor
 
   const { applyColorVariables } = useColorTheme(currentData?.company || { mainColor: '#4863ec' });
   const { exportToPDF, isGenerating } = usePDFExport(useTabs);

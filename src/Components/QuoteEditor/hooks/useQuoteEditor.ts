@@ -192,24 +192,42 @@ export const useQuoteEditor = (
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [undo, redo, saveData]);
 
+  // Gérer les changements externes de manière plus stricte
+  const initialDataRef = useRef(initialData);
+
   useEffect(() => {
-    if (hasQuoteDataChanged(lastExternalDataRef.current, initialData)) {
+    // Ignorer les changements si on est en train d'éditer ou d'appliquer des changements externes
+    if (isApplyingExternalChangeRef.current) {
+      return;
+    }
+
+    // Ne traiter que si initialData a vraiment changé (référence différente)
+    if (initialDataRef.current === initialData) {
+      return;
+    }
+
+    const normalizedNewData = normalizeQuoteData(initialData);
+
+    // Comparer avec lastExternalDataRef pour éviter les boucles
+    if (hasQuoteDataChanged(lastExternalDataRef.current, normalizedNewData)) {
       console.log('[useQuoteEditor] External data change detected');
 
-      const normalizedData = normalizeQuoteData(initialData);
-
-      if (!validateQuoteData(normalizedData)) {
+      if (!validateQuoteData(normalizedNewData)) {
         console.error('[useQuoteEditor] Invalid external data received:', initialData);
         return;
       }
 
       isApplyingExternalChangeRef.current = true;
-      lastExternalDataRef.current = normalizedData;
+      lastExternalDataRef.current = normalizedNewData;
+      initialDataRef.current = initialData;
 
-      setData(normalizedData);
-      addToHistory(normalizedData, 'external');
+      setData(normalizedNewData);
+      addToHistory(normalizedNewData, 'external');
 
-      isApplyingExternalChangeRef.current = false;
+      // Utiliser setTimeout pour s'assurer que le flag est réinitialisé après le cycle de render
+      setTimeout(() => {
+        isApplyingExternalChangeRef.current = false;
+      }, 0);
 
       console.log('[useQuoteEditor] External data applied to internal state');
     }
