@@ -123,7 +123,7 @@
         },
         "description": {
           "title": "Description",
-          "width": "calc(100% - 350px)",
+          "width": "calc(100% - 550px)",
           "align": "left",
           "type": "text",
           "editable": true,
