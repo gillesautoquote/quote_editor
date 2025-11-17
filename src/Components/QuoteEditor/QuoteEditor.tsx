@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, forwardRef, useImperativeHandle, useMemo } from 'react';
+import React, { useState, useRef, useEffect, forwardRef, useImperativeHandle, useMemo, useCallback } from 'react';
 import clsx from 'clsx';
 import './styles/print.css';
 import { usePDFExport } from './hooks/usePDFExport';
