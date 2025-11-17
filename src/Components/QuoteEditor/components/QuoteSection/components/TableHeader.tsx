@@ -13,7 +13,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({ readonly = false, prin
   return (
     <thead>
       <tr>
-        {!readonly && !printMode && <th className="print:tw-hidden" style={{ width: '40px', minWidth: '40px', maxWidth: '40px' }}></th>}
+        {!readonly && !printMode && <th className="print:tw-hidden" style={{ width: '20px', minWidth: '20px', maxWidth: '20px' }}></th>}
         <th className={`${thClassName} tw-text-center`} style={{ width: '70px', minWidth: '70px', maxWidth: '70px' }}>Date</th>
         <th className={thClassName} style={{ width: 'auto' }}>Description</th>
         <th className={`${thClassName} tw-text-center`} style={{ width: '35px', minWidth: '35px', maxWidth: '35px' }}>Pax</th>

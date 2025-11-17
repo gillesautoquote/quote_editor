@@ -55,7 +55,7 @@ export const TableRow: React.FC<TableRowProps> = ({
       onDrop={(e) => onDrop(e, lineIndex)}
     >
       {!readonly && !printMode && (
-        <td className="tw-w-6 tw-p-1 tw-border-b qe-border-border tw-text-center print:tw-hidden">
+        <td className="tw-border-b qe-border-border tw-text-center print:tw-hidden" style={{ width: '20px', minWidth: '20px', maxWidth: '20px', padding: '0.25rem' }}>
           <div className="tw-cursor-grab qe-text-text-muted hover:qe-text-primary active:tw-cursor-grabbing">
             <GripVertical size={10} />
           </div>
