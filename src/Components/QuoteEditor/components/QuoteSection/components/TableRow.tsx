@@ -37,7 +37,7 @@ export const TableRow: React.FC<TableRowProps> = ({
   formatVatRate,
   printMode = false
 }) => {
-  const baseCellClass = clsx('tw-p-2 tw-border-b qe-border-border', printMode && 'print:tw-p-1.5');
+  const baseCellClass = clsx('tw-p-1.5 tw-border-b qe-border-border', printMode && 'print:tw-p-1');
 
   return (
     <tr
@@ -55,9 +55,9 @@ export const TableRow: React.FC<TableRowProps> = ({
       onDrop={(e) => onDrop(e, lineIndex)}
     >
       {!readonly && !printMode && (
-        <td className="tw-w-8 tw-p-2 tw-border-b qe-border-border tw-text-center print:tw-hidden">
+        <td className="tw-w-6 tw-p-1 tw-border-b qe-border-border tw-text-center print:tw-hidden">
           <div className="tw-cursor-grab qe-text-text-muted hover:qe-text-primary active:tw-cursor-grabbing">
-            <GripVertical size={12} />
+            <GripVertical size={10} />
           </div>
         </td>
       )}

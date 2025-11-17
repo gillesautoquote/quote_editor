@@ -7,8 +7,8 @@ interface TableHeaderProps {
 
 export const TableHeader: React.FC<TableHeaderProps> = ({ readonly = false, printMode = false }) => {
   const thClassName = printMode
-    ? 'tw-p-2 tw-text-left tw-font-semibold qe-bg-surface-gray-50 tw-border-b qe-border-border print:tw-text-xs print:tw-p-1.5'
-    : 'tw-p-2 tw-text-left tw-font-semibold qe-bg-surface-gray-50 tw-border-b qe-border-border';
+    ? 'tw-p-1.5 tw-text-left tw-font-semibold qe-bg-surface-gray-50 tw-border-b qe-border-border print:tw-text-xs print:tw-p-1'
+    : 'tw-p-1.5 tw-text-left tw-font-semibold qe-bg-surface-gray-50 tw-border-b qe-border-border';
 
   return (
     <thead>
