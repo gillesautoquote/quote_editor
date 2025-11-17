@@ -362,3 +362,16 @@
 [data-quote-editor-scope] .qe-rounded-full {
   border-radius: 9999px !important;
 }
+
+/* ==============================================
+   TABLE ACTION COLUMN WIDTH
+   ============================================== */
+
+/* Force delete button column to 15px max */
+[data-quote-editor-scope] table td[style*="width: 15px"],
+[data-quote-editor-scope] table th[style*="width: 15px"] {
+  width: 15px !important;
+  min-width: 15px !important;
+  max-width: 15px !important;
+  padding: 0.5rem !important;
+}
