@@ -40,7 +40,7 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
             key={typeKey}
             type="button"
             onClick={() => onAddRowOfType(typeKey)}
-            className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-xs tw-font-medium tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200"
+            className="tw-inline-flex tw-items-center tw-gap-1.5 qe-btn-lg tw-font-medium tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200"
             style={{ backgroundColor: mainColor, color: textColor, borderColor: mainColor }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = darkerColor;
@@ -50,7 +50,7 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
             }}
             title={`Ajouter une ligne ${definition.title.toLowerCase()}`}
           >
-            <Plus size={12} />
+            <Plus size={6} />
             {definition.title}
           </button>
         ))}
@@ -59,7 +59,7 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
           <button
             type="button"
             onClick={onAddRow}
-            className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-xs tw-font-medium tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200"
+            className="tw-inline-flex tw-items-center tw-gap-1.5 qe-btn-lg tw-font-medium tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200"
             style={{ backgroundColor: mainColor, color: textColor, borderColor: mainColor }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = darkerColor;
@@ -69,7 +69,7 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
             }}
             title="Ajouter une ligne simple"
           >
-            <Plus size={12} />
+            <Plus size={6} />
             Ligne
           </button>
         )}
@@ -78,7 +78,7 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
           <button
             type="button"
             onClick={onAddRow}
-            className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-xs tw-font-medium tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200"
+            className="tw-inline-flex tw-items-center tw-gap-1.5 qe-btn-lg tw-font-medium tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200"
             style={{ backgroundColor: mainColor, color: textColor, borderColor: mainColor }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = darkerColor;
@@ -88,7 +88,7 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
             }}
             title="Ajouter une note"
           >
-            <Plus size={12} />
+            <Plus size={6} />
             Note
           </button>
         )}
@@ -114,7 +114,7 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
               key={typeKey}
               type="button"
               onClick={() => onAddRowOfType(typeKey)}
-              className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-xs tw-font-medium tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200"
+              className="tw-inline-flex tw-items-center tw-gap-1.5 qe-btn-lg tw-font-medium tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200"
             style={{ backgroundColor: mainColor, color: textColor, borderColor: mainColor }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = darkerColor;
@@ -124,7 +124,7 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
             }}
               title={`Ajouter une ligne ${definition.title.toLowerCase()}`}
             >
-              <Plus size={12} />
+              <Plus size={6} />
               {definition.title}
             </button>
           ))}
@@ -133,7 +133,7 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
             <button
               type="button"
               onClick={onAddRow}
-              className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-xs tw-font-medium tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200"
+              className="tw-inline-flex tw-items-center tw-gap-1.5 qe-btn-lg tw-font-medium tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200"
             style={{ backgroundColor: mainColor, color: textColor, borderColor: mainColor }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = darkerColor;
@@ -143,7 +143,7 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
             }}
               title="Ajouter une ligne simple"
             >
-              <Plus size={12} />
+              <Plus size={6} />
               Ligne
             </button>
           )}
@@ -152,7 +152,7 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
             <button
               type="button"
               onClick={onAddRow}
-              className="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-1.5 tw-text-xs tw-font-medium tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200"
+              className="tw-inline-flex tw-items-center tw-gap-1.5 qe-btn-lg tw-font-medium tw-rounded tw-cursor-pointer tw-transition-all tw-duration-200"
             style={{ backgroundColor: mainColor, color: textColor, borderColor: mainColor }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = darkerColor;
@@ -162,7 +162,7 @@ export const OptionBlockHeader: React.FC<OptionBlockHeaderProps> = ({
             }}
               title="Ajouter une note"
             >
-              <Plus size={12} />
+              <Plus size={6} />
               Note
             </button>
           )}

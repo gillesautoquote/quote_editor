@@ -215,6 +215,41 @@ body {
 }
 
 /* ========================================
+   PRINT SECURITY: HIDE ALL UI BUTTONS
+   ======================================== */
+
+@media print {
+  /* Masquer tous les boutons UI en mode print */
+  .add-button,
+  .section-actions,
+  .column-controls,
+  .style-selector,
+  .option-selector,
+  button:not(.print-show),
+  [data-component="add-button"],
+  [data-component="section-actions"],
+  [data-component="column-controls"],
+  [data-component="style-selector"],
+  [data-component="option-selector"] {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Masquer les contrôles de drag & drop */
+  [data-component="drag-handle"],
+  .tw-cursor-grab,
+  .tw-cursor-grabbing {
+    display: none !important;
+  }
+
+  /* S'assurer que les icônes de boutons ne fuient pas */
+  button svg,
+  button [data-lucide] {
+    display: none !important;
+  }
+}
+
+/* ========================================
    TABLE OPTIMIZATION
    ======================================== */
 

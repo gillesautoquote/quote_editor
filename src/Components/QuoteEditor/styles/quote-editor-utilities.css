@@ -376,3 +376,116 @@
   padding: 0.25rem !important;
   box-sizing: border-box !important;
 }
+
+/* ==============================================
+   BUTTON & UI SIZE VARIABLES (Centralized)
+   Valeurs réduites de 50% pour boutons et icônes
+   ============================================== */
+
+[data-quote-editor-scope] {
+  /* Text sizes */
+  --qe-button-text-sm: 0.325rem;      /* était 0.65rem */
+  --qe-button-text-md: 0.35rem;       /* était 0.7rem */
+  --qe-button-text-base: 0.375rem;    /* était 0.75rem (text-xs) */
+
+  /* Padding vertical */
+  --qe-button-py-xs: 0.0625rem;       /* était 0.125rem */
+  --qe-button-py-sm: 0.1rem;          /* était 0.2rem */
+  --qe-button-py-md: 0.125rem;        /* était 0.25rem */
+  --qe-button-py-lg: 0.1875rem;       /* était 0.375rem */
+
+  /* Padding horizontal */
+  --qe-button-px-xs: 0.1875rem;       /* était 0.375rem (qe-px-1.5) */
+  --qe-button-px-sm: 0.2rem;          /* était 0.4rem */
+  --qe-button-px-md: 0.25rem;         /* était 0.5rem (tw-px-2) */
+  --qe-button-px-lg: 0.375rem;        /* était 0.75rem (tw-px-3) */
+  --qe-button-px-xl: 0.75rem;         /* était 1.5rem (tw-px-6) */
+
+  /* Icon sizes */
+  --qe-icon-size-sm: 5px;             /* était 10px */
+  --qe-icon-size-md: 6px;             /* était 12px */
+  --qe-icon-size-lg: 7px;             /* était 14px */
+
+  /* Button dimensions */
+  --qe-button-square-sm: 0.625rem;    /* était 1.25rem (tw-w-5 tw-h-5) */
+  --qe-button-square-md: 1rem;        /* était 2rem */
+}
+
+/* Button utility classes using variables */
+[data-quote-editor-scope] .qe-button-text-sm {
+  font-size: var(--qe-button-text-sm) !important;
+}
+
+[data-quote-editor-scope] .qe-button-text-md {
+  font-size: var(--qe-button-text-md) !important;
+}
+
+[data-quote-editor-scope] .qe-button-text-base {
+  font-size: var(--qe-button-text-base) !important;
+}
+
+[data-quote-editor-scope] .qe-button-py-xs {
+  padding-top: var(--qe-button-py-xs) !important;
+  padding-bottom: var(--qe-button-py-xs) !important;
+}
+
+[data-quote-editor-scope] .qe-button-py-sm {
+  padding-top: var(--qe-button-py-sm) !important;
+  padding-bottom: var(--qe-button-py-sm) !important;
+}
+
+[data-quote-editor-scope] .qe-button-py-md {
+  padding-top: var(--qe-button-py-md) !important;
+  padding-bottom: var(--qe-button-py-md) !important;
+}
+
+[data-quote-editor-scope] .qe-button-py-lg {
+  padding-top: var(--qe-button-py-lg) !important;
+  padding-bottom: var(--qe-button-py-lg) !important;
+}
+
+[data-quote-editor-scope] .qe-button-px-xs {
+  padding-left: var(--qe-button-px-xs) !important;
+  padding-right: var(--qe-button-px-xs) !important;
+}
+
+[data-quote-editor-scope] .qe-button-px-sm {
+  padding-left: var(--qe-button-px-sm) !important;
+  padding-right: var(--qe-button-px-sm) !important;
+}
+
+[data-quote-editor-scope] .qe-button-px-md {
+  padding-left: var(--qe-button-px-md) !important;
+  padding-right: var(--qe-button-px-md) !important;
+}
+
+[data-quote-editor-scope] .qe-button-px-lg {
+  padding-left: var(--qe-button-px-lg) !important;
+  padding-right: var(--qe-button-px-lg) !important;
+}
+
+[data-quote-editor-scope] .qe-button-square-sm {
+  width: var(--qe-button-square-sm) !important;
+  height: var(--qe-button-square-sm) !important;
+}
+
+/* Composite button classes */
+[data-quote-editor-scope] .qe-btn-compact {
+  font-size: var(--qe-button-text-base) !important;
+  padding: var(--qe-button-py-xs) var(--qe-button-px-xs) !important;
+}
+
+[data-quote-editor-scope] .qe-btn-sm {
+  font-size: var(--qe-button-text-sm) !important;
+  padding: var(--qe-button-py-sm) var(--qe-button-px-sm) !important;
+}
+
+[data-quote-editor-scope] .qe-btn-md {
+  font-size: var(--qe-button-text-md) !important;
+  padding: var(--qe-button-py-md) var(--qe-button-px-md) !important;
+}
+
+[data-quote-editor-scope] .qe-btn-lg {
+  font-size: var(--qe-button-text-base) !important;
+  padding: var(--qe-button-py-lg) var(--qe-button-px-lg) !important;
+}

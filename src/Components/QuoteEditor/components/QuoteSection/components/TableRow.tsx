@@ -57,7 +57,7 @@ export const TableRow: React.FC<TableRowProps> = ({
       {!readonly && !printMode && (
         <td className="tw-border-b qe-border-border tw-text-center print:tw-hidden" style={{ width: '20px', minWidth: '20px', maxWidth: '20px', padding: '0.25rem' }}>
           <div className="tw-cursor-grab qe-text-text-muted hover:qe-text-primary active:tw-cursor-grabbing">
-            <GripVertical size={10} />
+            <GripVertical size={5} />
           </div>
         </td>
       )}
@@ -117,10 +117,10 @@ export const TableRow: React.FC<TableRowProps> = ({
           <button
             type="button"
             onClick={() => onRemoveLine(lineIndex)}
-            className="tw-inline-flex tw-items-center tw-justify-center tw-w-5 tw-h-5 tw-p-0 qe-text-danger tw-transition-all tw-duration-200 hover:qe-text-danger-dark hover:tw-scale-110"
+            className="tw-inline-flex tw-items-center tw-justify-center qe-button-square-sm tw-p-0 qe-text-danger tw-transition-all tw-duration-200 hover:qe-text-danger-dark hover:tw-scale-110"
             title="Supprimer cette ligne"
           >
-            <Trash2 size={12} />
+            <Trash2 size={6} />
           </button>
         </td>
       )}
