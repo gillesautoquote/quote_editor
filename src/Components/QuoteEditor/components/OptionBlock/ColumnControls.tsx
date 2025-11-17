@@ -75,7 +75,7 @@ export const ColumnControls: React.FC<ColumnControlsProps> = ({
       <div className="tw-flex tw-items-center">
         {isDraggable && (
           <div className="tw-cursor-grab qe-text-text-muted tw-transition-colors hover:qe-text-primary active:tw-cursor-grabbing" title="Glisser pour réorganiser">
-            <GripVertical size={11} />
+            <GripVertical size={12} />
           </div>
         )}
       </div>
@@ -83,7 +83,7 @@ export const ColumnControls: React.FC<ColumnControlsProps> = ({
       {/* Zone centre: Contrôles de largeur */}
       <div className="tw-flex tw-items-center tw-gap-2">
         <div className="tw-flex tw-items-center tw-gap-1.5 qe-button-text-md qe-text-text-muted">
-          <ArrowLeftRight size={9} />
+          <ArrowLeftRight size={12} />
           <span className="tw-font-medium">{getWidthLabel(columns)}</span>
         </div>
 
@@ -99,7 +99,7 @@ export const ColumnControls: React.FC<ColumnControlsProps> = ({
             )}
             title="Réduire la largeur"
           >
-            <Minus size={9} />
+            <Minus size={12} />
           </button>
 
           <span className="tw-flex tw-items-center tw-gap-[2px]">
@@ -125,7 +125,7 @@ export const ColumnControls: React.FC<ColumnControlsProps> = ({
             )}
             title="Augmenter la largeur"
           >
-            <Plus size={9} />
+            <Plus size={12} />
           </button>
         </div>
       </div>
@@ -152,7 +152,7 @@ export const ColumnControls: React.FC<ColumnControlsProps> = ({
             className="tw-inline-flex tw-items-center tw-justify-center qe-button-square-sm tw-p-0 tw-border qe-border-danger-light tw-rounded tw-bg-white qe-text-danger tw-cursor-pointer tw-transition-all tw-duration-200 hover:qe-bg-danger/10 hover:qe-border-danger hover:tw-scale-105"
             title="Supprimer ce bloc"
           >
-            <X size={11} />
+            <X size={12} />
           </button>
         )}
       </div>

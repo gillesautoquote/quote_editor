@@ -149,7 +149,7 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
     <div className="tw-p-4 print:tw-p-2" data-component="trip-program">
       <div className={`tw-mb-3 tw-flex tw-flex-wrap tw-gap-2 tw-items-center ${printMode ? 'tw-hidden' : ''} print:tw-hidden`}>
         <div className="tw-flex tw-items-center tw-gap-1.5 qe-button-text-base tw-text-gray-600">
-          <Filter size={11} />
+          <Filter size={12} />
           <span className="tw-font-medium">Filtres:</span>
         </div>
 
