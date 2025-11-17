@@ -142,22 +142,43 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
   const renderTabsRef = React.useRef(renderTabs);
   renderTabsRef.current = renderTabs;
 
+  // Mémoiser les données de tabs pour éviter les appels inutiles à renderTabs
+  const tabsDataToRender = useMemo(() => ({
+    visible: visibleTabs,
+    hidden: hiddenTabs,
+    active: activeTab,
+    mainColor,
+    enableTabManagement,
+    onTabChange: setActiveTab,
+    onTabAdd: handleAddTab,
+    onTabRemove: handleTabRemove,
+    onTabReorder: handleTabReorder
+  }), [visibleTabs, hiddenTabs, activeTab, mainColor, enableTabManagement, handleAddTab, handleTabRemove, handleTabReorder]);
+
+  // Ref pour suivre le dernier appel à renderTabs
+  const lastRenderedDataRef = React.useRef<string>('');
+
   // Update toolbar tabs data whenever tabs or active tab changes
   useEffect(() => {
     if (!renderTabsRef.current) return;
 
-    renderTabsRef.current({
-      visible: visibleTabs,
-      hidden: hiddenTabs,
-      active: activeTab,
+    // Créer une signature des données pour éviter les appels redondants
+    const dataSignature = JSON.stringify({
+      visibleIds: visibleTabs.map(t => t.id),
+      hiddenIds: hiddenTabs.map(t => t.id),
+      activeTab,
       mainColor,
-      enableTabManagement,
-      onTabChange: setActiveTab,
-      onTabAdd: handleAddTab,
-      onTabRemove: handleTabRemove,
-      onTabReorder: handleTabReorder
+      enableTabManagement
     });
-  }, [visibleTabs, hiddenTabs, activeTab, mainColor, enableTabManagement, handleAddTab, handleTabRemove, handleTabReorder]);
+
+    // Ne pas appeler renderTabs si les données n'ont pas changé
+    if (lastRenderedDataRef.current === dataSignature) {
+      return;
+    }
+
+    lastRenderedDataRef.current = dataSignature;
+    renderTabsRef.current(tabsDataToRender);
+  }, [tabsDataToRender, visibleTabs, hiddenTabs, activeTab, mainColor, enableTabManagement]);
 
   return (
     <div className="tw-w-full tw-flex tw-flex-col tw-relative">

@@ -99,10 +99,11 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
     loadData();
   }, [initialData, mock, onEvent, t]);
 
-  const handleChange = (newData: QuoteData) => {
-    setData(newData);
+  const handleChange = useCallback((newData: QuoteData) => {
+    // Ne pas mettre à jour data ici - useQuoteEditor gère son propre état interne
+    // On émet juste l'événement pour notifier les parents
     onEvent?.({ type: 'change', path: '', value: newData, data: newData });
-  };
+  }, [onEvent]);
 
   const handleSave = async (newData: QuoteData) => {
     onEvent?.({ type: 'save', data: newData });
@@ -385,6 +386,8 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
   }`;
 
   const [tabsData, setTabsData] = useState<any>(null);
+  const setTabsDataRef = useRef(setTabsData);
+  setTabsDataRef.current = setTabsData;
 
   return (
     <div
