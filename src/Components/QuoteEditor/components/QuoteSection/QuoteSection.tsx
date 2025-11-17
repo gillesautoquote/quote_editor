@@ -46,7 +46,7 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
 
   const defaultColumns = {
     date: { title: "Date", width: "70px", align: "center" as const, type: "date" as const, editable: true, style: "normal" as const },
-    description: { title: "Description", width: "calc(100% - 370px)", align: "left" as const, type: "text" as const, editable: true, style: "normal" as const },
+    description: { title: "Description", align: "left" as const, type: "text" as const, editable: true, style: "normal" as const },
     pax: { title: "Pax", width: "40px", align: "center" as const, type: "number" as const, editable: true, style: "normal" as const },
     unitPrice: { title: "P. U.", width: "60px", align: "right" as const, type: "currency" as const, editable: true, style: "normal" as const },
     quantity: { title: "Qté", width: "40px", align: "center" as const, type: "number" as const, editable: true, style: "normal" as const },
