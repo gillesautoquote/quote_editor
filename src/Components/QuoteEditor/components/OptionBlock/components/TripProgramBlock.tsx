@@ -159,7 +159,7 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
             type="button"
             onClick={() => toggleFilter(filter.id)}
             disabled={readonly}
-            className="tw-inline-flex tw-items-center tw-px-[0.2rem] tw-py-[0.1rem] tw-text-[0.62rem] tw-font-medium qe-rounded-full qe-border tw-transition-all tw-whitespace-nowrap"
+            className="tw-inline-flex tw-items-center qe-px-1.5 qe-py-0.5 tw-text-xs tw-font-medium qe-rounded-full qe-border tw-transition-all tw-whitespace-nowrap"
             style={{
               backgroundColor: filters[filter.id] ? blockColor : 'white',
               color: filters[filter.id] ? 'white' : '#6b7280',

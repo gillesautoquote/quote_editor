@@ -68,10 +68,10 @@ export const SectionActions: React.FC<SectionActionsProps> = ({
           <button
             type="button"
             onClick={() => setShowMissionDropdown(!showMissionDropdown)}
-            className="tw-inline-flex tw-items-center tw-gap-1 tw-px-[0.2rem] tw-py-[0.1rem] tw-text-[0.62rem] tw-font-medium qe-text-white qe-bg-primary qe-border qe-border-primary qe-rounded-sm tw-cursor-pointer tw-transition-all tw-duration-200 tw-whitespace-nowrap hover:tw-opacity-90 hover:tw-shadow-sm"
+            className="tw-inline-flex tw-items-center tw-gap-1 qe-px-1.5 qe-py-0.5 tw-text-xs tw-font-medium qe-text-white qe-bg-primary qe-border qe-border-primary qe-rounded-sm tw-cursor-pointer tw-transition-all tw-duration-200 tw-whitespace-nowrap hover:tw-opacity-90 hover:tw-shadow-sm"
             title="Ajouter une ligne mission pré-définie"
           >
-            <Plus size={10} />
+            <Plus size={12} />
             Ligne Mission
           </button>
           {showMissionDropdown && (
@@ -98,10 +98,10 @@ export const SectionActions: React.FC<SectionActionsProps> = ({
         <button
           type="button"
           onClick={() => setShowSimpleDropdown(!showSimpleDropdown)}
-          className="tw-inline-flex tw-items-center tw-gap-1 qe-px-1.5 qe-py-0.5 tw-text-[0.62rem] tw-font-medium qe-text-white qe-bg-primary qe-border qe-border-primary qe-rounded-sm tw-cursor-pointer tw-transition-all tw-duration-200 tw-whitespace-nowrap hover:tw-opacity-90 hover:tw-shadow-sm"
+          className="tw-inline-flex tw-items-center tw-gap-1 qe-px-1.5 qe-py-0.5 tw-text-xs tw-font-medium qe-text-white qe-bg-primary qe-border qe-border-primary qe-rounded-sm tw-cursor-pointer tw-transition-all tw-duration-200 tw-whitespace-nowrap hover:tw-opacity-90 hover:tw-shadow-sm"
           title="Ajouter une ligne"
         >
-          <Plus size={10} />
+          <Plus size={12} />
           Ligne
         </button>
         {showSimpleDropdown && (

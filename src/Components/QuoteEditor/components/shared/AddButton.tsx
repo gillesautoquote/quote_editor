@@ -20,8 +20,8 @@ export const AddButton: React.FC<AddButtonProps> = ({
   mainColor = '#0066cc'
 }) => {
   const sizeClasses = size === 'sm'
-    ? 'tw-text-[0.6rem] tw-py-[0.08rem] tw-px-[0.2rem]'
-    : 'tw-text-[0.62rem] tw-py-[0.1rem] tw-px-[0.2rem]';
+    ? 'tw-text-[0.65rem] tw-py-[0.2rem] tw-px-[0.4rem]'
+    : 'tw-text-[0.7rem] tw-py-[0.25rem] tw-px-2';
 
   const darkerColor = getDarkerVariant(mainColor, 0.8);
 
@@ -55,7 +55,7 @@ export const AddButton: React.FC<AddButtonProps> = ({
       }}
       title={title}
     >
-      <Plus size={size === 'sm' ? 9 : 10} className="tw-flex-shrink-0" />
+      <Plus size={size === 'sm' ? 10 : 12} className="tw-flex-shrink-0" />
       {children}
     </button>
   );
