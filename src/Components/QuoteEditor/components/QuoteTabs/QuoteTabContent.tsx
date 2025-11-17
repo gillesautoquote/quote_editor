@@ -95,7 +95,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
   const otherBlocks = currentData.optionBlocks.filter(block => block.type !== 'programme-voyage');
 
   const renderPageContainer = (children: React.ReactNode, showFooter = true) => (
-    <div className="tw-w-full tw-max-w-[min(1000px,calc(100vw-2rem))] tw-bg-white tw-shadow-page tw-px-12 tw-py-8 tw-mx-auto tw-relative tw-flex tw-flex-col qe-text-text tw-min-h-auto tw-rounded-lg tw-border tw-border-black/10 md:tw-px-6 md:tw-py-6 md:tw-rounded md:tw-shadow-sm print:tw-shadow-none print:tw-m-0 print:tw-rounded-none print:tw-border-none print:tw-w-[21cm]" data-screen-a4="true">
+    <div className="tw-w-full tw-max-w-[min(800px,calc(100vw-2rem))] tw-bg-white tw-shadow-page tw-px-8 tw-py-8 tw-mx-auto tw-relative tw-flex tw-flex-col qe-text-text tw-min-h-auto tw-rounded-lg tw-border tw-border-black/10 md:tw-px-6 md:tw-py-6 md:tw-rounded md:tw-shadow-sm print:tw-shadow-none print:tw-m-0 print:tw-rounded-none print:tw-border-none print:tw-w-[21cm]" data-screen-a4="true">
       <QuotePageHeader
         company={currentData.company}
         quote={currentData.quote}
