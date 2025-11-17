@@ -98,30 +98,35 @@ export const QuoteTabs: React.FC<QuoteTabsProps> = ({
   );
 
   const dataRef = React.useRef(data);
+  const visibleTabsRef = React.useRef(visibleTabs);
+  const activeTabRef = React.useRef(activeTab);
+
   dataRef.current = data;
+  visibleTabsRef.current = visibleTabs;
+  activeTabRef.current = activeTab;
 
   const handleAddTab = useCallback((tab: QuoteTab) => {
-    const newVisibleTabs = [...visibleTabs, tab];
+    const newVisibleTabs = [...visibleTabsRef.current, tab];
     setVisibleTabs(newVisibleTabs);
     onUpdateData({
       ...dataRef.current,
       visibleTabIds: newVisibleTabs.map(t => t.id)
     });
     setActiveTab(tab.id);
-  }, [visibleTabs, onUpdateData]);
+  }, [onUpdateData]);
 
   const handleTabRemove = useCallback((tabId: string) => {
-    const newTabs = visibleTabs.filter(tab => tab.id !== tabId);
+    const newTabs = visibleTabsRef.current.filter(tab => tab.id !== tabId);
     setVisibleTabs(newTabs);
     onUpdateData({
       ...dataRef.current,
       visibleTabIds: newTabs.map(t => t.id)
     });
 
-    if (activeTab === tabId) {
+    if (activeTabRef.current === tabId) {
       setActiveTab(newTabs.length > 0 ? newTabs[0].id : 'introduction');
     }
-  }, [visibleTabs, activeTab, onUpdateData]);
+  }, [onUpdateData]);
 
   const handleTabReorder = useCallback((newTabs: QuoteTab[]) => {
     setVisibleTabs(newTabs);
