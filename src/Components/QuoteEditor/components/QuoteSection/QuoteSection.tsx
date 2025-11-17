@@ -44,8 +44,6 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
     dropIndex: null
   });
 
-  const columns = section.columns;
-
   if (!section.lines) {
     console.warn('Section.lines est undefined, utilisation d\'un tableau vide');
   }
@@ -239,7 +237,7 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
 
       <div className="tw-overflow-x-auto">
         <table className="tw-w-full tw-border-collapse tw-text-[0.8rem] print:tw-text-xs">
-          <TableHeader columns={columns} readonly={readonly} printMode={printMode} />
+          <TableHeader readonly={readonly} printMode={printMode} />
           <tbody>
             {(section.lines || []).map((line, lineIndex) => (
               <React.Fragment key={lineIndex}>
@@ -253,7 +251,6 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
                 <TableRow
                   line={line}
                   lineIndex={lineIndex}
-                  columns={columns}
                   readonly={readonly}
                   isDragging={dragState.dragIndex === lineIndex}
                   onLineUpdate={handleLineUpdate}
@@ -276,7 +273,7 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
                 )}
               </React.Fragment>
             ))}
-            <SubtotalRow subTotal={section.subTotal} columns={columns} readonly={readonly} printMode={printMode} />
+            <SubtotalRow subTotal={section.subTotal} readonly={readonly} printMode={printMode} />
           </tbody>
         </table>
       </div>

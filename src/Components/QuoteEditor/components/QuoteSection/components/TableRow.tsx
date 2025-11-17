@@ -1,23 +1,12 @@
 import React from 'react';
 import { GripVertical, Trash2 } from 'lucide-react';
 import { EditableField } from '../../EditableField/EditableField';
-import type { QuoteLine, ColumnDefinition } from '../../../entities/QuoteData';
+import type { QuoteLine } from '../../../entities/QuoteData';
 import clsx from 'clsx';
 
 interface TableRowProps {
   line: QuoteLine;
   lineIndex: number;
-  columns: {
-    date: ColumnDefinition;
-    description: ColumnDefinition;
-    durationHours?: ColumnDefinition;
-    pax: ColumnDefinition;
-    unitPrice: ColumnDefinition;
-    quantity: ColumnDefinition;
-    priceHT: ColumnDefinition;
-    vatRate: ColumnDefinition;
-    priceTTC: ColumnDefinition;
-  };
   readonly?: boolean;
   isDragging?: boolean;
   onLineUpdate: (lineIndex: number, field: keyof QuoteLine, value: string | number) => void;
@@ -35,7 +24,6 @@ interface TableRowProps {
 export const TableRow: React.FC<TableRowProps> = ({
   line,
   lineIndex,
-  columns,
   readonly = false,
   isDragging = false,
   onLineUpdate,
@@ -49,33 +37,7 @@ export const TableRow: React.FC<TableRowProps> = ({
   formatVatRate,
   printMode = false
 }) => {
-  const getCellClassName = (columnDef: ColumnDefinition, printMode: boolean): string => {
-    return clsx(
-      'tw-p-2 tw-border-b qe-border-border',
-      printMode && 'print:tw-p-1.5',
-      columnDef.align === 'center' && 'tw-text-center',
-      columnDef.align === 'right' && 'tw-text-right',
-      columnDef.style === 'calculated' && 'qe-bg-surface-gray-50 tw-font-medium',
-      columnDef.style === 'primary' && 'qe-text-primary tw-font-medium',
-      columnDef.style === 'danger' && 'qe-text-danger tw-font-medium'
-    );
-  };
-
-  const getCellDataStyle = (columnDef: ColumnDefinition): React.CSSProperties => {
-    const style: React.CSSProperties = {};
-
-    if (columnDef.width) {
-      style.width = typeof columnDef.width === 'number' ? `${columnDef.width}px` : columnDef.width;
-      style.minWidth = style.width;
-      style.maxWidth = style.width;
-    }
-
-    if (columnDef.align) {
-      style.textAlign = columnDef.align;
-    }
-
-    return style;
-  };
+  const baseCellClass = clsx('tw-p-2 tw-border-b qe-border-border', printMode && 'print:tw-p-1.5');
 
   return (
     <tr
@@ -100,64 +62,53 @@ export const TableRow: React.FC<TableRowProps> = ({
         </td>
       )}
 
-      <td className={getCellClassName(columns.date, printMode)} style={getCellDataStyle(columns.date)}>
+      <td className={`${baseCellClass} tw-text-center`} style={{ width: '55px', minWidth: '55px', maxWidth: '55px' }}>
         <EditableField
           value={formatDateFrench(line.date)}
           onSave={(value) => onLineUpdate(lineIndex, 'date', value)}
-          disabled={readonly || !columns.date.editable}
+          disabled={readonly}
           placeholder="JJ/MM/AA"
           printMode={printMode}
         />
       </td>
 
-      <td className={getCellClassName(columns.description, printMode)} style={getCellDataStyle(columns.description)}>
+      <td className={baseCellClass} style={{ width: 'auto' }}>
         <EditableField
           value={line.description}
           onSave={(value) => onLineUpdate(lineIndex, 'description', value)}
-          disabled={readonly || !columns.description.editable}
+          disabled={readonly}
           multiline
           fullWidth={true}
           printMode={printMode}
         />
       </td>
 
-      {columns.durationHours && (
-        <td className={getCellClassName(columns.durationHours, printMode)} style={getCellDataStyle(columns.durationHours)}>
-          <EditableField
-            value={(line.durationHours ?? 0).toString()}
-            onSave={(value) => onLineUpdate(lineIndex, 'durationHours', parseFloat(value) || 0)}
-            disabled={readonly || !columns.durationHours.editable}
-            printMode={printMode}
-          />
-        </td>
-      )}
-
-      <td className={getCellClassName(columns.pax, printMode)} style={getCellDataStyle(columns.pax)}>
+      <td className={`${baseCellClass} tw-text-center`} style={{ width: '35px', minWidth: '35px', maxWidth: '35px' }}>
         <EditableField
           value={(line.pax ?? 0).toString()}
           onSave={(value) => onLineUpdate(lineIndex, 'pax', parseInt(value, 10) || 0)}
-          disabled={readonly || !columns.pax.editable}
+          disabled={readonly}
           printMode={printMode}
         />
       </td>
 
-      <td className={getCellClassName(columns.unitPrice, printMode)} style={getCellDataStyle(columns.unitPrice)}>
+      <td className={`${baseCellClass} tw-text-right`} style={{ width: '55px', minWidth: '55px', maxWidth: '55px' }}>
         {(line.unitPrice ?? 0).toFixed(2)}
       </td>
 
-      <td className={getCellClassName(columns.quantity, printMode)} style={getCellDataStyle(columns.quantity)}>
+      <td className={`${baseCellClass} tw-text-center`} style={{ width: '35px', minWidth: '35px', maxWidth: '35px' }}>
         {(line.quantity ?? 0).toString()}
       </td>
 
-      <td className={getCellClassName(columns.priceHT, printMode)} style={getCellDataStyle(columns.priceHT)}>
+      <td className={`${baseCellClass} qe-bg-surface-gray-50 tw-font-medium tw-text-right`} style={{ width: '55px', minWidth: '55px', maxWidth: '55px' }}>
         {(line.priceHT ?? 0).toFixed(2)}
       </td>
 
-      <td className={getCellClassName(columns.vatRate, printMode)} style={getCellDataStyle(columns.vatRate)}>
+      <td className={`${baseCellClass} tw-text-center`} style={{ width: '35px', minWidth: '35px', maxWidth: '35px' }}>
         {typeof line.vatRate === 'number' ? line.vatRate.toString() : (line.vatRate ?? '0')}
       </td>
 
-      <td className={getCellClassName(columns.priceTTC, printMode)} style={getCellDataStyle(columns.priceTTC)}>
+      <td className={`${baseCellClass} qe-bg-surface-gray-50 tw-font-medium tw-text-right`} style={{ width: '55px', minWidth: '55px', maxWidth: '55px' }}>
         {(line.priceTTC ?? 0).toFixed(2)}
       </td>
 
