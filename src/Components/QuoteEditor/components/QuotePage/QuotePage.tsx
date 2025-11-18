@@ -121,7 +121,7 @@ export const QuotePage: React.FC<QuotePageProps> = ({
     if (readonly) return;
     const newSections = dataWithProgrammeVoyage.sections.filter((_, index) => index !== sectionIndex);
 
-    const newTotals = calculateGlobalTotals(newSections, dataWithProgrammeVoyage.totals?.vatBreakdown);
+    const newTotals = calculateGlobalTotals(newSections);
 
     const newData = { ...dataWithProgrammeVoyage, sections: newSections, totals: newTotals };
     onUpdateData(newData);
@@ -175,7 +175,7 @@ export const QuotePage: React.FC<QuotePageProps> = ({
                   const newSections = [...dataWithProgrammeVoyage.sections];
                   newSections[sectionIndex] = updatedSection;
 
-                  const newTotals = calculateGlobalTotals(newSections, dataWithProgrammeVoyage.totals?.vatBreakdown);
+                  const newTotals = calculateGlobalTotals(newSections);
 
                   const newData = { ...dataWithProgrammeVoyage, sections: newSections };
                   newData.totals = newTotals;

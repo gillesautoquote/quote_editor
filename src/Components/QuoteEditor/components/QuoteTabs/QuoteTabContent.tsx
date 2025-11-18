@@ -86,7 +86,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
   const handleRemoveSection = (sectionIndex: number): void => {
     if (readonly) return;
     const newSections = currentData.sections.filter((_, index) => index !== sectionIndex);
-    const newTotals = calculateGlobalTotals(newSections, currentData.totals?.vatBreakdown);
+    const newTotals = calculateGlobalTotals(newSections);
     const newData = { ...currentData, sections: newSections, totals: newTotals };
     onUpdateData(newData);
   };
@@ -236,7 +236,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
                 onUpdateSection={(updatedSection) => {
                   const newSections = [...currentData.sections];
                   newSections[sectionIndex] = updatedSection;
-                  const newTotals = calculateGlobalTotals(newSections, currentData.totals?.vatBreakdown);
+                  const newTotals = calculateGlobalTotals(newSections);
                   const newData = { ...currentData, sections: newSections, totals: newTotals };
                   onUpdateData(newData);
                 }}
