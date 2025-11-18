@@ -305,12 +305,10 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
   const handleResetToInitial = (): void => {
     if (readonly) return;
     onEvent?.({ type: 'action', name: 'reset_clicked' });
-    if (window.confirm('Êtes-vous sûr de vouloir réinitialiser le devis ?')) {
-      if (loadedData) {
-        updateData(loadedData);
-      }
-      onEvent?.({ type: 'action', name: 'reset_confirmed' });
+    if (loadedData) {
+      updateData(loadedData);
     }
+    onEvent?.({ type: 'action', name: 'reset_confirmed' });
   };
 
   const handleSaveClick = (): void => {

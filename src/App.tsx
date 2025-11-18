@@ -61,9 +61,7 @@ const App: React.FC = () => {
   };
 
   const handleReset = (): void => {
-    if (window.confirm('Êtes-vous sûr de vouloir réinitialiser le devis ?')) {
-      setQuoteData(quoteDataMock as QuoteData);
-    }
+    setQuoteData(quoteDataMock as QuoteData);
   };
 
   const handleTriggerPDFExport = (): void => {
