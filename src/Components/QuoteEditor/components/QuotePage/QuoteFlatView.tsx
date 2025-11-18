@@ -105,7 +105,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
   const handleRemoveSection = (sectionIndex: number): void => {
     if (readonly) return;
     const newSections = dataWithProgrammeVoyage.sections.filter((_, index) => index !== sectionIndex);
-    const newTotals = calculateGlobalTotals(newSections);
+    const newTotals = calculateGlobalTotals(newSections, dataWithProgrammeVoyage.totals?.vatBreakdown);
     const newData = { ...dataWithProgrammeVoyage, sections: newSections, totals: newTotals };
     onUpdateData(newData);
   };
@@ -229,7 +229,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
                   onUpdateSection={(updatedSection) => {
                     const newSections = [...dataWithProgrammeVoyage.sections];
                     newSections[sectionIndex] = updatedSection;
-                    const newTotals = calculateGlobalTotals(newSections);
+                    const newTotals = calculateGlobalTotals(newSections, dataWithProgrammeVoyage.totals?.vatBreakdown);
                     const newData = { ...dataWithProgrammeVoyage, sections: newSections, totals: newTotals };
                     onUpdateData(newData);
                   }}
