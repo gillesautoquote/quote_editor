@@ -93,7 +93,8 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
 
     const newLine = recalculateQuoteLine({
       ...simpleLine,
-      calculable: true
+      calculable: true,
+      fromProps: true
     });
 
     const newLines = [...section.lines, newLine];
@@ -106,7 +107,8 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
 
     const newLine = normalizeQuoteLine({
       ...missionLine,
-      calculable: false
+      calculable: false,
+      fromProps: true
     });
 
     const newLines = [...section.lines, newLine];

@@ -66,7 +66,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         <EditableField
           value={formatDateFrench(line.date)}
           onSave={(value) => onLineUpdate(lineIndex, 'date', value)}
-          disabled={readonly}
+          disabled={readonly || line.fromProps}
           placeholder="JJ/MM/AA"
           printMode={printMode}
         />
@@ -76,7 +76,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         <EditableField
           value={line.description}
           onSave={(value) => onLineUpdate(lineIndex, 'description', value)}
-          disabled={readonly}
+          disabled={readonly || line.fromProps}
           multiline
           fullWidth={true}
           printMode={printMode}
@@ -87,7 +87,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         <EditableField
           value={(line.pax ?? 0).toString()}
           onSave={(value) => onLineUpdate(lineIndex, 'pax', parseInt(value, 10) || 0)}
-          disabled={readonly}
+          disabled={readonly || line.fromProps}
           printMode={printMode}
         />
       </td>

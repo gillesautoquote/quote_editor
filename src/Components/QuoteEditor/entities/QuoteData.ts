@@ -46,6 +46,7 @@ export interface QuoteLine {
   quantity: number;
   priceTTC: number;
   calculable?: boolean; // true par défaut, false pour les lignes pré-définies
+  fromProps?: boolean; // true si la ligne provient des props (missionsLines ou simplesLinesSelect)
 }
 
 export interface ColumnDefinition {
