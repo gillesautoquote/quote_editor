@@ -132,6 +132,10 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
   const { exportToPDF, isGenerating } = usePDFExport(useTabs);
   const { exportToPDF: exportToPDFBackend, isLoading: isExportingBackend, error: backendError } = useBackendPDFExport();
 
+  const [tabsData, setTabsData] = useState<any>(null);
+  const setTabsDataRef = useRef(setTabsData);
+  setTabsDataRef.current = setTabsData;
+
   useImperativeHandle(ref, () => ({
     exportToPDF: async () => {
       try {
@@ -391,10 +395,6 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
   const toolbarTitle = `${readonly ? t('toolbar.readonly') : t('toolbar.title')} - ${
     currentData?.quote?.number || ''
   }`;
-
-  const [tabsData, setTabsData] = useState<any>(null);
-  const setTabsDataRef = useRef(setTabsData);
-  setTabsDataRef.current = setTabsData;
 
   return (
     <EditingProvider startEditing={startEditing} stopEditing={stopEditing}>
