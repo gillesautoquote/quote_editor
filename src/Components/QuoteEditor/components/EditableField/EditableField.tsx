@@ -13,6 +13,8 @@ interface EditableFieldProps {
   onMouseDown?: (e: React.MouseEvent) => void;
   onDragStart?: (e: React.DragEvent) => void;
   printMode?: boolean;
+  onEditingStart?: () => void;
+  onEditingStop?: () => void;
 }
 
 export const EditableField: React.FC<EditableFieldProps> = ({
@@ -26,7 +28,9 @@ export const EditableField: React.FC<EditableFieldProps> = ({
   fullWidth = false,
   onMouseDown,
   onDragStart,
-  printMode = false
+  printMode = false,
+  onEditingStart,
+  onEditingStop
 }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editValue, setEditValue] = useState<string>(value);
@@ -61,8 +65,9 @@ export const EditableField: React.FC<EditableFieldProps> = ({
   const handleDoubleClick = useCallback(() => {
     if (!disabled) {
       setIsEditing(true);
+      onEditingStart?.();
     }
-  }, [disabled]);
+  }, [disabled, onEditingStart]);
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     if (isEditing) {
@@ -88,12 +93,14 @@ export const EditableField: React.FC<EditableFieldProps> = ({
       onSave(editValue);
     }
     setIsEditing(false);
-  }, [editValue, value, onSave]);
+    onEditingStop?.();
+  }, [editValue, value, onSave, onEditingStop]);
 
   const handleCancel = useCallback(() => {
     setEditValue(value);
     setIsEditing(false);
-  }, [value]);
+    onEditingStop?.();
+  }, [value, onEditingStop]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !multiline) {

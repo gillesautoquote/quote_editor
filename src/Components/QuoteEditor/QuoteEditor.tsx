@@ -19,6 +19,7 @@ import { QuoteEditorToolbar } from './components/shared/QuoteEditorToolbar';
 import { QuoteTabs } from './components/QuoteTabs';
 import { QuoteTabContent } from './components/QuoteTabs/QuoteTabContent';
 import { validateQuoteData } from './utils/dataValidator';
+import { EditingProvider } from './contexts/EditingContext';
 
 const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHandle>) => {
   const {
@@ -49,9 +50,8 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
   const printMode = propPrintMode || propFlatMode;
   const flatMode = propFlatMode || propPrintMode;
 
-  const [data, setData] = useState<QuoteData | null>(initialData || null);
   const [error, setError] = useState<{ code: string; message: string } | null>(null);
-  const initialDataRef = useRef<QuoteData | null>(initialData || null);
+  const [loadedData, setLoadedData] = useState<QuoteData | null>(null);
   const isInitialLoadRef = useRef<boolean>(true);
 
   useEffect(() => {
@@ -64,12 +64,10 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
           if (!validation.valid) {
             console.warn('[QuoteEditor] Validation warnings:', validation.errors);
           }
-          setData(initialData);
-          initialDataRef.current = initialData;
+          setLoadedData(initialData);
         } else if (mock) {
           const mockData = await import('./mocks/data.mock.json');
-          setData(mockData.default as QuoteData);
-          initialDataRef.current = mockData.default as QuoteData;
+          setLoadedData(mockData.default as QuoteData);
         } else {
           const errorEvent: ComponentEvent = {
             type: 'error',
@@ -97,7 +95,13 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
     };
 
     loadData();
-  }, [initialData, mock, onEvent, t]);
+  }, [mock, onEvent, t]);
+
+  useEffect(() => {
+    if (initialData && !isInitialLoadRef.current) {
+      setLoadedData(initialData);
+    }
+  }, [initialData]);
 
   const handleChange = useCallback((newData: QuoteData) => {
     // Ne pas mettre à jour data ici - useQuoteEditor gère son propre état interne
@@ -119,10 +123,10 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
     undo,
     redo,
     isEditingField,
-    hasPendingExternalChanges
-  } = useQuoteEditor(data || {} as QuoteData, handleChange, handleSave, false);
-
-  // Supprimé : cette logique est gérée par useQuoteEditor
+    hasPendingExternalChanges,
+    startEditing,
+    stopEditing
+  } = useQuoteEditor(loadedData || {} as QuoteData, handleChange, handleSave, false);
 
   const { applyColorVariables } = useColorTheme(currentData?.company || { mainColor: '#4863ec' });
   const { exportToPDF, isGenerating } = usePDFExport(useTabs);
@@ -192,7 +196,7 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
       }
     ];
 
-    if (initialDataRef.current?.optionBlocks) {
+    if (loadedData?.optionBlocks) {
       const existingTemplates = [
         { id: 'included_fees', name: 'Ces tarifs comprennent' },
         { id: 'excluded_fees', name: 'Ces tarifs ne comprennent pas' },
@@ -200,7 +204,7 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
       ];
 
       existingTemplates.forEach(({ id, name }) => {
-        const template = initialDataRef.current.optionBlocks?.find((b: any) => b.id === id);
+        const template = loadedData.optionBlocks?.find((b: any) => b.id === id);
         if (template) {
           templates.push({ id, name, template });
         }
@@ -208,7 +212,7 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
     }
 
     return templates.filter(t => t.template !== null);
-  }, []);
+  }, [loadedData?.optionBlocks]);
 
   const handleAddSection = (): void => {
     if (readonly) return;
@@ -298,7 +302,9 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
     if (readonly) return;
     onEvent?.({ type: 'action', name: 'reset_clicked' });
     if (window.confirm('Êtes-vous sûr de vouloir réinitialiser le devis ?')) {
-      updateData(initialDataRef.current);
+      if (loadedData) {
+        updateData(loadedData);
+      }
       onEvent?.({ type: 'action', name: 'reset_confirmed' });
     }
   };
@@ -363,7 +369,7 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
     );
   }
 
-  if (!data || !currentData) {
+  if (!loadedData || !currentData) {
     return (
       <div
         data-quote-editor-scope
@@ -391,13 +397,14 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
   setTabsDataRef.current = setTabsData;
 
   return (
-    <div
-      data-quote-editor-scope
-      className={clsx('tw-font-sans qe-bg-surface-0 tw-min-h-screen', theme === 'dark' && 'tw-bg-slate-900', className)}
-      data-theme={theme}
-    >
-      {showToolbar && (
-        <QuoteEditorToolbar
+    <EditingProvider startEditing={startEditing} stopEditing={stopEditing}>
+      <div
+        data-quote-editor-scope
+        className={clsx('tw-font-sans qe-bg-surface-0 tw-min-h-screen', theme === 'dark' && 'tw-bg-slate-900', className)}
+        data-theme={theme}
+      >
+        {showToolbar && (
+          <QuoteEditorToolbar
           title={toolbarTitle}
           readonly={readonly}
           showAddSection={showAddSection && !readonly}
@@ -486,7 +493,8 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
           />
         )}
       </div>
-    </div>
+      </div>
+    </EditingProvider>
   );
 };
 

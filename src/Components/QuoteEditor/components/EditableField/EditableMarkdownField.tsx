@@ -9,6 +9,8 @@ interface EditableMarkdownFieldProps {
   disabled?: boolean;
   markdownToHtml: (text: string) => string;
   printMode?: boolean;
+  onEditingStart?: () => void;
+  onEditingStop?: () => void;
 }
 
 export const EditableMarkdownField: React.FC<EditableMarkdownFieldProps> = ({
@@ -18,7 +20,9 @@ export const EditableMarkdownField: React.FC<EditableMarkdownFieldProps> = ({
   className = '',
   disabled = false,
   markdownToHtml,
-  printMode = false
+  printMode = false,
+  onEditingStart,
+  onEditingStop
 }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editValue, setEditValue] = useState<string>(value);
@@ -67,20 +71,23 @@ export const EditableMarkdownField: React.FC<EditableMarkdownFieldProps> = ({
   const handleDoubleClick = useCallback(() => {
     if (!disabled) {
       setIsEditing(true);
+      onEditingStart?.();
     }
-  }, [disabled]);
+  }, [disabled, onEditingStart]);
 
   const handleSave = useCallback(() => {
     if (editValue !== value) {
       onSave(editValue);
     }
     setIsEditing(false);
-  }, [editValue, value, onSave]);
+    onEditingStop?.();
+  }, [editValue, value, onSave, onEditingStop]);
 
   const handleCancel = useCallback(() => {
     setEditValue(value);
     setIsEditing(false);
-  }, [value]);
+    onEditingStop?.();
+  }, [value, onEditingStop]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && e.ctrlKey) {
