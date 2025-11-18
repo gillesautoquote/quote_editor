@@ -162,12 +162,9 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
             } catch { return iso; }
           };
           const validityText = valid ? `jusqu'au ${formatFancy(quote.validUntil)}` : ((data as any)?.validityNotice || '');
-          const firstDay = Array.isArray((data as any)?.itinerary) && (data as any).itinerary.length > 0 ? (data as any).itinerary[0] : undefined;
-          const tripName = firstDay?.tripName || 'Votre voyage';
 
           return (
             <div className="tw-space-y-1.5 tw-text-[0.9rem] tw-leading-relaxed print:tw-text-[0.85rem]">
-              <div><strong>Voyage&nbsp;:</strong> {tripName}</div>
               <div><strong>Montant&nbsp;:</strong> {fmtCurrency(totals?.ht)} HT – {fmtCurrency(totals?.ttc)} TTC</div>
               {carbon && <div><strong>Impact carbone estimé&nbsp;:</strong> {carbon.co2Amount} {carbon.unit}</div>}
               <div><strong>Validité du devis&nbsp;:</strong> {validityText}</div>
