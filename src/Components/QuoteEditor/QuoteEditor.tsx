@@ -303,9 +303,25 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
   };
 
   const handleResetToInitial = (): void => {
+    console.log('[QuoteEditor] handleResetToInitial called, readonly:', readonly);
     if (readonly) return;
+
     onEvent?.({ type: 'action', name: 'reset_clicked' });
-    if (window.confirm('Êtes-vous sûr de vouloir réinitialiser le devis ?')) {
+
+    try {
+      console.log('[QuoteEditor] Attempting to show confirm dialog');
+      const confirmed = window.confirm('Êtes-vous sûr de vouloir réinitialiser le devis ?');
+      console.log('[QuoteEditor] Confirm result:', confirmed);
+
+      if (confirmed) {
+        if (loadedData) {
+          console.log('[QuoteEditor] Resetting to initial data');
+          updateData(loadedData);
+        }
+        onEvent?.({ type: 'action', name: 'reset_confirmed' });
+      }
+    } catch (error) {
+      console.error('[QuoteEditor] Confirm dialog error:', error);
       if (loadedData) {
         updateData(loadedData);
       }
