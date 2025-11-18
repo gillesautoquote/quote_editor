@@ -127,9 +127,15 @@ export const validateQuoteData = (data: any): data is QuoteData => {
  * Assure qu'une section a toutes les propriétés nécessaires
  */
 export const normalizeSection = (section: Partial<QuoteSection>): QuoteSection => {
+  // Marquer toutes les lignes existantes comme provenant des props
+  const normalizedLines = (section.lines || []).map(line => ({
+    ...line,
+    fromProps: line.fromProps !== undefined ? line.fromProps : true
+  }));
+
   return {
     title: section.title || 'Section sans titre',
-    lines: section.lines || [],
+    lines: normalizedLines,
     subTotal: section.subTotal || { ht: 0, tva: 0, ttc: 0 },
     columns: section.columns,
     missionsLines: section.missionsLines || [],

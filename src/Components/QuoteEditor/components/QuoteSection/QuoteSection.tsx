@@ -80,7 +80,8 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
     if (readonly) return;
 
     const newLine = normalizeQuoteLine({
-      description: 'Nouvelle prestation'
+      description: 'Nouvelle prestation',
+      fromProps: false
     });
 
     const newLines = [...section.lines, newLine];
