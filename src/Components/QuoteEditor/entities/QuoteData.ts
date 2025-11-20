@@ -161,7 +161,6 @@ export interface ClientSignature {
 }
 
 export interface CarbonImpact {
-  title?: string;
   co2Amount: number;
   unit: string;
   equivalentKm: number;
