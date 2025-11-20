@@ -167,11 +167,11 @@ export const mergeVATBreakdowns = (breakdown1: VATBreakdown[], breakdown2: VATBr
 /**
  * Calcule les totaux globaux de manière sécurisée
  * @param sections Les sections du devis
- * @param existingVatBreakdown Le vatBreakdown existant provenant des props (optionnel)
+ * @param initialVatBreakdown Le vatBreakdown initial provenant des props à conserver
  */
 export const calculateGlobalTotals = (
   sections: any[] = [],
-  existingVatBreakdown?: VATBreakdown[]
+  initialVatBreakdown?: VATBreakdown[]
 ): SafeTotals & { vatBreakdown?: VATBreakdown[] } => {
   const totals = sections.reduce(
     (acc, section) => {
@@ -185,14 +185,14 @@ export const calculateGlobalTotals = (
     { ht: 0, tva: 0, ttc: 0 }
   );
 
-  // Calculer le breakdown des lignes provenant des props
-  const propsBreakdown = calculateVATBreakdownFromProps(sections);
-
-  // Calculer le breakdown des lignes ajoutées manuellement
+  // Calculer le breakdown des lignes ajoutées manuellement uniquement
   const manualBreakdown = calculateVATBreakdownFromManualLines(sections);
 
-  // Fusionner les deux breakdowns
-  const vatBreakdown = mergeVATBreakdowns(propsBreakdown, manualBreakdown);
+  // Si on a un breakdown initial (provenant des props), on le fusionne avec les lignes manuelles
+  // Sinon, on calcule le breakdown complet (cas initial)
+  const vatBreakdown = initialVatBreakdown && initialVatBreakdown.length > 0
+    ? mergeVATBreakdowns(initialVatBreakdown, manualBreakdown)
+    : calculateVATBreakdown(sections);
 
   return {
     ...totals,

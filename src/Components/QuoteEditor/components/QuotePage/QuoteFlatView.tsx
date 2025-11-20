@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 // Import explicite des styles scoped pour garantir qu'ils sont présents
 // même dans le mode print (/print) qui n'utilise pas directement QuoteEditor/index.ts
 import '../../styles/quote-editor-scoped.css';
@@ -19,7 +19,7 @@ import { BusServicesBlock } from '../BusServices/BusServicesBlock';
 import { EditableField } from '../EditableField/EditableField';
 import { useFieldPath } from '../../hooks/useFieldPath';
 import { formatCopyright, formatUrl } from './utils/textFormatters';
-import { calculateGlobalTotals } from '../../utils/calculationUtils';
+import { calculateGlobalTotals, calculateVATBreakdownFromProps } from '../../utils/calculationUtils';
 import { createProgrammeVoyageBlock } from '../../utils/itineraryConverters';
 import { useEffect } from 'react';
 import { useColorTheme } from '../../hooks/useColorTheme';
@@ -45,6 +45,9 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
 }) => {
   const { setValueByPath } = useFieldPath();
   const { applyColorVariables } = useColorTheme(data.company);
+
+  // Stocker le breakdown initial provenant des props
+  const initialVatBreakdownRef = useRef(calculateVATBreakdownFromProps(data.sections));
 
   useEffect(() => {
     if (data?.company?.mainColor) {
@@ -229,7 +232,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
                   onUpdateSection={(updatedSection) => {
                     const newSections = [...dataWithProgrammeVoyage.sections];
                     newSections[sectionIndex] = updatedSection;
-                    const newTotals = calculateGlobalTotals(newSections);
+                    const newTotals = calculateGlobalTotals(newSections, initialVatBreakdownRef.current);
                     const newData = { ...dataWithProgrammeVoyage, sections: newSections, totals: newTotals };
                     onUpdateData(newData);
                   }}

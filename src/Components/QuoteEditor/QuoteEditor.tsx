@@ -133,6 +133,9 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
   const { exportToPDF, isGenerating } = usePDFExport(useTabs);
   const { exportToPDF: exportToPDFBackend, isLoading: isExportingBackend, error: backendError } = useBackendPDFExport();
 
+  // Stocker le breakdown initial provenant des props
+  const initialVatBreakdownRef = useRef(calculateGlobalTotals(loadedData?.sections || []).vatBreakdown);
+
   const [tabsData, setTabsData] = useState<any>(null);
   const setTabsDataRef = useRef(setTabsData);
   setTabsDataRef.current = setTabsData;
@@ -246,7 +249,7 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
     const currentSections = currentData.sections || [];
     const newSections = [...currentSections, newSection];
 
-    const newTotals = calculateGlobalTotals(newSections);
+    const newTotals = calculateGlobalTotals(newSections, initialVatBreakdownRef.current);
 
     updateData({
       ...currentData,

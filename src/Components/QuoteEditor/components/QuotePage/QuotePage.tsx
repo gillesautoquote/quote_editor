@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useEffect, useMemo } from 'react';
 import type { QuoteData } from '../../entities/QuoteData';
 import { QuoteSection as QuoteSectionComponent } from '../QuoteSection/QuoteSection';
@@ -14,7 +14,7 @@ import { EditableField } from '../EditableField/EditableField';
 import { useFieldPath } from '../../hooks/useFieldPath';
 import { useColorTheme } from '../../hooks/useColorTheme';
 import { formatCopyright, formatUrl } from './utils/textFormatters';
-import { calculateGlobalTotals } from '../../utils/calculationUtils';
+import { calculateGlobalTotals, calculateVATBreakdownFromProps } from '../../utils/calculationUtils';
 import { createProgrammeVoyageBlock } from '../../utils/itineraryConverters';
 
 interface PageContentConfig {
@@ -44,6 +44,9 @@ export const QuotePage: React.FC<QuotePageProps> = ({
 }) => {
   const { setValueByPath } = useFieldPath();
   const { applyColorVariables } = useColorTheme(data.company);
+
+  // Stocker le breakdown initial provenant des props
+  const initialVatBreakdownRef = useRef(calculateVATBreakdownFromProps(data.sections));
 
   console.log('[QuotePage] Rendering with data:', {
     hasItinerary: !!data?.itinerary,
@@ -175,7 +178,7 @@ export const QuotePage: React.FC<QuotePageProps> = ({
                   const newSections = [...dataWithProgrammeVoyage.sections];
                   newSections[sectionIndex] = updatedSection;
 
-                  const newTotals = calculateGlobalTotals(newSections);
+                  const newTotals = calculateGlobalTotals(newSections, initialVatBreakdownRef.current);
 
                   const newData = { ...dataWithProgrammeVoyage, sections: newSections };
                   newData.totals = newTotals;

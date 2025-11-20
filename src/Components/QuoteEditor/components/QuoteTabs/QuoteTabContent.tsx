@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useMemo, useEffect, useState, useRef } from 'react';
 import type { QuoteData } from '../../entities/QuoteData';
 import { QuotePageHeader } from '../QuotePage/components/QuotePageHeader';
 import { QuotePageRecipient } from '../QuotePage/components/QuotePageRecipient';
@@ -13,7 +13,7 @@ import { BusServicesBlock } from '../BusServices/BusServicesBlock';
 import { BlocksContainer } from '../shared/BlocksContainer';
 import { TripProgramBlock } from '../OptionBlock/components/TripProgramBlock';
 import { EditableField } from '../EditableField/EditableField';
-import { calculateGlobalTotals } from '../../utils/calculationUtils';
+import { calculateGlobalTotals, calculateVATBreakdownFromProps } from '../../utils/calculationUtils';
 import { formatCopyright, formatUrl } from '../QuotePage/utils/textFormatters';
 import { useFieldPath } from '../../hooks/useFieldPath';
 import { createProgrammeVoyageBlock } from '../../utils/itineraryConverters';
@@ -36,6 +36,9 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
   allowWidthControl = true
 }) => {
   const { setValueByPath } = useFieldPath();
+
+  // Stocker le breakdown initial provenant des props
+  const initialVatBreakdownRef = useRef(calculateVATBreakdownFromProps(data.sections));
 
   const currentData = React.useMemo(() => {
     if (!data || !data.optionBlocks) {
@@ -238,7 +241,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
                 onUpdateSection={(updatedSection) => {
                   const newSections = [...currentData.sections];
                   newSections[sectionIndex] = updatedSection;
-                  const newTotals = calculateGlobalTotals(newSections);
+                  const newTotals = calculateGlobalTotals(newSections, initialVatBreakdownRef.current);
                   const newData = { ...currentData, sections: newSections, totals: newTotals };
                   onUpdateData(newData);
                 }}
