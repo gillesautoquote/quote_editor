@@ -21,7 +21,9 @@ export const SubtotalRow: React.FC<SubtotalRowProps> = ({ subTotal, readonly = f
       <td className="tw-p-1.5 tw-text-right qe-text-text print:tw-p-1">
         <strong>{subTotal.ht.toFixed(2)}</strong>
       </td>
-      <td className="tw-p-1.5 print:tw-p-1"></td>
+      <td className="tw-p-1.5 tw-text-right qe-text-text print:tw-p-1">
+        <strong>{subTotal.tva.toFixed(2)}</strong>
+      </td>
       <td className="tw-p-1.5 tw-text-right qe-text-text print:tw-p-1">
         <strong>{subTotal.ttc.toFixed(2)}</strong>
       </td>
