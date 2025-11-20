@@ -39,6 +39,11 @@ export const TableRow: React.FC<TableRowProps> = ({
 }) => {
   const baseCellClass = clsx('tw-p-1.5 tw-border-b qe-border-border', printMode && 'print:tw-p-1');
 
+  // Log pour déboguer fromProps
+  if (lineIndex === 0) {
+    console.log('[TableRow] Line 0 - fromProps:', line.fromProps, '| disabled calc:', readonly || line.fromProps);
+  }
+
   return (
     <tr
       className={clsx(

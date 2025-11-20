@@ -128,10 +128,20 @@ export const validateQuoteData = (data: any): data is QuoteData => {
  */
 export const normalizeSection = (section: Partial<QuoteSection>): QuoteSection => {
   // Marquer toutes les lignes existantes comme provenant des props
-  const normalizedLines = (section.lines || []).map(line => ({
-    ...line,
-    fromProps: line.fromProps !== undefined ? line.fromProps : true
-  }));
+  const normalizedLines = (section.lines || []).map((line, index) => {
+    const fromProps = line.fromProps !== undefined ? line.fromProps : true;
+    if (index === 0) {
+      console.log('[normalizeSection] First line fromProps:', {
+        original: line.fromProps,
+        normalized: fromProps,
+        line
+      });
+    }
+    return {
+      ...line,
+      fromProps
+    };
+  });
 
   return {
     title: section.title || 'Section sans titre',
