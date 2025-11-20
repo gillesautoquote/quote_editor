@@ -188,11 +188,16 @@ export const calculateGlobalTotals = (
   // Calculer le breakdown des lignes ajoutées manuellement uniquement
   const manualBreakdown = calculateVATBreakdownFromManualLines(sections);
 
+  console.log('[calculateGlobalTotals] Initial breakdown:', initialVatBreakdown);
+  console.log('[calculateGlobalTotals] Manual breakdown:', manualBreakdown);
+
   // Si on a un breakdown initial (provenant des props), on le fusionne avec les lignes manuelles
   // Sinon, on calcule le breakdown complet (cas initial)
   const vatBreakdown = initialVatBreakdown && initialVatBreakdown.length > 0
     ? mergeVATBreakdowns(initialVatBreakdown, manualBreakdown)
     : calculateVATBreakdown(sections);
+
+  console.log('[calculateGlobalTotals] Final breakdown:', vatBreakdown);
 
   return {
     ...totals,
