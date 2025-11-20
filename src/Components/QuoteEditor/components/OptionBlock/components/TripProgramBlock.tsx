@@ -2,7 +2,9 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { MapPin, Clock, Filter, Trash2, Plus } from 'lucide-react';
 import type { TripProgramStep, TripProgramFilters } from '../../../QuoteEditor.types';
 import { EditableField } from '../../EditableField/EditableField';
+import { EditableMarkdownFieldWithContext } from '../../EditableField/EditableMarkdownFieldWithContext';
 import { getLightVariant, getLighterColor } from '../../../utils/colorUtils';
+import { markdownToHtml } from '../../QuotePage/utils/dateFormatters';
 
 interface TripProgramBlockProps {
   steps: TripProgramStep[];
@@ -200,6 +202,14 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
     onUpdateSteps([...steps, newStep]);
   };
 
+  const handleMissionTitleUpdate = (oldTitle: string, newTitle: string) => {
+    if (readonly) return;
+    const newSteps = steps.map(step =>
+      step.tripName === oldTitle ? { ...step, tripName: newTitle } : step
+    );
+    onUpdateSteps(newSteps);
+  };
+
   return (
     <div className="tw-p-4 print:tw-p-2" data-component="trip-program">
       <div className={`tw-mb-3 tw-flex tw-flex-wrap tw-gap-2 tw-items-center ${printMode ? 'tw-hidden' : ''} print:tw-hidden`}>
@@ -241,9 +251,15 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
           >
             {dateGroups[0]?.tripName && (
               <div className="tw-mb-3">
-                <h3 className="tw-text-base tw-font-bold" style={{ color: blockColor }}>
-                  {dateGroups[0].tripName}
-                </h3>
+                <EditableMarkdownFieldWithContext
+                  value={dateGroups[0].tripName}
+                  onSave={(newTitle) => handleMissionTitleUpdate(dateGroups[0].tripName!, newTitle)}
+                  fieldPath={`tripProgram.mission.${missionIndex}.title`}
+                  disabled={readonly || printMode}
+                  printMode={printMode}
+                  markdownToHtml={markdownToHtml}
+                  className="tw-text-base tw-font-bold"
+                />
               </div>
             )}
               {dateGroups.map((dateGroup, dateIndex) => {
