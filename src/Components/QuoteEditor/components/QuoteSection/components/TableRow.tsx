@@ -66,7 +66,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         <EditableField
           value={formatDateFrench(line.date)}
           onSave={(value) => onLineUpdate(lineIndex, 'date', value)}
-          disabled={readonly || line.fromProps}
+          disabled={readonly || line.fromProps !== false}
           placeholder="JJ/MM/AA"
           printMode={printMode}
         />
@@ -76,7 +76,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         <EditableField
           value={line.description}
           onSave={(value) => onLineUpdate(lineIndex, 'description', value)}
-          disabled={readonly}
+          disabled={readonly || line.fromProps !== false}
           multiline
           fullWidth={true}
           printMode={printMode}
@@ -87,17 +87,27 @@ export const TableRow: React.FC<TableRowProps> = ({
         <EditableField
           value={(line.pax ?? 0).toString()}
           onSave={(value) => onLineUpdate(lineIndex, 'pax', parseInt(value, 10) || 0)}
-          disabled={readonly || line.fromProps}
+          disabled={readonly || line.fromProps !== false}
           printMode={printMode}
         />
       </td>
 
       <td className={`${baseCellClass} tw-text-right`} style={{ width: '55px', minWidth: '55px', maxWidth: '55px' }}>
-        {(line.unitPrice ?? 0).toFixed(2)}
+        <EditableField
+          value={(line.unitPrice ?? 0).toFixed(2)}
+          onSave={(value) => onLineUpdate(lineIndex, 'unitPrice', parseFloat(value) || 0)}
+          disabled={readonly || line.fromProps !== false}
+          printMode={printMode}
+        />
       </td>
 
       <td className={`${baseCellClass} tw-text-center`} style={{ width: '35px', minWidth: '35px', maxWidth: '35px' }}>
-        {(line.quantity ?? 0).toString()}
+        <EditableField
+          value={(line.quantity ?? 0).toString()}
+          onSave={(value) => onLineUpdate(lineIndex, 'quantity', parseInt(value, 10) || 0)}
+          disabled={readonly || line.fromProps !== false}
+          printMode={printMode}
+        />
       </td>
 
       <td className={`${baseCellClass} qe-bg-surface-gray-50 tw-font-medium tw-text-right`} style={{ width: '45px', minWidth: '45px', maxWidth: '45px' }}>
@@ -105,7 +115,16 @@ export const TableRow: React.FC<TableRowProps> = ({
       </td>
 
       <td className={`${baseCellClass} tw-text-right`} style={{ width: '45px', minWidth: '45px', maxWidth: '45px' }}>
-        {(line.vatAmount ?? 0).toFixed(2)}
+        {line.fromProps !== false ? (
+          (line.vatAmount ?? 0).toFixed(2)
+        ) : (
+          <EditableField
+            value={formatVatRate(line.vatRate)}
+            onSave={(value) => onLineUpdate(lineIndex, 'vatRate', parseFloat(value.replace('%', '')) || 0)}
+            disabled={readonly}
+            printMode={printMode}
+          />
+        )}
       </td>
 
       <td className={`${baseCellClass} qe-bg-surface-gray-50 tw-font-medium tw-text-right`} style={{ width: '45px', minWidth: '45px', maxWidth: '45px' }}>
