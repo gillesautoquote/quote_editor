@@ -76,7 +76,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         <EditableField
           value={line.description}
           onSave={(value) => onLineUpdate(lineIndex, 'description', value)}
-          disabled={readonly || line.fromProps}
+          disabled={readonly}
           multiline
           fullWidth={true}
           printMode={printMode}
