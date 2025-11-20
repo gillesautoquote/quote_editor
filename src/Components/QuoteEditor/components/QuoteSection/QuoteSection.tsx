@@ -59,17 +59,19 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
     if (readonly) return;
 
     const newLines = [...section.lines];
-    const line = newLines[lineIndex];
+    const line = { ...newLines[lineIndex] };
 
     if (field === 'date' && typeof value === 'string') {
       const isoDate = parseDateFrench(value);
-      newLines[lineIndex] = { ...newLines[lineIndex], [field]: isoDate };
+      line[field] = isoDate;
     } else {
-      newLines[lineIndex] = { ...newLines[lineIndex], [field]: value };
+      (line as any)[field] = value;
     }
 
     if (['quantity', 'unitPrice', 'vatRate', 'pax'].includes(field)) {
-      newLines[lineIndex] = recalculateQuoteLine(newLines[lineIndex]);
+      newLines[lineIndex] = recalculateQuoteLine(line);
+    } else {
+      newLines[lineIndex] = line;
     }
 
     const subTotal = calculateSubTotal(newLines);
@@ -79,9 +81,10 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
   const handleAddLine = (): void => {
     if (readonly) return;
 
-    const newLine = normalizeQuoteLine({
+    const newLine = recalculateQuoteLine({
       description: 'Nouvelle prestation',
-      fromProps: false
+      fromProps: false,
+      calculable: true
     });
 
     const newLines = [...section.lines, newLine];

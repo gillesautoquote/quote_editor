@@ -136,7 +136,8 @@ export const normalizeQuoteLine = (line: any): any => {
     vatAmount: safeNumber(line?.vatAmount),
     quantity: safeNumber(line?.quantity) || 1,
     priceTTC: safeNumber(line?.priceTTC),
-    calculable: line?.calculable !== false
+    calculable: line?.calculable !== false,
+    fromProps: line?.fromProps || false
   };
 };
 
@@ -145,12 +146,17 @@ export const normalizeQuoteLine = (line: any): any => {
  */
 export const recalculateQuoteLine = (line: any): any => {
   const normalized = normalizeQuoteLine(line);
-  
+
   if (normalized.calculable && typeof normalized.vatRate === 'number') {
     normalized.priceHT = calculatePriceHT(normalized.quantity, normalized.unitPrice);
     normalized.vatAmount = calculateVATAmount(normalized.priceHT, normalized.vatRate);
     normalized.priceTTC = calculatePriceTTC(normalized.priceHT, normalized.vatAmount);
   }
-  
+
+  // Préserver le flag fromProps
+  if (line?.fromProps !== undefined) {
+    normalized.fromProps = line.fromProps;
+  }
+
   return normalized;
 };
