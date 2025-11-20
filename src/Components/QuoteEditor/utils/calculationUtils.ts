@@ -209,7 +209,7 @@ export const calculateGlobalTotals = (
  * Normalise une ligne de devis avec des valeurs par défaut sécurisées
  */
 export const normalizeQuoteLine = (line: any): any => {
-  return {
+  const normalized: any = {
     date: line?.date || new Date().toISOString().split('T')[0],
     description: line?.description || '',
     durationHours: safeNumber(line?.durationHours) || 1,
@@ -220,9 +220,15 @@ export const normalizeQuoteLine = (line: any): any => {
     vatAmount: safeNumber(line?.vatAmount),
     quantity: safeNumber(line?.quantity) || 1,
     priceTTC: safeNumber(line?.priceTTC),
-    calculable: line?.calculable !== false,
-    fromProps: line?.fromProps || false
+    calculable: line?.calculable !== false
   };
+
+  // Préserver fromProps uniquement s'il est explicitement true
+  if (line?.fromProps === true) {
+    normalized.fromProps = true;
+  }
+
+  return normalized;
 };
 
 /**

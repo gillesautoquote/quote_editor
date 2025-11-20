@@ -66,7 +66,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         <EditableField
           value={formatDateFrench(line.date)}
           onSave={(value) => onLineUpdate(lineIndex, 'date', value)}
-          disabled={readonly}
+          disabled={readonly || line.fromProps}
           placeholder="JJ/MM/AA"
           printMode={printMode}
         />
@@ -87,7 +87,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         <EditableField
           value={(line.pax ?? 0).toString()}
           onSave={(value) => onLineUpdate(lineIndex, 'pax', parseInt(value, 10) || 0)}
-          disabled={readonly}
+          disabled={readonly || line.fromProps}
           printMode={printMode}
         />
       </td>
@@ -96,7 +96,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         <EditableField
           value={(line.unitPrice ?? 0).toFixed(2)}
           onSave={(value) => onLineUpdate(lineIndex, 'unitPrice', parseFloat(value) || 0)}
-          disabled={readonly}
+          disabled={readonly || line.fromProps}
           printMode={printMode}
         />
       </td>
@@ -105,7 +105,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         <EditableField
           value={(line.quantity ?? 0).toString()}
           onSave={(value) => onLineUpdate(lineIndex, 'quantity', parseInt(value, 10) || 0)}
-          disabled={readonly}
+          disabled={readonly || line.fromProps}
           printMode={printMode}
         />
       </td>
@@ -122,7 +122,7 @@ export const TableRow: React.FC<TableRowProps> = ({
             // Le formattage se fait dans EditableField
             onLineUpdate(lineIndex, 'vatRate', parseFloat(value.replace('%', '').trim()) || 0);
           }}
-          disabled={readonly}
+          disabled={readonly || line.fromProps}
           printMode={printMode}
           renderEditValue={() => formatVatRate(line.vatRate)}
         />
