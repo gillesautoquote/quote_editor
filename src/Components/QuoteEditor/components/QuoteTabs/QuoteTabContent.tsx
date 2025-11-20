@@ -37,8 +37,17 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
 }) => {
   const { setValueByPath } = useFieldPath();
 
-  // Stocker le breakdown initial provenant des props
-  const initialVatBreakdownRef = useRef(calculateVATBreakdownFromProps(data.sections));
+  // Stocker le breakdown initial provenant des props (directement depuis data.totals.vatBreakdown)
+  const initialVatBreakdownRef = useRef(data.totals?.vatBreakdown);
+
+  // Mettre à jour la référence si elle est vide et que data.totals.vatBreakdown existe
+  useEffect(() => {
+    if ((!initialVatBreakdownRef.current || initialVatBreakdownRef.current.length === 0) &&
+        data.totals?.vatBreakdown && data.totals.vatBreakdown.length > 0) {
+      console.log('[QuoteTabContent] Initializing breakdown from props:', data.totals.vatBreakdown);
+      initialVatBreakdownRef.current = data.totals.vatBreakdown;
+    }
+  }, [data.totals?.vatBreakdown]);
 
   const currentData = React.useMemo(() => {
     if (!data || !data.optionBlocks) {
