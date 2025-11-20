@@ -89,9 +89,85 @@ export const calculateVATBreakdown = (sections: any[] = []): VATBreakdown[] => {
 };
 
 /**
+ * Calcule la répartition de la TVA des lignes provenant des props (fromProps: true)
+ */
+export const calculateVATBreakdownFromProps = (sections: any[] = []): VATBreakdown[] => {
+  const vatByRate = new Map<number, number>();
+
+  sections.forEach(section => {
+    const lines = section?.lines || [];
+    lines.forEach((line: any) => {
+      // Uniquement les lignes provenant des props
+      if (line?.fromProps !== true) return;
+
+      const vatRate = safeNumber(line?.vatRate);
+      const vatAmount = safeNumber(line?.vatAmount);
+
+      if (vatRate > 0 && vatAmount > 0) {
+        const currentAmount = vatByRate.get(vatRate) || 0;
+        vatByRate.set(vatRate, currentAmount + vatAmount);
+      }
+    });
+  });
+
+  return Array.from(vatByRate.entries())
+    .map(([rate, amount]) => ({ rate, amount }))
+    .sort((a, b) => a.rate - b.rate);
+};
+
+/**
+ * Calcule la répartition de la TVA des lignes ajoutées manuellement (fromProps: false ou undefined)
+ */
+export const calculateVATBreakdownFromManualLines = (sections: any[] = []): VATBreakdown[] => {
+  const vatByRate = new Map<number, number>();
+
+  sections.forEach(section => {
+    const lines = section?.lines || [];
+    lines.forEach((line: any) => {
+      // Uniquement les lignes ajoutées manuellement
+      if (line?.fromProps === true) return;
+
+      const vatRate = safeNumber(line?.vatRate);
+      const vatAmount = safeNumber(line?.vatAmount);
+
+      if (vatRate > 0 && vatAmount > 0) {
+        const currentAmount = vatByRate.get(vatRate) || 0;
+        vatByRate.set(vatRate, currentAmount + vatAmount);
+      }
+    });
+  });
+
+  return Array.from(vatByRate.entries())
+    .map(([rate, amount]) => ({ rate, amount }))
+    .sort((a, b) => a.rate - b.rate);
+};
+
+/**
+ * Fusionne deux breakdowns de TVA en additionnant les montants pour les mêmes taux
+ */
+export const mergeVATBreakdowns = (breakdown1: VATBreakdown[], breakdown2: VATBreakdown[]): VATBreakdown[] => {
+  const vatByRate = new Map<number, number>();
+
+  // Ajouter le premier breakdown
+  breakdown1.forEach(({ rate, amount }) => {
+    vatByRate.set(rate, (vatByRate.get(rate) || 0) + amount);
+  });
+
+  // Ajouter le second breakdown
+  breakdown2.forEach(({ rate, amount }) => {
+    vatByRate.set(rate, (vatByRate.get(rate) || 0) + amount);
+  });
+
+  return Array.from(vatByRate.entries())
+    .map(([rate, amount]) => ({ rate, amount }))
+    .filter(({ amount }) => amount > 0) // Supprimer les taux avec montant 0
+    .sort((a, b) => a.rate - b.rate);
+};
+
+/**
  * Calcule les totaux globaux de manière sécurisée
  * @param sections Les sections du devis
- * @param existingVatBreakdown Le vatBreakdown existant à préserver (optionnel)
+ * @param existingVatBreakdown Le vatBreakdown existant provenant des props (optionnel)
  */
 export const calculateGlobalTotals = (
   sections: any[] = [],
@@ -109,11 +185,14 @@ export const calculateGlobalTotals = (
     { ht: 0, tva: 0, ttc: 0 }
   );
 
-  // Si un vatBreakdown existant est fourni, le préserver tel quel
-  // Sinon, le recalculer à partir des sections
-  const vatBreakdown = existingVatBreakdown !== undefined
-    ? existingVatBreakdown
-    : calculateVATBreakdown(sections);
+  // Calculer le breakdown des lignes provenant des props
+  const propsBreakdown = calculateVATBreakdownFromProps(sections);
+
+  // Calculer le breakdown des lignes ajoutées manuellement
+  const manualBreakdown = calculateVATBreakdownFromManualLines(sections);
+
+  // Fusionner les deux breakdowns
+  const vatBreakdown = mergeVATBreakdowns(propsBreakdown, manualBreakdown);
 
   return {
     ...totals,
