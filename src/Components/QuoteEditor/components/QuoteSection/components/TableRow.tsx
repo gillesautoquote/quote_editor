@@ -121,14 +121,13 @@ export const TableRow: React.FC<TableRowProps> = ({
           <EditableField
             value={(line.vatAmount ?? 0).toFixed(2)}
             onSave={(value) => {
-              // On édite le taux de TVA, pas le montant
-              const currentHT = line.priceHT ?? 0;
-              const newVatAmount = parseFloat(value) || 0;
-              const newVatRate = currentHT > 0 ? (newVatAmount / currentHT) * 100 : 0;
-              onLineUpdate(lineIndex, 'vatRate', newVatRate);
+              // Quand on clique pour éditer, on affiche le taux
+              // Le formattage se fait dans EditableField
+              onLineUpdate(lineIndex, 'vatRate', parseFloat(value.replace('%', '').trim()) || 0);
             }}
             disabled={readonly}
             printMode={printMode}
+            renderEditValue={() => formatVatRate(line.vatRate)}
           />
         )}
       </td>

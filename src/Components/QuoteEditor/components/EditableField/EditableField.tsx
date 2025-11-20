@@ -15,6 +15,7 @@ interface EditableFieldProps {
   printMode?: boolean;
   onEditingStart?: () => void;
   onEditingStop?: () => void;
+  renderEditValue?: () => string;
 }
 
 export const EditableField: React.FC<EditableFieldProps> = ({
@@ -30,7 +31,8 @@ export const EditableField: React.FC<EditableFieldProps> = ({
   onDragStart,
   printMode = false,
   onEditingStart,
-  onEditingStop
+  onEditingStop,
+  renderEditValue
 }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editValue, setEditValue] = useState<string>(value);
@@ -65,9 +67,13 @@ export const EditableField: React.FC<EditableFieldProps> = ({
   const handleDoubleClick = useCallback(() => {
     if (!disabled) {
       setIsEditing(true);
+      // Si renderEditValue existe, utiliser sa valeur pour l'édition
+      if (renderEditValue) {
+        setEditValue(renderEditValue());
+      }
       onEditingStart?.();
     }
-  }, [disabled, onEditingStart]);
+  }, [disabled, onEditingStart, renderEditValue]);
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     if (isEditing) {
