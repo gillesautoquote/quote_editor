@@ -41,7 +41,7 @@ export const QuotePageTotals: React.FC<QuotePageTotalsProps> = ({
             </tr>
             {totals.vatBreakdown && totals.vatBreakdown.length > 0 && (
               <>
-                {totals.vatBreakdown.map((vat, index) => (
+                {totals.vatBreakdown.filter(vat => vat.rate > 0).map((vat, index) => (
                   <tr key={index} className="tw-bg-white">
                     <td className="tw-p-2 tw-border-b qe-border-border tw-pl-8 print:tw-p-1.5 print:tw-pl-6">
                       dont TVA à {vat.rate} %
@@ -53,14 +53,16 @@ export const QuotePageTotals: React.FC<QuotePageTotalsProps> = ({
                 ))}
               </>
             )}
-            <tr className="tw-bg-white">
-              <td className="tw-p-2 tw-border-b qe-border-border print:tw-p-1.5">
-                <strong>Total TVA</strong>
-              </td>
-              <td className="tw-p-2 tw-border-b qe-border-border tw-text-right print:tw-p-1.5">
-                <strong>{totals.tva.toFixed(2)} €</strong>
-              </td>
-            </tr>
+            {totals.tva > 0 && (
+              <tr className="tw-bg-white">
+                <td className="tw-p-2 tw-border-b qe-border-border print:tw-p-1.5">
+                  <strong>Total TVA</strong>
+                </td>
+                <td className="tw-p-2 tw-border-b qe-border-border tw-text-right print:tw-p-1.5">
+                  <strong>{totals.tva.toFixed(2)} €</strong>
+                </td>
+              </tr>
+            )}
             <tr
               className="print-color-adjust"
               style={{ backgroundColor: mainColor, color: textColor }}
