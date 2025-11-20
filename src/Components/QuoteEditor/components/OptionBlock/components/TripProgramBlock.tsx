@@ -2,9 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { MapPin, Clock, Filter, Trash2, Plus } from 'lucide-react';
 import type { TripProgramStep, TripProgramFilters } from '../../../QuoteEditor.types';
 import { EditableField } from '../../EditableField/EditableField';
-import { EditableMarkdownFieldWithContext } from '../../EditableField/EditableMarkdownFieldWithContext';
 import { getLightVariant, getLighterColor } from '../../../utils/colorUtils';
-import { textUtils } from '../../../utils/textUtils';
 
 interface TripProgramBlockProps {
   steps: TripProgramStep[];
@@ -15,7 +13,6 @@ interface TripProgramBlockProps {
   printMode?: boolean;
   blockColor: string;
   companyColor?: string;
-  blockId?: string;
 }
 
 const STEP_FILTERS = [
@@ -44,8 +41,7 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
   readonly = false,
   printMode = false,
   blockColor,
-  companyColor,
-  blockId = 'trip-program'
+  companyColor
 }) => {
   // Style d'impression : forcer un saut de page avant chaque nouvelle mission
   useEffect(() => {
@@ -204,14 +200,6 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
     onUpdateSteps([...steps, newStep]);
   };
 
-  const handleTripNameUpdate = (oldTripName: string, newTripName: string) => {
-    if (readonly) return;
-    const newSteps = steps.map(step =>
-      step.tripName === oldTripName ? { ...step, tripName: newTripName } : step
-    );
-    onUpdateSteps(newSteps);
-  };
-
   return (
     <div className="tw-p-4 print:tw-p-2" data-component="trip-program">
       <div className={`tw-mb-3 tw-flex tw-flex-wrap tw-gap-2 tw-items-center ${printMode ? 'tw-hidden' : ''} print:tw-hidden`}>
@@ -253,15 +241,9 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
           >
             {dateGroups[0]?.tripName && (
               <div className="tw-mb-3">
-                <EditableMarkdownFieldWithContext
-                  value={dateGroups[0].tripName}
-                  onSave={(value) => handleTripNameUpdate(dateGroups[0].tripName!, value)}
-                  fieldPath={`${blockId}.mission.${missionIndex}.title`}
-                  disabled={readonly || printMode}
-                  printMode={printMode}
-                  markdownToHtml={textUtils.markdownToHtml}
-                  className="tw-text-base tw-font-bold"
-                />
+                <h3 className="tw-text-base tw-font-bold" style={{ color: blockColor }}>
+                  {dateGroups[0].tripName}
+                </h3>
               </div>
             )}
               {dateGroups.map((dateGroup, dateIndex) => {
