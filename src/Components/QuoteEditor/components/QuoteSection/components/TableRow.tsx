@@ -76,7 +76,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         <EditableField
           value={line.description}
           onSave={(value) => onLineUpdate(lineIndex, 'description', value)}
-          disabled={readonly || line.fromProps === true}
+          disabled={readonly}
           multiline
           fullWidth={true}
           printMode={printMode}
@@ -119,8 +119,14 @@ export const TableRow: React.FC<TableRowProps> = ({
           (line.vatAmount ?? 0).toFixed(2)
         ) : (
           <EditableField
-            value={formatVatRate(line.vatRate)}
-            onSave={(value) => onLineUpdate(lineIndex, 'vatRate', parseFloat(value.replace('%', '')) || 0)}
+            value={(line.vatAmount ?? 0).toFixed(2)}
+            onSave={(value) => {
+              // On édite le taux de TVA, pas le montant
+              const currentHT = line.priceHT ?? 0;
+              const newVatAmount = parseFloat(value) || 0;
+              const newVatRate = currentHT > 0 ? (newVatAmount / currentHT) * 100 : 0;
+              onLineUpdate(lineIndex, 'vatRate', newVatRate);
+            }}
             disabled={readonly}
             printMode={printMode}
           />
