@@ -66,7 +66,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         <EditableField
           value={formatDateFrench(line.date)}
           onSave={(value) => onLineUpdate(lineIndex, 'date', value)}
-          disabled={readonly || line.fromProps === true}
+          disabled={readonly}
           placeholder="JJ/MM/AA"
           printMode={printMode}
         />
@@ -87,7 +87,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         <EditableField
           value={(line.pax ?? 0).toString()}
           onSave={(value) => onLineUpdate(lineIndex, 'pax', parseInt(value, 10) || 0)}
-          disabled={readonly || line.fromProps === true}
+          disabled={readonly}
           printMode={printMode}
         />
       </td>
@@ -96,7 +96,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         <EditableField
           value={(line.unitPrice ?? 0).toFixed(2)}
           onSave={(value) => onLineUpdate(lineIndex, 'unitPrice', parseFloat(value) || 0)}
-          disabled={readonly || line.fromProps === true}
+          disabled={readonly}
           printMode={printMode}
         />
       </td>
@@ -105,7 +105,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         <EditableField
           value={(line.quantity ?? 0).toString()}
           onSave={(value) => onLineUpdate(lineIndex, 'quantity', parseInt(value, 10) || 0)}
-          disabled={readonly || line.fromProps === true}
+          disabled={readonly}
           printMode={printMode}
         />
       </td>
@@ -115,21 +115,17 @@ export const TableRow: React.FC<TableRowProps> = ({
       </td>
 
       <td className={`${baseCellClass} tw-text-right`} style={{ width: '45px', minWidth: '45px', maxWidth: '45px' }}>
-        {line.fromProps === true ? (
-          (line.vatAmount ?? 0).toFixed(2)
-        ) : (
-          <EditableField
-            value={(line.vatAmount ?? 0).toFixed(2)}
-            onSave={(value) => {
-              // Quand on clique pour éditer, on affiche le taux
-              // Le formattage se fait dans EditableField
-              onLineUpdate(lineIndex, 'vatRate', parseFloat(value.replace('%', '').trim()) || 0);
-            }}
-            disabled={readonly}
-            printMode={printMode}
-            renderEditValue={() => formatVatRate(line.vatRate)}
-          />
-        )}
+        <EditableField
+          value={(line.vatAmount ?? 0).toFixed(2)}
+          onSave={(value) => {
+            // Quand on clique pour éditer, on affiche le taux
+            // Le formattage se fait dans EditableField
+            onLineUpdate(lineIndex, 'vatRate', parseFloat(value.replace('%', '').trim()) || 0);
+          }}
+          disabled={readonly}
+          printMode={printMode}
+          renderEditValue={() => formatVatRate(line.vatRate)}
+        />
       </td>
 
       <td className={`${baseCellClass} qe-bg-surface-gray-50 tw-font-medium tw-text-right`} style={{ width: '45px', minWidth: '45px', maxWidth: '45px' }}>

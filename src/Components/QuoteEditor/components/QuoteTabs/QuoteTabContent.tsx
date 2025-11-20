@@ -238,7 +238,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
                 onUpdateSection={(updatedSection) => {
                   const newSections = [...currentData.sections];
                   newSections[sectionIndex] = updatedSection;
-                  const newTotals = calculateGlobalTotals(newSections, currentData.totals?.vatBreakdown);
+                  const newTotals = calculateGlobalTotals(newSections);
                   const newData = { ...currentData, sections: newSections, totals: newTotals };
                   onUpdateData(newData);
                 }}

@@ -20,6 +20,7 @@ import { QuoteTabs } from './components/QuoteTabs';
 import { QuoteTabContent } from './components/QuoteTabs/QuoteTabContent';
 import { validateQuoteData } from './utils/dataValidator';
 import { EditingProvider } from './contexts/EditingContext';
+import { calculateGlobalTotals } from './utils/calculationUtils';
 
 const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHandle>) => {
   const {
@@ -245,17 +246,7 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
     const currentSections = currentData.sections || [];
     const newSections = [...currentSections, newSection];
 
-    const newTotals = newSections.reduce(
-      (acc, section) => {
-        const sectionSubTotal = section.subTotal || { ht: 0, tva: 0, ttc: 0 };
-        return {
-          ht: (acc.ht || 0) + (sectionSubTotal.ht || 0),
-          tva: (acc.tva || 0) + (sectionSubTotal.tva || 0),
-          ttc: (acc.ttc || 0) + (sectionSubTotal.ttc || 0)
-        };
-      },
-      { ht: 0, tva: 0, ttc: 0 }
-    );
+    const newTotals = calculateGlobalTotals(newSections);
 
     updateData({
       ...currentData,

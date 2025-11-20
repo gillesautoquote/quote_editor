@@ -229,7 +229,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
                   onUpdateSection={(updatedSection) => {
                     const newSections = [...dataWithProgrammeVoyage.sections];
                     newSections[sectionIndex] = updatedSection;
-                    const newTotals = calculateGlobalTotals(newSections, dataWithProgrammeVoyage.totals?.vatBreakdown);
+                    const newTotals = calculateGlobalTotals(newSections);
                     const newData = { ...dataWithProgrammeVoyage, sections: newSections, totals: newTotals };
                     onUpdateData(newData);
                   }}

@@ -175,7 +175,7 @@ export const QuotePage: React.FC<QuotePageProps> = ({
                   const newSections = [...dataWithProgrammeVoyage.sections];
                   newSections[sectionIndex] = updatedSection;
 
-                  const newTotals = calculateGlobalTotals(newSections, dataWithProgrammeVoyage.totals?.vatBreakdown);
+                  const newTotals = calculateGlobalTotals(newSections);
 
                   const newData = { ...dataWithProgrammeVoyage, sections: newSections };
                   newData.totals = newTotals;
