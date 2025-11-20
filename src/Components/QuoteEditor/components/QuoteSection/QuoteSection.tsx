@@ -68,7 +68,7 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
       newLines[lineIndex] = { ...newLines[lineIndex], [field]: value };
     }
 
-    if (['quantity', 'unitPrice', 'vatRate'].includes(field)) {
+    if (['quantity', 'unitPrice', 'vatRate', 'pax'].includes(field)) {
       newLines[lineIndex] = recalculateQuoteLine(newLines[lineIndex]);
     }
 
