@@ -138,16 +138,14 @@ export const TableRow: React.FC<TableRowProps> = ({
 
       {!readonly && !printMode && (
         <td className="tw-border-b qe-border-border tw-text-center print:tw-hidden" style={{ width: '40px', minWidth: '40px', maxWidth: '40px', padding: '0.25rem' }}>
-          {line.fromProps !== true && (
-            <button
-              type="button"
-              onClick={() => onRemoveLine(lineIndex)}
-              className="tw-inline-flex tw-items-center tw-justify-center qe-button-square-sm tw-p-0 qe-text-danger tw-transition-all tw-duration-200 hover:qe-text-danger-dark hover:tw-scale-110"
-              title="Supprimer cette ligne"
-            >
-              <Trash2 size={11} />
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={() => onRemoveLine(lineIndex)}
+            className="tw-inline-flex tw-items-center tw-justify-center qe-button-square-sm tw-p-0 qe-text-danger tw-transition-all tw-duration-200 hover:qe-text-danger-dark hover:tw-scale-110"
+            title="Supprimer cette ligne"
+          >
+            <Trash2 size={11} />
+          </button>
         </td>
       )}
     </tr>
