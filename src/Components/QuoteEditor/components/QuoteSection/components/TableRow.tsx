@@ -66,7 +66,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         <EditableField
           value={formatDateFrench(line.date)}
           onSave={(value) => onLineUpdate(lineIndex, 'date', value)}
-          disabled={readonly || line.fromProps !== false}
+          disabled={readonly || line.fromProps === true}
           placeholder="JJ/MM/AA"
           printMode={printMode}
         />
@@ -76,7 +76,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         <EditableField
           value={line.description}
           onSave={(value) => onLineUpdate(lineIndex, 'description', value)}
-          disabled={readonly || line.fromProps !== false}
+          disabled={readonly || line.fromProps === true}
           multiline
           fullWidth={true}
           printMode={printMode}
@@ -87,7 +87,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         <EditableField
           value={(line.pax ?? 0).toString()}
           onSave={(value) => onLineUpdate(lineIndex, 'pax', parseInt(value, 10) || 0)}
-          disabled={readonly || line.fromProps !== false}
+          disabled={readonly || line.fromProps === true}
           printMode={printMode}
         />
       </td>
@@ -96,7 +96,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         <EditableField
           value={(line.unitPrice ?? 0).toFixed(2)}
           onSave={(value) => onLineUpdate(lineIndex, 'unitPrice', parseFloat(value) || 0)}
-          disabled={readonly || line.fromProps !== false}
+          disabled={readonly || line.fromProps === true}
           printMode={printMode}
         />
       </td>
@@ -105,7 +105,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         <EditableField
           value={(line.quantity ?? 0).toString()}
           onSave={(value) => onLineUpdate(lineIndex, 'quantity', parseInt(value, 10) || 0)}
-          disabled={readonly || line.fromProps !== false}
+          disabled={readonly || line.fromProps === true}
           printMode={printMode}
         />
       </td>
@@ -115,7 +115,7 @@ export const TableRow: React.FC<TableRowProps> = ({
       </td>
 
       <td className={`${baseCellClass} tw-text-right`} style={{ width: '45px', minWidth: '45px', maxWidth: '45px' }}>
-        {line.fromProps !== false ? (
+        {line.fromProps === true ? (
           (line.vatAmount ?? 0).toFixed(2)
         ) : (
           <EditableField
