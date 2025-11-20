@@ -79,3 +79,39 @@ export const formatPostalCode = (postalCode: string): string => {
   }
   return postalCode; // Retourne tel quel si pas au bon format
 };
+
+/**
+ * Convertit le Markdown en HTML
+ * @param text - Le texte Markdown
+ * @returns Le HTML généré
+ */
+export const markdownToHtml = (text: string): string => {
+  let html = text;
+
+  // Gras **texte** ou __texte__
+  html = html.replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/__([^_]+)__/g, '<strong>$1</strong>');
+
+  // Italique *texte* ou _texte_
+  html = html.replace(/\*([^\*]+)\*/g, '<em>$1</em>');
+  html = html.replace(/_([^_]+)_/g, '<em>$1</em>');
+
+  // Souligné (non-standard Markdown, mais utile)
+  html = html.replace(/~~([^~]+)~~/g, '<u>$1</u>');
+
+  return html;
+};
+
+/**
+ * Objet contenant tous les utilitaires de texte
+ */
+export const textUtils = {
+  extractCompanyName,
+  formatCopyright,
+  cleanUrl,
+  formatUrl,
+  formatPhone,
+  isValidEmail,
+  formatPostalCode,
+  markdownToHtml
+};

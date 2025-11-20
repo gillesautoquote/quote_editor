@@ -184,6 +184,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
               printMode={false}
               blockColor={currentData.company.mainColor}
               companyColor={currentData.company.mainColor}
+              blockId={programmeBlock.id}
             />
           ) : (
             <div className="tw-bg-gray-50 tw-rounded-lg tw-border tw-border-gray-200 tw-p-6 tw-text-center tw-text-sm tw-text-gray-500">
@@ -194,9 +195,10 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
           <div className="tw-mt-6">
             <CarbonImpact
               carbonImpact={currentData.carbonImpact}
-              onUpdate={(impact) => onUpdateData({ ...currentData, carbonImpact: impact })}
+              onUpdateCarbonImpact={(impact) => onUpdateData({ ...currentData, carbonImpact: impact })}
               readonly={readonly}
               mainColor={currentData.company?.mainColor}
+              fieldPathPrefix="carbonImpact"
             />
           </div>
         </>

@@ -112,6 +112,7 @@ export const OptionBlockContent: React.FC<OptionBlockContentProps> = ({
           printMode={printMode}
           blockColor={blockColor}
           companyColor={companyColor}
+          blockId={block.id}
         />
       )}
     </div>

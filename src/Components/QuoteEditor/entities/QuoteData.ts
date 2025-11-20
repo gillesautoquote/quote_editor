@@ -165,6 +165,7 @@ export interface CarbonImpact {
   unit: string;
   equivalentKm: number;
   vehicleType: string;
+  title?: string;
   description?: string;
 }
 
