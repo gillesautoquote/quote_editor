@@ -104,8 +104,8 @@ export const TableRow: React.FC<TableRowProps> = ({
         {(line.priceHT ?? 0).toFixed(2)}
       </td>
 
-      <td className={`${baseCellClass} tw-text-center`} style={{ width: '35px', minWidth: '35px', maxWidth: '35px' }}>
-        {typeof line.vatRate === 'number' ? line.vatRate.toString() : (line.vatRate ?? '0')}
+      <td className={`${baseCellClass} tw-text-right`} style={{ width: '35px', minWidth: '35px', maxWidth: '35px' }}>
+        {(line.vatAmount ?? 0).toFixed(2)}
       </td>
 
       <td className={`${baseCellClass} qe-bg-surface-gray-50 tw-font-medium tw-text-right`} style={{ width: '45px', minWidth: '45px', maxWidth: '45px' }}>
