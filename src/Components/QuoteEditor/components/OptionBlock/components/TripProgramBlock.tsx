@@ -200,6 +200,14 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
     onUpdateSteps([...steps, newStep]);
   };
 
+  const handleTripNameUpdate = (oldTripName: string, newTripName: string) => {
+    if (readonly) return;
+    const newSteps = steps.map(step =>
+      step.tripName === oldTripName ? { ...step, tripName: newTripName } : step
+    );
+    onUpdateSteps(newSteps);
+  };
+
   return (
     <div className="tw-p-4 print:tw-p-2" data-component="trip-program">
       <div className={`tw-mb-3 tw-flex tw-flex-wrap tw-gap-2 tw-items-center ${printMode ? 'tw-hidden' : ''} print:tw-hidden`}>
@@ -241,9 +249,14 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
           >
             {dateGroups[0]?.tripName && (
               <div className="tw-mb-3">
-                <h3 className="tw-text-base tw-font-bold" style={{ color: blockColor }}>
-                  {dateGroups[0].tripName}
-                </h3>
+                <EditableField
+                  value={dateGroups[0].tripName}
+                  onSave={(value) => handleTripNameUpdate(dateGroups[0].tripName!, value)}
+                  disabled={readonly}
+                  as="h3"
+                  className="tw-text-base tw-font-bold"
+                  style={{ color: blockColor }}
+                />
               </div>
             )}
               {dateGroups.map((dateGroup, dateIndex) => {

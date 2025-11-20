@@ -20,6 +20,13 @@ export const CarbonImpact: React.FC<CarbonImpactProps> = ({
 }) => {
   const impactColor = mainColor;
 
+  const handleUpdate = (field: keyof CarbonImpactType, value: string | number) => {
+    onUpdateCarbonImpact?.({
+      ...carbonImpact,
+      [field]: value
+    });
+  };
+
   return (
     <div className="tw-mb-6 tw-flex tw-justify-center">
       <div
@@ -29,16 +36,20 @@ export const CarbonImpact: React.FC<CarbonImpactProps> = ({
           borderColor: `${mainColor}40`
         }}
       >
-        <h3
-          className="tw-text-sm tw-font-semibold tw-flex tw-items-center tw-gap-2"
-          style={{ color: impactColor }}
-        >
-          <svg className="tw-w-5 tw-h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <div className="tw-text-sm tw-font-semibold tw-flex tw-items-center tw-gap-2">
+          <svg className="tw-w-5 tw-h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: impactColor }}>
             <circle cx="12" cy="12" r="10"/>
             <path d="M12 2C8.5 2 5.5 4.5 5.5 7.5C5.5 11 12 17 12 17s6.5-6 6.5-9.5C18.5 4.5 15.5 2 12 2z"/>
           </svg>
-          Impact environnemental du trajet
-        </h3>
+          <EditableField
+            value={carbonImpact.title || 'Impact environnemental du trajet'}
+            onSave={(value) => handleUpdate('title', value)}
+            disabled={readonly}
+            printMode={printMode}
+            className="tw-font-semibold"
+            style={{ color: impactColor }}
+          />
+        </div>
 
         <div className="tw-flex tw-items-center tw-gap-4">
           <div
@@ -47,12 +58,14 @@ export const CarbonImpact: React.FC<CarbonImpactProps> = ({
           >
             <Bus className="tw-w-7 tw-h-7" strokeWidth={2} style={{ color: impactColor }} />
             <div className="tw-flex tw-flex-col">
-              <span
+              <EditableField
+                value={String(carbonImpact.equivalentKm)}
+                onSave={(value) => handleUpdate('equivalentKm', Number(value) || 0)}
+                disabled={readonly}
+                printMode={printMode}
                 className="tw-text-2xl tw-font-bold tw-leading-none"
                 style={{ color: impactColor }}
-              >
-                {carbonImpact.equivalentKm}
-              </span>
+              />
               <span className="tw-text-xs tw-text-gray-600 tw-font-medium tw-mt-0.5">
                 kilomètres
               </span>
@@ -67,12 +80,14 @@ export const CarbonImpact: React.FC<CarbonImpactProps> = ({
           >
             <Cloud className="tw-w-7 tw-h-7" strokeWidth={2} style={{ color: impactColor }} />
             <div className="tw-flex tw-flex-col">
-              <span
+              <EditableField
+                value={String(carbonImpact.co2Amount)}
+                onSave={(value) => handleUpdate('co2Amount', Number(value) || 0)}
+                disabled={readonly}
+                printMode={printMode}
                 className="tw-text-2xl tw-font-bold tw-leading-none"
                 style={{ color: impactColor }}
-              >
-                {carbonImpact.co2Amount}
-              </span>
+              />
               <span className="tw-text-xs tw-text-gray-600 tw-font-medium tw-mt-0.5">
                 {carbonImpact.unit}
               </span>
