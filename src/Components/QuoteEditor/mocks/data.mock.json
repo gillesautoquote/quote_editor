@@ -1444,5 +1444,8 @@
     "mise_en_place": true,
     "retour": false,
     "excludeDepot": true
+  },
+  "displayOptions": {
+    "showAmountInRecap": true
   }
 }

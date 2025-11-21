@@ -163,9 +163,12 @@ export const QuotePageIntro: React.FC<QuotePageIntroProps> = ({
           };
           const validityText = valid ? `jusqu'au ${formatFancy(quote.validUntil)}` : ((data as any)?.validityNotice || '');
 
+          const displayOptions = (data as any)?.displayOptions;
+          const showAmount = displayOptions?.showAmountInRecap ?? true;
+
           return (
             <div className="tw-space-y-1.5 tw-text-[0.9rem] tw-leading-relaxed print:tw-text-[0.85rem]">
-              <div><strong>Montant&nbsp;:</strong> {fmtCurrency(totals?.ht)} HT – {fmtCurrency(totals?.ttc)} TTC</div>
+              {showAmount && <div><strong>Montant&nbsp;:</strong> {fmtCurrency(totals?.ht)} HT – {fmtCurrency(totals?.ttc)} TTC</div>}
               {carbon && <div><strong>Impact carbone estimé&nbsp;:</strong> {carbon.co2Amount} {carbon.unit}</div>}
               <div><strong>Validité du devis&nbsp;:</strong> {validityText}</div>
             </div>
