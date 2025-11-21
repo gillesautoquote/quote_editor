@@ -32,6 +32,7 @@ interface QuoteFlatViewProps {
   allowWidthControl?: boolean;
   showHeader?: boolean;
   showFooter?: boolean;
+  showTotalsAmounts?: boolean;
 }
 
 export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
@@ -41,7 +42,8 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
   printMode = false,
   allowWidthControl = true,
   showHeader = true,
-  showFooter = true
+  showFooter = true,
+  showTotalsAmounts = true
 }) => {
   const { setValueByPath } = useFieldPath();
   const { applyColorVariables } = useColorTheme(data.company);
@@ -255,6 +257,7 @@ export const QuoteFlatView: React.FC<QuoteFlatViewProps> = ({
               totals={dataWithProgrammeVoyage.totals}
               mainColor={dataWithProgrammeVoyage.company.mainColor}
               printMode={printMode}
+              showAmounts={showTotalsAmounts}
             />
             <div className="tw-flex tw-justify-end tw-mb-4">
               <EditableField

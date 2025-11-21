@@ -25,6 +25,7 @@ interface QuoteTabContentProps {
   onUpdateData: (newData: QuoteData) => void;
   readonly?: boolean;
   allowWidthControl?: boolean;
+  showTotalsAmounts?: boolean;
 }
 
 export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
@@ -33,6 +34,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
   data,
   onUpdateData,
   readonly = false,
+  showTotalsAmounts = true,
   allowWidthControl = true
 }) => {
   const { setValueByPath } = useFieldPath();
@@ -259,7 +261,7 @@ export const QuoteTabContent: React.FC<QuoteTabContentProps> = ({
               />
             ))}
           </div>
-          <QuotePageTotals totals={currentData.totals} mainColor={currentData.company.mainColor} />
+          <QuotePageTotals totals={currentData.totals} mainColor={currentData.company.mainColor} showAmounts={showTotalsAmounts} />
           <div className="tw-flex tw-justify-end tw-mb-4">
             <EditableField
               value={currentData.validityNotice || ''}

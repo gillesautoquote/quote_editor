@@ -69,14 +69,7 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
     }
 
     if (['quantity', 'unitPrice', 'vatRate', 'pax'].includes(field)) {
-      const recalculated = recalculateQuoteLine(line);
-      console.log(`[handleLineUpdate] Field: ${field}, Value: ${value}, Recalculated:`, {
-        vatRate: recalculated.vatRate,
-        priceHT: recalculated.priceHT,
-        vatAmount: recalculated.vatAmount,
-        priceTTC: recalculated.priceTTC
-      });
-      newLines[lineIndex] = recalculated;
+      newLines[lineIndex] = recalculateQuoteLine(line);
     } else {
       newLines[lineIndex] = line;
     }

@@ -14,14 +14,20 @@ interface QuotePageTotalsProps {
   };
   mainColor?: string;
   printMode?: boolean;
+  showAmounts?: boolean;
 }
 
 export const QuotePageTotals: React.FC<QuotePageTotalsProps> = ({
   totals,
   mainColor = '#0066cc',
-  printMode = false
+  printMode = false,
+  showAmounts = true
 }) => {
   const textColor = getContrastColor(mainColor);
+
+  if (!showAmounts) {
+    return null;
+  }
 
   return (
     <div

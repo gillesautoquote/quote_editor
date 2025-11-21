@@ -237,20 +237,10 @@ export const normalizeQuoteLine = (line: any): any => {
 export const recalculateQuoteLine = (line: any): any => {
   const normalized = normalizeQuoteLine(line);
 
-  console.log('[recalculateQuoteLine] Input line:', { vatRate: line?.vatRate, calculable: line?.calculable });
-  console.log('[recalculateQuoteLine] Normalized:', { vatRate: normalized.vatRate, calculable: normalized.calculable });
-
   if (normalized.calculable && typeof normalized.vatRate === 'number') {
     normalized.priceHT = calculatePriceHT(normalized.quantity, normalized.unitPrice);
     normalized.vatAmount = calculateVATAmount(normalized.priceHT, normalized.vatRate);
     normalized.priceTTC = calculatePriceTTC(normalized.priceHT, normalized.vatAmount);
-    console.log('[recalculateQuoteLine] After calculation:', {
-      priceHT: normalized.priceHT,
-      vatAmount: normalized.vatAmount,
-      priceTTC: normalized.priceTTC
-    });
-  } else {
-    console.log('[recalculateQuoteLine] NOT calculable or invalid vatRate');
   }
 
   // Préserver le flag fromProps
