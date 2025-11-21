@@ -222,7 +222,6 @@ export interface QuoteEditorProps {
   showFooter?: boolean;
   useTabs?: boolean;
   usePDFV2?: boolean;
-  showTotalsAmounts?: boolean;
 }
 
 export interface QuoteEditorHandle {

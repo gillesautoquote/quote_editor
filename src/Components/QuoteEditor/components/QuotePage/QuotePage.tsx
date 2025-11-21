@@ -32,14 +32,12 @@ interface QuotePageProps {
   readonly?: boolean;
   allowWidthControl?: boolean;
   printMode?: boolean;
-  showTotalsAmounts?: boolean;
 }
 
 export const QuotePage: React.FC<QuotePageProps> = ({
   data,
   onUpdateData,
   contentConfig,
-  showTotalsAmounts = true,
   readonly = false,
   allowWidthControl = true,
   printMode = false
@@ -207,7 +205,6 @@ export const QuotePage: React.FC<QuotePageProps> = ({
               totals={dataWithProgrammeVoyage.totals}
               mainColor={dataWithProgrammeVoyage.company.mainColor}
               printMode={printMode}
-              showAmounts={showTotalsAmounts}
             />
           )}
 

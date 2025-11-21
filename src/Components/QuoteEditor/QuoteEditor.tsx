@@ -44,7 +44,6 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
     showFooter = true,
     useTabs = true,
     usePDFV2 = false,
-    showTotalsAmounts = true,
   } = props;
 
   const { t } = useTranslation(locale);
@@ -457,7 +456,6 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
             allowWidthControl={allowWidthControl}
             showHeader={showHeader}
             showFooter={showFooter}
-            showTotalsAmounts={showTotalsAmounts}
           />
         ) : useTabs ? (
           <QuoteTabs
@@ -476,7 +474,6 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
                 onUpdateData={updateData}
                 readonly={readonly}
                 allowWidthControl={allowWidthControl}
-                showTotalsAmounts={showTotalsAmounts}
               />
             )}
           </QuoteTabs>
@@ -494,7 +491,6 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
             readonly={readonly}
             printMode={printMode}
             allowWidthControl={allowWidthControl}
-            showTotalsAmounts={showTotalsAmounts}
           />
         )}
       </div>
