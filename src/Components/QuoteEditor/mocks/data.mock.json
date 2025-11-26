@@ -621,6 +621,7 @@
                                     {
                                         "type": "etape",
                                         "label": "D\u00e9part du d\u00e9p\u00f4t",
+                                        "labelType": "retour_depot",
                                         "heure": "13:10",
                                         "estPrisEnComptePourCalculs": true,
                                         "estDebutService": true,
@@ -652,6 +653,7 @@
                                     {
                                         "type": "etape",
                                         "label": "Mise en place du v\u00e9hicule",
+                                        "labelType": "mise_en_place",
                                         "heure": "13:19",
                                         "estPrisEnComptePourCalculs": true,
                                         "estDebutService": false,
@@ -661,6 +663,7 @@
                                     {
                                         "type": "etape",
                                         "label": "D\u00e9part CLIENT",
+                                        "labelType": "embarquement",
                                         "heure": "13:29",
                                         "estPrisEnComptePourCalculs": true,
                                         "estDebutService": false,
@@ -692,6 +695,7 @@
                                     {
                                         "type": "etape",
                                         "label": "Destination CLIENT",
+                                        "labelType": "depose",
                                         "heure": "14:17",
                                         "estPrisEnComptePourCalculs": true,
                                         "estDebutService": false,
@@ -701,6 +705,7 @@
                                     {
                                         "type": "etape",
                                         "label": "Retour au d\u00e9p\u00f4t",
+                                        "labelType": "retour_depot",
                                         "heure": "14:27",
                                         "estPrisEnComptePourCalculs": true,
                                         "estDebutService": false,
@@ -732,6 +737,7 @@
                                     {
                                         "type": "etape",
                                         "label": "Arriv\u00e9e au d\u00e9p\u00f4t",
+                                        "labelType": "retour_depot",
                                         "heure": "15:01",
                                         "estPrisEnComptePourCalculs": true,
                                         "estDebutService": false,
@@ -760,6 +766,7 @@
                                     {
                                         "type": "etape",
                                         "label": "D\u00e9part du d\u00e9p\u00f4t",
+                                        "labelType": "retour_depot",
                                         "heure": "19:19",
                                         "estPrisEnComptePourCalculs": true,
                                         "estDebutService": true,
@@ -791,6 +798,7 @@
                                     {
                                         "type": "etape",
                                         "label": "Mise en place du v\u00e9hicule",
+                                        "labelType": "mise_en_place",
                                         "heure": "19:50",
                                         "estPrisEnComptePourCalculs": true,
                                         "estDebutService": false,
@@ -800,6 +808,7 @@
                                     {
                                         "type": "etape",
                                         "label": "D\u00e9part CLIENT",
+                                        "labelType": "embarquement",
                                         "heure": "20:00",
                                         "estPrisEnComptePourCalculs": true,
                                         "estDebutService": false,
@@ -831,6 +840,7 @@
                                     {
                                         "type": "etape",
                                         "label": "Destination CLIENT",
+                                        "labelType": "service_passager",
                                         "heure": "20:42",
                                         "estPrisEnComptePourCalculs": true,
                                         "estDebutService": false,
@@ -877,6 +887,7 @@
                                     {
                                         "type": "etape",
                                         "label": "Mise en place du v\u00e9hicule",
+                                        "labelType": "mise_en_place",
                                         "heure": "22:50",
                                         "estPrisEnComptePourCalculs": true,
                                         "estDebutService": false,
@@ -886,6 +897,7 @@
                                     {
                                         "type": "etape",
                                         "label": "D\u00e9part CLIENT",
+                                        "labelType": "embarquement",
                                         "heure": "23:00",
                                         "estPrisEnComptePourCalculs": true,
                                         "estDebutService": false,
@@ -917,6 +929,7 @@
                                     {
                                         "type": "etape",
                                         "label": "Destination CLIENT",
+                                        "labelType": "depose",
                                         "heure": "23:43",
                                         "estPrisEnComptePourCalculs": true,
                                         "estDebutService": false,
@@ -926,6 +939,7 @@
                                     {
                                         "type": "etape",
                                         "label": "Retour au d\u00e9p\u00f4t",
+                                        "labelType": "retour_depot",
                                         "heure": "23:53",
                                         "estPrisEnComptePourCalculs": true,
                                         "estDebutService": false,
@@ -957,6 +971,7 @@
                                     {
                                         "type": "etape",
                                         "label": "Arriv\u00e9e au d\u00e9p\u00f4t",
+                                        "labelType": "retour_depot",
                                         "heure": "00:21",
                                         "estPrisEnComptePourCalculs": true,
                                         "estDebutService": false,
@@ -985,6 +1000,7 @@
                                     {
                                         "type": "etape",
                                         "label": "D\u00e9part du d\u00e9p\u00f4t",
+                                        "labelType": "retour_depot",
                                         "heure": "13:16",
                                         "estPrisEnComptePourCalculs": true,
                                         "estDebutService": true,
@@ -1016,6 +1032,7 @@
                                     {
                                         "type": "etape",
                                         "label": "Mise en place du v\u00e9hicule",
+                                        "labelType": "mise_en_place",
                                         "heure": "13:50",
                                         "estPrisEnComptePourCalculs": true,
                                         "estDebutService": false,
@@ -1025,6 +1042,7 @@
                                     {
                                         "type": "etape",
                                         "label": "D\u00e9part CLIENT",
+                                        "labelType": "embarquement",
                                         "heure": "14:00",
                                         "estPrisEnComptePourCalculs": true,
                                         "estDebutService": false,
@@ -1056,6 +1074,7 @@
                                     {
                                         "type": "etape",
                                         "label": "Destination CLIENT",
+                                        "labelType": "depose",
                                         "heure": "14:51",
                                         "estPrisEnComptePourCalculs": true,
                                         "estDebutService": false,
@@ -1065,6 +1084,7 @@
                                     {
                                         "type": "etape",
                                         "label": "Retour au d\u00e9p\u00f4t",
+                                        "labelType": "retour_depot",
                                         "heure": "15:01",
                                         "estPrisEnComptePourCalculs": true,
                                         "estDebutService": false,
@@ -1096,6 +1116,7 @@
                                     {
                                         "type": "etape",
                                         "label": "Arriv\u00e9e au d\u00e9p\u00f4t",
+                                        "labelType": "retour_depot",
                                         "heure": "15:11",
                                         "estPrisEnComptePourCalculs": true,
                                         "estDebutService": false,

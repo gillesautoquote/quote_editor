@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { MapPin, Clock, Filter, Trash2, Plus } from 'lucide-react';
-import type { TripProgramStep, TripProgramFilters } from '../../../QuoteEditor.types';
+import type { TripProgramStep, TripProgramFilters, TripLabelType } from '../../../QuoteEditor.types';
 import { EditableField } from '../../EditableField/EditableField';
 import { getLightVariant, getLighterColor } from '../../../utils/colorUtils';
 
@@ -16,10 +16,10 @@ interface TripProgramBlockProps {
 }
 
 const STEP_FILTERS = [
-  { id: 'depart' as const, label: 'Départs', keywords: ['départ', 'depart'] },
-  { id: 'arrivee' as const, label: 'Arrivées', keywords: ['arrivée', 'arrivee', 'destination'] },
-  { id: 'mise_en_place' as const, label: 'Mise en place', keywords: ['mise en place'] },
-  { id: 'depotRoundTrips' as const, label: 'Allers/Retours dépôt', keywords: ['départ', 'depart', 'arrivée', 'arrivee', 'retour'], isDepotFilter: true },
+  { id: 'depart' as const, label: 'Départs', labelTypes: ['embarquement' as TripLabelType], keywords: ['départ', 'depart'] },
+  { id: 'arrivee' as const, label: 'Arrivées', labelTypes: ['depose' as TripLabelType], keywords: ['arrivée', 'arrivee', 'destination'] },
+  { id: 'mise_en_place' as const, label: 'Mise en place', labelTypes: ['mise_en_place' as TripLabelType, 'service_passager' as TripLabelType], keywords: ['mise en place'] },
+  { id: 'depotRoundTrips' as const, label: 'Allers/Retours dépôt', labelTypes: ['retour_depot' as TripLabelType], keywords: ['départ', 'depart', 'arrivée', 'arrivee', 'retour'], isDepotFilter: true },
 ];
 
 const formatDateFr = (dateString: string): string => {
@@ -64,6 +64,19 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
   }, []);
   const filteredSteps = useMemo(() => {
     return steps.filter(step => {
+      // Si labelType est défini, on l'utilise pour un filtrage précis
+      if (step.labelType) {
+        // Trouver le filtre correspondant au labelType
+        const matchingFilter = STEP_FILTERS.find(filter =>
+          filter.labelTypes.includes(step.labelType!)
+        );
+
+        if (matchingFilter) {
+          return filters[matchingFilter.id];
+        }
+      }
+
+      // Fallback : si pas de labelType, utiliser les mots-clés (rétrocompatibilité)
       const labelLower = step.label.toLowerCase();
       const isDepotStep = labelLower.includes('dépôt') || labelLower.includes('depot');
 

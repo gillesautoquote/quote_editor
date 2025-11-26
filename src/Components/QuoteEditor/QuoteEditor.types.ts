@@ -99,6 +99,8 @@ export interface NoteItem {
   style: 'normal' | 'bold' | 'italic' | 'underline';
 }
 
+export type TripLabelType = 'mise_en_place' | 'embarquement' | 'service_passager' | 'depose' | 'retour_depot';
+
 export interface TripProgramStep {
   id: string;
   date: string;
@@ -106,6 +108,7 @@ export interface TripProgramStep {
   city: string;
   address: string;
   label: string;
+  labelType?: TripLabelType;
   tripName?: string;
 }
 

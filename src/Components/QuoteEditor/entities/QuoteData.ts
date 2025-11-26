@@ -223,9 +223,12 @@ export interface TollSummary {
 
 export type TripStepType = 'etape' | 'coupure' | 'repos';
 
+export type TripLabelType = 'mise_en_place' | 'embarquement' | 'service_passager' | 'depose' | 'retour_depot';
+
 export interface BaseTripStep {
   type: TripStepType;
   label: string;
+  labelType?: TripLabelType;
   estPrisEnComptePourCalculs: boolean;
   estDebutService: boolean;
   estFinService: boolean;
