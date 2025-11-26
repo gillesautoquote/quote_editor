@@ -18,7 +18,7 @@ import { QuoteFlatView } from './components/QuotePage/QuoteFlatView';
 import { QuoteEditorToolbar } from './components/shared/QuoteEditorToolbar';
 import { QuoteTabs } from './components/QuoteTabs';
 import { QuoteTabContent } from './components/QuoteTabs/QuoteTabContent';
-import { validateQuoteData } from './utils/dataValidator';
+import { validateQuoteData, normalizeQuoteData } from './utils/dataValidator';
 import { EditingProvider } from './contexts/EditingContext';
 import { calculateGlobalTotals } from './utils/calculationUtils';
 
@@ -334,12 +334,33 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
       // Créer une copie profonde pour éviter les mutations
       const freshDataCopy = JSON.parse(JSON.stringify(freshData));
 
-      // Mettre à jour avec les données fraîches
-      updateData(freshDataCopy);
+      // IMPORTANT : Normaliser les données pour ajouter fromProps: true sur toutes les lignes
+      const normalizedData = normalizeQuoteData(freshDataCopy);
+
+      // Double vérification : s'assurer que TOUTES les lignes ont fromProps: true
+      if (normalizedData.sections) {
+        normalizedData.sections = normalizedData.sections.map(section => {
+          return {
+            ...section,
+            lines: (section.lines || []).map(line => ({
+              ...line,
+              fromProps: true
+            }))
+          };
+        });
+      }
+
+      console.log('[QuoteEditor] Données normalisées pour reset:', {
+        sections: normalizedData.sections?.length,
+        firstLineFromProps: normalizedData.sections?.[0]?.lines?.[0]?.fromProps
+      });
+
+      // Mettre à jour avec les données fraîches et normalisées
+      updateData(normalizedData);
 
       // Mettre à jour la référence initiale
-      initialLoadedDataRef.current = freshDataCopy;
-      setLoadedData(freshDataCopy);
+      initialLoadedDataRef.current = normalizedData;
+      setLoadedData(normalizedData);
 
       onEvent?.({ type: 'action', name: 'reset_confirmed' });
     } catch (err) {
