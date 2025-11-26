@@ -102,54 +102,37 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
   const groupedByMission = useMemo(() => {
     const missions: Record<string, { tripName?: string; date: string; steps: TripProgramStep[] }[]> = {};
 
-    // Fonction pour regrouper les étapes au même endroit TOUT EN PRÉSERVANT L'ORDRE
+    // Fonction pour fusionner UNIQUEMENT mise en place + embarquement au même endroit
     const mergeStepsAtSameLocation = (steps: TripProgramStep[]): TripProgramStep[] => {
       const merged: TripProgramStep[] = [];
-      const locationMap = new Map<string, { firstIndex: number; steps: TripProgramStep[] }>();
+      let i = 0;
 
-      // Grouper par localisation en conservant l'index de première apparition
-      steps.forEach((step, index) => {
-        const locationKey = `${step.city.toLowerCase().trim()}_${(step.address || '').toLowerCase().trim()}`;
-        if (!locationMap.has(locationKey)) {
-          locationMap.set(locationKey, { firstIndex: index, steps: [] });
-        }
-        locationMap.get(locationKey)!.steps.push(step);
-      });
+      while (i < steps.length) {
+        const currentStep = steps[i];
+        const nextStep = steps[i + 1];
 
-      // Créer un tableau des localisations triées par leur ordre d'apparition
-      const sortedLocations = Array.from(locationMap.entries())
-        .sort((a, b) => a[1].firstIndex - b[1].firstIndex);
-
-      // Pour chaque localisation dans l'ordre, fusionner si nécessaire
-      sortedLocations.forEach(([locationKey, { steps: stepsAtLocation }]) => {
-        if (stepsAtLocation.length === 1) {
-          merged.push(stepsAtLocation[0]);
+        // Vérifier si on a une mise_en_place suivie d'un embarquement au même endroit
+        if (
+          nextStep &&
+          currentStep.labelType === 'mise_en_place' &&
+          nextStep.labelType === 'embarquement' &&
+          currentStep.city.toLowerCase().trim() === nextStep.city.toLowerCase().trim() &&
+          (currentStep.address || '').toLowerCase().trim() === (nextStep.address || '').toLowerCase().trim()
+        ) {
+          // Fusionner ces deux étapes
+          merged.push({
+            ...currentStep,
+            time: `${currentStep.time} - ${nextStep.time}`,
+            label: `Mise en place / Départ`,
+            labelType: 'embarquement' // Garder le type embarquement pour le filtrage
+          });
+          i += 2; // Sauter les deux étapes fusionnées
         } else {
-          // Trier par heure les étapes à la même localisation
-          stepsAtLocation.sort((a, b) => a.time.localeCompare(b.time));
-
-          // Identifier mise en place et départ
-          const miseEnPlace = stepsAtLocation.find(s =>
-            s.label.toLowerCase().includes('mise en place')
-          );
-          const depart = stepsAtLocation.find(s =>
-            s.label.toLowerCase().includes('départ') &&
-            !s.label.toLowerCase().includes('mise en place')
-          );
-
-          if (miseEnPlace && depart) {
-            // Fusionner en une seule étape avec les deux horaires
-            merged.push({
-              ...miseEnPlace,
-              time: `${miseEnPlace.time} - ${depart.time}`,
-              label: `Mise en place / Départ`
-            });
-          } else {
-            // Sinon garder toutes les étapes séparées dans leur ordre temporel
-            merged.push(...stepsAtLocation);
-          }
+          // Garder l'étape telle quelle
+          merged.push(currentStep);
+          i++;
         }
-      });
+      }
 
       return merged;
     };
@@ -171,7 +154,7 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
       dateGroup.steps.push(step);
     });
 
-    // Fusionner les étapes au même endroit pour chaque groupe de date
+    // Fusionner UNIQUEMENT mise en place + embarquement pour chaque groupe de date
     Object.values(missions).forEach(dateGroups => {
       dateGroups.forEach(dateGroup => {
         dateGroup.steps = mergeStepsAtSameLocation(dateGroup.steps);

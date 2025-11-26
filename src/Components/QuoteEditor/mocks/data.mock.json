@@ -840,7 +840,7 @@
                                     {
                                         "type": "etape",
                                         "label": "Destination CLIENT",
-                                        "labelType": "depose",
+                                        "labelType": "service_passager",
                                         "heure": "20:42",
                                         "estPrisEnComptePourCalculs": true,
                                         "estDebutService": false,
