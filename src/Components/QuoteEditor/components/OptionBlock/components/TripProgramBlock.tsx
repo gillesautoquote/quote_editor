@@ -18,7 +18,7 @@ interface TripProgramBlockProps {
 const STEP_FILTERS = [
   { id: 'depart' as const, label: 'Départs', labelTypes: ['embarquement' as TripLabelType], keywords: ['départ', 'depart'] },
   { id: 'arrivee' as const, label: 'Arrivées', labelTypes: ['depose' as TripLabelType], keywords: ['arrivée', 'arrivee', 'destination'] },
-  { id: 'mise_en_place' as const, label: 'Mise en place', labelTypes: ['mise_en_place' as TripLabelType, 'service_passager' as TripLabelType], keywords: ['mise en place'] },
+  { id: 'mise_en_place' as const, label: 'Mise en place', labelTypes: ['mise_en_place' as TripLabelType], keywords: ['mise en place'] },
   { id: 'depotRoundTrips' as const, label: 'Allers/Retours dépôt', labelTypes: ['retour_depot' as TripLabelType], keywords: ['départ', 'depart', 'arrivée', 'arrivee', 'retour'], isDepotFilter: true },
 ];
 
@@ -66,33 +66,21 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
     return steps.filter(step => {
       // Si labelType est défini, on l'utilise pour un filtrage précis
       if (step.labelType) {
+        // Les service_passager sont TOUJOURS visibles (non filtrables)
+        if (step.labelType === 'service_passager') {
+          return true;
+        }
+
         // Trouver le filtre correspondant au labelType
         const matchingFilter = STEP_FILTERS.find(filter =>
           filter.labelTypes.includes(step.labelType!)
         );
 
         if (matchingFilter) {
-          const shouldShow = filters[matchingFilter.id];
-
-          // Debug log pour l'étape 20:42
-          if (step.time === '20:42' && step.label.includes('Destination CLIENT')) {
-            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-            console.log('[TripProgramBlock] 🔍 ÉTAPE 20:42 Destination CLIENT');
-            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-            console.log('  📌 labelType:', step.labelType);
-            console.log('  🎯 Filtre correspondant:', matchingFilter.id);
-            console.log('  ⚙️  État du filtre "' + matchingFilter.id + '":', filters[matchingFilter.id]);
-            console.log('  📊 Tous les filtres:', filters);
-            console.log('  ✅ Étape visible ?', shouldShow);
-            console.log('  💡 Pour masquer cette étape, DÉSACTIVEZ le filtre "Mise en place"');
-            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-          }
-
-          return shouldShow;
+          return filters[matchingFilter.id];
         }
 
         // Si labelType est défini mais qu'aucun filtre ne correspond, masquer l'étape
-        console.log('[TripProgramBlock] Aucun filtre trouvé pour labelType:', step.labelType, step);
         return false;
       }
 
