@@ -12,6 +12,7 @@ import {
   recalculateQuoteLine,
   normalizeQuoteLine
 } from '../../utils/calculationUtils';
+import { useLineCalculations } from '../../hooks/useLineCalculations';
 import { formatDateFrench, parseDateFrench } from './utils/dateUtils';
 import { formatVatRate } from './utils/vatUtils';
 
@@ -44,6 +45,8 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
     dropIndex: null
   });
 
+  const { updateLineField } = useLineCalculations();
+
   if (!section.lines) {
     console.warn('Section.lines est undefined, utilisation d\'un tableau vide');
   }
@@ -58,30 +61,34 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
   const handleLineUpdate = (lineIndex: number, field: keyof QuoteLine, value: string | number): void => {
     if (readonly) return;
 
+    console.log(`[QuoteSection.handleLineUpdate] Field: ${field}, Value: ${value}, LineIndex: ${lineIndex}`);
+
     const newLines = [...section.lines];
-    const line = { ...newLines[lineIndex] };
+    const currentLine = newLines[lineIndex];
+
+    let processedValue = value;
 
     if (field === 'date' && typeof value === 'string') {
-      const isoDate = parseDateFrench(value);
-      line[field] = isoDate;
-    } else {
-      (line as any)[field] = value;
+      processedValue = parseDateFrench(value);
     }
 
-    if (['quantity', 'unitPrice', 'vatRate', 'pax'].includes(field)) {
-      const recalculated = recalculateQuoteLine(line);
-      console.log(`[handleLineUpdate] Field: ${field}, Value: ${value}, Recalculated:`, {
-        vatRate: recalculated.vatRate,
-        priceHT: recalculated.priceHT,
-        vatAmount: recalculated.vatAmount,
-        priceTTC: recalculated.priceTTC
-      });
-      newLines[lineIndex] = recalculated;
-    } else {
-      newLines[lineIndex] = line;
-    }
+    const updatedLine = updateLineField(currentLine, field, processedValue);
+
+    console.log('[QuoteSection.handleLineUpdate] Updated line:', {
+      field,
+      oldValue: currentLine[field],
+      newValue: updatedLine[field],
+      priceHT: updatedLine.priceHT,
+      vatAmount: updatedLine.vatAmount,
+      priceTTC: updatedLine.priceTTC
+    });
+
+    newLines[lineIndex] = updatedLine;
 
     const subTotal = calculateSubTotal(newLines);
+
+    console.log('[QuoteSection.handleLineUpdate] New subTotal:', subTotal);
+
     onUpdateSection({ ...section, lines: newLines, subTotal });
   };
 
