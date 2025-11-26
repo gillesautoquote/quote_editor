@@ -72,10 +72,24 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
         );
 
         if (matchingFilter) {
-          return filters[matchingFilter.id];
+          const shouldShow = filters[matchingFilter.id];
+
+          // Debug log pour l'étape 20:42
+          if (step.time === '20:42' && step.label.includes('Destination CLIENT')) {
+            console.log('[TripProgramBlock] Étape 20:42 Destination CLIENT:', {
+              labelType: step.labelType,
+              matchingFilter: matchingFilter.id,
+              filterState: filters[matchingFilter.id],
+              allFilters: filters,
+              shouldShow
+            });
+          }
+
+          return shouldShow;
         }
 
         // Si labelType est défini mais qu'aucun filtre ne correspond, masquer l'étape
+        console.log('[TripProgramBlock] Aucun filtre trouvé pour labelType:', step.labelType, step);
         return false;
       }
 
