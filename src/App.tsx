@@ -292,6 +292,73 @@ const App: React.FC = () => {
                 </div>
 
                 <p className="tw-text-sm tw-text-gray-600 tw-mb-3 tw-font-semibold">
+                  Éditeur de test en temps réel:
+                </p>
+
+                <div className="tw-mb-3">
+                  <label className="tw-block tw-text-xs tw-font-medium tw-text-gray-700 tw-mb-1">
+                    Titre du programme (Option Block)
+                  </label>
+                  <input
+                    type="text"
+                    value={quoteData.optionBlocks?.find(b => b.id === 'trip_program')?.title || ''}
+                    onChange={(e) => {
+                      const updatedData = {
+                        ...quoteData,
+                        optionBlocks: quoteData.optionBlocks.map(block =>
+                          block.id === 'trip_program'
+                            ? { ...block, title: e.target.value }
+                            : block
+                        )
+                      };
+                      setQuoteData(updatedData);
+                      setExternalUpdateCounter(prev => prev + 1);
+                    }}
+                    className="tw-w-full tw-px-2 tw-py-1.5 tw-border tw-border-gray-300 tw-rounded tw-text-sm focus:tw-outline-none focus:tw-border-blue-500"
+                  />
+                </div>
+
+                <div className="tw-mb-3">
+                  <label className="tw-block tw-text-xs tw-font-medium tw-text-gray-700 tw-mb-1">
+                    Tagline du devis
+                  </label>
+                  <textarea
+                    value={quoteData.quote.tagline}
+                    onChange={(e) => {
+                      const updatedData = {
+                        ...quoteData,
+                        quote: { ...quoteData.quote, tagline: e.target.value }
+                      };
+                      setQuoteData(updatedData);
+                      setExternalUpdateCounter(prev => prev + 1);
+                    }}
+                    rows={2}
+                    className="tw-w-full tw-px-2 tw-py-1.5 tw-border tw-border-gray-300 tw-rounded tw-text-sm focus:tw-outline-none focus:tw-border-blue-500"
+                  />
+                </div>
+
+                <div className="tw-mb-3">
+                  <label className="tw-block tw-text-xs tw-font-medium tw-text-gray-700 tw-mb-1">
+                    Nom du client
+                  </label>
+                  <input
+                    type="text"
+                    value={quoteData.recipient.fullName}
+                    onChange={(e) => {
+                      const updatedData = {
+                        ...quoteData,
+                        recipient: { ...quoteData.recipient, fullName: e.target.value }
+                      };
+                      setQuoteData(updatedData);
+                      setExternalUpdateCounter(prev => prev + 1);
+                    }}
+                    className="tw-w-full tw-px-2 tw-py-1.5 tw-border tw-border-gray-300 tw-rounded tw-text-sm focus:tw-outline-none focus:tw-border-blue-500"
+                  />
+                </div>
+
+                <hr className="tw-my-3 tw-border-gray-200" />
+
+                <p className="tw-text-sm tw-text-gray-600 tw-mb-3 tw-font-semibold">
                   Actions externes (depuis le formulaire):
                 </p>
 
