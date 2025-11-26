@@ -2,6 +2,7 @@ import type { DaySchedule, TripProgramStep, TripProgramFilters } from '../entiti
 
 export const convertItineraryToTripSteps = (itinerary: DaySchedule[]): TripProgramStep[] => {
   const steps: TripProgramStep[] = [];
+  let stepIndex = 0;
 
   // Parcourir l'itin\u00e9raire dans l'ordre exact pour pr\u00e9server la s\u00e9quence du mock
   // Cela garantit que les incoh\u00e9rences temporelles (comme 00:21 sur jeudi au lieu de vendredi)
@@ -11,8 +12,10 @@ export const convertItineraryToTripSteps = (itinerary: DaySchedule[]): TripProgr
       if (item.type === 'etapesGroupees') {
         item.etapes.forEach(step => {
           if (step.type === 'etape') {
+            // G\u00e9n\u00e9rer un ID unique en combinant UUID + index pour \u00e9viter les doublons
+            const uniqueId = step.uuid ? `${step.uuid}-${stepIndex}` : `step-${stepIndex}`;
             steps.push({
-              id: step.uuid || `step-${Date.now()}-${Math.random()}`,
+              id: uniqueId,
               date: day.date,
               time: step.heure,
               city: item.adresse.ville || '',
@@ -21,6 +24,7 @@ export const convertItineraryToTripSteps = (itinerary: DaySchedule[]): TripProgr
               labelType: step.labelType,
               tripName: day.tripName
             });
+            stepIndex++;
           }
         });
       }
