@@ -3,6 +3,9 @@ import type { DaySchedule, TripProgramStep, TripProgramFilters } from '../entiti
 export const convertItineraryToTripSteps = (itinerary: DaySchedule[]): TripProgramStep[] => {
   const steps: TripProgramStep[] = [];
 
+  // Parcourir l'itin\u00e9raire dans l'ordre exact pour pr\u00e9server la s\u00e9quence du mock
+  // Cela garantit que les incoh\u00e9rences temporelles (comme 00:21 sur jeudi au lieu de vendredi)
+  // sont pr\u00e9serv\u00e9es telles quelles
   itinerary.forEach(day => {
     day.items.forEach(item => {
       if (item.type === 'etapesGroupees') {

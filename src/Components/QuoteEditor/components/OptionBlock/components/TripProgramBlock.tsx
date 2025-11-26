@@ -17,7 +17,7 @@ interface TripProgramBlockProps {
 
 const STEP_FILTERS = [
   { id: 'depart' as const, label: 'Départs', keywords: ['départ', 'depart'] },
-  { id: 'arrivee' as const, label: 'Arrivées', keywords: ['arrivée', 'arrivee'] },
+  { id: 'arrivee' as const, label: 'Arrivées', keywords: ['arrivée', 'arrivee', 'destination'] },
   { id: 'mise_en_place' as const, label: 'Mise en place', keywords: ['mise en place'] },
   { id: 'depotRoundTrips' as const, label: 'Allers/Retours dépôt', keywords: ['départ', 'depart', 'arrivée', 'arrivee', 'retour'], isDepotFilter: true },
 ];
@@ -67,22 +67,20 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
       const labelLower = step.label.toLowerCase();
       const isDepotStep = labelLower.includes('dépôt') || labelLower.includes('depot');
 
+      // Si c'est une étape dépôt, elle n'est visible QUE si le filtre depotRoundTrips est actif
+      if (isDepotStep) {
+        return filters.depotRoundTrips;
+      }
+
+      // Pour les étapes non-dépôt, vérifier les autres filtres
       return STEP_FILTERS.some(filter => {
+        // Ignorer le filtre dépôt pour les étapes non-dépôt
+        if (filter.id === 'depotRoundTrips') return false;
+
+        // Le filtre doit être actif
         if (!filters[filter.id]) return false;
 
-        // Pour le filtre dépôt, vérifier que c'est un aller/retour ET qu'il contient "dépôt"
-        if (filter.id === 'depotRoundTrips') {
-          const hasDepart = labelLower.includes('départ') || labelLower.includes('depart');
-          const hasArrivee = labelLower.includes('arrivée') || labelLower.includes('arrivee');
-          const hasRetour = labelLower.includes('retour');
-          return (hasDepart || hasArrivee || hasRetour) && isDepotStep;
-        }
-
-        // Pour les autres filtres, exclure les étapes dépôt si le filtre dépôt n'est pas actif
-        if (isDepotStep && !filters.depotRoundTrips) {
-          return false;
-        }
-
+        // Vérifier si l'étape correspond aux mots-clés du filtre
         return filter.keywords.some(keyword => labelLower.includes(keyword));
       });
     });
@@ -91,26 +89,30 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
   const groupedByMission = useMemo(() => {
     const missions: Record<string, { tripName?: string; date: string; steps: TripProgramStep[] }[]> = {};
 
-    // Fonction pour regrouper les étapes au même endroit
+    // Fonction pour regrouper les étapes au même endroit TOUT EN PRÉSERVANT L'ORDRE
     const mergeStepsAtSameLocation = (steps: TripProgramStep[]): TripProgramStep[] => {
       const merged: TripProgramStep[] = [];
-      const locationMap = new Map<string, TripProgramStep[]>();
+      const locationMap = new Map<string, { firstIndex: number; steps: TripProgramStep[] }>();
 
-      // Grouper par localisation (ville + adresse normalisée)
-      steps.forEach(step => {
+      // Grouper par localisation en conservant l'index de première apparition
+      steps.forEach((step, index) => {
         const locationKey = `${step.city.toLowerCase().trim()}_${(step.address || '').toLowerCase().trim()}`;
         if (!locationMap.has(locationKey)) {
-          locationMap.set(locationKey, []);
+          locationMap.set(locationKey, { firstIndex: index, steps: [] });
         }
-        locationMap.get(locationKey)!.push(step);
+        locationMap.get(locationKey)!.steps.push(step);
       });
 
-      // Pour chaque localisation, fusionner si nécessaire
-      locationMap.forEach(stepsAtLocation => {
+      // Créer un tableau des localisations triées par leur ordre d'apparition
+      const sortedLocations = Array.from(locationMap.entries())
+        .sort((a, b) => a[1].firstIndex - b[1].firstIndex);
+
+      // Pour chaque localisation dans l'ordre, fusionner si nécessaire
+      sortedLocations.forEach(([locationKey, { steps: stepsAtLocation }]) => {
         if (stepsAtLocation.length === 1) {
           merged.push(stepsAtLocation[0]);
         } else {
-          // Trier par heure
+          // Trier par heure les étapes à la même localisation
           stepsAtLocation.sort((a, b) => a.time.localeCompare(b.time));
 
           // Identifier mise en place et départ
@@ -130,7 +132,7 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
               label: `Mise en place / Départ`
             });
           } else {
-            // Sinon garder toutes les étapes séparées
+            // Sinon garder toutes les étapes séparées dans leur ordre temporel
             merged.push(...stepsAtLocation);
           }
         }
@@ -139,6 +141,7 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
       return merged;
     };
 
+    // Construire les groupes de missions en préservant l'ordre des étapes filtrées
     filteredSteps.forEach(step => {
       const missionKey = step.tripName || 'default';
 
