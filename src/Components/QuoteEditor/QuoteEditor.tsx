@@ -309,13 +309,43 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
     onEvent?.({ type: 'action', name: 'add_block', payload: newBlock });
   };
 
-  const handleResetToInitial = (): void => {
+  const handleResetToInitial = async (): Promise<void> => {
     if (readonly) return;
     onEvent?.({ type: 'action', name: 'reset_clicked' });
-    if (initialLoadedDataRef.current) {
-      updateData(initialLoadedDataRef.current);
+
+    try {
+      let freshData: QuoteData;
+
+      if (mock) {
+        // Recharger le mock depuis le fichier JSON
+        // Ajouter un timestamp pour forcer le rechargement et éviter le cache
+        const timestamp = Date.now();
+        const mockData = await import(`./mocks/data.mock.json?t=${timestamp}`);
+        freshData = mockData.default as QuoteData;
+        console.log('[QuoteEditor] Mock rechargé depuis le fichier:', freshData);
+      } else if (initialData) {
+        // Utiliser les données initiales des props
+        freshData = initialData;
+      } else {
+        console.warn('[QuoteEditor] Aucune donnée à restaurer');
+        return;
+      }
+
+      // Créer une copie profonde pour éviter les mutations
+      const freshDataCopy = JSON.parse(JSON.stringify(freshData));
+
+      // Mettre à jour avec les données fraîches
+      updateData(freshDataCopy);
+
+      // Mettre à jour la référence initiale
+      initialLoadedDataRef.current = freshDataCopy;
+      setLoadedData(freshDataCopy);
+
+      onEvent?.({ type: 'action', name: 'reset_confirmed' });
+    } catch (err) {
+      console.error('[QuoteEditor] Erreur lors de la réinitialisation:', err);
+      onEvent?.({ type: 'error', code: 'RESET_ERROR', message: 'Erreur lors de la réinitialisation' });
     }
-    onEvent?.({ type: 'action', name: 'reset_confirmed' });
   };
 
   const handleSaveClick = (): void => {
