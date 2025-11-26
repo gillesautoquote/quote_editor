@@ -76,13 +76,16 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
 
           // Debug log pour l'étape 20:42
           if (step.time === '20:42' && step.label.includes('Destination CLIENT')) {
-            console.log('[TripProgramBlock] Étape 20:42 Destination CLIENT:', {
-              labelType: step.labelType,
-              matchingFilter: matchingFilter.id,
-              filterState: filters[matchingFilter.id],
-              allFilters: filters,
-              shouldShow
-            });
+            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+            console.log('[TripProgramBlock] 🔍 ÉTAPE 20:42 Destination CLIENT');
+            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+            console.log('  📌 labelType:', step.labelType);
+            console.log('  🎯 Filtre correspondant:', matchingFilter.id);
+            console.log('  ⚙️  État du filtre "' + matchingFilter.id + '":', filters[matchingFilter.id]);
+            console.log('  📊 Tous les filtres:', filters);
+            console.log('  ✅ Étape visible ?', shouldShow);
+            console.log('  💡 Pour masquer cette étape, DÉSACTIVEZ le filtre "Mise en place"');
+            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
           }
 
           return shouldShow;
