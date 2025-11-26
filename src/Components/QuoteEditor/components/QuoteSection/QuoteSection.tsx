@@ -64,7 +64,7 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({
     console.log(`[QuoteSection.handleLineUpdate] Field: ${field}, Value: ${value}, LineIndex: ${lineIndex}`);
 
     const newLines = [...section.lines];
-    const currentLine = newLines[lineIndex];
+    const currentLine = { ...newLines[lineIndex] };
 
     let processedValue = value;
 

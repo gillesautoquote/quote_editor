@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import {
   calculatePriceHT,
   calculateVATAmount,
@@ -24,7 +23,7 @@ export const useLineCalculations = () => {
    * @param value - La nouvelle valeur
    * @returns La ligne mise à jour avec tous les calculs effectués
    */
-  const updateLineField = useCallback((
+  const updateLineField = (
     line: QuoteLine,
     field: keyof QuoteLine,
     value: string | number | boolean
@@ -32,8 +31,10 @@ export const useLineCalculations = () => {
     // Créer une copie de la ligne avec le champ mis à jour
     const updatedLine = { ...line, [field]: value };
 
-    console.log(`[useLineCalculations] Updating field: ${field}, value: ${value}`);
-    console.log(`[useLineCalculations] Line before update:`, {
+    console.log(`[useLineCalculations] ====== UPDATING FIELD: ${field} ======`);
+    console.log(`[useLineCalculations] New value:`, value);
+    console.log(`[useLineCalculations] Line before:`, {
+      calculable: line.calculable,
       quantity: line.quantity,
       unitPrice: line.unitPrice,
       vatRate: line.vatRate,
@@ -52,10 +53,11 @@ export const useLineCalculations = () => {
     ];
 
     if (calculableFields.includes(field)) {
-      // Utiliser la fonction de recalcul existante qui gère déjà toute la logique
+      console.log(`[useLineCalculations] Field IS calculable, calling recalculateQuoteLine...`);
       const recalculated = recalculateQuoteLine(updatedLine);
 
       console.log(`[useLineCalculations] Line after recalculation:`, {
+        calculable: recalculated.calculable,
         quantity: recalculated.quantity,
         unitPrice: recalculated.unitPrice,
         vatRate: recalculated.vatRate,
@@ -64,27 +66,29 @@ export const useLineCalculations = () => {
         priceTTC: recalculated.priceTTC
       });
 
+      console.log(`[useLineCalculations] Returning recalculated line (new object reference)`);
       return recalculated;
     }
 
     // Pour les autres champs, retourner simplement la ligne mise à jour
+    console.log(`[useLineCalculations] Field is NOT calculable, returning updated line`);
     return updatedLine;
-  }, []);
+  };
 
   /**
    * Recalcule manuellement une ligne sans changer de champ
    * Utile pour forcer un recalcul complet
    */
-  const recalculateLine = useCallback((line: QuoteLine): QuoteLine => {
+  const recalculateLine = (line: QuoteLine): QuoteLine => {
     console.log('[useLineCalculations] Force recalculating line');
     return recalculateQuoteLine(line);
-  }, []);
+  };
 
   /**
    * Calcule les montants d'une ligne directement à partir des valeurs
    * Utilisé pour les calculs à la volée sans mutation d'état
    */
-  const calculateLineAmounts = useCallback((
+  const calculateLineAmounts = (
     quantity: number,
     unitPrice: number,
     vatRate: number
@@ -94,7 +98,7 @@ export const useLineCalculations = () => {
     const priceTTC = calculatePriceTTC(priceHT, vatAmount);
 
     return { priceHT, vatAmount, priceTTC };
-  }, []);
+  };
 
   return {
     updateLineField,
