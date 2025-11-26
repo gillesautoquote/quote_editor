@@ -604,7 +604,7 @@
   },
   "itinerary": [
     {
-      "tripName": "Voyage Paris → Lille test Gilles",
+      "tripName": "Voyage Paris → Lille test Gilles1",
       "date": "2026-01-21",
                         "items": [
                             {
@@ -743,7 +743,7 @@
                         ]
       },
      {
-      "tripName": "Voyage Paris → Lille test Gilles",
+      "tripName": "Voyage Paris → Lille test Gilles2",
    "date": "2026-01-22",
                         "items": [
                             {
@@ -968,7 +968,7 @@
                         ]
       },
      {
-      "tripName": "Voyage Paris → Lille test Gilles",
+      "tripName": "Voyage Paris → Lille test Gilles3",
 "date": "2026-01-23",
                         "items": [
                             {
