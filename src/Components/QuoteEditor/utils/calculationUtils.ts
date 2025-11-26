@@ -216,7 +216,7 @@ export const normalizeQuoteLine = (line: any): any => {
     pax: safeNumber(line?.pax) || 1,
     unitPrice: safeNumber(line?.unitPrice),
     priceHT: safeNumber(line?.priceHT),
-    vatRate: line?.vatRate || 20,
+    vatRate: line?.vatRate !== undefined && line?.vatRate !== null ? line.vatRate : 20,
     vatAmount: safeNumber(line?.vatAmount),
     quantity: safeNumber(line?.quantity) || 1,
     priceTTC: safeNumber(line?.priceTTC),
@@ -232,25 +232,45 @@ export const normalizeQuoteLine = (line: any): any => {
 };
 
 /**
- * Recalcule une ligne de devis si elle est calculable
+ * Recalcule une ligne de devis
+ * Si calculable=true: recalcule TOUT (quantity * unitPrice -> priceHT -> vatAmount -> priceTTC)
+ * Si calculable=false: recalcule seulement la TVA et TTC à partir du priceHT existant
  */
 export const recalculateQuoteLine = (line: any): any => {
   const normalized = normalizeQuoteLine(line);
 
-  console.log('[recalculateQuoteLine] Input line:', { vatRate: line?.vatRate, calculable: line?.calculable });
-  console.log('[recalculateQuoteLine] Normalized:', { vatRate: normalized.vatRate, calculable: normalized.calculable });
+  console.log('[recalculateQuoteLine] Input line:', {
+    vatRate: line?.vatRate,
+    calculable: line?.calculable,
+    priceHT: line?.priceHT
+  });
+  console.log('[recalculateQuoteLine] Normalized:', {
+    vatRate: normalized.vatRate,
+    calculable: normalized.calculable,
+    priceHT: normalized.priceHT
+  });
 
-  if (normalized.calculable && typeof normalized.vatRate === 'number') {
-    normalized.priceHT = calculatePriceHT(normalized.quantity, normalized.unitPrice);
-    normalized.vatAmount = calculateVATAmount(normalized.priceHT, normalized.vatRate);
-    normalized.priceTTC = calculatePriceTTC(normalized.priceHT, normalized.vatAmount);
-    console.log('[recalculateQuoteLine] After calculation:', {
-      priceHT: normalized.priceHT,
-      vatAmount: normalized.vatAmount,
-      priceTTC: normalized.priceTTC
-    });
+  if (typeof normalized.vatRate === 'number') {
+    if (normalized.calculable) {
+      normalized.priceHT = calculatePriceHT(normalized.quantity, normalized.unitPrice);
+      normalized.vatAmount = calculateVATAmount(normalized.priceHT, normalized.vatRate);
+      normalized.priceTTC = calculatePriceTTC(normalized.priceHT, normalized.vatAmount);
+      console.log('[recalculateQuoteLine] CALCULABLE - After full calculation:', {
+        priceHT: normalized.priceHT,
+        vatAmount: normalized.vatAmount,
+        priceTTC: normalized.priceTTC
+      });
+    } else {
+      normalized.vatAmount = calculateVATAmount(normalized.priceHT, normalized.vatRate);
+      normalized.priceTTC = calculatePriceTTC(normalized.priceHT, normalized.vatAmount);
+      console.log('[recalculateQuoteLine] NON-CALCULABLE - After VAT calculation:', {
+        priceHT: normalized.priceHT,
+        vatAmount: normalized.vatAmount,
+        priceTTC: normalized.priceTTC
+      });
+    }
   } else {
-    console.log('[recalculateQuoteLine] NOT calculable or invalid vatRate');
+    console.log('[recalculateQuoteLine] SKIPPED - Invalid vatRate');
   }
 
   // Préserver le flag fromProps
