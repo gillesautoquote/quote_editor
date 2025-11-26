@@ -1,8 +1,8 @@
-import React, { useMemo, useEffect } from 'react';
-import { MapPin, Clock, Filter, Trash2 } from 'lucide-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { MapPin, Clock, Filter, Trash2, Plus } from 'lucide-react';
 import type { TripProgramStep, TripProgramFilters } from '../../../QuoteEditor.types';
 import { EditableField } from '../../EditableField/EditableField';
-import { getLighterColor } from '../../../utils/colorUtils';
+import { getLightVariant, getLighterColor } from '../../../utils/colorUtils';
 
 interface TripProgramBlockProps {
   steps: TripProgramStep[];
@@ -15,6 +15,13 @@ interface TripProgramBlockProps {
   companyColor?: string;
 }
 
+const STEP_FILTERS = [
+  { id: 'depart' as const, label: 'Départs', keywords: ['départ', 'depart'] },
+  { id: 'arrivee' as const, label: 'Arrivées', keywords: ['arrivée', 'arrivee', 'destination'] },
+  { id: 'mise_en_place' as const, label: 'Mise en place', keywords: ['mise en place'] },
+  { id: 'depotRoundTrips' as const, label: 'Allers/Retours dépôt', keywords: ['départ', 'depart', 'arrivée', 'arrivee', 'retour'], isDepotFilter: true },
+];
+
 const formatDateFr = (dateString: string): string => {
   const date = new Date(dateString);
   const options: Intl.DateTimeFormatOptions = {
@@ -24,75 +31,6 @@ const formatDateFr = (dateString: string): string => {
     year: 'numeric'
   };
   return date.toLocaleDateString('fr-FR', options);
-};
-
-/**
- * Extrait les catégories uniques des labels pour créer des filtres dynamiques
- */
-const extractDynamicFilters = (steps: TripProgramStep[]) => {
-  const filterMap = new Map<string, { id: string; label: string; count: number }>();
-
-  steps.forEach(step => {
-    const labelLower = step.label.toLowerCase();
-    const isDepotStep = labelLower.includes('dépôt') || labelLower.includes('depot');
-
-    if (isDepotStep) {
-      // Toutes les étapes dépôt vont dans une seule catégorie
-      if (!filterMap.has('depotRoundTrips')) {
-        filterMap.set('depotRoundTrips', {
-          id: 'depotRoundTrips',
-          label: 'Allers/Retours dépôt',
-          count: 0
-        });
-      }
-      filterMap.get('depotRoundTrips')!.count++;
-    } else {
-      // Pour les étapes non-dépôt, créer une catégorie par type
-      if (labelLower.includes('départ') || labelLower.includes('depart')) {
-        if (!filterMap.has('depart')) {
-          filterMap.set('depart', { id: 'depart', label: 'Départs', count: 0 });
-        }
-        filterMap.get('depart')!.count++;
-      }
-
-      if (labelLower.includes('arrivée') || labelLower.includes('arrivee') || labelLower.includes('destination')) {
-        if (!filterMap.has('arrivee')) {
-          filterMap.set('arrivee', { id: 'arrivee', label: 'Arrivées', count: 0 });
-        }
-        filterMap.get('arrivee')!.count++;
-      }
-
-      if (labelLower.includes('mise en place')) {
-        if (!filterMap.has('mise_en_place')) {
-          filterMap.set('mise_en_place', { id: 'mise_en_place', label: 'Mise en place', count: 0 });
-        }
-        filterMap.get('mise_en_place')!.count++;
-      }
-    }
-  });
-
-  return Array.from(filterMap.values());
-};
-
-/**
- * Détermine si une étape correspond à un filtre donné
- */
-const stepMatchesFilter = (step: TripProgramStep, filterId: string): boolean => {
-  const labelLower = step.label.toLowerCase();
-  const isDepotStep = labelLower.includes('dépôt') || labelLower.includes('depot');
-
-  switch (filterId) {
-    case 'depotRoundTrips':
-      return isDepotStep;
-    case 'depart':
-      return !isDepotStep && (labelLower.includes('départ') || labelLower.includes('depart'));
-    case 'arrivee':
-      return !isDepotStep && (labelLower.includes('arrivée') || labelLower.includes('arrivee') || labelLower.includes('destination'));
-    case 'mise_en_place':
-      return !isDepotStep && labelLower.includes('mise en place');
-    default:
-      return false;
-  }
 };
 
 export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
@@ -124,52 +62,86 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
     `;
     document.head.appendChild(style);
   }, []);
-
-  // Extraire les filtres dynamiques depuis les étapes
-  const dynamicFilters = useMemo(() => extractDynamicFilters(steps), [steps]);
-
-  // Filtrer les étapes en préservant l'ordre EXACT du tableau original
   const filteredSteps = useMemo(() => {
-    console.log('[TripProgramBlock] Filtering steps, total:', steps.length);
-    console.log('[TripProgramBlock] Active filters:', filters);
-
-    // Si aucun filtre n'est actif, retourner tableau vide
-    const hasActiveFilter = Object.values(filters).some(v => v === true);
-    if (!hasActiveFilter) {
-      console.log('[TripProgramBlock] No active filters, returning empty array');
-      return [];
-    }
-
-    // Filtrer en préservant l'ordre original
-    const filtered = steps.filter(step => {
+    return steps.filter(step => {
       const labelLower = step.label.toLowerCase();
       const isDepotStep = labelLower.includes('dépôt') || labelLower.includes('depot');
 
-      // Étapes dépôt : visibles uniquement si depotRoundTrips est actif
+      // Si c'est une étape dépôt, elle n'est visible QUE si le filtre depotRoundTrips est actif
       if (isDepotStep) {
-        const visible = filters.depotRoundTrips === true;
-        console.log(`[TripProgramBlock] Depot step "${step.label}" at ${step.time} -> visible: ${visible}`);
-        return visible;
+        return filters.depotRoundTrips;
       }
 
-      // Étapes non-dépôt : vérifier les filtres applicables
-      const matchesDepart = filters.depart && stepMatchesFilter(step, 'depart');
-      const matchesArrivee = filters.arrivee && stepMatchesFilter(step, 'arrivee');
-      const matchesMiseEnPlace = filters.mise_en_place && stepMatchesFilter(step, 'mise_en_place');
+      // Pour les étapes non-dépôt, vérifier les autres filtres
+      return STEP_FILTERS.some(filter => {
+        // Ignorer le filtre dépôt pour les étapes non-dépôt
+        if (filter.id === 'depotRoundTrips') return false;
 
-      const visible = matchesDepart || matchesArrivee || matchesMiseEnPlace;
-      console.log(`[TripProgramBlock] Non-depot step "${step.label}" at ${step.time} -> visible: ${visible}`);
-      return visible;
+        // Le filtre doit être actif
+        if (!filters[filter.id]) return false;
+
+        // Vérifier si l'étape correspond aux mots-clés du filtre
+        return filter.keywords.some(keyword => labelLower.includes(keyword));
+      });
     });
-
-    console.log('[TripProgramBlock] Filtered steps count:', filtered.length);
-    return filtered;
   }, [steps, filters]);
 
-  // Grouper par mission et date EN PRÉSERVANT L'ORDRE
   const groupedByMission = useMemo(() => {
     const missions: Record<string, { tripName?: string; date: string; steps: TripProgramStep[] }[]> = {};
 
+    // Fonction pour regrouper les étapes au même endroit TOUT EN PRÉSERVANT L'ORDRE
+    const mergeStepsAtSameLocation = (steps: TripProgramStep[]): TripProgramStep[] => {
+      const merged: TripProgramStep[] = [];
+      const locationMap = new Map<string, { firstIndex: number; steps: TripProgramStep[] }>();
+
+      // Grouper par localisation en conservant l'index de première apparition
+      steps.forEach((step, index) => {
+        const locationKey = `${step.city.toLowerCase().trim()}_${(step.address || '').toLowerCase().trim()}`;
+        if (!locationMap.has(locationKey)) {
+          locationMap.set(locationKey, { firstIndex: index, steps: [] });
+        }
+        locationMap.get(locationKey)!.steps.push(step);
+      });
+
+      // Créer un tableau des localisations triées par leur ordre d'apparition
+      const sortedLocations = Array.from(locationMap.entries())
+        .sort((a, b) => a[1].firstIndex - b[1].firstIndex);
+
+      // Pour chaque localisation dans l'ordre, fusionner si nécessaire
+      sortedLocations.forEach(([locationKey, { steps: stepsAtLocation }]) => {
+        if (stepsAtLocation.length === 1) {
+          merged.push(stepsAtLocation[0]);
+        } else {
+          // Trier par heure les étapes à la même localisation
+          stepsAtLocation.sort((a, b) => a.time.localeCompare(b.time));
+
+          // Identifier mise en place et départ
+          const miseEnPlace = stepsAtLocation.find(s =>
+            s.label.toLowerCase().includes('mise en place')
+          );
+          const depart = stepsAtLocation.find(s =>
+            s.label.toLowerCase().includes('départ') &&
+            !s.label.toLowerCase().includes('mise en place')
+          );
+
+          if (miseEnPlace && depart) {
+            // Fusionner en une seule étape avec les deux horaires
+            merged.push({
+              ...miseEnPlace,
+              time: `${miseEnPlace.time} - ${depart.time}`,
+              label: `Mise en place / Départ`
+            });
+          } else {
+            // Sinon garder toutes les étapes séparées dans leur ordre temporel
+            merged.push(...stepsAtLocation);
+          }
+        }
+      });
+
+      return merged;
+    };
+
+    // Construire les groupes de missions en préservant l'ordre des étapes filtrées
     filteredSteps.forEach(step => {
       const missionKey = step.tripName || 'default';
 
@@ -186,12 +158,18 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
       dateGroup.steps.push(step);
     });
 
+    // Fusionner les étapes au même endroit pour chaque groupe de date
+    Object.values(missions).forEach(dateGroups => {
+      dateGroups.forEach(dateGroup => {
+        dateGroup.steps = mergeStepsAtSameLocation(dateGroup.steps);
+      });
+    });
+
     return missions;
   }, [filteredSteps]);
 
   const toggleFilter = (filterId: keyof TripProgramFilters) => {
     if (readonly) return;
-    console.log(`[TripProgramBlock] Toggling filter: ${filterId}`);
     onUpdateFilters({
       ...filters,
       [filterId]: !filters[filterId]
@@ -241,23 +219,24 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
           <span className="tw-font-medium">Filtres:</span>
         </div>
 
-        {dynamicFilters.map(filter => (
+        {STEP_FILTERS.map(filter => (
           <button
             key={filter.id}
             type="button"
-            onClick={() => toggleFilter(filter.id as keyof TripProgramFilters)}
+            onClick={() => toggleFilter(filter.id)}
             disabled={readonly}
             className="tw-inline-flex tw-items-center qe-btn-sm tw-font-medium tw-rounded-full tw-border tw-transition-all tw-whitespace-nowrap tw-px-4 tw-py-1.5"
             style={{
-              backgroundColor: filters[filter.id as keyof TripProgramFilters] ? blockColor : 'white',
-              color: filters[filter.id as keyof TripProgramFilters] ? 'white' : '#6b7280',
-              borderColor: filters[filter.id as keyof TripProgramFilters] ? blockColor : '#d1d5db',
+              backgroundColor: filters[filter.id] ? blockColor : 'white',
+              color: filters[filter.id] ? 'white' : '#6b7280',
+              borderColor: filters[filter.id] ? blockColor : '#d1d5db',
               cursor: readonly ? 'default' : 'pointer'
             }}
           >
-            {filter.label} ({filter.count})
+            {filter.label}
           </button>
         ))}
+
       </div>
 
       {Object.keys(groupedByMission).length === 0 ? (
@@ -284,6 +263,7 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
               </div>
             )}
               {dateGroups.map((dateGroup, dateIndex) => {
+                // Toujours utiliser companyColor pour les en-têtes de jour (cohérence visuelle)
                 const containerColor = companyColor || blockColor;
                 return (
                 <div
@@ -308,6 +288,7 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
 
                   <div className="tw-p-4 print:tw-p-2">
                     <div className="tw-relative">
+                      {/* Ligne verticale continue derrière les icônes pour montrer le trajet */}
                       <div
                         className="tw-absolute tw-left-4 tw-top-0 tw-bottom-0 tw-w-0.5 print:tw-left-2 print:tw-w-[2px]"
                         style={{
