@@ -740,11 +740,11 @@
                                     }
                                 ]
                             }
-                        ]
+                        ]
       },
-     {
+      {
       "tripName": "Voyage Paris → Lille test Gilles2",
-   "date": "2026-01-22",
+      "date": "2026-01-22",
                         "items": [
                             {
                                 "type": "etapesGroupees",
@@ -965,7 +965,7 @@
                                     }
                                 ]
                             }
-                        ]
+                        ]
       },
      {
       "tripName": "Voyage Paris → Lille test Gilles3",
@@ -1104,9 +1104,9 @@
                                     }
                                 ]
                             }
-                        ]
+                        ]
       }
-                        ],
+                        ],
   "defaultProgrammeFilters": {
     "depart": true,
     "arrivee": true,
