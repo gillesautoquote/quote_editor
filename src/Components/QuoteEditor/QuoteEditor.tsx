@@ -53,6 +53,7 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
 
   const [error, setError] = useState<{ code: string; message: string } | null>(null);
   const [loadedData, setLoadedData] = useState<QuoteData | null>(null);
+  const initialLoadedDataRef = useRef<QuoteData | null>(null);
   const isInitialLoadRef = useRef<boolean>(true);
 
   useEffect(() => {
@@ -66,9 +67,12 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
             console.warn('[QuoteEditor] Validation warnings:', validation.errors);
           }
           setLoadedData(initialData);
+          initialLoadedDataRef.current = initialData;
         } else if (mock) {
           const mockData = await import('./mocks/data.mock.json');
-          setLoadedData(mockData.default as QuoteData);
+          const data = mockData.default as QuoteData;
+          setLoadedData(data);
+          initialLoadedDataRef.current = data;
         } else {
           const errorEvent: ComponentEvent = {
             type: 'error',
@@ -308,8 +312,8 @@ const QuoteEditorBase = (props: QuoteEditorProps, ref: React.Ref<QuoteEditorHand
   const handleResetToInitial = (): void => {
     if (readonly) return;
     onEvent?.({ type: 'action', name: 'reset_clicked' });
-    if (loadedData) {
-      updateData(loadedData);
+    if (initialLoadedDataRef.current) {
+      updateData(initialLoadedDataRef.current);
     }
     onEvent?.({ type: 'action', name: 'reset_confirmed' });
   };
