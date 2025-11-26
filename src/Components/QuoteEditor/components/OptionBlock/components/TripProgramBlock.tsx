@@ -74,6 +74,9 @@ export const TripProgramBlock: React.FC<TripProgramBlockProps> = ({
         if (matchingFilter) {
           return filters[matchingFilter.id];
         }
+
+        // Si labelType est défini mais qu'aucun filtre ne correspond, masquer l'étape
+        return false;
       }
 
       // Fallback : si pas de labelType, utiliser les mots-clés (rétrocompatibilité)
